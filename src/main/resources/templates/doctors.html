@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Medinet - internetowa przychodnia</title>
+    <style>
+
+        body {
+            position: relative;
+            background-color: #cfdde7;
+            color: #1b2734;
+            font-family: Roboto, Helvetica Neue, Helvetica, Segoe UI, Arial, Noto Sans, Liberation Sans, system-ui, -apple-system, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin: 0;
+            overflow-x: hidden;
+            height: 100%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: #0e85b2d4;
+            color: white;
+            padding: 0 20px;
+            max-width: 90%;
+            margin: 0 auto;
+            width: 100%;
+            z-index: 999;
+            box-shadow: 0px 20px 200px rgba(0, 0, 0, 0.523);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar-brand a {
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            justify-content: space-between;
+        }
+
+        .navbar-link {
+            margin-left: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            color: #274e75;
+            transition: 0.3s;
+        }
+
+
+        .hash-list > li {
+            display: block;
+            float: left;
+            border-right: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .available-hour {
+            background-color:#1b679e;
+            height: 30px;
+            width: 80px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            line-height: 30px;
+            color: white;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+.available-hour{
+    border: 2px solid white;
+    cursor: pointer;
+}
+.available-hour:hover{
+    background-color:#0c75c031;
+}
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="sprawdzenie" href="" style="text-decoration: none; color: white">Logo</a>
+            </div>
+            <div class="navbar-links">
+                <a href="#" class="navbar-link">Polityka</a>
+                <a href="#" class="navbar-link">Dostępni Lekarze</a>
+                <a href="#" class="navbar-link">Dostępne placówki</a>
+            </div>
+        </div>
+
+    </nav>
+    <section class="doctors-box">
+        <div class="container">
+            <div class="title-box"
+                 style="display: flex; justify-content: center; text-align: center; padding-top: 30px; padding-bottom: 30px; border-top: 1px solid black; border-bottom: 1px solid black; margin-top: 40px; margin-bottom: 20px;">
+                <h1>Dostępni lekarze</h1>
+            </div>
+            <div class="doctors-box"
+                 style=" background-color: #0e85b2d4; display: flex; justify-content: start; flex-direction: column; align-items: center; ">
+                <div th:each="doctor : ${doctors}" class="doctor-info"
+                     style="height: 350px; width: 80%; background-color:#6da6ce; display: flex; margin: 50px;">
+                    <div class="left-side"
+                         style="background-color:#539ed3; width: 50%; height: 100%; border-right: 1px solid black;">
+                        <div class="up-info"
+                             style="width: 100%; height: 50%; display: flex; justify-content: space-between;">
+                            <div class="avatar"
+                                 style="background-image: url('../../../../../../java/Warsztaty/Projekt/medinet/src/main/resources/static/male_doctor.png'); background-position: center; background-size: contain;
+                                  height: 120px; background-color: antiquewhite; width: 120px;
+                                   margin-top: 30px; margin-left: 20px; border-radius: 50%;"
+                            >
+                            </div>
+                            <div class="name"
+                                 style="height: 100%; width: 60%; display: flex; justify-content: center; align-items: center;">
+                                <div class="threediv" style="display: flex; flex-direction: column; ">
+                                    <div class="doctor-name">
+                                        <h3 th:text="${'Dr. '+doctor.name + ' ' + doctor.surname}"></h3>
+                                    </div>
+                                    <div class="doctor-specialization">
+                                        <p th:text="${doctor.specialization}"></p>
+                                        <span style="text-decoration: underline blue">14 opinii</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="down-info"
+                             style="height: 50%;
+                             display: flex;
+                             justify-content: space-between;
+                              align-items: flex-start;
+                               padding-left: 20px;
+                               text-align: left;
+                               color: white;
+                                margin-top: 20px; font-weight: bold">
+                            <div class="left-down-info">
+                                <div class="addres">
+                                    <div class="up-address" style="display: flex; flex-direction: column">
+                                        <span style="color: blue">Miasto: </span>
+                                        <span th:text="${doctor.getAddress().getCity()}"></span>
+                                    </div>
+                                    <span style="color: blue;">Adres: </span>
+                                    <p th:text="${doctor.getAddress().getStreet()}"></p>
+                                    <p th:text="${'Cena za wizytę: '+ doctor.getPriceForVisit()}"
+                                       style="color: blue"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-side" style=" width: 50%; overflow-x: hidden; overflow-y: auto; position: relative;">
+                        <div class="data" style="width: 100%; height: 50px; background-color: #1b679e; display: flex; align-items: center; justify-content: center; ">
+                        <div class="arrow" style="height: 50px; background-color: #6da6ce; width: 40px; color: white; cursor: pointer;">
+                            <p style="line-height: 50px;"><</p></div>
+                        <div class="actual-data" style="color: white; margin: 0 30px 0 30px;">Marzec 2023</div>
+                        <div class="arrow"style="height: 50px; background-color: #6da6ce; width: 40px; color: white; cursor: pointer;" >
+                            <p style="line-height: 50px;">></p></div>
+                        </div>
+                        <div class="container" style="padding-top: 10px; ">
+                            <div class="days " style="display: flex; justify-content: space-evenly;">
+                                
+                                <div class="day" style="position:relative;">
+                                    <p >Pon.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>9:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>10:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>11:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>12:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>13:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>14:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>15:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>16:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                         
+                                 
+                                <div class="day" style="position:relative;">
+                                    <p >Pon.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>9:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>10:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>11:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>12:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>13:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>14:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>15:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>16:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                                <div class="day" style="position:relative;">
+                                    <p >Pon.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>9:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>10:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>11:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>12:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>13:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>14:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>15:00</p>
+                                            </div>
+                                            <div class="available-hour">
+                                                <p>16:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</div>
+</section>
+
+</div>
+
+</body>
+</html>

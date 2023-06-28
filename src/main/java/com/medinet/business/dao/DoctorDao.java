@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DoctorDao {
     List<DoctorDto> findAllDoctors();
+    List<DoctorDto> findAllDoctorsByCity(String city);
 }

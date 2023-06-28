@@ -21,4 +21,11 @@ public class DoctorRepository implements DoctorDao {
                 .map(doctorMapper::mapFromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<DoctorDto> findAllDoctorsByCity(String city) {
+        return doctorJpaRepository.findAllDoctorsByCity(city).stream()
+                .map(doctorMapper::mapFromEntity)
+                .collect(Collectors.toList());
+    }
 }

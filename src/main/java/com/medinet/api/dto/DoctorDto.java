@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoctorDto {
+    private Integer doctorId;
     String name;
     String surname;
     String email;
