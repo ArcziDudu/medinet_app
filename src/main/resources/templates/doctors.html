@@ -79,7 +79,7 @@
         }
 
         .available-hour {
-            background-color:#1b679e;
+            background-color: #1b679e;
             height: 30px;
             width: 80px;
             margin-bottom: 15px;
@@ -88,13 +88,15 @@
             color: white;
             transition: background-color 0.3s, opacity 0.3s;
         }
-.available-hour{
-    border: 2px solid white;
-    cursor: pointer;
-}
-.available-hour:hover{
-    background-color:#0c75c031;
-}
+
+        .available-hour {
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        .available-hour:hover {
+            background-color: #0c75c031;
+        }
     </style>
 </head>
 <body>
@@ -119,7 +121,7 @@
                 <h1>Dostępni lekarze</h1>
             </div>
             <div class="doctors-box"
-                 style=" background-color: #0e85b2d4; display: flex; justify-content: start; flex-direction: column; align-items: center; ">
+                 style=" background-color: #0e85b2d4; display: flex; justify-content: start; flex-direction: column; align-items: center; margin-bottom: 30px ">
                 <div th:each="doctor : ${doctors}" class="doctor-info"
                      style="height: 350px; width: 80%; background-color:#6da6ce; display: flex; margin: 50px;">
                     <div class="left-side"
@@ -168,132 +170,79 @@
                             </div>
                         </div>
                     </div>
-                    <div class="right-side" style=" width: 50%; overflow-x: hidden; overflow-y: auto; position: relative;">
-                        <div class="data" style="width: 100%; height: 50px; background-color: #1b679e; display: flex; align-items: center; justify-content: center; ">
-                        <div class="arrow" style="height: 50px; background-color: #6da6ce; width: 40px; color: white; cursor: pointer;">
-                            <p style="line-height: 50px;"><</p></div>
-                        <div class="actual-data" style="color: white; margin: 0 30px 0 30px;">Marzec 2023</div>
-                        <div class="arrow"style="height: 50px; background-color: #6da6ce; width: 40px; color: white; cursor: pointer;" >
-                            <p style="line-height: 50px;">></p></div>
+                    <div class="right-side"
+                         style=" width: 50%; overflow-x: hidden; overflow-y: auto; position: relative;">
+                        <div class="data"
+                             style="width: 100%; height: 50px; background-color: #1b679e; display: flex; align-items: center; justify-content: center; ">
+                            <div class="arrow"
+                                 style="height: 50px; background-color: #6da6ce; width: 40px; color: white; cursor: pointer;">
+                                <p style="line-height: 50px;"><</p></div>
+                            <div class="actual-data" style="color: white; margin: 0 30px 0 30px;">Marzec 2023</div>
+                            <div class="arrow"
+                                 style="height: 50px; background-color: #6da6ce; width: 40px; color: white; cursor: pointer;">
+                                <p style="line-height: 50px;">></p></div>
                         </div>
                         <div class="container" style="padding-top: 10px; ">
                             <div class="days " style="display: flex; justify-content: space-evenly;">
-                                
-                                <div class="day" style="position:relative;">
-                                    <p >Pon.</p>
-                                    <div class="hours-box">
-                                        <div class="available-hours">
-                                            <div class="available-hour">
-                                                <p>8:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>9:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>10:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>11:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>12:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>13:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>14:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>15:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>16:00</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                         
-                                 
-                                <div class="day" style="position:relative;">
-                                    <p >Pon.</p>
-                                    <div class="hours-box">
-                                        <div class="available-hours">
-                                            <div class="available-hour">
-                                                <p>8:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>9:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>10:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>11:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>12:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>13:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>14:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>15:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>16:00</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 
-                                <div class="day" style="position:relative;">
-                                    <p >Pon.</p>
-                                    <div class="hours-box">
-                                        <div class="available-hours">
-                                            <div class="available-hour">
-                                                <p>8:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>9:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>10:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>11:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>12:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>13:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>14:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>15:00</p>
-                                            </div>
-                                            <div class="available-hour">
-                                                <p>16:00</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
+                                <div class="day" style="position:relative;">
+                                    <p>Pon.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day" style="position:relative;">
+                                    <p>Wt.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day" style="position:relative;">
+                                    <p>Śr.</p></p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day" style="position:relative;">
+                                    <p>Czw.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="day" style="position:relative;">
+                                    <p>Pt.</p>
+                                    <div class="hours-box">
+                                        <div class="available-hours">
+                                            <div class="available-hour">
+                                                <p>8:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-</div>
-</section>
+    </section>
 
 </div>
 

@@ -2,7 +2,6 @@ package com.medinet.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
@@ -14,7 +13,6 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = {"doctorId", "email"})
 @Entity
 @Table(name = "doctor")
-@Component
 public class DoctorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +27,17 @@ public class DoctorEntity {
 
     @Column(name = "email")
     private String email;
+
     @Column(name = "price_for_visit")
     private BigDecimal priceForVisit;
 
     @Column(name = "specialization")
     private String specialization;
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
+    @ManyToOne
+    @JoinColumn(name = "availables_id")
+    private AvailabilityEntity availability;
 }

@@ -16,6 +16,7 @@ public class DoctorRestController {
     public static final String API_DOCTOR = "/api/doctor";
     public final String API_ALL_DOCTOR = "/all";
     public final String API_ALL_DOCTOR_BY_CITY = "/all/{city}";
+    public final String API_AVAILABLE_HOURS_OF_WORK = "/hours/{doctorId}";
     private final DoctorService doctorService;
 
 
@@ -34,4 +35,7 @@ public class DoctorRestController {
         return ResponseEntity
                 .ok(allDoctors);
     }
+
+
+
 }

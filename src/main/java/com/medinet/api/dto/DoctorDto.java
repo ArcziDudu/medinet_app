@@ -20,4 +20,5 @@ public class DoctorDto {
     BigDecimal priceForVisit;
     String specialization;
     AddressEntity address;
+
 }

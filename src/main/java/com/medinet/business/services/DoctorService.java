@@ -25,4 +25,6 @@ public class DoctorService {
         log.info("Available doctors: [{}]", doctors.size());
         return doctors;
     }
+
+
 }
