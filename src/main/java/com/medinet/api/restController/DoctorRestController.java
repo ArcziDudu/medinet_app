@@ -2,7 +2,6 @@ package com.medinet.api.restController;
 
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.DoctorService;
-import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,7 @@ public class DoctorRestController {
     private final DoctorService doctorService;
 
 
+
     @GetMapping(value = API_ALL_DOCTOR)
     public ResponseEntity<List<DoctorDto>> allDoctors(
     ) {
@@ -35,7 +35,6 @@ public class DoctorRestController {
         return ResponseEntity
                 .ok(allDoctors);
     }
-
 
 
 }

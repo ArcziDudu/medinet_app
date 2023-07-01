@@ -1,9 +1,11 @@
 package com.medinet.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,7 +39,8 @@ public class DoctorEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
-    @ManyToOne
-    @JoinColumn(name = "availables_id")
-    private AvailabilityEntity availability;
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL)
+    private Set<CalendarEntity> calendars;
+
 }

@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkingHoursDto {
-    private Integer workingHoursId;
-    private DoctorEntity doctor;
-    private Date workingDate;
+public class CalendarDto {
+    Integer calendarId;
+    LocalDate date;
+    List<String> hours;
+    DoctorEntity doctor;
 }

@@ -14,4 +14,9 @@ public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer
             WHERE a.city = :city
             """)
     List<DoctorEntity> findAllDoctorsByCity(String city);
+    @Query("""
+            SELECT d FROM DoctorEntity d
+            WHERE d.specialization = :doctorSpecialization
+            """)
+    List<DoctorEntity> findAllBySpecialization(String doctorSpecialization);
 }
