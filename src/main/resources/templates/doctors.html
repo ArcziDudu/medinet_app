@@ -199,9 +199,11 @@
                 </form>
             </div>
 
-            <div class="available-doctors" style="margin-top:30px">
-                <h1 th:text="${doctors.size} +' Dostępnych lekarzy'"></h1>
+            <div class="available-doctors" style="margin-top: 30px">
+                <h1 th:if="${doctors.size > 0}" th:text="${doctors.size + ' Dostępnych lekarzy'}"></h1>
+                <h1 th:unless="${doctors.size > 0}">Brak dostępnych lekarzy</h1>
             </div>
+
 
             <div th:each="doctor : ${doctors}" class="doctor-info"
                  style="height: 350px;
