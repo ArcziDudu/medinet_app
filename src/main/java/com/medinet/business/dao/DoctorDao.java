@@ -7,8 +7,9 @@ import java.util.Set;
 
 public interface DoctorDao {
     List<DoctorDto> findAllDoctors();
-    List<DoctorDto> findAllDoctorsByCity(String city);
 
-    List<DoctorDto> findAllDoctorsBySpecialization(String doctorSpecialization);
+    List<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity);
     Set<String> findAllAvailableSpecialization();
+
+    Set<String> findAllAvailableCities();
 }

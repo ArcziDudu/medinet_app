@@ -4,19 +4,18 @@ import com.medinet.api.dto.DoctorDto;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer> {
+
     @Query("""
-            SELECT d FROM DoctorEntity d
-            JOIN d.address a
-            WHERE a.city = :city
+            SELECT d
+            FROM DoctorEntity d
+            INNER JOIN d.address address
+            where d.specialization = :doctorSpecialization
+            AND d.address.city  = :doctorCity
             """)
-    List<DoctorEntity> findAllDoctorsByCity(String city);
-    @Query("""
-            SELECT d FROM DoctorEntity d
-            WHERE d.specialization = :doctorSpecialization
-            """)
-    List<DoctorEntity> findAllBySpecialization(String doctorSpecialization);
+    List<DoctorEntity> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity);
 }
