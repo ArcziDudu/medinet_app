@@ -158,12 +158,14 @@
                  border-radius: 30px;
                  border: 2px solid white;
 ">
-                <input type="submit" value="Pokaż wszystkich " class="btn "
+                <div class="btn"
                        style="background-color: #2ead2e;
                                 color: white;
                                  font-weight: bold;
                                  border: 2px solid white;
                                   margin-right: 30px">
+                    <a th:href="@{/doctors}" style="color: white; text-decoration: none;">Pokaż wszystkich</a>
+                </div>
                 <form action="#" th:action="@{/doctors/find}" method="GET">
                     <label for="doctorSpecializations">Specjalizacje:</label>
                     <select id="doctorSpecializations" th:name="doctorSpecialization"
