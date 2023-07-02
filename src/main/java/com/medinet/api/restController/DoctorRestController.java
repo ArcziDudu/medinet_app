@@ -27,14 +27,5 @@ public class DoctorRestController {
         return ResponseEntity
                 .ok(allDoctors);
     }
-    @GetMapping(value = API_ALL_DOCTOR_BY_CITY)
-    public ResponseEntity<List<DoctorDto>> allDoctorsByCity(
-            @PathVariable String city
-    ) {
-        List<DoctorDto> allDoctors = doctorService.findAllDoctorsByCityWhereTheyWork(city);
-        return ResponseEntity
-                .ok(allDoctors);
-    }
-
 
 }

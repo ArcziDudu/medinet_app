@@ -161,17 +161,17 @@
 
 
 ">
-                <form action="#" th:action="@{/doctors/all/find}" method="GET">
+                <form action="#" th:action="@{/doctors/find}" method="GET">
                     <label for="doctorSpecializations">Specjalizacje:</label>
                     <select id="doctorSpecializations" th:name="doctorSpecialization">
                         <option th:each="specialization : ${specializations}" th:value="${specialization}"
                                 th:text="${specialization}"></option>
                     </select>
-<!--                    <label for="doctorCity" style="margin-left: 50px">Miasto:</label>-->
-<!--                    <select id="doctorCity" th:name="Miasto">-->
-<!--                        <option th:each="doctor : ${doctors}" th:value="${doctor.getAddress().getCity()}"-->
-<!--                                th:text="${doctor.getAddress().getCity()}"></option>-->
-<!--                    </select>-->
+                    <label for="doctorCities" style="margin-left: 50px">Miasto:</label>
+                    <select id="doctorCities" th:name="doctorCity">
+                        <option th:each="city : ${cities}" th:value="${city}"
+                                th:text="${city}"></option>
+                    </select>
                         <input type="submit" value="Szukaj " class="btn " style="background-color: #2ead2e; color: white; font-weight: bold; margin-left: 30px">
                 </form>
             </div>

@@ -201,6 +201,7 @@ insert into doctor (name, surname, email, price_for_visit, specialization, addre
 insert into doctor (name, surname, email, price_for_visit, specialization, address_id) values ('Tiebold', 'Gladdin', 'tgladdin2q@odnoklassniki.ru', 260.14, 'Okulista', 99);
 insert into doctor (name, surname, email, price_for_visit, specialization, address_id) values ('Talia', 'Joanic', 'tjoanic2r@zdnet.com', 102.03, 'Kardiolog', 100);
 
+
 insert into calendar(doctor_id, date, hours) values (1, '2023-07-02', (ARRAY['8:00', '12:00']));
 insert into calendar(doctor_id, date, hours) values (1, '2023-08-02', (ARRAY['8:00', '12:00']));
 insert into calendar(doctor_id, date, hours) values (1, '2023-08-03', (ARRAY['9:00', '12:00', '14:00']));
