@@ -79,7 +79,7 @@
         }
 
         .available-hour {
-            background-color: #1b679e;
+            background-color: #3f7293;
             height: 30px;
             width: 80px;
             margin-bottom: 15px;
@@ -148,8 +148,7 @@
                  style="display: flex;
                  justify-content: center;
                 align-items: center;
-                width: 70%;
-                max-width: 700px;
+                padding: 30px;
                  height: 50px;
                  margin-top: 40px;
                  color: white;
@@ -158,22 +157,50 @@
                 box-shadow: 0px 20px 200px rgba(0, 0, 0, 0.523);
                  border-radius: 30px;
                  border: 2px solid white;
-
+">
+                <div class="btn"
+                       style="background-color: #2ead2e;
+                                color: white;
+                                 font-weight: bold;
+                                 border: 2px solid white;
+                                  margin-right: 30px">
+                    <a th:href="@{/doctors}" style="color: white; text-decoration: none;">Pokaż wszystkich</a>
+                </div>
+                <form action="#" th:action="@{/doctors/find}" method="GET">
+                    <label for="doctorSpecializations">Specjalizacje:</label>
+                    <select id="doctorSpecializations" th:name="doctorSpecialization"
+                            style="background-color: white;
+                             color: black;
 
 ">
-                <form action="#" th:action="@{/doctors/all/find}" method="GET">
-                    <label for="doctorSpecializations">Specjalizacje:</label>
-                    <select id="doctorSpecializations" th:name="doctorSpecialization">
                         <option th:each="specialization : ${specializations}" th:value="${specialization}"
-                                th:text="${specialization}"></option>
+                                th:text="${specialization}"
+                                style=" color: white;
+                                background-color: #0e85b2d4;
+                                border: 2px solid white;
+                                font-weight: bold;"></option>
                     </select>
-<!--                    <label for="doctorCity" style="margin-left: 50px">Miasto:</label>-->
-<!--                    <select id="doctorCity" th:name="Miasto">-->
-<!--                        <option th:each="doctor : ${doctors}" th:value="${doctor.getAddress().getCity()}"-->
-<!--                                th:text="${doctor.getAddress().getCity()}"></option>-->
-<!--                    </select>-->
-                        <input type="submit" value="Szukaj " class="btn " style="background-color: #2ead2e; color: white; font-weight: bold; margin-left: 30px">
+                    <label for="doctorCities" style="margin-left: 50px">Miasto:</label>
+                    <select id="doctorCities" th:name="doctorCity"  style="background-color: white;
+                             color: black;
+                             ">
+                        <option th:each="city : ${cities}" th:value="${city}"
+                                th:text="${city}"  style=" color: white;
+                                background-color: #0e85b2d4;
+                                border: 2px solid white;
+                                font-weight: bold;"></option>
+                    </select>
+                        <input type="submit" value="Szukaj " class="btn"
+                               style="background-color: #3f7293;
+                                color: white;
+                                 font-weight: bold;
+                                 border: 2px solid white;
+                                  margin-left: 30px">
                 </form>
+            </div>
+
+            <div class="available-doctors" style="margin-top:30px">
+                <h1 th:text="${doctors.size} +' Dostępnych lekarzy'"></h1>
             </div>
 
             <div th:each="doctor : ${doctors}" class="doctor-info"

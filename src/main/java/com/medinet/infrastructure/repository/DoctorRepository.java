@@ -24,16 +24,11 @@ public class DoctorRepository implements DoctorDao {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<DoctorDto> findAllDoctorsByCity(String city) {
-        return doctorJpaRepository.findAllDoctorsByCity(city).stream()
-                .map(doctorMapper::mapFromEntity)
-                .collect(Collectors.toList());
-    }
 
     @Override
-    public List<DoctorDto> findAllDoctorsBySpecialization(String doctorSpecialization) {
-        return doctorJpaRepository.findAllBySpecialization(doctorSpecialization).stream()
+    public List<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity) {
+        return doctorJpaRepository.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity)
+                .stream()
                 .map(doctorMapper::mapFromEntity)
                 .collect(Collectors.toList());
     }
@@ -43,6 +38,14 @@ public class DoctorRepository implements DoctorDao {
         return doctorJpaRepository.findAll()
                 .stream()
                 .map(DoctorEntity::getSpecialization)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> findAllAvailableCities() {
+        return doctorJpaRepository.findAll()
+                .stream()
+                .map(a->a.getAddress().getCity())
                 .collect(Collectors.toSet());
     }
 }

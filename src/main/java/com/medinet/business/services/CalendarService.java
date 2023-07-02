@@ -12,6 +12,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -24,10 +25,11 @@ public class CalendarService {
 
     public List<CalendarDto> findAllCalendar() {
         List<CalendarDto> calendars = calendarDao.findAllCalendar();
-       log.info(String.valueOf(calendars.get(0).getDate().getDayOfWeek()));
-        calendars.removeIf(a -> a.getDate().getDayOfWeek().equals(DayOfWeek.SUNDAY));
+
         log.info("Available calendars: [{}]", calendars.size());
         return calendars;
     }
+
+
 
 }
