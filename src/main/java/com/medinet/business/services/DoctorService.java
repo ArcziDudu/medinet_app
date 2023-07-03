@@ -2,9 +2,13 @@ package com.medinet.business.services;
 
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.dao.DoctorDao;
+import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,7 @@ import java.util.Set;
 @Slf4j
 public class DoctorService {
     private final DoctorDao doctorDao;
+    private final DoctorMapper doctorMapper;
 
 
     public List<DoctorDto> findAllDoctors() {
@@ -23,6 +28,12 @@ public class DoctorService {
         log.info("Available doctors: [{}]", doctors.size());
 
         return doctors;
+    }
+
+    public Page<DoctorDto> findAllDoctors(Integer pageNumber){
+        int pageSize = 15;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return doctorDao.findAll(pageable);
     }
 
 
@@ -51,4 +62,6 @@ public class DoctorService {
         }
         return doctorById.get();
     }
+
+
 }
