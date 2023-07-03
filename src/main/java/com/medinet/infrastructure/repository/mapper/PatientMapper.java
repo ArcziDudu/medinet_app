@@ -8,4 +8,5 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PatientMapper {
     PatientDto mapFromEntity(PatientEntity entity);
+   PatientEntity mapFromDto(PatientDto patientDto);
 }
