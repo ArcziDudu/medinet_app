@@ -4,9 +4,11 @@ import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.dao.DoctorDao;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -40,5 +42,13 @@ public class DoctorService {
         Set<String> cities = doctorDao.findAllAvailableCities();
         log.info("Available cities: [{}]", cities.size());
         return cities;
+    }
+
+    public DoctorDto findDoctorById(Integer doctorId) {
+        Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
+        if(doctorById.isEmpty()){
+            throw new RuntimeException("Could not find car by doctorId: " + doctorId);
+        }
+        return doctorById.get();
     }
 }
