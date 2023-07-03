@@ -1,21 +1,12 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.CalendarDto;
-import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.dao.CalendarDao;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +20,6 @@ public class CalendarService {
         log.info("Available calendars: [{}]", calendars.size());
         return calendars;
     }
-
 
 
 }
