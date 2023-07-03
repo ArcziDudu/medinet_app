@@ -2,7 +2,6 @@ package com.medinet.business.services;
 
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.dao.DoctorDao;
-import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,8 +18,6 @@ import java.util.Set;
 @Slf4j
 public class DoctorService {
     private final DoctorDao doctorDao;
-
-
 
     public List<DoctorDto> findAllDoctors() {
 

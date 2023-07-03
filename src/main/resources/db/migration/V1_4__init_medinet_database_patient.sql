@@ -7,7 +7,7 @@ CREATE TABLE patient
     email           VARCHAR(32)   NOT NULL UNIQUE,
     phone           VARCHAR(32)   NOT NULL UNIQUE,
     address_id      INT           NOT NULL,
-    CONSTRAINT fk_doctors_address
+    CONSTRAINT fk_patient_address
         FOREIGN KEY (address_id)
             REFERENCES address (address_id)
 );
