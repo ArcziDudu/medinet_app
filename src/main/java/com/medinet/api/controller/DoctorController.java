@@ -33,7 +33,6 @@ public class DoctorController {
 
 
     @GetMapping("/doctors")
-
     public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
 
         Set<String> allAvailableCities = doctorService.findAllAvailableCities();
@@ -50,7 +49,6 @@ public class DoctorController {
         model.addAttribute("cities", allAvailableCities);
         model.addAttribute("dateFormatter", polishMonthFormatter);
         model.addAttribute("polishDayFormatter", polishDayFormatter);
-
 
         return "doctors";
     }

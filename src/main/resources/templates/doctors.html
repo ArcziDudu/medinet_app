@@ -388,8 +388,17 @@
                              padding: 5px;">Wystaw Opinię</button>
                         </div>
                         <div class="popup" th:id="'lekarz' + ${doctor.getDoctorId()}">
-                            <form th:action="@{/send}" method="post" style="display: flex; flex-direction: column; align-items: center; margin-top: 50px;">
-                                <textarea rows="9" cols="55" style="background-color: #d2dee68e; border: 2px solid black; border-radius: 15px;"></textarea>
+                            <form action="#" th:action="@{/opinion/send}" th:object="${OpinionDto}" method="POST"
+                                  style="display: flex;
+                                   flex-direction: column;
+                                    align-items: center;
+                                    margin-top: 50px;">
+                                <input type="hidden" th:name="patientId" th:value="${1}"/>opinionNote
+                                <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId()}" />
+                                <textarea name="opinionNote" rows="9" cols="55"
+                                          style="background-color: #d2dee68e;
+                                           border: 2px solid black;
+                                            border-radius: 15px; "></textarea>
                                 <button type="submit"
                                         style="background-color: #2ead2e;
                                          color: white;
