@@ -11,6 +11,6 @@ public class HomeController {
     static final String HOME = "/";
     @RequestMapping(value = HOME, method = RequestMethod.GET)
     public String homepage(){
-        return "myAccount";
+        return "home";
     }
 }
