@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,11 @@ public class DoctorRepository implements DoctorDao {
         return doctorJpaRepository.findAll().stream()
                 .map(doctorMapper::mapFromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<DoctorDto> findDoctorById(Integer doctorId) {
+        return doctorJpaRepository.findById(doctorId).map(doctorMapper::mapFromEntity);
     }
 
 

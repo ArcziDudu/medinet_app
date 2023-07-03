@@ -67,5 +67,16 @@ public class DoctorController {
 
         return "doctors";
     }
+    @GetMapping("/details/doctor")
+    public String showSortedDoctorsPage(
+            @RequestParam(value = "doctorId") Integer doctorId,
+            Model model)
+    {
+        DoctorDto doctorProfile = doctorService.findDoctorById(doctorId);
 
+        model.addAttribute("doctor", doctorProfile);
+        model.addAttribute("dateFormatter", polishMonthFormatter);
+        model.addAttribute("polishDayFormatter", polishDayFormatter);
+        return "doctorProfile";
+    }
 }
