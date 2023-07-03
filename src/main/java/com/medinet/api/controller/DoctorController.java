@@ -4,6 +4,8 @@ import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.CalendarService;
 import com.medinet.business.services.DoctorService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +34,20 @@ public class DoctorController {
 
     @GetMapping("/doctors")
 
-    public String showUsersPage(Model model) {
+    public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
+
       Set<String> allAvailableCities = doctorService.findAllAvailableCities();
       Set<String> availableSpecialization = doctorService.findAllAvailableSpecialization();
+        Page<DoctorDto> allDoctorsOnPage = doctorService.findAllDoctors(page);
+        List<DoctorDto> allDoctorsInDatabase = doctorService.findAllDoctors();
 
-        List<DoctorDto> allDoctors = doctorService.findAllDoctors();
-
-        model.addAttribute("doctors", allDoctors);
+        model.addAttribute("doctors", allDoctorsOnPage);
+        model.addAttribute("doctorsInDatabase", allDoctorsInDatabase);
         model.addAttribute("specializations", availableSpecialization);
         model.addAttribute("cities", allAvailableCities);
         model.addAttribute("dateFormatter", polishMonthFormatter);
         model.addAttribute("polishDayFormatter", polishDayFormatter);
+
 
         return "doctors";
     }

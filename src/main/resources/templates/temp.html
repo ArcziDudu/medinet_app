@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Medinet - internetowa przychodnia</title>
+    <style>
+        body {
+            position: relative;
+            background-color: #cfdde7;
+            color: #1b2734;
+            font-family: Roboto, Helvetica Neue, Helvetica, Segoe UI, Arial, Noto Sans, Liberation Sans, system-ui, -apple-system, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin: 0;
+            overflow-x: hidden;
+            height: 100%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: #0e85b2d4;
+            color: white;
+            padding: 0 20px;
+            max-width: 90%;
+            margin: 0 auto;
+            width: 100%;
+            z-index: 999;
+            box-shadow: 0px 20px 200px rgba(0, 0, 0, 0.523);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar-brand a {
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            justify-content: space-between;
+        }
+
+        .navbar-link {
+            margin-left: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            color: #274e75;
+            transition: 0.3s;
+        }
+
+
+        .hash-list>li {
+            display: block;
+            float: left;
+            border-right: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="sprawdzenie" href="" style="text-decoration: none; color: white">Logo</a>
+                </div>
+                <div class="navbar-links">
+                    <a href="#" class="navbar-link">Polityka</a>
+                    <a href="/doctors" class="navbar-link">Dostępni Lekarze</a>
+                    <a href="#" class="navbar-link">Dostępne placówki</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-box container" style="background-color: #0e85b2d4;
+        display: flex;
+       justify-content: center;
+         margin-top: 50px;
+           padding-top: 50px;
+           height: 600px;
+           ">
+            <div class="about-doctor containe" style="display: flex; flex-wrap: wrap;">
+                <div class="avatar"
+                    style="width: 200px; height: 200px; background-color: red; margin-right: 20px; margin-left: 20px;">
+                </div>
+                <div class="doctor-details"
+                    style="width: 400px; height: 250px; background-color: aliceblue; padding-left: 25px; margin-right: 20px;">
+                    <h3>Dr Marek Jakubiak</h3>
+                    <div class="doctor-details-address" style="text-align: left;">
+                        <h5>Ginekolog</h5>
+                        <h6>213 opinii</h6>
+                        <h6>Cena wizyty: </h6>
+                        <div class="button-box" style="display: flex; flex-direction: column; width: 200px;">
+                            <button class="available-dates" style="margin-bottom: 20px;">Dostępne terminy</button>
+                            <button>Wykształcenie i certyfikaty</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="doctor-details"
+                    style="width: 450px; height: 250px; background-color: aliceblue; padding-left: 25px;">
+                    <div th:each="doctorCalendar : ${doctor}" style="display: flex;
+                justify-content: space-between;
+                 width: 100%;
+                 ">
+                        <div th:each="calendar : ${doctorCalendar.getCalendars()}" style="display: flex;
+                    flex-direction: column;
+                     align-items: center;
+                     margin-right: 30px;">
+
+                            <div class="day" style="border: 2px solid white;
+                       font-weight: bold;
+                       color: white;
+                       border-radius: 15px;
+                        background-color:#1b679e;
+
+                       height: 50px;
+                       margin-bottom: 15px;
+                       width: 90px;">
+                                <div th:text="${polishDayFormatter.format(calendar.getDate().getDayOfWeek())}"
+                                    style="color:black;"></div>
+                                <div
+                                    th:text="${calendar.getDate().getDayOfMonth() + ' ' +dateFormatter.format(calendar.getDate().getMonth())}">
+                                </div>
+
+                            </div>
+
+
+                            <div th:each="hour : ${calendar.getHours()}">
+                                <div th:text="${hour}" class="available-hour"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

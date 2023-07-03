@@ -6,6 +6,10 @@ import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +28,16 @@ public class DoctorRepository implements DoctorDao {
                 .map(doctorMapper::mapFromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Page<DoctorDto> findAll(Pageable pageable) {
+        Page<DoctorEntity> page = doctorJpaRepository.findAll(pageable);
+        List<DoctorDto> doctorDtos = page.getContent().stream()
+                .map(doctorMapper::mapFromEntity)
+                .collect(Collectors.toList());
+        return new PageImpl<>(doctorDtos, pageable, page.getTotalElements());
+    }
+
 
     @Override
     public Optional<DoctorDto> findDoctorById(Integer doctorId) {
