@@ -38,11 +38,14 @@ public class DoctorController {
 
       Set<String> allAvailableCities = doctorService.findAllAvailableCities();
       Set<String> availableSpecialization = doctorService.findAllAvailableSpecialization();
+
         Page<DoctorDto> allDoctorsOnPage = doctorService.findAllDoctors(page);
-        List<DoctorDto> allDoctorsInDatabase = doctorService.findAllDoctors();
+        long totalElements = doctorService.findAllDoctors(page).getTotalElements();
+
 
         model.addAttribute("doctors", allDoctorsOnPage);
-        model.addAttribute("doctorsInDatabase", allDoctorsInDatabase);
+        model.addAttribute("totalElements", totalElements);
+
         model.addAttribute("specializations", availableSpecialization);
         model.addAttribute("cities", allAvailableCities);
         model.addAttribute("dateFormatter", polishMonthFormatter);
@@ -56,14 +59,19 @@ public class DoctorController {
     public String showSortedDoctorsPage(
             @RequestParam(value = "doctorSpecialization") String doctorSpecialization,
             @RequestParam(value = "doctorCity") String doctorCity,
+            @RequestParam(defaultValue = "0") int page,
             Model model)
     {
          Set<String> allAvailableCities = doctorService.findAllAvailableCities();
         Set<String> availableSpecialization = doctorService.findAllAvailableSpecialization();
 
-        List<DoctorDto> allDoctors = doctorService.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity);
+        Page<DoctorDto> allDoctors = doctorService.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, page);
+        List<DoctorDto> allDoctorsInDatabase = doctorService.findAllDoctors();
+        long totalElements = doctorService.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, page).getTotalElements();
 
+        model.addAttribute("totalElements", totalElements);
         model.addAttribute("doctors", allDoctors);
+        model.addAttribute("doctorsInDatabase", allDoctorsInDatabase);
         model.addAttribute("specializations", availableSpecialization);
         model.addAttribute("cities", allAvailableCities);
 

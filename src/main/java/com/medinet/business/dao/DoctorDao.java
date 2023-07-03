@@ -14,9 +14,10 @@ public interface DoctorDao {
     Page<DoctorDto> findAll(Pageable pageable);
     Optional<DoctorDto> findDoctorById(Integer doctorId);
 
-    List<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity);
+    Page<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Pageable pageable);
+
+
     Set<String> findAllAvailableSpecialization();
 
     Set<String> findAllAvailableCities();
-
 }

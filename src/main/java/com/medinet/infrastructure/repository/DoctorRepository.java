@@ -45,13 +45,20 @@ public class DoctorRepository implements DoctorDao {
     }
 
 
-    @Override
-    public List<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity) {
-        return doctorJpaRepository.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity)
-                .stream()
-                .map(doctorMapper::mapFromEntity)
-                .collect(Collectors.toList());
+
+
+        @Override
+    public Page<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Pageable pageable) {
+
+            Page<DoctorEntity> allDoctorsBySpecializationAndCity =
+                    doctorJpaRepository.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, pageable);
+
+            List<DoctorDto> doctorsDtosBySpecAndCity = allDoctorsBySpecializationAndCity.getContent().stream()
+                    .map(doctorMapper::mapFromEntity)
+                    .collect(Collectors.toList());
+            return new PageImpl<>(doctorsDtosBySpecAndCity, pageable, allDoctorsBySpecializationAndCity.getTotalElements());
     }
+
 
     @Override
     public Set<String> findAllAvailableSpecialization() {
