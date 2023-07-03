@@ -109,7 +109,7 @@
             </div>
             <div class="navbar-links">
                 <a href="#" class="navbar-link">Polityka</a>
-                <a href="#" class="navbar-link">Dostępni Lekarze</a>
+                <a th:href="@{/doctors}" class="navbar-link">Dostępni Lekarze</a>
                 <a href="#" class="navbar-link">Dostępne placówki</a>
             </div>
         </div>
@@ -246,11 +246,14 @@ border: 2px solid white;
                              style="height: 100%;
                                   width: 60%;
                                    display: flex;
+                                
                                     justify-content: center;
                                      align-items: center;">
                             <div class="threediv"
                                  style="display: flex;
-                                  flex-direction: column;">
+                                  flex-direction: column;
+                                   justify-content: center;
+                                  align-items: center;">
 
                                 <div class="doctor-name" style="font-weight: bold">
                                     <h3 th:text="${'Dr. '+doctor.name + ' ' + doctor.surname}"></h3>
@@ -261,6 +264,7 @@ border: 2px solid white;
                                     <span style="text-decoration: underline blue">14 opinii</span>
                                 </div>
 
+
                             </div>
                         </div>
 
@@ -270,7 +274,6 @@ border: 2px solid white;
                     <div class="down-info"
                          style="height: 50%;
                              display: flex;
-                             justify-content: space-between;
                               align-items: flex-start;
                                padding-left: 20px;
                                text-align: left;
@@ -292,6 +295,14 @@ border: 2px solid white;
                                    style="color: black;font-weight: bold"></p>
                             </div>
                         </div>
+                        <div class="details" style="margin: -20px auto 0 auto">
+                            <form id="doctorDetails" th:action="@{/details/doctor}" method="get">
+                                <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId}" />
+                                <input type="submit" value="Szczegóły" class="btn"
+                                       style="background-color: #2ead2e; color: white; font-weight: bold; border: 2px solid white; border-radius: 5px; margin-top: 20px; width: 135px;">
+                            </form>
+                        </div>
+
                     </div>
                 </div>
 
