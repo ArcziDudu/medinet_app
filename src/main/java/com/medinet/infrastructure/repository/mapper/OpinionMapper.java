@@ -8,4 +8,5 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OpinionMapper {
     OpinionDto mapFromEntity(OpinionEntity entity);
+    OpinionEntity mapFromDto(OpinionDto dtos);
 }

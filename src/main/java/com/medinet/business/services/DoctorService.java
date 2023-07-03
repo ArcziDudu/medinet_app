@@ -2,6 +2,7 @@ package com.medinet.business.services;
 
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.dao.DoctorDao;
+import com.medinet.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -53,10 +54,9 @@ public class DoctorService {
     public DoctorDto findDoctorById(Integer doctorId) {
         Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
         if (doctorById.isEmpty()) {
-            throw new RuntimeException("Could not find car by doctorId: " + doctorId);
+            throw new NotFoundException("Could not find car by doctorId: [%s]".formatted(doctorId));
         }
         return doctorById.get();
     }
-
 
 }

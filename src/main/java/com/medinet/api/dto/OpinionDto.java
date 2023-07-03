@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class OpinionDto {
     private Integer opinionId;
-    private OffsetDateTime dateOfCreateOpion;
+    private OffsetDateTime dateOfCreateOpinion;
     private String note;
     private PatientEntity patient;
     private DoctorEntity doctor;

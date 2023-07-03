@@ -21,7 +21,7 @@ public class OpinionEntity {
     private Integer opinionId;
 
     @Column(name = "date")
-    private OffsetDateTime dateOfCreateOpion;
+    private OffsetDateTime dateOfCreateOpinion;
     @Column(name = "note")
     private String note;
 
