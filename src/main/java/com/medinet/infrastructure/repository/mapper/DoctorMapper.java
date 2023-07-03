@@ -10,4 +10,5 @@ import org.mapstruct.ReportingPolicy;
 public interface DoctorMapper {
 
     DoctorDto mapFromEntity(DoctorEntity entity);
+    DoctorEntity  mapFromDto(DoctorDto doctorDto);
 }
