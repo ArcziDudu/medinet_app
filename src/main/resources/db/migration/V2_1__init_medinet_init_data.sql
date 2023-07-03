@@ -221,3 +221,4 @@ insert into calendar(doctor_id, date, hours) values (2, '2024-08-20', (ARRAY['8:
 -- SET hours = hours || ARRAY['9:00']
 -- WHERE doctor_id = 1 -- identyfikator lekarza
 --   AND date = '2024-08-12';
+
