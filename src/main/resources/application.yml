@@ -24,3 +24,7 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  pagehelper:
+    propertyName: propertyValue
+    reasonable: false
+    defaultCount: true

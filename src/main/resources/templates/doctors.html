@@ -97,10 +97,46 @@
         .available-hour:hover {
             background-color: #0c75c031;
         }
+        .page-button{
+            margin-right: 25px;
+              width: 200px;
+               height: 50px;
+               border-radius: 0px 25px 25px 0;
+               cursor: pointer;
+                background-color: #1b679e;
+                transition: 0.3s;
+        }
+        .page-button:hover{
+            background-color: #2a78b0;
+        }
+.button-link{
+    line-height: 40px;
+                      color: white;
+                      font-weight: bold;
+                      text-decoration: none;
+}
+.button-link:hover{
+    color: white;
+}
 
     </style>
 </head>
 <body>
+    <div class="down-navigation"
+     style="background-color:#0e85b2d4;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+      position: absolute;
+       height: 50px;
+        width: 100%;
+        color: white;
+        font-weight: bold;
+         bottom:-30px">
+    
+    <h5>© Medinet 2023</h5>
+    
+    </div>
 <div class="wrapper">
     <nav class="navbar">
         <div class="container">
@@ -134,6 +170,20 @@
                 <span>Wybierz datę aby zarezerować wizytę</span>
             </div>
         </div>
+        <div class="container page-sort-box" style="display: flex; justify-content:center">
+
+            <button th:if="${!doctors.first}"
+             class="page-button" style="border-radius: 25px 0 0 25px; border: 2px solid white;">
+                <a class="button-link" th:href="@{/doctors(page=${doctors.number - 1})}">Poprzednia strona</a>
+            </button>
+           
+            <button th:if="${doctors.hasNext}" class="page-button" style="border-radius: 0 25px 25px 0; border: 2px solid white;">
+                <a class="button-link" th:href="@{/doctors(page=${doctors.number + 1})}">Następna strona</a>
+            </button>
+      
+
+
+        </div>
         <div class="doctors-box"
              style="
 
@@ -159,7 +209,7 @@
                  border: 2px solid white;
 ">
                 <div class="btn"
-                       style="background-color: #2ead2e;
+                     style="background-color: #2ead2e;
                                 color: white;
                                  font-weight: bold;
                                  border: 2px solid white;
@@ -181,17 +231,17 @@
                                 font-weight: bold;"></option>
                     </select>
                     <label for="doctorCities" style="margin-left: 50px">Miasto:</label>
-                    <select id="doctorCities" th:name="doctorCity"  style="background-color: white;
+                    <select id="doctorCities" th:name="doctorCity" style="background-color: white;
                              color: black;
                              ">
                         <option th:each="city : ${cities}" th:value="${city}"
-                                th:text="${city}"  style=" color: white;
+                                th:text="${city}" style=" color: white;
                                 background-color: #0e85b2d4;
                                 border: 2px solid white;
                                 font-weight: bold;"></option>
                     </select>
-                        <input type="submit" value="Szukaj " class="btn"
-                               style="background-color: #3f7293;
+                    <input type="submit" value="Szukaj " class="btn"
+                           style="background-color: #3f7293;
                                 color: white;
                                  font-weight: bold;
                                  border: 2px solid white;
@@ -200,8 +250,9 @@
             </div>
 
             <div class="available-doctors" style="margin-top: 30px">
-                <h1 th:if="${doctors.size > 0}" th:text="${doctors.size + ' Dostępnych lekarzy'}"></h1>
-                <h1 th:unless="${doctors.size > 0}">Brak dostępnych lekarzy</h1>
+                <h1 th:if="${doctorsInDatabase.size > 0}"
+                    th:text="${doctorsInDatabase.size + ' Dostępnych lekarzy'}"></h1>
+                <h1 th:unless="${doctorsInDatabase.size > 0}">Brak dostępnych lekarzy</h1>
             </div>
 
 
@@ -297,7 +348,7 @@ border: 2px solid white;
                         </div>
                         <div class="details" style="margin: -20px auto 0 auto">
                             <form id="doctorDetails" th:action="@{/details/doctor}" method="get">
-                                <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId}" />
+                                <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId}"/>
                                 <input type="submit" value="Szczegóły" class="btn"
                                        style="background-color: #2ead2e; color: white; font-weight: bold; border: 2px solid white; border-radius: 5px; margin-top: 20px; width: 135px;">
                             </form>
@@ -360,7 +411,18 @@ border: 2px solid white;
                     </div>
                 </div>
             </div>
+            <div class="container page-sort-box" style="display: flex; justify-content:center; margin-bottom: 40px;">
 
+                <button th:if="${!doctors.first}" class="page-button" style="border-radius: 25px 0 0 25px; border: 2px solid white;">
+                    <a class="button-link" th:href="@{/doctors(page=${doctors.number - 1})}">Poprzednia strona</a>
+                </button>
+               
+                <button th:if="${doctors.hasNext}" class="page-button" style="border-radius: 0 25px 25px 0; border: 2px solid white;">
+                    <a class="button-link" th:href="@{/doctors(page=${doctors.number + 1})}">Następna strona</a>
+                </button>
+          
+    
+            </div>
         </div>
 
     </section>
