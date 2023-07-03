@@ -6,115 +6,115 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link th:href = "@{/myAccount.css}" rel="stylesheet">
+    <link th:href="@{/myAccount.css}" rel="stylesheet">
     <!-- <link rel="stylesheet" href="../static/myAccount.css"> -->
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
 <body>
-    <div class="wrapper">
+<div class="wrapper">
 
-        <nav class="container navbar">
-            <div class="navbar-logo">
-                <a th:href="@{/}">Logo</a>
+    <nav class="container navbar">
+        <div class="navbar-logo">
+            <a th:href="@{/}">Logo</a>
+        </div>
+        <div class="navbar-links">
+            <a href="#" class="navbar-link">Polityka</a>
+            <a th:href="@{/doctors}" class="navbar-link">Dostępni Lekarze</a>
+            <a th:href="@{/account/user}" th:method="get" class="navbar-link">Moje konto</a>
+        </div>
+    </nav>
+    <div class="container main-box">
+        <div class="left-side">
+            <div class="avatar">Avatar</div>
+            <div class="data">
+                <h6 th:text="${patient.getName()}+' ' + ${patient.getSurname()}"></h6>
+                <span th:text="${patient.getEmail()}"></span>
             </div>
-            <div class="navbar-links">
-                <a href="#" class="navbar-link">Polityka</a>
-                <a th:href="@{/doctors}" class="navbar-link">Dostępni Lekarze</a>
-                <a href="#" class="navbar-link">Moje konto</a>
+            <div class="settings">
+                <h6>Ustawienia</h6>
+                <div class="logout"> Wyloguj</div>
+
             </div>
-        </nav>
-        <div class="container main-box">
-            <div class="left-side">
-                <div class="avatar">Avatar</div>
-                <div class="data">
-                    <h6>Artur Augustyn</h6>
-                    <span>artur.augustyn26@gmail.com</span>
-                </div>
-                <div class="settings">
-                    <h6>Ustawienia</h6>
-                    <div class="logout"> Wyloguj</div>
-
-                </div>
+        </div>
+        <div class=" container rigth-side">
+            <div class="nav">
+                <button id="visits">Moje wizyty</button>
+                <button id="opinions">Moje Opinie</button>
             </div>
-            <div class=" container rigth-side">
-                <div class="nav">
-                    <button id="visits">Moje wizyty</button>
-                    <button id="opinions">Moje Opinie</button>
-                </div>
-                <div class="visits-appointments " id="referencedDiv">
-                    <div class="visit-invoice">
-                        <div class="up-side">
-                            <h6 style="color: black;">Numer wizyty: </h6>
-                            <h6>Data: </h6>
-                            <h6 style="color: black;">Imię Nazwisko: </h6>
-                            <h6>Adres zamieszkania: </h6>
-                            <h6>Kod pocztowy: </h6>
-                            <h6 style="color: black;">Lekarz: </h6>
-                            <span>Zalecenia: </span>
-                        </div>
-                    </div>
-                    <div class="visit-invoice">
-
-                    </div>
-                    <div class="visit-invoice">
-
+            <div class="visits-appointments " id="referencedDiv">
+                <div class="visit-invoice">
+                    <div class="up-side">
+                        <h6 style="color: black;">Numer wizyty: </h6>
+                        <h6>Data: </h6>
+                        <h6 style="color: black;">Imię Nazwisko: </h6>
+                        <h6>Adres zamieszkania: </h6>
+                        <h6>Kod pocztowy: </h6>
+                        <h6 style="color: black;">Lekarz: </h6>
+                        <span>Zalecenia: </span>
                     </div>
                 </div>
+                <div class="visit-invoice">
 
-            </div>
-            <div class="visits-opinions" id="absoluteDiv">
-             
-                <div class="opinion">
-                    <h6>Wystawione lekarzowi: </h6>
                 </div>
-        
+                <div class="visit-invoice">
+
+                </div>
             </div>
-            
+
+        </div>
+        <div class="visits-opinions" id="absoluteDiv">
+
+            <div class="opinion">
+                <h6>Wystawione lekarzowi: </h6>
+            </div>
+
         </div>
 
-        <footer class="down-navigation">
-            <h5>© Medinet 2023</h5>
-        </footer>
     </div>
-    <script>
-        const buttonVisits = document.querySelector('#visits');
-        const buttonOpinions = document.querySelector('#opinions');
 
-        const visitsAppointments = document.querySelector('.visits-appointments');
-        const visitsOpinions = document.querySelector('.visits-opinions');
-        buttonVisits.addEventListener('click', () => {
-            visitsOpinions.style.height = '0';
-            visitsOpinions.style.display = 'none';
-            visitsAppointments.style.display = 'block';
+    <footer class="down-navigation">
+        <h5>© Medinet 2023</h5>
+    </footer>
+</div>
+<script>
+    const buttonVisits = document.querySelector('#visits');
+    const buttonOpinions = document.querySelector('#opinions');
 
-        }); 
-        buttonOpinions.addEventListener('click', () => {
-            visitsOpinions.style.height = '285px';
-            visitsOpinions.style.display = 'flex';
-            visitsAppointments.style.display = 'none';
-        });
-        window.addEventListener('DOMContentLoaded', () => {
-            const referencedDiv = document.getElementById('referencedDiv');
-            const absoluteDiv = document.getElementById('absoluteDiv');
+    const visitsAppointments = document.querySelector('.visits-appointments');
+    const visitsOpinions = document.querySelector('.visits-opinions');
+    buttonVisits.addEventListener('click', () => {
+        visitsOpinions.style.height = '0';
+        visitsOpinions.style.display = 'none';
+        visitsAppointments.style.display = 'block';
 
-            const setPosition = () => {
-                const rect = referencedDiv.getBoundingClientRect();
-                absoluteDiv.style.left = `${rect.left}px`;
-                absoluteDiv.style.top = `${rect.top}px`;
-            };
+    });
+    buttonOpinions.addEventListener('click', () => {
+        visitsOpinions.style.height = '285px';
+        visitsOpinions.style.display = 'flex';
+        visitsAppointments.style.display = 'none';
+    });
+    window.addEventListener('DOMContentLoaded', () => {
+        const referencedDiv = document.getElementById('referencedDiv');
+        const absoluteDiv = document.getElementById('absoluteDiv');
 
-            setPosition();
+        const setPosition = () => {
+            const rect = referencedDiv.getBoundingClientRect();
+            absoluteDiv.style.left = `${rect.left}px`;
+            absoluteDiv.style.top = `${rect.top}px`;
+        };
 
-            window.addEventListener('resize', setPosition);
-        });
-    </script>
+        setPosition();
+
+        window.addEventListener('resize', setPosition);
+    });
+</script>
 
 </body>
 
