@@ -5,12 +5,12 @@ import com.medinet.business.dao.DoctorDao;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,36 +20,35 @@ import java.util.Set;
 @Slf4j
 public class DoctorService {
     private final DoctorDao doctorDao;
-    private final DoctorMapper doctorMapper;
+
 
 
     public List<DoctorDto> findAllDoctors() {
-        List<DoctorDto> doctors = doctorDao.findAllDoctors();
-        log.info("Available doctors: [{}]", doctors.size());
 
-        return doctors;
+        return doctorDao.findAllDoctors();
     }
 
-    public Page<DoctorDto> findAllDoctors(Integer pageNumber){
+    public Page<DoctorDto> findAllDoctors(Integer pageNumber) {
         int pageSize = 15;
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return doctorDao.findAll(pageable);
     }
 
 
-    public List<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity) {
-        List<DoctorDto> doctors = doctorDao.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity);
-        log.info("Available doctors: [{}]", doctors.size());
-        return doctors;
+    public Page<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Integer pageNumber) {
+        int pageSize = 15;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return doctorDao.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, pageable);
     }
 
-    public Set<String> findAllAvailableSpecialization(){
+    public Set<String> findAllAvailableSpecialization() {
         Set<String> specializations = doctorDao.findAllAvailableSpecialization();
         log.info("Available specializations: [{}]", specializations.size());
         return specializations;
     }
 
-    public Set<String> findAllAvailableCities(){
+    public Set<String> findAllAvailableCities() {
         Set<String> cities = doctorDao.findAllAvailableCities();
         log.info("Available cities: [{}]", cities.size());
         return cities;
@@ -57,7 +56,7 @@ public class DoctorService {
 
     public DoctorDto findDoctorById(Integer doctorId) {
         Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
-        if(doctorById.isEmpty()){
+        if (doctorById.isEmpty()) {
             throw new RuntimeException("Could not find car by doctorId: " + doctorId);
         }
         return doctorById.get();
