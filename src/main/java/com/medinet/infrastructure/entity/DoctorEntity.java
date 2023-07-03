@@ -47,4 +47,9 @@ public class DoctorEntity {
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL)
     private Set<AppointmentEntity> appointments;
+
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL)
+    private Set<OpinionEntity> opinions;
 }
