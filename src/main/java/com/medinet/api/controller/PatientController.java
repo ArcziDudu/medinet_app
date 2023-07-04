@@ -2,7 +2,9 @@ package com.medinet.api.controller;
 
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.PatientDto;
+import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.PatientService;
+import com.medinet.infrastructure.entity.AppointmentEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,15 +19,17 @@ import java.util.Set;
 @AllArgsConstructor
 public class PatientController {
     private PatientService patientService;
+    private AppointmentService appointmentService;
 
     @GetMapping("/account/user")
-    public String showUsersPage( Model model) {
+    public String showUsersPage(Model model) {
         PatientDto currentPatient = patientService.findById(1);
-        List<PatientDto> allPatients = patientService.findAllPatients();
+        List<AppointmentEntity> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
+        List<AppointmentEntity> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 
-        model.addAttribute("patients", allPatients);
-
+        model.addAttribute("CurrentPatient", currentPatient);
+        model.addAttribute("UpcomingAppointments", UpcomingAppointments);
+        model.addAttribute("CompletedAppointments", completedAppointments);
         return "myAccount";
     }
-
 }
