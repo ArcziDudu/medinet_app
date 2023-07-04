@@ -322,7 +322,7 @@
 
 
                                     <div th:each="hour : ${calendar.getHours()}">
-                                        <form th:action="@{/booking/appointment}" method="GET">
+                                        <form th:action="@{/request}" method="GET">
                                             <input type="hidden" th:name="selectedHour" th:value="${hour}" />
                                             <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId()}" />
                                             <input type="hidden" th:name="patientId" th:value="${1}" />

@@ -32,7 +32,6 @@ public class OpinionController {
 
     @PostMapping("/opinion/send")
     public String showUsersPage(
-            @ModelAttribute("OpinionDto") OpinionDto opinionDto,
              @RequestParam("doctorId") Integer doctorId,
              @RequestParam("opinionNote") String note
 
