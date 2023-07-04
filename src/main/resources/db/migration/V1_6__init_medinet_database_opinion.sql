@@ -1,8 +1,8 @@
 CREATE TABLE opinion
 (
     opinion_id SERIAL    NOT NULL PRIMARY KEY,
-    patient_id INT       NOT NULL UNIQUE,
-    doctor_id  INT       NOT NULL UNIQUE,
+    patient_id INT       NOT NULL,
+    doctor_id  INT       NOT NULL,
     date       TIMESTAMP WITH TIME ZONE not null,
     note       TEXT,
     CONSTRAINT fk_appointment_patient
