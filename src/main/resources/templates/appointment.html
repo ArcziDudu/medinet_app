@@ -72,6 +72,7 @@
 
                     <h6 th:text="${'Godzina Wizyty: '+ selectedHour}"></h6>
 
+
                     <h6 th:text="${'Adres Przychodni: '+
                      doctor.getAddress().getCity()+', '+doctor.getAddress().getStreet()}"></h6>
 
@@ -80,14 +81,20 @@
                     <h6 th:text="${'Specjalizacja: '+ doctor.getSpecialization()}"></h6>
                 </div>
                 <div class="about">
-                    <h6 th:text="${'Data Wystawienia: '+ issueDate}"></h6>
                     <h6 th:text="${'Imie i nazwisko: '+patient.getName +' '+ patient.getSurname()}"> </h6>
                     <h6 th:text="${'Email: '+ patient.getEmail()}"></h6>
-                    <h6 th:text="${'Numer Kontaktowy: '+patient.getPhoneNumber()}">Numer kontaktowy: </h6>
+                    <h6 th:text="${'Numer Kontaktowy: '+patient.getPhoneNumber()}"></h6>
                     <h6 th:text="${'Cena wizyty: '+ doctor.getPriceForVisit().toString()+ 'zł.'}"></h6>
                 </div>
             </div>
-          <div class="btn">Rezerwuje</div>
+            <form th:action="@{/booking/appointment}" method="post">
+                <input type="hidden" th:name="DoctorDto" th:value="${doctor}" />
+                <input type="hidden" th:name="PatientDto" th:value="${patient}"/>
+                <input type="hidden" th:name="DateOfAppointment" th:value="${selectedDate}"/>
+                <input type="hidden" th:name="HourOfAppointment" th:value="${selectedHour}"/>
+                <input type="hidden" th:name="UUID" th:value="${visitNumber}"/>
+                <button type="submit" class="btn">Rezerwuję</button>
+            </form>
         </div>
        
     </div>
