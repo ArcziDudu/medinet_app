@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -20,17 +21,24 @@ public class AppointmentEntity {
     @Column(name = "appointment_id")
     private Integer appointmentId;
 
-    @Column(name = "start_time")
-    private OffsetDateTime startTime;
-
-    @Column(name = "end_time")
-    private OffsetDateTime endTime;
+    @Column(name = "time_of_visit")
+    private String timeOfVisit;
 
     @Column(name = "status")
     private Boolean status;
 
     @Column(name = "note")
     private String noteOfAppointment;
+
+    @Column(name = "uuid")
+    private String UUID;
+
+    @Column(name = "time_of_issue")
+    private OffsetDateTime issueInvoice;
+
+    @Column(name = "date_of_appointment")
+    private LocalDate dateOfAppointment;
+
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)

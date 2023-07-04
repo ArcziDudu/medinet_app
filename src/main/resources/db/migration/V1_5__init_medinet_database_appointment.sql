@@ -1,12 +1,14 @@
 CREATE TABLE appointment
 (
-    appointment_id SERIAL      NOT NULL PRIMARY KEY,
-    patient_id     INT         NOT NULL UNIQUE,
-    doctor_id      INT         NOT NULL UNIQUE,
-    start_time     TIMESTAMP WITH TIME ZONE   NOT NULL,
-    end_time       TIMESTAMP WITH TIME ZONE   NOT NULL,
-    status         BOOLEAN     NOT NULL,
-    note           TEXT,
+    appointment_id      SERIAL                   NOT NULL PRIMARY KEY,
+    patient_id          INT                      NOT NULL,
+    doctor_id           INT                      NOT NULL,
+    time_of_visit       TIMESTAMP WITH TIME ZONE NOT NULL,
+    time_of_issue       TIMESTAMP WITH TIME ZONE NOT NULL,
+    date_of_appointment DATE                     NOT NULL,
+    status              BOOLEAN                  NOT NULL,
+    UUID                varchar(40)              not null UNIQUE,
+    note                TEXT,
     CONSTRAINT fk_appointment_patient
         FOREIGN KEY (patient_id)
             REFERENCES patient (patient_id),

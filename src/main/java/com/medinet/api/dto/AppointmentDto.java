@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Data
@@ -14,11 +15,13 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentDto {
-    private Integer appointmentId;
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
-    private Boolean status;
-    private String noteOfAppointment;
-    private PatientEntity patient;
-    private DoctorEntity doctor;
+    Integer appointmentId;
+    String timeOfVisit;
+    Boolean status;
+    String noteOfAppointment;
+    String UUID;
+    OffsetDateTime issueInvoice;
+    LocalDate dateOfAppointment;
+    PatientEntity patient;
+    DoctorEntity doctor;
 }
