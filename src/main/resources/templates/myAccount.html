@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link th:href = "@{/myAccount.css}" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="../static/myAccount.css"> -->
+     <link th:href = "@{/myAccount.css}" rel="stylesheet">
+<!--    <link rel="stylesheet" href="../static/myAccount.css">-->
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -30,12 +30,12 @@
                 <a href="#" class="navbar-link">Moje konto</a>
             </div>
         </nav>
-        <div th:each="patient: ${patients}" class="container main-box">
+        <div class="container main-box">
             <div class="left-side">
                 <div class="avatar">Avatar</div>
                 <div class="data">
-                    <h6 th:text="${patient.getName()}"></h6>
-                    <span th:text="${patient.getEmail()}">artur.augustyn26@gmail.com</span>
+                    <h6 th:text="${CurrentPatient.getName()}"></h6>
+                    <span th:text="${CurrentPatient.getEmail()}">artur.augustyn26@gmail.com</span>
                 </div>
                 <div class="settings">
                     <h6>Ustawienia</h6>
@@ -49,28 +49,58 @@
                     <button id="opinions">Moje Opinie</button>
                 </div>
                 <div class="visits-appointments " id="referencedDiv">
-                    <div class="visit-invoice">
-                        <div class="up-side">
-                            <h6 style="color: black;">Numer wizyty: </h6>
-                            <h6>Data: </h6>
-                            <h6 style="color: black;">Imię Nazwisko: </h6>
-                            <h6>Adres zamieszkania: </h6>
-                            <h6>Kod pocztowy: </h6>
-                            <h6 style="color: black;">Lekarz: </h6>
-                            <span>Zalecenia: </span>
+                    <div class="upcoming">
+                        <h3 style="color: white;">Nadchodzące</h3>
+                        <div th:each="invoice :${UpcomingAppointments}" >
+                            <div class="visit-invoice">
+                                <div class="up-side">
+                                    <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
+                                    <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
+                                    <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
+                                    <h6 style="color: black;"
+                                        th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
+                                    +' ' +invoice.getPatient().getSurname()}">: </h6>
+                                    <h6 th:text="${'Adres przychodni: '+
+                                     invoice.getDoctor().getAddress().getCity() + ' '+
+                                     invoice.getDoctor().getAddress().getStreet()}"></h6>
+                                    <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
+                                    ' '+ invoice.getDoctor().getSurname()}"></h6>
+                                    <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                                    +invoice.getDoctor().getSpecialization()}"></h6>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="visit-invoice">
+                  <div class="received">
+                    <h3 style="color: white;">Odbyte</h3>
+                      <div th:each="invoice :${CompletedAppointments}" >
+                          <div class="visit-invoice">
+                              <div class="up-side">
+                                  <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
+                                  <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
+                                  <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
+                                  <h6 style="color: black;"
+                                      th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
+                                    +' ' +invoice.getPatient().getSurname()}">: </h6>
+                                  <h6 th:text="${'Adres przychodni: '+
+                                     invoice.getDoctor().getAddress().getCity() + ' '+
+                                     invoice.getDoctor().getAddress().getStreet()}"></h6>
+                                  <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
+                                    ' '+ invoice.getDoctor().getSurname()}"></h6>
+                                  <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                                    +invoice.getDoctor().getSpecialization()}"></h6>
+                              </div>
+                          </div>
+                      </div>
 
-                    </div>
-                    <div class="visit-invoice">
 
-                    </div>
+
+                  </div>
                 </div>
 
             </div>
             <div class="visits-opinions" id="absoluteDiv"><div >
-                 <div th:each="OneOpinion: ${patient.getOpinions()}" class="opinion">
+                 <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="opinion">
                      <span th:text="${'Wystawione lekarzowi: '
                      + OneOpinion.getDoctor().getName()
                      +' '+ OneOpinion.getDoctor().getSurname()
