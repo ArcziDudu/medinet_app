@@ -6,9 +6,12 @@ import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
+import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.entity.PatientEntity;
+import com.medinet.infrastructure.repository.mapper.DoctorMapper;
+import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -28,29 +31,53 @@ public class AppointmentController {
     private AppointmentService appointmentService;
     private DoctorService doctorService;
     private PatientService patientService;
+    private DoctorMapper doctorMapper;
+    private PatientMapper patientMapper;
 
-    @GetMapping("/booking/appointment")
+    @GetMapping("/request")
     public String bookAppointment(@RequestParam("doctorId") Integer doctorId,
                                   @RequestParam("patientId") Integer patientId,
-                                  @RequestParam("selectedHour") String selectedHour,
-                                  @RequestParam("selectedDate") LocalDate selectedDate,
+                                  @RequestParam("selectedHour") String timeOfVisit,
+                                  @RequestParam("selectedDate") LocalDate dateOfAppointment,
                                   Model model) {
 
         DoctorDto doctor = doctorService.findDoctorById(doctorId);
         PatientDto patient = patientService.findById(patientId);
-        OffsetDateTime IssueDate = appointmentService.getIssueDate();
-        String visitNumber = appointmentService.getVisitNumber();
+        String UUID = appointmentService.getVisitNumber();
 
 
         model.addAttribute("doctor", doctor);
         model.addAttribute("patient", patient);
-        model.addAttribute("selectedHour", selectedHour);
-        model.addAttribute("selectedDate", selectedDate);
-        model.addAttribute("issueDate", IssueDate);
-        model.addAttribute("visitNumber", visitNumber);
-        System.out.println(visitNumber);
-        System.out.println(IssueDate);
+        model.addAttribute("selectedHour", timeOfVisit);
+        model.addAttribute("selectedDate", dateOfAppointment);
+        model.addAttribute("visitNumber", UUID);
+        System.out.println(UUID);
 
         return "appointment";
+    }
+
+    @PostMapping("/booking/appointment")
+    public String showUsersPage(
+            @ModelAttribute("DoctorDto") DoctorDto doctorDto,
+            @ModelAttribute("PatientDto") PatientDto patientDto,
+            @RequestParam("DateOfAppointment") LocalDate dateOfAppointment,
+            @RequestParam("HourOfAppointment") String timeOfVisit,
+            @RequestParam("UUID") String UUID
+    ) {
+        DoctorDto doctor = doctorService.findDoctorById(1);
+        PatientDto patient = patientService.findById(1);
+        AppointmentEntity appointment = new AppointmentEntity();
+        appointment.setDateOfAppointment(dateOfAppointment);
+        appointment.setUUID(UUID);
+        appointment.setDoctor(doctorMapper.mapFromDto(doctor));
+        appointment.setPatient(patientMapper.mapFromDto(patient));
+        appointment.setTimeOfVisit(timeOfVisit);
+        appointment.setIssueInvoice(appointmentService.issueInvoice());
+        System.out.println(appointmentService.issueInvoice());
+        appointment.setStatus(true);
+       appointmentService.processAppointment(appointment);
+
+
+        return "redirect:/doctors";
     }
 }
