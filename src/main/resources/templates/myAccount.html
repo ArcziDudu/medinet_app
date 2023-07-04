@@ -30,12 +30,12 @@
                 <a href="#" class="navbar-link">Moje konto</a>
             </div>
         </nav>
-        <div class="container main-box">
+        <div th:each="patient: ${patients}" class="container main-box">
             <div class="left-side">
                 <div class="avatar">Avatar</div>
                 <div class="data">
-                    <h6>Artur Augustyn</h6>
-                    <span>artur.augustyn26@gmail.com</span>
+                    <h6 th:text="${patient.getName()}"></h6>
+                    <span th:text="${patient.getEmail()}">artur.augustyn26@gmail.com</span>
                 </div>
                 <div class="settings">
                     <h6>Ustawienia</h6>
@@ -69,12 +69,15 @@
                 </div>
 
             </div>
-            <div class="visits-opinions" id="absoluteDiv">
-             
-                <div class="opinion">
-                    <h6>Wystawione lekarzowi: </h6>
-                </div>
-        
+            <div class="visits-opinions" id="absoluteDiv"><div >
+                 <div th:each="OneOpinion: ${patient.getOpinions()}" class="opinion">
+                     <span th:text="${'Wystawione lekarzowi: '
+                     + OneOpinion.getDoctor().getName()
+                     +' '+ OneOpinion.getDoctor().getSurname()
+                     }"> </span>
+                     <h6 th:text="${OneOpinion.getNote()}"></h6>
+                 </div>
+             </div>
             </div>
             
         </div>
