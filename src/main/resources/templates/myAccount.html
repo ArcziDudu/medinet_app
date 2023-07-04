@@ -30,7 +30,7 @@
             <a th:href="@{/account/user}" th:method="get" class="navbar-link">Moje konto</a>
         </div>
     </nav>
-    <div class="container main-box">
+    <div th:each="patient : ${patients}" class="container main-box">
         <div class="left-side">
             <div class="avatar">Avatar</div>
             <div class="data">
@@ -43,7 +43,7 @@
 
             </div>
         </div>
-        <div class=" container rigth-side">
+        <div th:each="opinion : ${patient}" class="container rigth-side">
             <div class="nav">
                 <button id="visits">Moje wizyty</button>
                 <button id="opinions">Moje Opinie</button>
@@ -71,10 +71,14 @@
         </div>
         <div class="visits-opinions" id="absoluteDiv">
 
-            <div class="opinion">
-                <h6>Wystawione lekarzowi: </h6>
+            <div th:each="opinion : ${patient.getOpinions()}">
+                <div th:each="OneOpinion : ${opinion}" class="opinion">
+                    <span th:text="${'Wystawione lekarzowi: ' +
+                     OneOpinion.getDoctor().getName()+ ' ' +
+                     OneOpinion.getDoctor().getSurname()}"></span>
+                    <h6 th:text="${OneOpinion.getNote()}"></h6>
+                </div>
             </div>
-
         </div>
 
     </div>
