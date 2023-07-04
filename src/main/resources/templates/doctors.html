@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link th:href = "@{/main.css}" rel="stylesheet">
-<!--    <link rel="stylesheet" href="../static/main.css">-->
+     <link th:href = "@{/main.css}" rel="stylesheet">
+<!--   <link rel="stylesheet" href="../static/main.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
         .available-hour {
@@ -74,12 +74,12 @@
             margin: 0 auto;
             top: 0;
             margin-left: 478px;
-            z-index: 999;
             opacity: 0;
             transition: opacity 0.5s;
         }
 
         .popup.show {
+            z-index: 1;
             opacity: 1;
             height: 346px;
         }
@@ -244,6 +244,7 @@
                                     <input type="submit" value="Szczegóły" class="btn" style="
                                        background-color: #2ead2e;
                                         color: white;
+                                        z-index: 1;
                                          font-weight: bold;
                                           border: 2px solid white;
                                            border-radius: 5px;
@@ -260,7 +261,7 @@
                             <div class="popup" th:id="'lekarz' + ${doctor.getDoctorId()}">
                                 <form action="#" th:action="@{/opinion/send}" th:object="${OpinionDto}" method="POST"
                                     style="display: flex;
-                                    z-index: 1;
+                                   
                                    flex-direction: column;
                                     align-items: center;
                                     margin-top: 50px;">
@@ -284,7 +285,7 @@
                     <div class="right-side" style="
                      width: 50%;
                           overflow-x: scroll;
-                          z-index: 999;
+                        
                             position: relative;">
 
 
