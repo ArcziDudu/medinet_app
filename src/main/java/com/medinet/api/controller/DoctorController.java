@@ -28,10 +28,6 @@ public class DoctorController {
     private final DateTimeFormatter polishDayFormatter
             = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
 
-
-    //Set to sort by doctor's specializations and cities
-
-
     @GetMapping("/doctors")
     public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
 
