@@ -7,7 +7,9 @@ import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -19,5 +21,13 @@ public class PatientRepository implements PatientDao {
     @Override
     public Optional<PatientDto> findById(Integer patientId) {
         return patientJpaRepository.findById(patientId).map(patientMapper::mapFromEntity);
+    }
+
+    @Override
+    public List<PatientDto> findAll() {
+        return patientJpaRepository.findAll()
+                .stream()
+                .map(patientMapper::mapFromEntity)
+                .collect(Collectors.toList());
     }
 }

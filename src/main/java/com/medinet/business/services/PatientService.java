@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,5 +27,11 @@ public class PatientService {
             throw new NotFoundException("Could not find patient by id: [%s]".formatted(patientId));
         }
         return patientById.get();
+    }
+
+    public List<PatientDto> findAllPatients() {
+        List<PatientDto> patients = patientDao.findAll();
+        log.info("Available patients: [{}]", patients.size());
+        return patients;
     }
 }

@@ -198,8 +198,6 @@ body {
 .visits-opinions {
     flex-direction: column;
     position: absolute;
-    justify-content: center;
-    align-items: center;
     height: 285px;
     width: 760px;
     background-color: var(--primary-color);
@@ -215,7 +213,6 @@ body {
     width: 90%;
     margin-bottom: 15px;
     min-height: 120px;
-    position: relative;
     color: black;
     font-weight: bold;
 }

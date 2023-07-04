@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -19,11 +20,10 @@ public class PatientController {
 
     @GetMapping("/account/user")
     public String showUsersPage( Model model) {
+        PatientDto currentPatient = patientService.findById(1);
+        List<PatientDto> allPatients = patientService.findAllPatients();
 
-        PatientDto userPatient = patientService.findById(2);
-
-        model.addAttribute("patient", userPatient);
-
+        model.addAttribute("patients", allPatients);
 
         return "myAccount";
     }
