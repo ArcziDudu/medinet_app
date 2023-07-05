@@ -21,7 +21,6 @@ public class DoctorService {
     private final DoctorDao doctorDao;
 
     public List<DoctorDto> findAllDoctors() {
-
         return doctorDao.findAllDoctors();
     }
 

@@ -25,7 +25,7 @@ public class AppointmentEntity {
     private String timeOfVisit;
 
     @Column(name = "status")
-    private Boolean status;
+    private String status;
 
     @Column(name = "note")
     private String noteOfAppointment;

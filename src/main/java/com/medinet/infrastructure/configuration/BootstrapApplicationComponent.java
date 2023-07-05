@@ -11,13 +11,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -25,8 +24,9 @@ import java.util.List;
 public class BootstrapApplicationComponent implements ApplicationListener<ContextRefreshedEvent> {
     private DoctorJpaRepository doctorJpaRepository;
     private CalendarJpaRepository calendarJpaRepository;
+
     public static List<LocalDate> generateDateList() {
-        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDate = LocalDate.now();  // Zaczynamy zawsze od jutra
         LocalDate endDate = currentDate.plusWeeks(2);
 
         List<LocalDate> dateTimeList = new ArrayList<>();
@@ -37,26 +37,29 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
             }
             currentDate = currentDate.plusDays(1);
         }
-
+        Collections.sort(dateTimeList);
         return dateTimeList;
     }
-    public List<String> HoursArrayGenerator(){
-        LocalTime startTime = LocalTime.of(8, 0);
-        LocalTime endTime = LocalTime.of(16, 0);
+
+
+    public List<String> hoursArrayGenerator() {
+        LocalTime startTime = LocalTime.of(16, 0);
+        LocalTime endTime = LocalTime.of(22, 35);
 
         List<String> hours = new ArrayList<>();
         LocalTime currentTime = startTime;
         while (currentTime.isBefore(endTime)) {
-            hours.add(currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
-            currentTime = currentTime.plusHours(1);
+                hours.add(currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+                currentTime = currentTime.plusHours(1);
         }
         return hours;
     }
+
     @Override
     @Transactional
     public void onApplicationEvent(final @NonNull ContextRefreshedEvent event) {
         List<LocalDate> twoWeeksDatesForDoctors = generateDateList();
-        List<String> hours = HoursArrayGenerator();
+        List<String> hours = hoursArrayGenerator();
 
         List<DoctorEntity> all = doctorJpaRepository.findAll();
 
@@ -65,11 +68,12 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
 
                 for (DoctorEntity doctor : all) {
                     CalendarEntity calendar = new CalendarEntity();
-                    calendar.setDoctor(doctor);
-                    calendar.setDate(date);
-                    calendar.setHours(hours);
-                    calendarJpaRepository.save(calendar);
+                        calendar.setDoctor(doctor);
+                        calendar.setDate(date);
+                        calendar.setHours(hours);
+                        calendarJpaRepository.save(calendar);
                 }
             }
         }
-    }}
+    }
+}

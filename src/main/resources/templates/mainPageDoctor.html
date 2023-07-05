@@ -12,30 +12,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!--     <link th:href = "@{/main.css}" rel="stylesheet">-->
-   <link rel="stylesheet" href="../static/doctor_page.css">
+     <link th:href = "@{/doctor_page.css}" rel="stylesheet">
+<!--   <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
-        .available-hour {
-            background-color: #3f7293;
-            height: 30px;
-            width: 80px;
-            margin-bottom: 15px;
-            border-radius: 20px;
-            line-height: 30px;
-            color: white;
-            transition: background-color 0.3s, opacity 0.3s;
-        }
-
-        .available-hour {
-            border: 2px solid white;
-            cursor: pointer;
-            background-color: cornflowerblue;
-        }
-
-        .available-hour:hover {
-            background-color: #0c75c031;
-        }
 
         .page-button {
             margin-right: 25px;
@@ -62,27 +42,6 @@
             color: white;
         }
 
-        .doctor-info {
-            position: relative;
-        }
-
-        .popup {
-            width: 498px;
-            height: 0px;
-            background-color: rgb(108, 165, 162);
-            position: absolute;
-            margin: 0 auto;
-            top: 0;
-            margin-left: 478px;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        .popup.show {
-            z-index: 1;
-            opacity: 1;
-            height: 346px;
-        }
     </style>
 </head>
 
@@ -105,174 +64,43 @@
                 </div>
             </div>
             <div class="container">
-                <button th:if="${!doctors.first}" class="page-button"
+                <button class="page-button"
                     style="border-radius: 25px 0 0 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/doctors(page=${doctors.number - 1})}">Nadchodzące</a>
+                    <a class="button-link" th:href="@{/doctor}">Nadchodzące</a>
                 </button>
 
-                <button th:if="${doctors.hasNext}" class="page-button next"
+                <button class="page-button next"
                     style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/doctors(page=${doctors.number + 1})}">Oczekujące</a>
+                    <a class="button-link" th:href="@{/doctor/appointment/pending}">Oczekujące</a>
                 </button>
 
-                <button th:if="${doctors.hasNext}" class="page-button next"
+                <button class="page-button next"
                     style="border-radius: 0 25px 25px 0; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/doctors(page=${doctors.number + 1})}">Zakończone</a>
+                    <a class="button-link" th:href="@{/doctor/appointment/executed}">Zakończone</a>
                 </button>
             </div>
 
 
                 <div class="container reserved-appointments">
+                    <div th:each="appointment :${upcomingAppointment}" >
                     <div class="visit-invoice">
                         <div class="up-side">
-                            <h6 style="color: black;" th:text="${invoice.getUUID()}">Numer wizyty</h6>
-                            <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}">Data</h6>
-                            <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}">Godzina</h6>
+                            <h6 style="color: black;" th:text="${appointment.getUUID()}">Numer wizyty</h6>
+                            <h6 th:text="${'Data wizyty: '+ appointment.getDateOfAppointment()}">Data</h6>
+                            <h6 th:text="${'Godzina: '+ appointment.getTimeOfVisit()}">Godzina</h6>
                             <h6 style="color: black;"
-                                th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                            +' ' +invoice.getPatient().getSurname()}">Pacjent</h6>
-                            <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
-                            ' '+ invoice.getDoctor().getSurname()}">Lekarz</h6>
+                                th:text="${'Imię i nazwisko: ' + appointment.getPatient().getName()
+                            +' ' +appointment.getPatient().getSurname()}">Pacjent</h6>
+                            <h6 th:text="${'Lekarz: ' + appointment.getDoctor().getName() +
+                            ' '+ appointment.getDoctor().getSurname()}">Lekarz</h6>
                             <h6 th:text="${'Temat: Wizyta u specjalisty - '
-                            +invoice.getDoctor().getSpecialization()}">Temat</h6>
+                            +appointment.getDoctor().getSpecialization()}">Temat</h6>
                         </div>
-                        <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                              th:method="DELETE">
-                            <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />
-                            <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />
-                            <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />
-                            <input type="submit" value="Anuluj" class="btn" style="
-                               background-color: red;
-                                color: white;
-                                z-index: 1;
-                                 font-weight: bold;
-                                  border: 2px solid white;
-                                   border-radius: 20px;
-                                    margin-top: 25px;
-                                    margin-bottom: 20px;
-                                    width: 135px;">
-                        </form>
-                    </div>
-                    <div class="visit-invoice">
-                        <div class="up-side">
-                            <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
-                            <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
-                            <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
-                            <h6 style="color: black;"
-                                th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                            +' ' +invoice.getPatient().getSurname()}">: </h6>
-                            <h6 th:text="${'Adres przychodni: '+
-                             invoice.getDoctor().getAddress().getCity() + ' '+
-                             invoice.getDoctor().getAddress().getStreet()}"></h6>
-                            <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
-                            ' '+ invoice.getDoctor().getSurname()}"></h6>
-                            <h6 th:text="${'Temat: Wizyta u specjalisty - '
-                            +invoice.getDoctor().getSpecialization()}"></h6>
-                        </div>
-                        <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                              th:method="DELETE">
-                            <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />
-                            <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />
-                            <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />
-                            <input type="submit" value="Anuluj" class="btn" style="
-                               background-color: red;
-                                color: white;
-                                z-index: 1;
-                                 font-weight: bold;
-                                  border: 2px solid white;
-                                   border-radius: 20px;
-                                    margin-top: 25px;
-                                    margin-bottom: 20px;
-                                    width: 135px;">
-                        </form>
-                    </div>
-                    <div class="visit-invoice">
-                        <div class="up-side">
-                            <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
-                            <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
-                            <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
-                            <h6 style="color: black;"
-                                th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                            +' ' +invoice.getPatient().getSurname()}">: </h6>
-                            <h6 th:text="${'Adres przychodni: '+
-                             invoice.getDoctor().getAddress().getCity() + ' '+
-                             invoice.getDoctor().getAddress().getStreet()}"></h6>
-                            <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
-                            ' '+ invoice.getDoctor().getSurname()}"></h6>
-                            <h6 th:text="${'Temat: Wizyta u specjalisty - '
-                            +invoice.getDoctor().getSpecialization()}"></h6>
-                        </div>
-                        <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                              th:method="DELETE">
-                            <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />
-                            <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />
-                            <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />
-                            <input type="submit" value="Anuluj" class="btn" style="
-                               background-color: red;
-                                color: white;
-                                z-index: 1;
-                                 font-weight: bold;
-                                  border: 2px solid white;
-                                   border-radius: 20px;
-                                    margin-top: 25px;
-                                    margin-bottom: 20px;
-                                    width: 135px;">
-                        </form>
-                    </div>
-                    <div class="visit-invoice">
-                        <div class="up-side">
-                            <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
-                            <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
-                            <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
-                            <h6 style="color: black;"
-                                th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                            +' ' +invoice.getPatient().getSurname()}">: </h6>
-                            <h6 th:text="${'Adres przychodni: '+
-                             invoice.getDoctor().getAddress().getCity() + ' '+
-                             invoice.getDoctor().getAddress().getStreet()}"></h6>
-                            <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
-                            ' '+ invoice.getDoctor().getSurname()}"></h6>
-                            <h6 th:text="${'Temat: Wizyta u specjalisty - '
-                            +invoice.getDoctor().getSpecialization()}"></h6>
-                        </div>
-                        <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                              th:method="DELETE">
-                            <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />
-                            <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />
-                            <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />
-                            <input type="submit" value="Anuluj" class="btn" style="
-                               background-color: red;
-                                color: white;
-                                z-index: 1;
-                                 font-weight: bold;
-                                  border: 2px solid white;
-                                   border-radius: 20px;
-                                    margin-top: 25px;
-                                    margin-bottom: 20px;
-                                    width: 135px;">
-                        </form>
-                    </div>
-                      <div class="visit-invoice">
-                        <div class="up-side">
-                            <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
-                            <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
-                            <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
-                            <h6 style="color: black;"
-                                th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                            +' ' +invoice.getPatient().getSurname()}">: </h6>
-                            <h6 th:text="${'Adres przychodni: '+
-                             invoice.getDoctor().getAddress().getCity() + ' '+
-                             invoice.getDoctor().getAddress().getStreet()}"></h6>
-                            <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
-                            ' '+ invoice.getDoctor().getSurname()}"></h6>
-                            <h6 th:text="${'Temat: Wizyta u specjalisty - '
-                            +invoice.getDoctor().getSpecialization()}"></h6>
-                        </div>
-                        <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                              th:method="DELETE">
-                            <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />
-                            <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />
-                            <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />
+                        <form id="doctorDetails"th:action="@{/booking/remove/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}"
+                              th:method="DELETE" >
+                            <input type="hidden" name="calendarDate" th:value="${appointment.getDateOfAppointment()}" />
+                            <input type="hidden" name="selectedHour" th:value="${appointment.getTimeOfVisit()}" />
+                            <input type="hidden" name="calendarId" th:value="${appointment.getCalendarId()}" />
                             <input type="submit" value="Anuluj" class="btn" style="
                                background-color: red;
                                 color: white;
@@ -286,7 +114,7 @@
                         </form>
                     </div>
                 </div>
-              
+
 
             </div>
 

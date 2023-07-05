@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OpinionService {
     private final OpinionDao opinionDao;
-    private PatientService patientService;
 
     @Transactional
     public void processOpinion(OpinionEntity opinion) {

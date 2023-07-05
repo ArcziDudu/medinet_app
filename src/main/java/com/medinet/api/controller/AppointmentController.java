@@ -1,5 +1,6 @@
 package com.medinet.api.controller;
 
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.OpinionDto;
 import com.medinet.api.dto.PatientDto;
@@ -33,7 +34,7 @@ public class AppointmentController {
     private PatientMapper patientMapper;
 
     @GetMapping("/request")
-    public String bookAppointment(@RequestParam("doctorId") Integer doctorId,
+    public String bookingAppointment(@RequestParam("doctorId") Integer doctorId,
                                   @RequestParam("patientId") Integer patientId,
                                   @RequestParam("selectedHour") String timeOfVisit,
                                   @RequestParam("selectedDate") LocalDate dateOfAppointment,
@@ -51,13 +52,11 @@ public class AppointmentController {
         model.addAttribute("selectedHour", timeOfVisit);
         model.addAttribute("selectedDate", dateOfAppointment);
         model.addAttribute("visitNumber", UUID);
-        System.out.println(UUID);
-
         return "appointment";
     }
 
     @PostMapping("/booking/appointment")
-    public String showUsersPage(
+    public String sendRequestToQueue(
             @ModelAttribute("DoctorDto") DoctorDto doctorDto,
             @ModelAttribute("PatientDto") PatientDto patientDto,
             @RequestParam("DateOfAppointment") LocalDate dateOfAppointment,
@@ -76,13 +75,19 @@ public class AppointmentController {
         appointment.setIssueInvoice(appointmentService.issueInvoice());
         appointment.setCalendarId(calendarId);
         System.out.println(appointmentService.issueInvoice());
-        appointment.setStatus(true);
+        appointment.setStatus("pending");
        appointmentService.processAppointment(appointment);
-
 
         return "redirect:/doctors";
     }
 
+    @PostMapping("/appointment/approve/{appointmentId}")
+    public String  approveAppointment( @PathVariable(value = "appointmentId") Integer appointmentID,
+                                       @RequestParam("message") String message){
+      appointmentService.approveAppointment(appointmentID, message);
+
+        return "redirect:/doctor";
+    }
     @DeleteMapping("booking/remove/{appointmentId}")
     public String removeAppointment(
             @PathVariable(value = "appointmentId") Integer appointmentID,
@@ -92,8 +97,8 @@ public class AppointmentController {
 
         appointmentService.processRemovingAppointment(appointmentID,calendarHour, calendarId);
         PatientDto currentPatient = patientService.findById(1);
-        List<AppointmentEntity> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
-        List<AppointmentEntity> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+        List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
+        List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 
         model.addAttribute("CurrentPatient", currentPatient);
         model.addAttribute("calendarId", calendarId);
