@@ -26,7 +26,7 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
     private CalendarJpaRepository calendarJpaRepository;
 
     public static List<LocalDate> generateDateList() {
-        LocalDate currentDate = LocalDate.now();  // Zaczynamy zawsze od jutra
+        LocalDate currentDate = LocalDate.now().plusDays(1);  // Zaczynamy zawsze od jutra
         LocalDate endDate = currentDate.plusWeeks(2);
 
         List<LocalDate> dateTimeList = new ArrayList<>();
@@ -43,8 +43,8 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
 
 
     public List<String> hoursArrayGenerator() {
-        LocalTime startTime = LocalTime.of(16, 0);
-        LocalTime endTime = LocalTime.of(22, 35);
+        LocalTime startTime = LocalTime.of(8, 0);
+        LocalTime endTime = LocalTime.of(16, 0);
 
         List<String> hours = new ArrayList<>();
         LocalTime currentTime = startTime;

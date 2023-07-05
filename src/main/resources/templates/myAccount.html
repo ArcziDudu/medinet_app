@@ -67,6 +67,7 @@
                                     ' '+ invoice.getDoctor().getSurname()}"></h6>
                                     <h6 th:text="${'Temat: Wizyta u specjalisty - '
                                     +invoice.getDoctor().getSpecialization()}"></h6>
+
                                 </div>
                                 <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
                                       th:method="DELETE">
@@ -105,6 +106,7 @@
                                     ' '+ invoice.getDoctor().getSurname()}"></h6>
                                   <h6 th:text="${'Temat: Wizyta u specjalisty - '
                                     +invoice.getDoctor().getSpecialization()}"></h6>
+                                  <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}">gdfsg</p>
                               </div>
                           </div>
                       </div>

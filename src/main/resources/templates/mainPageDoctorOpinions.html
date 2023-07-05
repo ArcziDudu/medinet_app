@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!--     <link th:href = "@{/main.css}" rel="stylesheet">-->
-   <link rel="stylesheet" href="../static/doctor_page.css">
+     <link th:href = "@{/myAccount.css}" rel="stylesheet">
+<!--   <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
         .available-hour {
@@ -107,26 +107,12 @@
 
                 <div class="container reserved-appointments">
   
-                        <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="opinion">
-                            <span th:text="${'Wystawione lekarzowi: '
-                            + OneOpinion.getDoctor().getName()
-                            +' '+ OneOpinion.getDoctor().getSurname()
-                            }">fhjkasghdfghasjdh</span>
+                        <div th:each="OneOpinion: ${doctor.getOpinions()}" class="opinion">
+                            <span th:text="${'Data: ' +OneOpinion.getDateOfCreateOpinion()}"></span>
                             <h6 th:text="${OneOpinion.getNote()}"></h6>
-                        </div>
-                        <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="opinion">
-                            <span th:text="${'Wystawione lekarzowi: '
-                            + OneOpinion.getDoctor().getName()
-                            +' '+ OneOpinion.getDoctor().getSurname()
-                            }">fhjkasghdfghasjdh</span>
-                            <h6 th:text="${OneOpinion.getNote()}"></h6>
+                            <h6 th:text="${OneOpinion.getPatient()}"></h6>
                         </div>
                    </div>
-                </div>
-              
-
-            </div>
-
         </section>
     </div>
 

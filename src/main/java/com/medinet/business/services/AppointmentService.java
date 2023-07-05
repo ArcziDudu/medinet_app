@@ -51,11 +51,15 @@ public class AppointmentService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             if (appointment.getDateOfAppointment().isBefore(today)
                     || (appointment.getDateOfAppointment().equals(today)
-                    && now.isAfter(LocalTime.parse(appointment.getTimeOfVisit(), formatter)))) {
+                    && now.equals(LocalTime.parse(appointment.getTimeOfVisit(), formatter)))) {
                 appointment.setStatus("pending");
             } else {
                 appointment.setStatus("upcoming");
             }
+            Optional<CalendarEntity> calendar = calendarService.findById(appointment.getCalendarId());
+            calendar.orElseThrow().getHours().remove(appointment.getTimeOfVisit());
+
+
             appointmentDao.saveAppointment(appointment);
         }
 
