@@ -1,5 +1,6 @@
 package com.medinet.business.services;
 
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
@@ -54,7 +55,7 @@ public class AppointmentService {
     public List<AppointmentEntity> findCompletedAppointments(PatientDto currentPatient) {
         LocalDateTime now = LocalDateTime.now();
 
-        return currentPatient.getAppointments().stream()
+        List<AppointmentEntity> completedAppointments = currentPatient.getAppointments().stream()
                 .filter(a -> {
                     LocalDate appointmentDate = a.getDateOfAppointment();
                     LocalTime appointmentTime = LocalTime.parse(a.getTimeOfVisit());
@@ -62,6 +63,9 @@ public class AppointmentService {
                     return appointmentDateTime.isBefore(now);
                 })
                 .collect(Collectors.toList());
+
+//        completedAppointments.forEach(a -> a.setStatus("done"));
+        return completedAppointments;
     }
 
     public List<AppointmentEntity> findUpcomingAppointments(PatientDto currentPatient) {
@@ -77,7 +81,8 @@ public class AppointmentService {
                 })
                 .collect(Collectors.toList());
     }
-@Transactional
+
+    @Transactional
     public void processRemovingAppointment(Integer appointmentID,
                                            String calendarHour,
                                            Integer calendarId) {
@@ -93,5 +98,9 @@ public class AppointmentService {
 
 
         appointmentDao.removeAppointment(appointmentID);
+    }
+
+    public List<AppointmentDto> findAllCompletedAppointments(String status) {
+        return appointmentDao.findAllByStatus(status);
     }
 }
