@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,43 +34,45 @@ public class AppointmentService {
         return uuid.toString();
     }
 
-
-    @Transactional
-    public void processAppointment(AppointmentEntity appointment) {
-
-
-        doctorService.findDoctorById(appointment.getDoctor().getDoctorId())
-                .getCalendars()
-                .forEach(calendar -> calendar.getHours()
-                        .removeIf(value -> value.equals(appointment.getTimeOfVisit())
-                                && calendar.getDate().equals(appointment.getDateOfAppointment())));
-        appointment.setStatus("upcoming");
-
-        appointmentDao.saveAppointment(appointment);
-    }
-
-
     public OffsetDateTime issueInvoice() {
         return OffsetDateTime.now();
     }
 
-    public List<AppointmentDto> findCompletedAppointments(PatientDto currentPatient) {
-        LocalDateTime now = LocalDateTime.now();
+    public List<AppointmentDto> findAllCompletedAppointments(String status) {
+        return appointmentDao.findAllByStatus(status);
+    }
 
-       return currentPatient.getAppointments().stream()
-                .filter(a -> {
-                    LocalDate appointmentDate = a.getDateOfAppointment();
-                    LocalTime appointmentTime = LocalTime.parse(a.getTimeOfVisit());
-                    LocalDateTime appointmentDateTime = LocalDateTime.of(appointmentDate, appointmentTime);
-                    return appointmentDateTime.isBefore(now);
-                }).map(appointmentMapper::mapFromEntity).collect(Collectors.toList());
+
+    @Transactional
+    public void processAppointment(AppointmentEntity appointment) {
+        {
+            LocalDate today = LocalDate.now();
+            LocalTime now = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            if (appointment.getDateOfAppointment().isBefore(today)
+                    || (appointment.getDateOfAppointment().equals(today)
+                    && now.isAfter(LocalTime.parse(appointment.getTimeOfVisit(), formatter)))) {
+                appointment.setStatus("pending");
+            } else {
+                appointment.setStatus("upcoming");
+            }
+            appointmentDao.saveAppointment(appointment);
+        }
 
     }
 
+
     public List<AppointmentDto> findUpcomingAppointments(PatientDto currentPatient) {
-       return currentPatient.getAppointments().stream().filter(a->a.getStatus().equals("upcoming"))
+        return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("upcoming"))
                 .map(appointmentMapper::mapFromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public List<AppointmentDto> findCompletedAppointments(PatientDto currentPatient) {
+        return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("done"))
+                .map(appointmentMapper::mapFromEntity)
+                .collect(Collectors.toList());
+
     }
 
     @Transactional
@@ -77,7 +80,7 @@ public class AppointmentService {
                                            String calendarHour,
                                            Integer calendarId) {
         Optional<CalendarEntity> calendar = calendarService.findById(calendarId);
-        List<String> hours = calendar.get().getHours();
+        List<String> hours = calendar.orElseThrow().getHours();
         hours.add(calendarHour);
         hours.sort(new Comparator<String>() {
             @Override
@@ -85,13 +88,7 @@ public class AppointmentService {
                 return hour1.compareTo(hour2);
             }
         });
-
-
         appointmentDao.removeAppointment(appointmentID);
-    }
-
-    public List<AppointmentDto> findAllCompletedAppointments(String status) {
-        return appointmentDao.findAllByStatus(status);
     }
 
     @Transactional

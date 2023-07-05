@@ -30,8 +30,10 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 
 	implementation 'org.flywaydb:flyway-core'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
 
-	runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

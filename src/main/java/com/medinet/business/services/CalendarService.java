@@ -25,6 +25,11 @@ public class CalendarService {
 
 
     public Optional<CalendarEntity> findById(Integer calendarId) {
-        return calendarDao.findById(calendarId);
+        Optional<CalendarEntity> calendar = calendarDao.findById(calendarId);
+        if(calendar.isEmpty()){
+                log.error("Problem with calendar service. Calendar with id [%s] not found!"
+                        .formatted(calendarId));
+        }
+        return calendar;
     }
 }
