@@ -1,6 +1,7 @@
 package com.medinet.api.dto;
 
 import com.medinet.infrastructure.entity.AddressEntity;
+import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,5 @@ public class DoctorDto {
     private String specialization;
     private AddressEntity address;
     private Set<CalendarEntity> calendars;
+    Set<AppointmentEntity> appointments;
 }

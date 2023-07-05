@@ -39,6 +39,8 @@ public class AppointmentEntity {
     @Column(name = "date_of_appointment")
     private LocalDate dateOfAppointment;
 
+    @Column(name = "calendar_id")
+    private Integer calendarId;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)

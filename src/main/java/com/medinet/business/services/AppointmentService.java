@@ -15,10 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +25,7 @@ import java.util.stream.Stream;
 public class AppointmentService {
     private final AppointmentDao appointmentDao;
     private final DoctorService doctorService;
+    private final CalendarService calendarService;
 
     public String getVisitNumber() {
         UUID uuid = UUID.randomUUID();
@@ -54,7 +52,6 @@ public class AppointmentService {
     }
 
     public List<AppointmentEntity> findCompletedAppointments(PatientDto currentPatient) {
-        LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
 
         return currentPatient.getAppointments().stream()
@@ -66,7 +63,6 @@ public class AppointmentService {
                 })
                 .collect(Collectors.toList());
     }
-
 
     public List<AppointmentEntity> findUpcomingAppointments(PatientDto currentPatient) {
         LocalDate today = LocalDate.now();
@@ -80,5 +76,22 @@ public class AppointmentService {
                     return (appointmentDate.isEqual(today) && appointmentDateTime.isAfter(now)) || appointmentDate.isAfter(today);
                 })
                 .collect(Collectors.toList());
+    }
+@Transactional
+    public void processRemovingAppointment(Integer appointmentID,
+                                           String calendarHour,
+                                           Integer calendarId) {
+        Optional<CalendarEntity> calendar = calendarService.findById(calendarId);
+        List<String> hours = calendar.get().getHours();
+        hours.add(calendarHour);
+        hours.sort(new Comparator<String>() {
+            @Override
+            public int compare(String hour1, String hour2) {
+                return hour1.compareTo(hour2);
+            }
+        });
+
+
+        appointmentDao.removeAppointment(appointmentID);
     }
 }

@@ -40,7 +40,7 @@ public class PatientEntity {
     private AddressEntity address;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient", cascade = CascadeType.REMOVE)
     private Set<AppointmentEntity> appointments;
 
     @JsonManagedReference
