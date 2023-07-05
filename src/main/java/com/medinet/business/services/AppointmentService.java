@@ -42,7 +42,8 @@ public class AppointmentService {
         doctorService.findDoctorById(appointment.getDoctor().getDoctorId())
                 .getCalendars()
                 .forEach(calendar -> calendar.getHours()
-                        .removeIf(value -> value.equals(appointment.getTimeOfVisit())));
+                        .removeIf(value -> value.equals(appointment.getTimeOfVisit())
+                                && calendar.getDate().equals(appointment.getDateOfAppointment())));
 
         appointmentDao.saveAppointment(appointment);
     }
@@ -61,7 +62,7 @@ public class AppointmentService {
                     LocalDate appointmentDate = a.getDateOfAppointment();
                     LocalTime appointmentTime = LocalTime.parse(a.getTimeOfVisit());
                     LocalDateTime appointmentDateTime = LocalDateTime.of(appointmentDate, appointmentTime);
-                    return appointmentDateTime.isBefore(now); // Dodatkowy warunek - sprawdzanie, czy wizyta jest wcześniejsza niż dzisiaj
+                    return appointmentDateTime.isBefore(now);
                 })
                 .collect(Collectors.toList());
     }
