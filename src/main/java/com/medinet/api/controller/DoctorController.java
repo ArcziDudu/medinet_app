@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.format.DateTimeFormatter;
@@ -76,9 +77,9 @@ public class DoctorController {
         return "doctors";
     }
 
-    @GetMapping("/details/doctor")
+    @GetMapping("/doctor/details/{doctorId}")
     public String showSortedDoctorsPage(
-            @RequestParam(value = "doctorId") Integer doctorId,
+            @PathVariable(value = "doctorId") Integer doctorId,
             Model model) {
         DoctorDto doctorProfile = doctorService.findDoctorById(doctorId);
 

@@ -239,8 +239,7 @@
                                 </div>
                             </div>
                             <div class="details" style="margin: -20px auto 0 auto">
-                                <form id="doctorDetails" th:action="@{/details/doctor}" method="get">
-                                    <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId}" />
+                                <form id="doctorDetails" th:action="@{/doctor/details/{doctorId}(doctorId=${doctor.getDoctorId()})}" method="get">
                                     <input type="submit" value="Szczegóły" class="btn" style="
                                        background-color: #2ead2e;
                                         color: white;
