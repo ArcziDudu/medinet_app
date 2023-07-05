@@ -17,7 +17,6 @@ body {
     text-align: center;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    overflow: hidden;
 }
 
 .down-navigation {
@@ -27,11 +26,12 @@ body {
     align-items: center;
     position: absolute;
     height: 50px;
+    line-height: 50px;
     width: 100%;
     color: white;
     font-weight: bold;
-    bottom: 20px;
-
+    bottom: 0;
+    display: none;
 }
 
 .navbar {
@@ -68,10 +68,12 @@ body {
 
 .main-box {
     display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #e4edf4;
     padding: 30px;
     margin-bottom: 50px;
-    height: 400px;
+    height: 600px;
 }
 
 .left-side {
@@ -81,6 +83,7 @@ body {
     padding: 20px;
     background-color: #fff;
     border: 4px solid var(--primary-color);
+    height: 400px;
 }
 
 .avatar {
@@ -159,8 +162,17 @@ body {
     background-color: #2fa6d1d4;
 }
 
+.visit-invoice {
+    height: auto;
+    width: 280px;
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px auto;
+}
+
 .visits-appointments {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     padding: 20px;
     width: 100%;
@@ -171,17 +183,6 @@ body {
     overflow-y: scroll;
     position: relative;
 
-}
-
-.visit-invoice {
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 20px;
-    height: 380px;
-    width: 300px;
-    padding: 20px;
-    background-color: #fff;
-    margin-bottom: 20px;
 }
 
 .up-side {
