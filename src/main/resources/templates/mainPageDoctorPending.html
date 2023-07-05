@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link th:href = "@{/doctor_page.css}" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="../static/doctor_page.css"> -->
+    <link th:href="@{/doctor_page.css}" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
 
@@ -97,10 +97,24 @@
                         <h6 th:text="${'Temat: Wizyta u specjalisty - '
                             +appointment.getDoctor().getSpecialization()}">Temat</h6>
                     </div>
-                        <form th:action="@{/appointment/approve/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}" method="post">
-                            <input type="hidden" th:name="noteToAppointment" th:value="${selectedDate}"/>
-                            <button type="submit" class="btn">Zatwierdź</button>
-                        </form>
+                    <form th:action="@{/appointment/approve/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}"
+                          method="post" style="display:flex; flex-direction: column">
+                        <input type="hidden" th:name="noteToAppointment" th:value="${selectedDate}"/>
+                        <label for="message">Zalecenia</label>
+                        <textarea id="message" name="message" rows="3" cols="25" style="margin-bottom: 20px"
+                                  required></textarea>
+                        <button type="submit" class="btn" style="
+        background-color: green;
+        color: white;
+        font-weight: bold;
+        border: 2px solid white;
+        border-radius: 20px;
+        margin: auto;
+        width: 135px;
+    ">Zatwierdź
+                        </button>
+                    </form>
+
                 </div>
             </div>
         </div>

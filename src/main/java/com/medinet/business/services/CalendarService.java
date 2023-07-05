@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,6 @@ public class CalendarService {
 
     public List<CalendarDto> findAllCalendar() {
         List<CalendarDto> calendars = calendarDao.findAllCalendar();
-
         log.info("Available calendars: [{}]", calendars.size());
         return calendars;
     }
