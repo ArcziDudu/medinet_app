@@ -97,27 +97,10 @@
                         <h6 th:text="${'Temat: Wizyta u specjalisty - '
                             +appointment.getDoctor().getSpecialization()}">Temat</h6>
                     </div>
-                    <form id="doctorDetails"
-                          th:action="@{/booking/remove/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}"
-                          th:method="DELETE">
-                        <input type="hidden" name="calendarDate" th:value="${appointment.getDateOfAppointment()}"/>
-                        <input type="hidden" name="selectedHour" th:value="${appointment.getTimeOfVisit()}"/>
-                        <input type="hidden" name="calendarId" th:value="${appointment.getCalendarId()}"/>
-                        <form action="/submit" method="post">
-                            <label for="content">Notatka do wizyty / zalecenia:</label>
-                            <textarea class="custom-textarea" id="content" name="content"></textarea>
+                        <form th:action="@{/appointment/approve/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}" method="post">
+                            <input type="hidden" th:name="noteToAppointment" th:value="${selectedDate}"/>
+                            <button type="submit" class="btn">Zatwierdź</button>
                         </form>
-                        <input type="submit" value="Zatwierdź" class="btn" style="
-                               background-color: rgb(42, 209, 87);
-                                color: white;
-                                z-index: 1;
-                                 font-weight: bold;
-                                  border: 2px solid white;
-                                   border-radius: 20px;
-                                    margin-top: 25px;
-                                    margin-bottom: 20px;
-                                    width: 135px;">
-                    </form>
                 </div>
             </div>
         </div>

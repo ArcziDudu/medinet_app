@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -29,6 +30,14 @@ public class AppointmentRepository implements AppointmentDao {
     @Override
     public List<AppointmentDto> findAllByStatus(String status) {
         return appointmentJpaRepository.findAllByStatus(status).stream()
-                .map(appointmentMapper::mapFromEntity).collect(Collectors.toList());
+                .map(appointmentMapper::mapFromEntity)
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<AppointmentEntity> findById(Integer appointmentID) {
+        return appointmentJpaRepository.findById(appointmentID);
+    }
+
+
 }
