@@ -14,12 +14,12 @@ import com.medinet.infrastructure.repository.mapper.OpinionMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -50,5 +50,14 @@ public class OpinionController {
         opinion.setDateOfCreateOpinion(OffsetDateTime.now()); // Ustaw aktualną datę
         opinionService.processOpinion(opinion);
         return "redirect:/doctors";
+    }
+    @GetMapping("/opinions/doctor/{doctorId}")
+    public String showDoctorOpinions(
+            @PathVariable("doctorId") Integer doctorId,
+            Model model
+    ) {
+        DoctorDto doctorById = doctorService.findDoctorById(doctorId);
+        model.addAttribute("doctor", doctorById);
+        return "mainPageDoctorOpinions";
     }
 }
