@@ -76,7 +76,7 @@ public class AppointmentController {
         appointment.setIssueInvoice(appointmentService.issueInvoice());
         appointment.setCalendarId(calendarId);
         System.out.println(appointmentService.issueInvoice());
-        appointment.setStatus("upcoming");
+        appointment.setStatus("pending");
        appointmentService.processAppointment(appointment);
 
 

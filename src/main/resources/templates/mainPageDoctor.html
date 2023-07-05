@@ -66,17 +66,17 @@
             <div class="container">
                 <button class="page-button"
                     style="border-radius: 25px 0 0 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/mainPageDoctor.html}">Nadchodzące</a>
+                    <a class="button-link" th:href="@{/doctor}">Nadchodzące</a>
                 </button>
 
                 <button class="page-button next"
                     style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/mainPageDoctorPending.html}">Oczekujące</a>
+                    <a class="button-link" th:href="@{/doctor/appointment/pending}">Oczekujące</a>
                 </button>
 
                 <button class="page-button next"
                     style="border-radius: 0 25px 25px 0; border: 2px solid white;">
-                    <a class="button-link" href="/mainPageDoctorFinished">Zakończone</a>
+                    <a class="button-link" th:href="@{/doctor/appointment/executed}">Zakończone</a>
                 </button>
             </div>
 
@@ -96,11 +96,11 @@
                             <h6 th:text="${'Temat: Wizyta u specjalisty - '
                             +appointment.getDoctor().getSpecialization()}">Temat</h6>
                         </div>
-                        <form id="doctorDetails"
-                              th:method="DELETE">
-<!--                            <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />-->
-<!--                            <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />-->
-<!--                            <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />-->
+                        <form id="doctorDetails"th:action="@{/booking/remove/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}"
+                              th:method="DELETE" >
+                            <input type="hidden" name="calendarDate" th:value="${appointment.getDateOfAppointment()}" />
+                            <input type="hidden" name="selectedHour" th:value="${appointment.getTimeOfVisit()}" />
+                            <input type="hidden" name="calendarId" th:value="${appointment.getCalendarId()}" />
                             <input type="submit" value="Anuluj" class="btn" style="
                                background-color: red;
                                 color: white;
