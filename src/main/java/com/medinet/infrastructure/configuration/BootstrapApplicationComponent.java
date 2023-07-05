@@ -57,7 +57,9 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
     public void onApplicationEvent(final @NonNull ContextRefreshedEvent event) {
         List<LocalDate> twoWeeksDatesForDoctors = generateDateList();
         List<String> hours = HoursArrayGenerator();
+
         List<DoctorEntity> all = doctorJpaRepository.findAll();
+
         for (LocalDate date : twoWeeksDatesForDoctors) {
             if (date.getDayOfWeek() != DayOfWeek.SATURDAY && date.getDayOfWeek() != DayOfWeek.SUNDAY) {
 

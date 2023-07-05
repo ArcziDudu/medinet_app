@@ -16,13 +16,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -39,6 +37,7 @@ public class AppointmentController {
                                   @RequestParam("patientId") Integer patientId,
                                   @RequestParam("selectedHour") String timeOfVisit,
                                   @RequestParam("selectedDate") LocalDate dateOfAppointment,
+                                  @RequestParam("calendarId") Integer calendarId,
                                   Model model) {
 
         DoctorDto doctor = doctorService.findDoctorById(doctorId);
@@ -47,6 +46,7 @@ public class AppointmentController {
 
 
         model.addAttribute("doctor", doctor);
+        model.addAttribute("calendarId", calendarId);
         model.addAttribute("patient", patient);
         model.addAttribute("selectedHour", timeOfVisit);
         model.addAttribute("selectedDate", dateOfAppointment);
@@ -62,7 +62,8 @@ public class AppointmentController {
             @ModelAttribute("PatientDto") PatientDto patientDto,
             @RequestParam("DateOfAppointment") LocalDate dateOfAppointment,
             @RequestParam("HourOfAppointment") String timeOfVisit,
-            @RequestParam("UUID") String UUID
+            @RequestParam("UUID") String UUID,
+            @RequestParam("calendarId") Integer calendarId
     ) {
         DoctorDto doctor = doctorService.findDoctorById(1);
         PatientDto patient = patientService.findById(1);
@@ -73,6 +74,7 @@ public class AppointmentController {
         appointment.setPatient(patientMapper.mapFromDto(patient));
         appointment.setTimeOfVisit(timeOfVisit);
         appointment.setIssueInvoice(appointmentService.issueInvoice());
+        appointment.setCalendarId(calendarId);
         System.out.println(appointmentService.issueInvoice());
         appointment.setStatus(true);
        appointmentService.processAppointment(appointment);
@@ -80,4 +82,24 @@ public class AppointmentController {
 
         return "redirect:/doctors";
     }
+
+    @DeleteMapping("booking/remove/{appointmentId}")
+    public String removeAppointment(
+            @PathVariable(value = "appointmentId") Integer appointmentID,
+            @RequestParam(value = "selectedHour") String  calendarHour,
+            @RequestParam(value = "calendarId") Integer  calendarId,
+            Model model){
+
+        appointmentService.processRemovingAppointment(appointmentID,calendarHour, calendarId);
+        PatientDto currentPatient = patientService.findById(1);
+        List<AppointmentEntity> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
+        List<AppointmentEntity> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+
+        model.addAttribute("CurrentPatient", currentPatient);
+        model.addAttribute("calendarId", calendarId);
+        model.addAttribute("UpcomingAppointments", UpcomingAppointments);
+        model.addAttribute("CompletedAppointments", completedAppointments);
+        return "redirect:/account/user";
+    }
+
 }

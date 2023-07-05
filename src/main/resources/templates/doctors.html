@@ -326,6 +326,7 @@
                                             <input type="hidden" th:name="selectedHour" th:value="${hour}" />
                                             <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId()}" />
                                             <input type="hidden" th:name="patientId" th:value="${1}" />
+                                            <input type="hidden" th:name="calendarId" th:value="${calendar.getCalendarId()}" />
                                             <input type="hidden" th:name="selectedDate" th:value="${calendar.getDate()}" />
                                             <button type="submit" class="available-hour">
                                                 <span th:text="${hour}"></span>

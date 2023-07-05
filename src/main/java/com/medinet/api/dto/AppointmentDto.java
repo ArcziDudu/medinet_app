@@ -24,4 +24,5 @@ public class AppointmentDto {
     LocalDate dateOfAppointment;
     PatientEntity patient;
     DoctorEntity doctor;
+    Integer calendarId;
 }

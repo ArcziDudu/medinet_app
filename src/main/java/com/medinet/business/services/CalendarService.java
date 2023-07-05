@@ -2,11 +2,13 @@ package com.medinet.business.services;
 
 import com.medinet.api.dto.CalendarDto;
 import com.medinet.business.dao.CalendarDao;
+import com.medinet.infrastructure.entity.CalendarEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,4 +24,7 @@ public class CalendarService {
     }
 
 
+    public Optional<CalendarEntity> findById(Integer calendarId) {
+        return calendarDao.findById(calendarId);
+    }
 }

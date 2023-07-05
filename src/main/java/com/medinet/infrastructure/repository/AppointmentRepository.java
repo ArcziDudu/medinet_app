@@ -15,4 +15,9 @@ public class AppointmentRepository implements AppointmentDao {
     public void saveAppointment(AppointmentEntity appointment) {
         appointmentJpaRepository.save(appointment);
     }
+
+    @Override
+    public void removeAppointment(Integer appointmentID) {
+        appointmentJpaRepository.deleteByAppointmentId(appointmentID);
+    }
 }

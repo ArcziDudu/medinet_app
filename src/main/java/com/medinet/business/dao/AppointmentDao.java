@@ -4,4 +4,6 @@ import com.medinet.infrastructure.entity.AppointmentEntity;
 
 public interface AppointmentDao {
     void saveAppointment(AppointmentEntity appointment);
+
+    void removeAppointment(Integer appointmentID);
 }

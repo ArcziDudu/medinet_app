@@ -68,6 +68,22 @@
                                     <h6 th:text="${'Temat: Wizyta u specjalisty - '
                                     +invoice.getDoctor().getSpecialization()}"></h6>
                                 </div>
+                                <form id="doctorDetails" th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
+                                      th:method="DELETE">
+                                    <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}" />
+                                    <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}" />
+                                    <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}" />
+                                    <input type="submit" value="Anuluj" class="btn" style="
+                                       background-color: red;
+                                        color: white;
+                                        z-index: 1;
+                                         font-weight: bold;
+                                          border: 2px solid white;
+                                           border-radius: 20px;
+                                            margin-top: 25px;
+                                            margin-bottom: 20px;
+                                            width: 135px;">
+                                </form>
                             </div>
                         </div>
                     </div>

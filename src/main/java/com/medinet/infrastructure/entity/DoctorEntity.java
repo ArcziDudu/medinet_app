@@ -45,7 +45,7 @@ public class DoctorEntity {
     private Set<CalendarEntity> calendars;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.REMOVE)
     private Set<AppointmentEntity> appointments;
 
 
