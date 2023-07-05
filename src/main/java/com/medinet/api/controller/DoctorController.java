@@ -47,9 +47,14 @@ public class DoctorController {
 
 
     @GetMapping(value = "/doctor")
-    public ModelAndView mechanicCheckPage() {
+    public ModelAndView doctorMainPage() {
         Map<String, ?> data = prepareNecessaryDataForDoctor();
         return new ModelAndView("mainPageDoctor", data);
+    }
+    @GetMapping(value = "/doctor/appointment/pending")
+    public ModelAndView doctorPendingPage() {
+        Map<String, ?> data = prepareNecessaryDataForDoctor();
+        return new ModelAndView("mainPageDoctorPending", data);
     }
     @GetMapping("/doctors")
     public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
