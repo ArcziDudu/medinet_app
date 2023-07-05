@@ -1,5 +1,6 @@
 package com.medinet.api.controller;
 
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.AppointmentService;
@@ -24,8 +25,8 @@ public class PatientController {
     @GetMapping("/account/user")
     public String showUsersPage(Model model) {
         PatientDto currentPatient = patientService.findById(1);
-        List<AppointmentEntity> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
-        List<AppointmentEntity> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+        List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
+        List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 
         model.addAttribute("CurrentPatient", currentPatient);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);

@@ -52,8 +52,6 @@ public class AppointmentController {
         model.addAttribute("selectedHour", timeOfVisit);
         model.addAttribute("selectedDate", dateOfAppointment);
         model.addAttribute("visitNumber", UUID);
-        System.out.println(UUID);
-
         return "appointment";
     }
 
@@ -85,9 +83,8 @@ public class AppointmentController {
 
     @PostMapping("/appointment/approve/{appointmentId}")
     public String  approveAppointment( @PathVariable(value = "appointmentId") Integer appointmentID,
-                                       @RequestParam("noteToAppointment") String note,
-                                       Model model){
-      appointmentService.approveAppointment(appointmentID);
+                                       @RequestParam("message") String message){
+      appointmentService.approveAppointment(appointmentID, message);
 
         return "redirect:/doctor";
     }
@@ -100,8 +97,8 @@ public class AppointmentController {
 
         appointmentService.processRemovingAppointment(appointmentID,calendarHour, calendarId);
         PatientDto currentPatient = patientService.findById(1);
-        List<AppointmentEntity> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
-        List<AppointmentEntity> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+        List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
+        List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 
         model.addAttribute("CurrentPatient", currentPatient);
         model.addAttribute("calendarId", calendarId);

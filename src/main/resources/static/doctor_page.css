@@ -80,10 +80,13 @@ body {
     overflow: scroll;
 }
 .visit-invoice {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
     height: 380px;
     width: 280px;
     padding: 20px;
-    text-align: left;
+
     font-weight: bold;
     background-color: var(--primary-color);
     margin: 20px auto;
