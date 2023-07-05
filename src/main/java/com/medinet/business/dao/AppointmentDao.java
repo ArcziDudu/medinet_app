@@ -4,6 +4,7 @@ import com.medinet.api.dto.AppointmentDto;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AppointmentDao {
     void saveAppointment(AppointmentEntity appointment);
@@ -11,4 +12,6 @@ public interface AppointmentDao {
     void removeAppointment(Integer appointmentID);
 
     List<AppointmentDto> findAllByStatus(String status);
+
+    Optional<AppointmentEntity> findById(Integer appointmentID);
 }

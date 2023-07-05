@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 public class AppointmentDto {
     Integer appointmentId;
     String timeOfVisit;
-    Boolean status;
+    String status;
     String noteOfAppointment;
     String UUID;
     OffsetDateTime issueInvoice;

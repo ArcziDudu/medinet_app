@@ -1,9 +1,9 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.AppointmentDto;
-import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
+import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import jakarta.transaction.Transactional;
@@ -15,10 +15,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -64,7 +62,6 @@ public class AppointmentService {
                 })
                 .collect(Collectors.toList());
 
-//        completedAppointments.forEach(a -> a.setStatus("done"));
         return completedAppointments;
     }
 
@@ -102,5 +99,16 @@ public class AppointmentService {
 
     public List<AppointmentDto> findAllCompletedAppointments(String status) {
         return appointmentDao.findAllByStatus(status);
+    }
+
+    @Transactional
+    public void approveAppointment(Integer appointmentID) {
+        Optional<AppointmentEntity> optionalAppointment = appointmentDao.findById(appointmentID);
+        if (optionalAppointment.isPresent()) {
+            AppointmentEntity appointment = optionalAppointment.get();
+            appointment.setStatus("done");
+        } else {
+            throw new NotFoundException("not foung");
+        }
     }
 }
