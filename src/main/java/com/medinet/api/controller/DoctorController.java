@@ -1,6 +1,7 @@
 package com.medinet.api.controller;
 
 import com.medinet.api.dto.DoctorDto;
+import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.CalendarService;
 import com.medinet.business.services.DoctorService;
 import lombok.AllArgsConstructor;
@@ -11,24 +12,50 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
 @AllArgsConstructor
 public class DoctorController {
     private DoctorService doctorService;
+    private AppointmentService appointmentService;
 
-
-    //DateTimeFormatter for rendered calendars in doctors' cards
     private final DateTimeFormatter polishMonthFormatter
             = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));
     private final DateTimeFormatter polishDayFormatter
             = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
 
+
+    private Map<String, ?> prepareNecessaryDataForDoctor() {
+        var completedAppointment = appointmentService.findAllCompletedAppointments("done");
+        var pendingAppointment = appointmentService.findAllCompletedAppointments("pending");
+        var upcomingAppointment = appointmentService.findAllCompletedAppointments("upcoming");
+
+        return Map.of(
+                "completedAppointment", completedAppointment,
+                "pendingAppointment", pendingAppointment,
+                "upcomingAppointment", upcomingAppointment
+        );
+    }
+
+
+
+    @GetMapping(value = "/doctor")
+    public ModelAndView doctorMainPage() {
+        Map<String, ?> data = prepareNecessaryDataForDoctor();
+        return new ModelAndView("mainPageDoctor", data);
+    }
+    @GetMapping(value = "/doctor/appointment/pending")
+    public ModelAndView doctorPendingPage() {
+        Map<String, ?> data = prepareNecessaryDataForDoctor();
+        return new ModelAndView("mainPageDoctorPending", data);
+    }
     @GetMapping("/doctors")
     public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
 

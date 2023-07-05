@@ -22,7 +22,6 @@ body {
 
 .down-navigation {
     background-color: #0e85b2d4;
-    display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -70,6 +69,7 @@ body {
 .reserved-appointments{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     padding: 40px;
     width: 90%;
     height: 80vh;
@@ -80,14 +80,18 @@ body {
     overflow: scroll;
 }
 .visit-invoice {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
     height: 380px;
     width: 280px;
     padding: 20px;
+
+    font-weight: bold;
     background-color: var(--primary-color);
     margin: 20px auto;
     border-radius: 25px;
     color: white;
-    overflow: scroll;
 }
 
 .opinion {

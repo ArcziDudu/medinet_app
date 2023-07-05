@@ -21,7 +21,6 @@ body {
 
 .down-navigation {
     background-color: #0e85b2d4;
-    display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -163,6 +162,7 @@ body {
 }
 
 .visit-invoice {
+    justify-content: center;
     height: auto;
     width: 280px;
     padding: 20px;
