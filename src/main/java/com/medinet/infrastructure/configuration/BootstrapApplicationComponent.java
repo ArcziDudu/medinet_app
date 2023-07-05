@@ -61,15 +61,13 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
         for (LocalDate date : twoWeeksDatesForDoctors) {
             if (date.getDayOfWeek() != DayOfWeek.SATURDAY && date.getDayOfWeek() != DayOfWeek.SUNDAY) {
 
-                CalendarEntity calendar = new CalendarEntity();
                 for (DoctorEntity doctor : all) {
+                    CalendarEntity calendar = new CalendarEntity();
                     calendar.setDoctor(doctor);
+                    calendar.setDate(date);
+                    calendar.setHours(hours);
+                    calendarJpaRepository.save(calendar);
                 }
-                calendar.setDate(date);
-
-                calendar.setHours(hours);
-                calendarJpaRepository.saveAndFlush(calendar);
             }
-
         }
     }}
