@@ -26,14 +26,14 @@ public class ScheduledTasksService {
     private final AppointmentMapper appointmentMapper;
 
 
-    //zasada działania systemu - okno wizytowe trwa godzine, wiec program co godzine sprawdza czy wizyta się odbyła,
+    //zasada działania systemu - okno wizytowe trwa godzine, wiec program co pół godziny sprawdza czy wizyta się odbyła,
     //jeśli tak to przekazywana jest lekarzowi, który ma 24h
     // na dodanie  notatki z wizyty, jeśli tego nie zrobi, "wizyta" jest oznaczana jako zakończona
-    @Scheduled(fixedRate = 3600000) // 3 600 000 milisekund (1 godzina)
+    @Scheduled(fixedRate = 1800000)
     public void myMethod() {
         List<AppointmentEntity> upcoming = appointmentService
                 .findAllCompletedAppointments("upcoming")
-                .stream().map(appointmentMapper::mapFromDto).collect(Collectors.toList());
+                .stream().map(appointmentMapper::mapFromDto).toList();
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -53,8 +53,6 @@ public class ScheduledTasksService {
 
             }
         }
-
-        System.out.println(upcoming);
     }
 }
 

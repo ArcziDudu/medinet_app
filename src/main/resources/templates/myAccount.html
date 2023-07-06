@@ -22,33 +22,20 @@
 
         <nav class="container navbar">
             <div class="navbar-logo">
-                <a th:href="@{/}">Logo</a>
+                <a th:href="@{/booking}">Logo</a>
             </div>
             <div class="navbar-links">
                 <a href="#" class="navbar-link">Polityka</a>
-                <a th:href="@{/doctors}" class="navbar-link">Dostępni Lekarze</a>
-                <a href="#" class="navbar-link">Moje konto</a>
+                <a th:href="@{/booking}" class="navbar-link">Dostępni Lekarze</a>
+                <a th:href="@{/account/user}"  class="navbar-link">Moje konto</a>
             </div>
         </nav>
         <div class="container main-box">
-            <div class="left-side">
-                <div class="avatar">Avatar</div>
-                <div class="data">
-                    <h6 th:text="${CurrentPatient.getName()}"></h6>
-                    <span th:text="${CurrentPatient.getEmail()}">artur.augustyn26@gmail.com</span>
-                </div>
-                <div class="settings">
-                    <h6>Ustawienia</h6>
-                    <div class="logout"> Wyloguj</div>
-
-                </div>
-            </div>
-            <div class=" container rigth-side">
+            <div class=" container rigth-side" id="appointments">
                 <div class="nav">
-                    <button id="visits">Moje wizyty</button>
-                    <button id="opinions">Moje Opinie</button>
+                    <button onclick="goToOpinion()">Moje Opinie</button>
                 </div>
-                <div class="visits-appointments " id="referencedDiv">
+                <div class="hero-box" id="referencedDiv">
                     <div class="upcoming">
                         <h3 style="color: white;">Nadchodzące</h3>
                         <div th:each="invoice :${UpcomingAppointments}" >
@@ -59,7 +46,7 @@
                                     <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
                                     <h6 style="color: black;"
                                         th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                                    +' ' +invoice.getPatient().getSurname()}">: </h6>
+                                    +' ' +invoice.getPatient().getSurname()}"></h6>
                                     <h6 th:text="${'Adres przychodni: '+
                                      invoice.getDoctor().getAddress().getCity() + ' '+
                                      invoice.getDoctor().getAddress().getStreet()}"></h6>
@@ -87,6 +74,7 @@
                                 </form>
                             </div>
                         </div>
+
                     </div>
                   <div class="received">
                     <h3 style="color: white;">Odbyte</h3>
@@ -98,7 +86,7 @@
                                   <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
                                   <h6 style="color: black;"
                                       th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                                    +' ' +invoice.getPatient().getSurname()}">: </h6>
+                                    +' ' +invoice.getPatient().getSurname()}"> </h6>
                                   <h6 th:text="${'Adres przychodni: '+
                                      invoice.getDoctor().getAddress().getCity() + ' '+
                                      invoice.getDoctor().getAddress().getStreet()}"></h6>
@@ -106,67 +94,48 @@
                                     ' '+ invoice.getDoctor().getSurname()}"></h6>
                                   <h6 th:text="${'Temat: Wizyta u specjalisty - '
                                     +invoice.getDoctor().getSpecialization()}"></h6>
-                                  <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}">gdfsg</p>
+                                  <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
                               </div>
                           </div>
                       </div>
-
-
 
                   </div>
                 </div>
 
             </div>
-            <div class="visits-opinions" id="absoluteDiv"><div >
-                 <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="opinion">
-                     <span th:text="${'Wystawione lekarzowi: '
-                     + OneOpinion.getDoctor().getName()
-                     +' '+ OneOpinion.getDoctor().getSurname()
-                     }"> </span>
-                     <h6 th:text="${OneOpinion.getNote()}"></h6>
-                 </div>
-             </div>
-            </div>
-            
-        </div>
 
+        </div>
+        <div class="container main-box">
+            <div class=" container rigth-side">
+                <div class="nav" id="opinions">
+                    <button onclick="goToAppointments()">Moje wizyty</button>
+                </div>
+                <div class="hero-box opinions" style="flex-direction: column">
+
+                    <div  th:each="OneOpinion: ${CurrentPatient.getOpinions()}"  class="one-opinion">
+                        <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}"></h5>
+                        <h5 th:text="${'Wystawione lekarzowi: ' + OneOpinion.getDoctor().getName() +' '+OneOpinion.getDoctor().getSurname()}"></h5>
+                        <p th:text="${OneOpinion.getNote()}"></p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
         <footer class="down-navigation">
             <h5>© Medinet 2023</h5>
         </footer>
     </div>
     <script>
-        const buttonVisits = document.querySelector('#visits');
-        const buttonOpinions = document.querySelector('#opinions');
-
-        const visitsAppointments = document.querySelector('.visits-appointments');
-        const visitsOpinions = document.querySelector('.visits-opinions');
-        buttonVisits.addEventListener('click', () => {
-            visitsOpinions.style.height = '0';
-            visitsOpinions.style.display = 'none';
-            visitsAppointments.style.display = 'flex';
-
-        }); 
-        buttonOpinions.addEventListener('click', () => {
-            visitsOpinions.style.height = '285px';
-            visitsOpinions.style.display = 'flex';
-            visitsAppointments.style.display = 'none';
-        });
-        window.addEventListener('DOMContentLoaded', () => {
-            const referencedDiv = document.getElementById('referencedDiv');
-            const absoluteDiv = document.getElementById('absoluteDiv');
-
-            const setPosition = () => {
-                const rect = referencedDiv.getBoundingClientRect();
-                absoluteDiv.style.left = `${rect.left}px`;
-                absoluteDiv.style.top = `${rect.top}px`;
-            };
-
-            setPosition();
-
-            window.addEventListener('resize', setPosition);
-        });
+        function goToOpinion() {
+            var div = document.getElementById("opinions");
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+    function goToAppointments() {
+        var div = document.getElementById("appointments");
+        div.scrollIntoView({ behavior: 'smooth' });
+    }
     </script>
-
 </body>
 
 </html>

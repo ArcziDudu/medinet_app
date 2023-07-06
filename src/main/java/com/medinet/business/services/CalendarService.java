@@ -2,11 +2,13 @@ package com.medinet.business.services;
 
 import com.medinet.api.dto.CalendarDto;
 import com.medinet.business.dao.CalendarDao;
+import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -32,4 +34,6 @@ public class CalendarService {
         }
         return calendar;
     }
+
+
 }

@@ -8,6 +8,7 @@ import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class CalendarRepository implements CalendarDao {
     public Optional<CalendarEntity> findById(Integer calendarId) {
         return calendarJpaRepository.findById(calendarId);
     }
+
 
 
 }

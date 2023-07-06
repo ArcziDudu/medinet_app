@@ -10,13 +10,13 @@
 }
 
 body {
-
     background-color: var(--main-body0color);
     color: #1b2734;
     font-size: 1rem;
     text-align: center;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
+    margin-top: 30px;
 }
 
 .down-navigation {
@@ -68,10 +68,11 @@ body {
 .main-box {
     display: flex;
     justify-content: center;
-    align-items: center;
+    width: 90vw;
     background-color: #e4edf4;
-    padding: 30px;
+    margin-top: 30px;
     margin-bottom: 50px;
+    padding: 20px;
     height: 600px;
 }
 
@@ -170,17 +171,17 @@ body {
     margin: 20px auto;
 }
 
-.visits-appointments {
+.hero-box {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 20px;
-    width: 100%;
+    padding: 50px;
+    width: 60rem;
     height: 90%;
     margin-top: 30px;
     margin-left: 20px;
     background-color: var(--primary-color);
-    overflow-y: scroll;
+   overflow: scroll;
     position: relative;
 
 }
@@ -195,25 +196,17 @@ body {
 .up-side h6 {
     margin-bottom: 10px;
 }
-
-.visits-opinions {
+.opinions{
+    display: flex;
     flex-direction: column;
-    position: absolute;
-    height: 285px;
-    width: 760px;
-    background-color: var(--primary-color);
-    overflow-y: scroll;
-    padding: 20px;
-    display: none;
 }
 
-.opinion {
+.one-opinion{
+    display: flex;
+    flex-direction: column;
     text-align: left;
-    padding: 15px;
-    background-color: rgb(221, 208, 208);
-    width: 90%;
-    margin-bottom: 15px;
-    min-height: 120px;
-    color: black;
-    font-weight: bold;
+    padding: 20px;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 20px;
 }

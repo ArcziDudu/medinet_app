@@ -59,7 +59,6 @@ public class AppointmentService {
             Optional<CalendarEntity> calendar = calendarService.findById(appointment.getCalendarId());
             calendar.orElseThrow().getHours().remove(appointment.getTimeOfVisit());
 
-
             appointmentDao.saveAppointment(appointment);
         }
 

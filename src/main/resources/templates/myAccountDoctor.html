@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Medinet - internetowa przychodnia</title>
+    <style>
+        body {
+            position: relative;
+            background-color: #cfdde7;
+            font-family: 'Roboto', sans-serif;
+            color: #1b2734;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin: 0;
+            overflow-x: hidden;
+            height: 100%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: #0e85b2d4;
+            color: white;
+            padding: 0 20px;
+            max-width: 90%;
+            margin: 0 auto;
+            width: 100%;
+            z-index: 999;
+            box-shadow: 0px 20px 200px rgba(0, 0, 0, 0.523);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .navbar-brand a {
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            justify-content: space-between;
+        }
+
+        .navbar-link {
+            margin-left: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-link:hover {
+            color: #274e75;
+            transition: 0.3s;
+        }
+
+
+        .hash-list > li {
+            display: block;
+            float: left;
+            border-right: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="sprawdzenie" href="" style="text-decoration: none; color: white">Logo</a>
+            </div>
+            <div class="navbar-links">
+                <a href="#" class="navbar-link">Polityka</a>
+                <a th:href="@{/booking}" class="navbar-link">Znajdź specjalistę</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container profile-box "
+         style="display: flex;
+          flex-direction: column;
+          border: 3px solid white;
+          background-color: #91979f4a;
+            margin-top: 50px;">
+        <div class="up-half"
+             style="
+            display: flex;">
+            <div class="left-side"
+                 style="display: flex;
+                    flex-direction: column;
+                    width: 50%;
+                    align-items: flex-start;
+                     margin-top: 15px;
+                     ">
+                <div class="avatar"
+                     style="height: 250px;
+                     width: 200px;
+                     margin: 0 auto;
+                     background-image: url(/src/main/resources/static/avatar_profile_page.jpg);
+                     background-position: center;
+                     background-size: cover; "></div>
+                <div class="name-surname"
+                     style="text-align: center;
+                     background-color:#02A7DD;
+                      color: white;
+                      width: 100%;
+                      padding-top: 10px;
+                       font-weight: bold;">
+                    <h4 th:text="${'Dr. '+doctor.getName() +' '+doctor.getSurname()}"></h4>
+                    <h5 th:text="${doctor.getSpecialization()}" style="letter-spacing: 2px; ">\</h5>
+                </div>
+            </div>
+            <div class="right-side"
+                 style="display: flex;
+                 height: 300px;
+                  flex-direction: column;
+                  margin-top: 15px;
+                   width: 50%;
+                   background-color: white;
+                   -webkit-box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
+-moz-box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
+box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
+                   ">
+                <div class="right-up-side"
+                     style="
+                     padding: 20px;
+                     display: flex;
+                     flex-direction: column;
+                     align-items: flex-start;
+                     text-align: left;
+                      width: 100%;
+                     ">
+                    <h3 th:text="${doctor.getName() +' '+doctor.getSurname()}"></h3>
+                    <h4 style="color:#319FC5; font-weight: bold;">Uczelnia</h4>
+                    <h5>Prywatne technikum zawodowe w nowym sączu</h5>
+                </div>
+                <div class="right-down-side"
+                     style="
+                     display: flex;
+                     flex-direction: column;
+                     align-items: flex-start;
+                     height: 50%;
+                      width: 100%;
+                      ">
+                    <div class="speciality" style="margin: 30px;">
+                        <h4s style="color:#319FC5; font-weight: bold;">Specjalizacja</h4s>
+                        <h4 th:text="${doctor.getSpecialization()}"
+                            style="border: 2px solid black; border-radius: 20px; margin-left: 10px;"></h4>
+                    </div>
+
+                    <div class="languages"
+                         style="margin-left: 30px; display: flex; width: 70%; justify-content: space-between;">
+                        <h6 style="color:#319FC5; font-weight: bold;">JĘZYKI OBCE: </h6>
+                        <h6 style="color:black; "> Hiszpański, Niemiecki, Polski</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="down-half" style=" display: flex; background-color: #d8e2e6; margin: 25px; padding: 16px;">
+            <div class="left-down-side"
+                 style="display: flex;
+                  flex-direction: column;
+                   text-align: left;
+                    width: 40%;
+                    ">
+                <H5 style="color:#319FC5; font-weight: bold;">BIOGRAFIA</H5>
+                <span>t itaque velit, labore quis odio recusandae saepe repellat optio repellendus dolorum facilis quaerat! Officiis dolor in excepturi maiores rerum repudiandae at animi iste ex architecto maxime, voluptate exercitationem tenetur perspiciatis eius nostrum ad esse nulla! Natus cumque saepe consequuntur cum possimus dolore minus ut maiores! Tempore, obcaecati, aliquam praesentium, veniam nam nemo libero ab adipisci harum explicabo voluptates. Quasi, sit libero? Reiciendis voluptatem vitae et obcaecati exercitationem qui cumque ipsam eos numquam aspernatur atque distinctio sit facilis, ab libero corporis dicta nesciunt ut? Reprehenderit!</span>
+            </div>
+            <div class="middle-border"
+                 style="width: 4px; height: auto; background-color: #02A7DD; margin: 0 10 px;"></div>
+            <div class="right-down-side" style="display:flex;
+             flex-direction: column;
+           justify-content: center;
+           align-items: center;
+          text-align: start; width: 30%">
+                <H5 style="color:#319FC5; font-weight: bold;">KONTAKT</H5>
+                <h5 style="color:#319FC5;">telefon: <span style="color: black;">+48 513 496 779</span></h5>
+
+                <h5 style="color:#319FC5;">email: <span th:text="${doctor.getEmail()}" style="color:  black;"></span>
+                </h5>
+                <H5 style="color:#319FC5; font-weight: bold; margin-top: 40px;">ADRES PRZYCHODNI</H5>
+                <h5 th:text="${doctor.getAddress().getCity()+ ', '+ doctor.getAddress().getStreet()}"></h5>
+            </div>
+            <div class="right-down-side" style=" margin-left: 20px;
+
+             display:flex;
+             flex-direction: column;
+           justify-content: center;
+           align-items: center;
+              ">
+                <H5 style="color:#319FC5; font-weight: bold;">Zmiana hasła</H5>
+                <form th:action="@{/change-password}" method="post"
+                      style="display:flex;
+                 flex-direction: column;">
+                    <div>
+                        <label for="oldPassword" style="margin-bottom: 20px">Stare hasło:</label>
+                        <input type="password" id="oldPassword" name="oldPassword" required>
+                    </div>
+                    <div>
+                        <label for="newPassword" style="margin-bottom: 20px">Nowe hasło:</label>
+                        <input type="password" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div>
+                        <input type="submit" value="Zmień hasło" style="background-color: #0e86b2;
+                        color: white;
+                        width: 50%;
+                        border-radius: 25px;
+                      margin-left: 40px;
+                         border: 2px solid blue">
+                    </div>
+                </form>
+
+                </h5>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</div>
+</div>
+
+</div>
+</body>
+
+</html>

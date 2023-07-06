@@ -29,35 +29,25 @@ public class OpinionController {
     private DoctorService doctorService;
     private PatientMapper patientMapper;
     private DoctorMapper doctorMapper;
+    private OpinionMapper opinionMapper;
 
     @PostMapping("/opinion/send")
     public String showUsersPage(
-             @RequestParam("doctorId") Integer doctorId,
-             @RequestParam("opinionNote") String note
+            @RequestParam("doctorId") Integer doctorId,
+            @RequestParam("opinionNote") String note
 
     ) {
         Integer patientId = 1;
 
-        // Pobierz pacjenta i lekarza na podstawie ich identyfikatorów
-        PatientEntity patient = patientMapper.mapFromDto(patientService.findById(patientId));
-        DoctorEntity doctor = doctorMapper.mapFromDto(doctorService.findDoctorById(doctorId));
+        PatientDto patient = patientService.findById(patientId);
+        DoctorDto doctor = doctorService.findDoctorById(doctorId);
 
-        // Utwórz obiekt Opinion i ustaw niezbędne właściwości
-        OpinionEntity opinion = new OpinionEntity();
-        opinion.setPatient(patient);
-        opinion.setDoctor(doctor);
+        OpinionDto opinion = new OpinionDto();
+        opinion.setPatient(patientMapper.mapFromDto(patient));
+        opinion.setDoctor(doctorMapper.mapFromDto(doctor));
         opinion.setNote(note);
-        opinion.setDateOfCreateOpinion(OffsetDateTime.now()); // Ustaw aktualną datę
-        opinionService.processOpinion(opinion);
-        return "redirect:/doctors";
-    }
-    @GetMapping("/opinions/doctor/{doctorId}")
-    public String showDoctorOpinions(
-            @PathVariable("doctorId") Integer doctorId,
-            Model model
-    ) {
-        DoctorDto doctorById = doctorService.findDoctorById(doctorId);
-        model.addAttribute("doctor", doctorById);
-        return "mainPageDoctorOpinions";
+        opinion.setDateOfCreateOpinion(OffsetDateTime.now());
+        opinionService.processOpinion(opinionMapper.mapFromDto(opinion));
+        return "redirect:/booking";
     }
 }

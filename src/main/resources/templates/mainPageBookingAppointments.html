@@ -91,11 +91,11 @@
     <div class="wrapper">
         <nav class="container navbar">
             <div class="navbar-logo">
-                <a th:href="@{/}">Logo</a>
+                <a th:href="@{/booking}">Logo</a>
             </div>
             <div class="navbar-links">
                 <a href="#" class="navbar-link">Polityka</a>
-                <a th:href="@{/doctors}" class="navbar-link">Dostępni Lekarze</a>
+                <a th:href="@{/booking}" class="navbar-link">Znajdź specjalistę</a>
                 <a th:href="@{/account/user}" th:method="get" class="navbar-link">Moje konto</a>
             </div>
         </nav>
@@ -122,9 +122,9 @@
             <div class="doctors-box">
                 <div class="sort-box">
                     <div class="btn">
-                        <a th:href="@{/doctors}">Pokaż wszystkich</a>
+                        <a th:href="@{/booking}">Pokaż wszystkich</a>
                     </div>
-                    <form action="#" th:action="@{/doctors/find}" method="GET">
+                    <form action="#" th:action="@{/booking/find}" method="GET">
                         <label for="doctorSpecializations">Specjalizacje:</label>
                         <select id="doctorSpecializations" th:name="doctorSpecialization" style="background-color: white;
                              color: black;
