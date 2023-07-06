@@ -1,3 +1,5 @@
+
+
 :root {
     --primary-color: #0e85b2d4;
     --main-body0color: #cfdde7;
@@ -103,4 +105,49 @@ body {
     margin-bottom: 15px;
     color: rgb(93, 28, 28);
     font-weight: bold;
+}
+
+.main-box {
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    background-color: #e4edf4;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 20px;
+    height: 600px;
+}
+.opinions{
+    display: flex;
+    flex-direction: column;
+}
+
+.one-opinion{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+.rigth-side {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 800px;
+}
+
+.hero-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 50px;
+    width: 60rem;
+    height: 90%;
+    margin-top: 30px;
+    margin-left: 20px;
+    background-color: var(--primary-color);
+    overflow: scroll;
+    position: relative;
 }

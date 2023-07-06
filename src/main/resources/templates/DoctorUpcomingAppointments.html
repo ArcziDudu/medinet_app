@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/doctor_page.css}" rel="stylesheet">
-    <!--   <link rel="stylesheet" href="../static/doctor_page.css">-->
+<!--        <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
 
@@ -52,42 +52,37 @@
         <div class="navbar-logo">
             <a th:href="@{/}">Logo</a>
         </div>
-        <div class="navbar-links">
+        <div class="navbar-links" id="appointments">
             <a href="#" class="navbar-link">Polityka</a>
-            <a th:href="@{/account/user}" th:method="get" class="navbar-link">Moje konto</a>
+            <a th:href="@{/user/{userId}(userId=${doctor.doctorId})}" class="navbar-link">Moje konto</a>
         </div>
+
     </nav>
     <section class="doctors-box">
-        <div class="container">
-            <div class="title-box">
-                <h1>Twoi pacjenci</h1>
-            </div>
-        </div>
-        <div class="container">
-            <button class="page-button"
-                    style="border-radius: 25px 0 0 25px; border: 2px solid white;">
-                <a class="button-link" th:href="@{/doctor}">Nadchodzące</a>
-            </button>
+
+        <div class="container" style="display: flex; justify-content: center; margin-bottom: 20px">
 
             <button class="page-button next"
                     style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
-                <a class="button-link" th:href="@{/doctor/appointment/pending}">Oczekujące</a>
+                <a class="button-link" th:href="@{/doctor/appointments/pending}">Do zatwierdzenia</a>
+            </button>
+            <button onclick="goToOpinion()" class="page-button next"
+                    style="border-radius: 25px 25px 25px 25px; border: 2px solid white;
+                    margin-top: 25px;
+background-color: saddlebrown">
+                <a class="button-link">Opinie</a>
             </button>
             <button class="page-button next"
-                    style="border-radius: 0 25px 25px 0; border: 2px solid white;">
-                <a class="button-link"th:href="@{/doctor/appointment/done}">
+                    style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
+                <a class="button-link" th:href="@{/doctor/appointments/done}">
                     Zakończone</a>
             </button>
         </div>
         <div class="container">
-            <button class="page-button next"
-                    style="border-radius: 25px 25px 25px 25px; border: 2px solid white;
-                    margin-top: 25px;
-background-color: rosybrown">
-                <a class="button-link" th:href="@{/opinions/doctor/{doctorId}(doctorId=${1})}">Opinie</a>
-            </button>
+            <div class="title-box">
+                <h1>Nadchodzące wizyty</h1>
+            </div>
         </div>
-
 
         <div class="container reserved-appointments">
             <div th:each="appointment :${upcomingAppointment}">
@@ -123,9 +118,29 @@ background-color: rosybrown">
                     </form>
                 </div>
             </div>
+        </div>
 
+        <div class="container main-box">
+            <div class="container rigth-side">
+                <div class="nav" id="opinions">
+                    <button onclick="goToAppointments()"
+                            class="page-button next"
+                            style="border-radius: 25px 25px 25px 25px;
+                             border: 2px solid white; color: white; font-weight: bold">Rezerwacje
+                    </button>
+                </div>
+                <div class="hero-box opinions" style="flex-direction: column">
+                    <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
+                        <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}"></h5>
+                        <h5 th:text="${'Wystawione Przez: ' + OneOpinion.getPatient().getName() +' '+OneOpinion.getPatient().getSurname()}"></h5>
+                        <p th:text="${OneOpinion.getNote()}"></p>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
+
 
     </section>
 </div>
@@ -134,15 +149,15 @@ background-color: rosybrown">
     <h5>© Medinet 2023</h5>
 </footer>
 <script>
-    const buttons = document.querySelectorAll('.send-opinion');
+    function goToOpinion() {
+        var div = document.getElementById("opinions");
+        div.scrollIntoView({behavior: 'smooth'});
+    }
 
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const doctorId = button.getAttribute('id');
-            const popup = document.querySelector(`.popup#${doctorId}`);
-            popup.classList.toggle('show');
-        });
-    });
+    function goToAppointments() {
+        var div = document.getElementById("appointments");
+        div.scrollIntoView({behavior: 'smooth'});
+    }
 </script>
 </body>
 

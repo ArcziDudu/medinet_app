@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link th:href="@{/doctor_page.css}" rel="stylesheet">
-    <!--    <link rel="stylesheet" href="../static/doctor_page.css">-->
+        <link th:href="@{/doctor_page.css}" rel="stylesheet">
+<!--    <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
 
@@ -51,34 +51,35 @@
 <div class="wrapper">
     <nav class="container navbar">
         <div class="navbar-logo">
-            <a th:href="@{/}">Logo</a>
+            <a th:href="@{/booking}">Logo</a>
+
         </div>
         <div class="navbar-links">
             <a href="#" class="navbar-link">Polityka</a>
-            <a th:href="@{/account/user}" th:method="get" class="navbar-link">Moje konto</a>
+            <a th:href="@{/user/{userId}(userId=${doctor.doctorId})}" class="navbar-link">Moje konto</a>
         </div>
     </nav>
     <section class="doctors-box">
-        <div class="container">
-            <div class="title-box">
-                <h1>Twoi pacjenci</h1>
-            </div>
-        </div>
-        <div class="container">
-            <button class="page-button"
-                    style="border-radius: 25px 0 0 25px; border: 2px solid white;">
-                <a class="button-link" th:href="@{/doctor}">Nadchodzące</a>
-            </button>
+
+
+        <div class="container" style="display: flex; justify-content: center; margin-bottom: 20px">
 
             <button class="page-button next"
                     style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
-                <a class="button-link" th:href="@{/doctor/appointment/pending}">Oczekujące</a>
+                <a class="button-link" th:href="@{/doctor}">Nadchodzące wizyty</a>
             </button>
-
             <button class="page-button next"
-                    style="border-radius: 0 25px 25px 0; border: 2px solid white;">
-                <a class="button-link" th:href="@{/}">Zakończone</a>
+                    style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
+                <a class="button-link" th:href="@{/doctor/appointments/done}">
+                    Zakończone wizyty</a>
             </button>
+        </div>
+
+        <div class="container">
+            <div class="title-box">
+                <h4>Dodaj notatke z wizyty i zatwierdź</h4>
+                <h6>Jeśli tego nie zrobisz, po 24 godzinach wizyta otrzyma status zatwierdzonej</h6>
+            </div>
         </div>
 
 
