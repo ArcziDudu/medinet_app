@@ -39,7 +39,10 @@ public class DoctorService {
     }
 
     @Transactional
-    public Page<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Integer pageNumber) {
+    public Page<DoctorDto> findAllDoctorsBySpecializationAndCity(
+            String doctorSpecialization,
+            String doctorCity,
+            Integer pageNumber) {
         int pageSize = 15;
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
