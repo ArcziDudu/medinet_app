@@ -1,4 +1,3 @@
-
 CREATE TABLE patient
 (
     patient_id       SERIAL        NOT NULL PRIMARY KEY,

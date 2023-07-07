@@ -42,12 +42,12 @@ public class AppointmentEntity {
     @Column(name = "calendar_id")
     private Integer calendarId;
 
-    @JsonBackReference
+    @JsonBackReference("referencePatient")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
-    @JsonBackReference
+    @JsonBackReference("referenceDoctor")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;

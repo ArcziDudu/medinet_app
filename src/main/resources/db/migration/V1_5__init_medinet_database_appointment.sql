@@ -3,6 +3,7 @@ CREATE TABLE appointment
     appointment_id      SERIAL                   NOT NULL PRIMARY KEY,
     patient_id          INT                      NOT NULL,
     doctor_id           INT                      NOT NULL,
+    calendar_id         INT                      NOT NULL,
     time_of_visit       TIMESTAMP WITH TIME ZONE NOT NULL,
     time_of_issue       TIMESTAMP WITH TIME ZONE NOT NULL,
     date_of_appointment DATE                     NOT NULL,
