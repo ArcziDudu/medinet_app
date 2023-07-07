@@ -36,4 +36,7 @@ public class CalendarService {
     }
 
 
+    public void save(CalendarEntity calendar) {
+        calendarDao.save(calendar);
+    }
 }

@@ -20,4 +20,9 @@ public interface DoctorDao {
     Set<String> findAllAvailableSpecialization();
 
     Set<String> findAllAvailableCities();
+
+    DoctorEntity save(DoctorEntity newDoctor);
+
+    void deleteDoctor(Integer doctorId);
+
 }

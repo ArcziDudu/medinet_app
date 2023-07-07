@@ -14,4 +14,6 @@ public interface CalendarDao {
 
     Optional<CalendarEntity> findById(Integer calendarId);
 
+    void save(CalendarEntity calendar);
+
 }
