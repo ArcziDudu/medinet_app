@@ -39,11 +39,10 @@ public class PatientEntity {
     @JoinColumn(name = "address_id")
     private AddressEntity address;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient", cascade = CascadeType.REFRESH)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient", cascade = CascadeType.REFRESH)
     private Set<AppointmentEntity> appointments;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     private Set<OpinionEntity> opinions;
 }

@@ -75,4 +75,14 @@ public class DoctorRepository implements DoctorDao {
                 .map(a->a.getAddress().getCity())
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    public DoctorEntity save(DoctorEntity newDoctor) {
+        return doctorJpaRepository.save(newDoctor);
+    }
+
+    @Override
+    public void deleteDoctor(Integer doctorId) {
+        doctorJpaRepository.deleteById(doctorId);
+    }
 }

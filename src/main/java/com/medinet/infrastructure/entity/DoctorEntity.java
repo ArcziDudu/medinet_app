@@ -1,6 +1,9 @@
 package com.medinet.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +18,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"doctorId", "email"})
 @Entity
 @Table(name = "doctor")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "doctorId")
 public class DoctorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,16 +44,13 @@ public class DoctorEntity {
     @JoinColumn(name = "address_id")
     private AddressEntity address;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor", cascade = CascadeType.ALL)
     private Set<CalendarEntity> calendars;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.REFRESH)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor", cascade = CascadeType.ALL)
     private Set<AppointmentEntity> appointments;
 
-
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor", cascade = CascadeType.ALL)
     private Set<OpinionEntity> opinions;
 }

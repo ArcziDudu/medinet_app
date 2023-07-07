@@ -1,6 +1,8 @@
 package com.medinet.infrastructure.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +16,7 @@ import java.time.OffsetDateTime;
 @EqualsAndHashCode(of = {"opinionId"})
 @Entity
 @Table(name = "opinion")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "opinionId")
 public class OpinionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +25,14 @@ public class OpinionEntity {
 
     @Column(name = "date")
     private OffsetDateTime dateOfCreateOpinion;
+
     @Column(name = "note")
     private String note;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
