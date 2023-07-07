@@ -29,7 +29,7 @@ public class ScheduledTasksService {
     //zasada działania systemu - okno wizytowe trwa godzine, wiec program co pół godziny sprawdza czy wizyta się odbyła,
     //jeśli tak to przekazywana jest lekarzowi, który ma 24h
     // na dodanie  notatki z wizyty, jeśli tego nie zrobi, "wizyta" jest oznaczana jako zakończona
-    @Scheduled(fixedRate = 1800000)
+    @Scheduled(fixedRate = 20000)
     public void myMethod() {
         List<AppointmentEntity> upcoming = appointmentService
                 .findAllCompletedAppointments("upcoming")
