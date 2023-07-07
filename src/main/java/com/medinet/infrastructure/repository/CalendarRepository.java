@@ -29,6 +29,10 @@ public class CalendarRepository implements CalendarDao {
         return calendarJpaRepository.findById(calendarId);
     }
 
+    @Override
+    public void save(CalendarEntity calendar) {
+      calendarJpaRepository.save(calendar);
+    }
 
 
 }
