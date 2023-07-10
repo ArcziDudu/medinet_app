@@ -1,10 +1,7 @@
 package com.medinet.api.controller;
 
 import com.medinet.api.dto.DoctorDto;
-import com.medinet.business.services.AppointmentService;
-import com.medinet.business.services.CalendarService;
 import com.medinet.business.services.DoctorService;
-import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import lombok.AllArgsConstructor;
@@ -35,19 +32,20 @@ public class HomeController {
             = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));
     private final DateTimeFormatter polishDayFormatter
             = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
+
     @RequestMapping(value = HOME, method = RequestMethod.GET)
-    public String homepage(){
+    public String homepage() {
         return "home";
     }
 
     @GetMapping("/booking")
     public String showBookingPage(@RequestParam(defaultValue = "0") int page, Model model, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isPatient = authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("PATIENT"));
+        boolean hasAccess = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ADMIN") || auth.getAuthority().equals("PATIENT"));
 
-        if (isPatient) {
+
+        if (hasAccess) {
 
             String email = principal.getName();
             UserEntity currentUser = userRepository.findByEmail(email);
@@ -82,6 +80,7 @@ public class HomeController {
             @RequestParam(defaultValue = "0") int page,
             Principal principal,
             Model model) {
+
         String email = principal.getName();
         UserEntity currentUser = userRepository.findByEmail(email);
         int id = currentUser.getId();
