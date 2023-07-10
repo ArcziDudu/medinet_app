@@ -25,4 +25,5 @@ public interface DoctorDao {
 
     void deleteDoctor(Integer doctorId);
 
+    Optional<DoctorDto> findByEmail(String email);
 }

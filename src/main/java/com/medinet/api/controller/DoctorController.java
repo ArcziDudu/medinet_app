@@ -6,6 +6,8 @@ import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.CalendarService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.infrastructure.entity.CalendarEntity;
+import com.medinet.infrastructure.entity.DoctorEntity;
+import com.medinet.infrastructure.repository.DoctorRepository;
 import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
@@ -36,7 +38,7 @@ public class DoctorController {
     private DoctorService doctorService;
     private AppointmentService appointmentService;
     private final CalendarMapper calendarMapper;
-    private final UserRepository userRepository;
+
 
     private final DateTimeFormatter polishMonthFormatter
             = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));
@@ -44,11 +46,17 @@ public class DoctorController {
             = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
 
-    private Map<String, ?> prepareNecessaryDataForDoctor() {
+    private Map<String, ?> prepareNecessaryDataForDoctor(Principal principal) {
+
+        String email = principal.getName();
+        DoctorDto byEmail = doctorService.findByEmail(email);
+        Integer doctorId = byEmail.getDoctorId();
+
+
         var completedAppointment = appointmentService.findAllCompletedAppointments("done");
         var pendingAppointment = appointmentService.findAllCompletedAppointments("pending");
         var upcomingAppointment = appointmentService.findAllCompletedAppointments("upcoming");
-        DoctorDto doctorById = doctorService.findDoctorById(1);
+        DoctorDto doctorById = doctorService.findDoctorById(doctorId);
         return Map.of(
                 "doctor", doctorById,
                 "format", formatter,
@@ -60,20 +68,20 @@ public class DoctorController {
 
 
     @GetMapping(value = "/doctor")
-    public ModelAndView doctorMainPage() {
-        Map<String, ?> data = prepareNecessaryDataForDoctor();
+    public ModelAndView doctorMainPage(Principal principal) {
+        Map<String, ?> data = prepareNecessaryDataForDoctor(principal);
         return new ModelAndView("DoctorUpcomingAppointments", data);
     }
 
     @GetMapping(value = "/doctor/appointments/pending")
-    public ModelAndView doctorPendingAppointmentsPage() {
-        Map<String, ?> data = prepareNecessaryDataForDoctor();
+    public ModelAndView doctorPendingAppointmentsPage(Principal principal) {
+        Map<String, ?> data = prepareNecessaryDataForDoctor(principal);
         return new ModelAndView("DoctorPendingAppointments", data);
     }
 
     @GetMapping(value = "/doctor/appointments/done")
-    public ModelAndView doctorDoneAppointmentsPage() {
-        Map<String, ?> data = prepareNecessaryDataForDoctor();
+    public ModelAndView doctorDoneAppointmentsPage(Principal principal) {
+        Map<String, ?> data = prepareNecessaryDataForDoctor(principal);
         return new ModelAndView("DoctorDoneAppointments", data);
     }
 
@@ -90,10 +98,14 @@ public class DoctorController {
     }
 
     @GetMapping("/user/{userId}")
-    public String getUser(@PathVariable("userId") Integer userId, Model model) {
+    public String getUser(@PathVariable("userId") Integer userId, Model model, Principal principal) {
+
+        String email = principal.getName();
+        DoctorDto byEmail = doctorService.findByEmail(email);
+        Integer doctorId = byEmail.getDoctorId();
 
         DoctorDto user = doctorService.findDoctorById(userId);
-        Set<CalendarEntity> calendars = doctorService.findDoctorById(1).getCalendars();
+        Set<CalendarEntity> calendars = doctorService.findDoctorById(doctorId).getCalendars();
         calendars.forEach(calendarMapper::mapFromEntity);
 
         List<LocalDate> dates = calendars.stream().map(CalendarEntity::getDate).toList();
