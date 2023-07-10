@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppointmentService {
     private final AppointmentDao appointmentDao;
-    private final DoctorService doctorService;
     private final CalendarService calendarService;
     private final AppointmentMapper appointmentMapper;
 

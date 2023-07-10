@@ -50,11 +50,13 @@ public class SecurityConfiguration {
                                         "/main.css",
                                         "/doctor_page.css",
                                         "/myAccount.css").permitAll()
-                                .requestMatchers("/doctor/**", "/user/**").hasAnyAuthority("DOCTOR")
+                                .requestMatchers("/doctor/**",
+                                        "appointment/approve/**"
+                                        , "/user/**").hasAnyAuthority("DOCTOR")
                                 .requestMatchers(
                                         "/request/**",
                                         "/account/**",
-                                        "/doctor/details/**",
+                                        "/specialist/details/**",
                                         "/opinion/**").hasAnyAuthority("PATIENT", "ADMIN")
                 ).formLogin(
                         form -> form
