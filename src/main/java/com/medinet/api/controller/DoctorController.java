@@ -85,7 +85,7 @@ public class DoctorController {
         return new ModelAndView("DoctorDoneAppointments", data);
     }
 
-    @GetMapping("/doctor/details/{doctorId}")
+    @GetMapping("/specialist/details/{doctorId}")
     public String showSortedDoctorsPage(
             @PathVariable(value = "doctorId") Integer doctorId,
             Model model) {

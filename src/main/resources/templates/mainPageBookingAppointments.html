@@ -96,7 +96,7 @@
             <div class="navbar-links">
                 <a href="#" class="navbar-link">Polityka</a>
                 <a th:href="@{/account/user/{userId}(userId=${user})}" th:method="get" class="navbar-link">Moje konto</a>
-
+                <a th:href="@{/logout}" th:method="get" class="navbar-link">Wyloguj</a>
             </div>
         </nav>
         <section class="doctors-box">
@@ -239,7 +239,7 @@
                                 </div>
                             </div>
                             <div class="details" style="margin: -20px auto 0 auto">
-                                <form id="doctorDetails" th:action="@{/doctor/details/{doctorId}(doctorId=${doctor.getDoctorId()})}" method="get">
+                                <form id="doctorDetails" th:action="@{/specialist/details/{doctorId}(doctorId=${doctor.getDoctorId()})}" method="get">
                                     <input type="submit" value="Szczegóły" class="btn" style="
                                        background-color: #2ead2e;
                                         color: white;
