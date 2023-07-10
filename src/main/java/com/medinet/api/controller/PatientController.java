@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.format.DateTimeFormatter;
@@ -23,9 +24,9 @@ public class PatientController {
     private PatientService patientService;
     private AppointmentService appointmentService;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
-    @GetMapping("/account/user")
-    public String showUsersPage(Model model) {
-        PatientDto currentPatient = patientService.findById(1);
+    @GetMapping("/account/user/{userId}")
+    public String showUsersPage(@PathVariable("userId") Integer doctorId, Model model) {
+        PatientDto currentPatient = patientService.findByUserId(doctorId);
         List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
         List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 

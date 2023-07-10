@@ -95,8 +95,8 @@
             </div>
             <div class="navbar-links">
                 <a href="#" class="navbar-link">Polityka</a>
-                <a th:href="@{/booking}" class="navbar-link">Znajdź specjalistę</a>
-                <a th:href="@{/account/user}" th:method="get" class="navbar-link">Moje konto</a>
+                <a th:href="@{/account/user/{userId}(userId=${user})}" th:method="get" class="navbar-link">Moje konto</a>
+
             </div>
         </nav>
         <section class="doctors-box">
@@ -264,7 +264,7 @@
                                    flex-direction: column;
                                     align-items: center;
                                     margin-top: 50px;">
-                                    <input type="hidden" th:name="patientId" th:value="${1}" />
+                                    <input type="hidden" th:name="patientId" th:value="${user}" />
                                     <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId()}" />
                                     <textarea name="opinionNote" rows="9" cols="55" style="background-color: #d2dee68e;
                                            border: 2px solid black;
@@ -325,7 +325,7 @@
                                         <form th:action="@{/request}" method="GET">
                                             <input type="hidden" th:name="selectedHour" th:value="${hour}" />
                                             <input type="hidden" th:name="doctorId" th:value="${doctor.getDoctorId()}" />
-                                            <input type="hidden" th:name="patientId" th:value="${1}" />
+                                            <input type="hidden" th:name="patientId" th:value="${user}" />
                                             <input type="hidden" th:name="calendarId" th:value="${calendar.getCalendarId()}" />
                                             <input type="hidden" th:name="selectedDate" th:value="${calendar.getDate()}" />
                                             <button type="submit" class="available-hour">
