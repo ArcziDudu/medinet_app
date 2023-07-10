@@ -39,7 +39,7 @@ public class AppointmentController {
                                      Model model) {
 
         DoctorDto doctor = doctorService.findDoctorById(doctorId);
-        PatientDto patient = patientService.findById(patientId);
+        PatientDto patient = patientService.findByUserId(patientId);
         String UUID = appointmentService.getVisitNumber();
 
 
@@ -112,7 +112,7 @@ public class AppointmentController {
         model.addAttribute("calendarId", calendarId);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
-        return String.format("redirect:/account/user/%d", id);
+        return "redirect:/";
 
     }
 

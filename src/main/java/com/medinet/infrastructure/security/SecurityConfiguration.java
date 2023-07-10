@@ -24,16 +24,16 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authManager(
-        HttpSecurity http,
-        PasswordEncoder passwordEncoder,
-        UserDetailsService userDetailService
+            HttpSecurity http,
+            PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailService
     )
-        throws Exception {
+            throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-            .userDetailsService(userDetailService)
-            .passwordEncoder(passwordEncoder)
-            .and()
-            .build();
+                .userDetailsService(userDetailService)
+                .passwordEncoder(passwordEncoder)
+                .and()
+                .build();
     }
 
     @Bean
@@ -42,12 +42,19 @@ public class SecurityConfiguration {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("/login", "/error", "/main.css", "/doctor_page.css", "/myAccount.css").permitAll()
-                                .requestMatchers("/", "/register/**").permitAll()
-                                .requestMatchers("" +
+                                .requestMatchers("/login",
+                                        "/",
+                                        "/register/**",
+                                        "/error",
                                         "/booking/**",
+                                        "/main.css",
+                                        "/doctor_page.css",
+                                        "/myAccount.css").permitAll()
+                                .requestMatchers("/doctor/**", "/user/**").hasAnyAuthority("DOCTOR")
+                                .requestMatchers(
                                         "/request/**",
                                         "/account/**",
+                                        "/doctor/details/**",
                                         "/opinion/**").hasAnyAuthority("PATIENT", "ADMIN")
                 ).formLogin(
                         form -> form
@@ -69,10 +76,10 @@ public class SecurityConfiguration {
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
     SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
         http.csrf()
-            .disable()
-            .authorizeHttpRequests()
-            .anyRequest()
-            .permitAll();
+                .disable()
+                .authorizeHttpRequests()
+                .anyRequest()
+                .permitAll();
 
         return http.build();
     }

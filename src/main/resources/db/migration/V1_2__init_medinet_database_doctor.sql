@@ -1,6 +1,7 @@
 CREATE TABLE doctor
 (
     doctor_id       SERIAL        NOT NULL PRIMARY KEY,
+    user_id    INT         NOT NULL,
     name            VARCHAR(32)   NOT NULL,
     surname         VARCHAR(32)   NOT NULL,
     email           VARCHAR(45)   NOT NULL UNIQUE,
