@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -84,5 +83,11 @@ public class DoctorRepository implements DoctorDao {
     @Override
     public void deleteDoctor(Integer doctorId) {
         doctorJpaRepository.deleteById(doctorId);
+    }
+
+    @Override
+    public Optional<DoctorDto> findByEmail(String email) {
+        return doctorJpaRepository.findByEmail(email)
+                .map(doctorMapper::mapFromEntity);
     }
 }

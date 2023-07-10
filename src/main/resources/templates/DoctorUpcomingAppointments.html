@@ -99,23 +99,6 @@ background-color: saddlebrown">
                         <h6 th:text="${'Temat: Wizyta u specjalisty - '
                             +appointment.getDoctor().getSpecialization()}">Temat</h6>
                     </div>
-                    <form id="doctorDetails"
-                          th:action="@{/booking/remove/{appointmentId}(appointmentId=${appointment.getAppointmentId()})}"
-                          th:method="DELETE">
-                        <input type="hidden" name="calendarDate" th:value="${appointment.getDateOfAppointment()}"/>
-                        <input type="hidden" name="selectedHour" th:value="${appointment.getTimeOfVisit()}"/>
-                        <input type="hidden" name="calendarId" th:value="${appointment.getCalendarId()}"/>
-                        <input type="submit" value="Anuluj" class="btn" style="
-                               background-color: red;
-                                color: white;
-                                z-index: 1;
-                                 font-weight: bold;
-                                  border: 2px solid white;
-                                   border-radius: 20px;
-                                    margin-top: 25px;
-                                    margin-bottom: 20px;
-                                    width: 135px;">
-                    </form>
                 </div>
             </div>
         </div>

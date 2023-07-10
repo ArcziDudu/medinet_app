@@ -42,11 +42,14 @@ public class HomeController {
     public String showBookingPage(@RequestParam(defaultValue = "0") int page, Model model, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasAccess = authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ADMIN") || auth.getAuthority().equals("PATIENT"));
+                .anyMatch(auth -> auth.getAuthority().equals("ADMIN")
+                        || auth.getAuthority().equals("PATIENT"));
 
+
+        boolean hasAccessDoctor = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("DOCTOR"));
 
         if (hasAccess) {
-
             String email = principal.getName();
             UserEntity currentUser = userRepository.findByEmail(email);
             int id = currentUser.getId();
@@ -67,6 +70,8 @@ public class HomeController {
             model.addAttribute("user", id);
             return "mainPageBookingAppointments";
 
+        } else if (hasAccessDoctor) {
+            return "redirect:/doctor";
         }
 
         return "redirect:/";

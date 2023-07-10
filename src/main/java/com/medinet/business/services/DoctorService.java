@@ -1,6 +1,7 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.DoctorDto;
+import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.DoctorDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.configuration.BootstrapApplicationComponent;
@@ -88,5 +89,14 @@ public class DoctorService {
     @Transactional
     public void deleteById(Integer doctorId) {
         doctorDao.deleteDoctor(doctorId);
+    }
+
+    public DoctorDto findByEmail(String email) {
+        Optional<DoctorDto> DoctorByEmail =  doctorDao.findByEmail(email);
+        if(DoctorByEmail.isEmpty()){
+            throw new NotFoundException("Could not find doctor by email: [%s]".formatted(email));
+        }
+        return DoctorByEmail.get();
+
     }
 }

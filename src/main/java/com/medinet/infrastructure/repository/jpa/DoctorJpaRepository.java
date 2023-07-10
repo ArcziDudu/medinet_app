@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer> {
     @Query("SELECT d FROM DoctorEntity d")
@@ -24,4 +26,6 @@ public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer
             String doctorSpecialization,
             String doctorCity,
             Pageable pageable);
+
+    Optional<DoctorEntity> findByEmail(String email);
 }
