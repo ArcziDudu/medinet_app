@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                                         "/booking/**",
                                         "/request/**",
                                         "/account/**",
-                                        "/opinion/**").hasAnyAuthority("PATIENT")
+                                        "/opinion/**").hasAnyAuthority("PATIENT", "ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
