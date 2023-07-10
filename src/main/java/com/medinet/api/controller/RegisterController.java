@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -38,13 +40,6 @@ public class RegisterController {
     private final PasswordEncoder passwordEncoder;
     static final String LOGIN = "/login";
     static final String REGISTER = "/register";
-
-    private DoctorService doctorService;
-    private final DateTimeFormatter polishMonthFormatter
-            = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));
-    private final DateTimeFormatter polishDayFormatter
-            = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
 
     @GetMapping(LOGIN)
     public String login() {
@@ -65,13 +60,14 @@ public class RegisterController {
 
         if (userRepository.existsByEmail(form.getEmail())) {
             result.rejectValue("email", null, "Ten email jest już zarejestrowany");
-
         }
-        if (result.hasErrors()) {
+        else if (patientService.findByPhoneNumber(form.getPhoneNumber())) {
+            result.rejectValue("phoneNumber", null, "Ten numer jest już zarejestrowany");
+        }
 
+        if (result.hasErrors()) {
             return "/register";
         }
-
         UserEntity newUser = UserEntity.builder()
                 .email(form.getEmail())
                 .password(passwordEncoder.encode(form.getPassword()))
@@ -82,7 +78,7 @@ public class RegisterController {
                 .name(form.getName())
                 .surname(form.getSurname())
                 .email(form.getEmail())
-                .phoneNumber("5421512421")
+                .phoneNumber(form.getPhoneNumber())
                 .address(AddressEntity.builder()
                         .country("Polska")
                         .city(form.getCity())
@@ -91,39 +87,11 @@ public class RegisterController {
                         .build())
                 .user(newUser)
                 .build();
-
         registerService.save(newUser);
         patientService.createNewPatient(newPatient, newUser.getId());
-        System.out.println("work");
-        return "redirect:/";
-    }
-
-    @GetMapping("/booking")
-    public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isPatient = authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("PATIENT"));
-
-        if (isPatient) {
-            Set<String> allAvailableCities = doctorService.findAllAvailableCities();
-            Set<String> availableSpecialization = doctorService.findAllAvailableSpecialization();
-
-            Page<DoctorDto> allDoctorsOnPage = doctorService.findAllDoctors(page);
-            long totalElements = doctorService.findAllDoctors(page).getTotalElements();
-
-
-            model.addAttribute("doctors", allDoctorsOnPage);
-            model.addAttribute("totalElements", totalElements);
-            model.addAttribute("specializations", availableSpecialization);
-            model.addAttribute("cities", allAvailableCities);
-            model.addAttribute("dateFormatter", polishMonthFormatter);
-            model.addAttribute("polishDayFormatter", polishDayFormatter);
-
-            return "mainPageBookingAppointments";
-
-        }
-
-        return "redirect:/";
+        return "redirect:/booking";
 
     }
+
+
 }

@@ -44,7 +44,11 @@ public class SecurityConfiguration {
                         authorize
                                 .requestMatchers("/login", "/error", "/main.css", "/doctor_page.css", "/myAccount.css").permitAll()
                                 .requestMatchers("/", "/register/**").permitAll()
-                                .requestMatchers("/booking/**", "/request/**", "/account/**").hasAnyAuthority("PATIENT")
+                                .requestMatchers("" +
+                                        "/booking/**",
+                                        "/request/**",
+                                        "/account/**",
+                                        "/opinion/**").hasAnyAuthority("PATIENT")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

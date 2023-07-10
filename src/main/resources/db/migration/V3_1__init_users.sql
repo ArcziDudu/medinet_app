@@ -2,7 +2,7 @@
 -- ADD COLUMN user_id INT,
 -- ADD FOREIGN KEY (user_id) REFERENCES medinet_user (user_id);
 --
--- insert into medinet_user (user_id, user_name, email, password, active) values (1, 'stefan_sprzedawca', 'stefan_sprzedawca@zajavka.pl', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
+insert into medinet_user (email, password, active) values ('admin@admin.pl', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 -- insert into medinet_user (user_id, user_name, email, password, active) values (2, 'agnieszka_samochodowa', 'agnieszka_samochodowa@zajavka.pl', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 -- insert into medinet_user (user_id, user_name, email, password, active) values (3, 'tomasz_kombi', 'tomasz_kombi@zajavka.pl', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 -- insert into medinet_user (user_id, user_name, email, password, active) values (4, 'rafal_dach', 'rafal_dach@zajavka.pl', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
