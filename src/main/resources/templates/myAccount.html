@@ -78,15 +78,17 @@
                     </div>
                   <div class="received">
                     <h3 style="color: white;">Odbyte</h3>
-                      <div th:each="invoice :${CompletedAppointments}" >
+                      <div th:each="invoice :${CompletedAppointments}">
+                          <form th:action="@{/invoice/generatePdf/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}" method="POST">
                           <div class="visit-invoice">
                               <div class="up-side">
+
                                   <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
-                                  <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"> </h6>
-                                  <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"> </h6>
+                                  <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"></h6>
+                                  <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"></h6>
                                   <h6 style="color: black;"
                                       th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
-                                    +' ' +invoice.getPatient().getSurname()}"> </h6>
+                                    +' ' +invoice.getPatient().getSurname()}"></h6>
                                   <h6 th:text="${'Adres przychodni: '+
                                      invoice.getDoctor().getAddress().getCity() + ' '+
                                      invoice.getDoctor().getAddress().getStreet()}"></h6>
@@ -95,8 +97,10 @@
                                   <h6 th:text="${'Temat: Wizyta u specjalisty - '
                                     +invoice.getDoctor().getSpecialization()}"></h6>
                                   <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
+                                  <button style="margin: 0 auto" type="submit">Pobierz fakture</button>
                               </div>
                           </div>
+                      </form>
                       </div>
 
                   </div>
