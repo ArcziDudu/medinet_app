@@ -37,5 +37,15 @@ public class PatientRepository implements PatientDao {
         patientJpaRepository.save(newPatient);
     }
 
+    @Override
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return patientJpaRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public Optional<PatientDto> findByUserId(int id) {
+        return patientJpaRepository.findByUserId(id).map(patientMapper::mapFromEntity);
+    }
+
 
 }

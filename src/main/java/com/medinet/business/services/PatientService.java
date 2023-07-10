@@ -33,4 +33,16 @@ public class PatientService {
     public void createNewPatient(PatientEntity newPatient, int id) {
         patientDao.save(newPatient);
     }
+
+    public boolean findByPhoneNumber(String phoneNumber) {
+        return patientDao.existsByPhoneNumber(phoneNumber);
+    }
+
+    public PatientDto findByUserId(int id) {
+      Optional<PatientDto> patientById =  patientDao.findByUserId(id);
+        if(patientById.isEmpty()){
+            throw new NotFoundException("Could not find patient by id: [%s]".formatted(id));
+        }
+        return patientById.get();
+    }
 }

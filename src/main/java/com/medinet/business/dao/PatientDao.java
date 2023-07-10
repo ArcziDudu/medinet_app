@@ -12,4 +12,8 @@ public interface PatientDao {
     List<PatientDto> findAll();
 
     void save(PatientEntity newPatient);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    Optional<PatientDto> findByUserId(int id);
 }
