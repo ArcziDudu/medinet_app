@@ -1,6 +1,6 @@
 package com.medinet.infrastructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.medinet.infrastructure.security.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,7 +32,7 @@ public class PatientEntity {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "Phone")
+    @Column(name = "phone")
     private String phoneNumber;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -45,4 +45,9 @@ public class PatientEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     private Set<OpinionEntity> opinions;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
 }

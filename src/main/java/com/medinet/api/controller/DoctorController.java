@@ -9,6 +9,8 @@ import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,26 +73,7 @@ public class DoctorController {
         return new ModelAndView("DoctorDoneAppointments", data);
     }
 
-    @GetMapping("/booking")
-    public String showUsersPage(@RequestParam(defaultValue = "0") int page, Model model) {
 
-        Set<String> allAvailableCities = doctorService.findAllAvailableCities();
-        Set<String> availableSpecialization = doctorService.findAllAvailableSpecialization();
-
-        Page<DoctorDto> allDoctorsOnPage = doctorService.findAllDoctors(page);
-        long totalElements = doctorService.findAllDoctors(page).getTotalElements();
-
-
-        model.addAttribute("doctors", allDoctorsOnPage);
-        model.addAttribute("totalElements", totalElements);
-
-        model.addAttribute("specializations", availableSpecialization);
-        model.addAttribute("cities", allAvailableCities);
-        model.addAttribute("dateFormatter", polishMonthFormatter);
-        model.addAttribute("polishDayFormatter", polishDayFormatter);
-
-        return "mainPageBookingAppointments";
-    }
 
     @GetMapping("/booking/find")
     public String showSortedDoctorsPage(

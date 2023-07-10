@@ -5,6 +5,7 @@ import com.medinet.business.dao.PatientDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
+import com.medinet.infrastructure.entity.PatientEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,8 @@ public class PatientService {
         return patientById.get();
     }
 
+
+    public void createNewPatient(PatientEntity newPatient, int id) {
+        patientDao.save(newPatient);
+    }
 }

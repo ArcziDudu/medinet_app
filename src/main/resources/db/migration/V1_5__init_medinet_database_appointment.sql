@@ -4,10 +4,10 @@ CREATE TABLE appointment
     patient_id          INT                      NOT NULL,
     doctor_id           INT                      NOT NULL,
     calendar_id         INT                      NOT NULL,
-    time_of_visit       TIMESTAMP WITH TIME ZONE NOT NULL,
+    time_of_visit       VARCHAR(21)              NOT NULL,
     time_of_issue       TIMESTAMP WITH TIME ZONE NOT NULL,
     date_of_appointment DATE                     NOT NULL,
-    status              BOOLEAN                  NOT NULL,
+    status              text                     NOT NULL,
     UUID                varchar(40)              not null UNIQUE,
     note                TEXT,
     CONSTRAINT fk_appointment_patient
