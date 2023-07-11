@@ -41,11 +41,16 @@ public class AppointmentService {
         return OffsetDateTime.now();
     }
 
+    public List<AppointmentDto> findAllCompletedAppointments(String status, Integer doctorId) {
+        return appointmentDao.findAllByStatus(status)
+                .stream()
+                .filter(a->a.getDoctor().getDoctorId().equals(doctorId))
+                .collect(Collectors.toList());
+    }
+
     public List<AppointmentDto> findAllCompletedAppointments(String status) {
         return appointmentDao.findAllByStatus(status);
     }
-
-
     @Transactional
     public void processAppointment(AppointmentEntity appointment) {
         {
@@ -155,6 +160,7 @@ public class AppointmentService {
                     "<p>Lekarz: " + invoice.getDoctor().getName() + " " + invoice.getDoctor().getSurname() + "</p>" +
                     "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
                     "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
+                    "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit() + "</p>" +
 
                     "<h6>Wystawiono dnia: " +nowDate.format(formatter)+ "</h6>" +
                     "</body>" +
