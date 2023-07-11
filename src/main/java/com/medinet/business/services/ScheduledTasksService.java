@@ -1,22 +1,16 @@
 package com.medinet.business.services;
 
-import com.medinet.api.dto.AppointmentDto;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +26,7 @@ public class ScheduledTasksService {
     @Scheduled(fixedRate = 20000)
     public void myMethod() {
         List<AppointmentEntity> upcoming = appointmentService
-                .findAllCompletedAppointments("upcoming")
+                .findAllAppointmentsByStatus("upcoming")
                 .stream().map(appointmentMapper::mapFromDto).toList();
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
