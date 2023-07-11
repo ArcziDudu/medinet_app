@@ -7,6 +7,7 @@ import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.configuration.BootstrapApplicationComponent;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -76,6 +78,7 @@ public class DoctorService {
     @Transactional
     public DoctorEntity create(DoctorEntity newDoctor) {
         DoctorEntity doctor = doctorDao.save(newDoctor);
+
         for (LocalDate date : BootstrapApplicationComponent.generateDateList()) {
             CalendarEntity calendar = new CalendarEntity();
             calendar.setDoctor(doctor);

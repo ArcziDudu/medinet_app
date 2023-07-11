@@ -25,7 +25,6 @@ public class DoctorRestController {
     public final String API_ONE_DOCTOR = "/{doctorId}";
     public final String API_CREATE_DOCTOR = "/create";
     public static final String DOCTOR_ID_RESULT = "/%s";
-    public final String DOCTOR_UPDATE_BIO = "/{doctorId}/{newBio}";
     private final DoctorService doctorService;
 
 
