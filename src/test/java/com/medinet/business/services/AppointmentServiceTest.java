@@ -4,7 +4,6 @@ import com.medinet.api.dto.AppointmentDto;
 import com.medinet.business.dao.AppointmentDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
-import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +61,7 @@ class AppointmentServiceTest {
 
             when(appointmentDao.findAllByStatus(status)).thenReturn(expectedAppointments);
 
-            List<AppointmentDto> actualAppointments = appointmentService.findAllCompletedAppointments(status);
+            List<AppointmentDto> actualAppointments = appointmentService.findAllAppointmentsByStatus(status);
 
             assertEquals(expectedAppointments.size(), actualAppointments.size());
             assertThat(actualAppointments).containsExactlyInAnyOrderElementsOf(expectedAppointments);
@@ -79,7 +77,7 @@ class AppointmentServiceTest {
         List<AppointmentDto> appointmentDtos = Collections.emptyList();
         when(appointmentDao.findAllByStatus(status)).thenReturn(appointmentDtos);
 
-        List<AppointmentDto> result = appointmentService.findAllCompletedAppointments(status, doctorId);
+        List<AppointmentDto> result = appointmentService.findAllAppointmentsByStatusAndDoctorID(status, doctorId);
 
         assertThat(result).isEmpty();
         verify(appointmentDao, times(1)).findAllByStatus(status);
@@ -161,7 +159,7 @@ class AppointmentServiceTest {
         String status = "completed";
         when(appointmentDao.findAllByStatus(status)).thenReturn(Collections.emptyList());
 
-        List<AppointmentDto> result = appointmentService.findAllCompletedAppointments(status);
+        List<AppointmentDto> result = appointmentService.findAllAppointmentsByStatus(status);
 
         assertThat(result).isEmpty();
         verify(appointmentDao, times(1)).findAllByStatus(status);

@@ -33,6 +33,7 @@ public class AppointmentService {
     private final PdfGeneratorService pdfGeneratorService;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
+
     public String getVisitNumber() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
@@ -42,18 +43,21 @@ public class AppointmentService {
         return OffsetDateTime.now();
     }
 
-    public List<AppointmentDto> findAllCompletedAppointments(String status, Integer doctorId) {
+    @Transactional
+    public List<AppointmentDto> findAllAppointmentsByStatusAndDoctorID(String status, Integer doctorId) {
         return appointmentDao.findAllByStatus(status)
                 .stream()
-                .filter(a->a.getDoctor().getDoctorId().equals(doctorId))
+                .filter(a -> a.getDoctor().getDoctorId().equals(doctorId))
                 .collect(Collectors.toList());
     }
 
-    public List<AppointmentDto> findAllCompletedAppointments(String status) {
+    @Transactional
+    public List<AppointmentDto> findAllAppointmentsByStatus(String status) {
         return appointmentDao.findAllByStatus(status);
     }
+
     @Transactional
-    public void processAppointment(AppointmentEntity appointment) {
+    public AppointmentDto processAppointment(AppointmentEntity appointment) {
         {
             LocalDate today = LocalDate.now();
             LocalTime now = LocalTime.now();
@@ -69,10 +73,12 @@ public class AppointmentService {
             calendar.orElseThrow().getHours().remove(appointment.getTimeOfVisit());
 
             appointmentDao.saveAppointment(appointment);
+            return appointmentMapper.mapFromEntity(appointment);
         }
 
     }
 
+    @Transactional
 
     public List<AppointmentDto> findUpcomingAppointments(PatientDto currentPatient) {
         return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("upcoming"))
@@ -80,6 +86,7 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<AppointmentDto> findCompletedAppointments(PatientDto currentPatient) {
         return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("done"))
                 .map(appointmentMapper::mapFromEntity)
@@ -119,58 +126,61 @@ public class AppointmentService {
         return appointmentDao.findById(appointmentId);
     }
 
+    @Transactional
     public void save(AppointmentEntity appointment) {
         appointmentDao.saveAppointment(appointment);
     }
 
+    @Transactional
     public void generatePdf(Optional<AppointmentEntity> invoice) throws Exception {
         String uuid = invoice.get().getUUID();
         OffsetDateTime nowDate = OffsetDateTime.now();
         pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice.get()), nowDate), uuid);
     }
 
-        private String generateHtmlFromInvoice (AppointmentDto invoice, OffsetDateTime nowDate){
-            return
-                    "<!doctype html>" +
-                    "<html>" +
-                    "<head>" +
-                    "<style>" +
-                    "   body {" +
-                            "position: relative;" +
-                            "font-family: Arial, sans-serif;" +
-                            "display: flex;" +
-                            "margin-top: 50px;" +
-                            "justify-content: center;" +
-                            "align-items: flex-start;" +
-                            "text-align: start;" +
-                            "font-size: 19px; " +
-                            "font-weight: bold; " +
-                            "}" +
-                            "h6{" +
-                            "margin-top:30px"+
-                            "}"+
-                    "</style>" +
-                    "</head>" +
-                    "<body>" +
-                    "<h4>Faktura: Wizyta w przychodni medinet</h4>" +
-                    "<h4>Numer wizyty: " + invoice.getUUID() + "</h4>" +
-                    "<p>Data wizyty: " + invoice.getDateOfAppointment() + "</p>" +
-                    "<p>Godzina: " + invoice.getTimeOfVisit() + "</p>" +
-                    "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() + " " + invoice.getPatient().getSurname() + "</p>" +
-                    "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet() + "</p>" +
-                    "<p>Lekarz: " + invoice.getDoctor().getName() + " " + invoice.getDoctor().getSurname() + "</p>" +
-                    "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
-                    "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
-                    "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit() + "</p>" +
+    @Transactional
+    private String generateHtmlFromInvoice(AppointmentDto invoice, OffsetDateTime nowDate) {
+        return
+                "<!doctype html>" +
+                        "<html>" +
+                        "<head>" +
+                        "<style>" +
+                        "   body {" +
+                        "position: relative;" +
+                        "font-family: Arial, sans-serif;" +
+                        "display: flex;" +
+                        "margin-top: 50px;" +
+                        "justify-content: center;" +
+                        "align-items: flex-start;" +
+                        "text-align: start;" +
+                        "font-size: 19px; " +
+                        "font-weight: bold; " +
+                        "}" +
+                        "h6{" +
+                        "margin-top:30px" +
+                        "}" +
+                        "</style>" +
+                        "</head>" +
+                        "<body>" +
+                        "<h4>Faktura: Wizyta w przychodni medinet</h4>" +
+                        "<h4>Numer wizyty: " + invoice.getUUID() + "</h4>" +
+                        "<p>Data wizyty: " + invoice.getDateOfAppointment() + "</p>" +
+                        "<p>Godzina: " + invoice.getTimeOfVisit() + "</p>" +
+                        "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() + " " + invoice.getPatient().getSurname() + "</p>" +
+                        "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet() + "</p>" +
+                        "<p>Lekarz: " + invoice.getDoctor().getName() + " " + invoice.getDoctor().getSurname() + "</p>" +
+                        "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
+                        "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
+                        "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit() + "</p>" +
 
-                    "<h6>Wystawiono dnia: " +nowDate.format(formatter)+ "</h6>" +
-                    "</body>" +
-                    "</html>";
-        }
+                        "<h6>Wystawiono dnia: " + nowDate.format(formatter) + "</h6>" +
+                        "</body>" +
+                        "</html>";
+    }
 
     public AppointmentEntity findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, String timeOfVisit) {
-       Optional<AppointmentEntity> appointment =
-               appointmentDao.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
+        Optional<AppointmentEntity> appointment =
+                appointmentDao.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
         return appointment.orElse(null);
     }
 }
