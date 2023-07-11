@@ -37,7 +37,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = "spring.security.disabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing = true)
     SecurityFilterChain securityEnabled(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                                         "/main.css",
                                         "/doctor_page.css",
                                         "/invoice/**",
+
                                         "/myAccount.css").permitAll()
                                 .requestMatchers("/doctor/**",
                                         "appointment/approve/**"
@@ -59,9 +60,9 @@ public class SecurityConfiguration {
                                         "/account/**",
                                         "/specialist/details/**",
                                         "/opinion/**").hasAnyAuthority("PATIENT", "ADMIN")
+
                 ).formLogin(
                         form -> form
-                                .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/booking")
                                 .permitAll()

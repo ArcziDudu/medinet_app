@@ -19,3 +19,7 @@ insert into doctor (user_id, name, surname, email, price_for_visit, specializati
 values (3,'Piotr', 'Piwowar', 'doctor2@example.com', 291, 'Kardiolog', 3);
 
 insert into medinet_user_role (user_id, role_id) values (3, 1);
+
+
+insert into medinet_user ( email, password, active)
+values ('test_user@test.pl', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
