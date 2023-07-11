@@ -4,6 +4,8 @@ import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
+import com.medinet.infrastructure.security.UserEntity;
+import com.medinet.infrastructure.security.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import java.util.Objects;
 @RequestMapping(DoctorRestController.API_DOCTOR)
 public class DoctorRestController {
     private DoctorMapper doctorMapper;
+    private final UserRepository userRepository;
     public static final String API_DOCTOR = "/api/doctor";
     public final String API_ALL_DOCTOR = "/all";
     public final String API_ALL_DOCTOR_PAGE = "/all/{page}";
@@ -60,12 +63,8 @@ public class DoctorRestController {
     }
     @DeleteMapping(value = API_ONE_DOCTOR)
     public ResponseEntity<?> deleteDoctor(@PathVariable Integer doctorId){
-        try{
             doctorService.deleteById(doctorId);
             return ResponseEntity.ok().build();
-        }catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PutMapping(API_ONE_DOCTOR)
@@ -83,18 +82,9 @@ public class DoctorRestController {
         existingDoctor.setCalendars(doctorDto.getCalendars());
         existingDoctor.setAppointments(doctorDto.getAppointments());
         existingDoctor.setOpinions(doctorDto.getOpinions());
+
         doctorService.create(existingDoctor);
         return ResponseEntity.ok().build();
     }
 
-//    @PatchMapping(DOCTOR_UPDATE_BIO)
-//    public ResponseEntity<?> updateEmployeeSalary(
-//            @PathVariable Integer doctorId,
-//            @RequestParam(required = true) String newBio
-//    ) {
-//        DoctorEntity existingDoctor = doctorMapper.mapFromDto(doctorService.findDoctorById(doctorId));
-//        existingDoctor.setBio(newBio);
-//        doctorService.create(existingDoctor);
-//        return ResponseEntity.ok().build();
-//    }
 }

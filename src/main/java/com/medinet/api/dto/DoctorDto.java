@@ -4,6 +4,7 @@ import com.medinet.infrastructure.entity.AddressEntity;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
+import com.medinet.infrastructure.security.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +28,5 @@ public class DoctorDto {
     private Set<CalendarEntity> calendars;
     private Set<AppointmentEntity> appointments;
     private Set<OpinionEntity> opinions;
+    private UserEntity user;
 }

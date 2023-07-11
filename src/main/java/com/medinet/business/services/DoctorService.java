@@ -8,16 +8,22 @@ import com.medinet.infrastructure.configuration.BootstrapApplicationComponent;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 
+import com.medinet.infrastructure.security.RoleEntity;
+import com.medinet.infrastructure.security.RoleRepository;
+import com.medinet.infrastructure.security.UserEntity;
+import com.medinet.infrastructure.security.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +34,9 @@ import java.util.Set;
 public class DoctorService {
     private final DoctorDao doctorDao;
     private final CalendarService calendarService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public List<DoctorDto> findAllDoctors() {
@@ -70,13 +79,24 @@ public class DoctorService {
     public DoctorDto findDoctorById(Integer doctorId) {
         Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
         if (doctorById.isEmpty()) {
-            throw new NotFoundException("Could not find car by doctorId: [%s]".formatted(doctorId));
+            throw new NotFoundException("Could not find doctor by doctorId: [%s]".formatted(doctorId));
         }
         return doctorById.get();
     }
 
     @Transactional
     public DoctorEntity create(DoctorEntity newDoctor) {
+        Set<RoleEntity> roles = new HashSet<>();
+        RoleEntity roleDoctor = roleRepository.findByRole("DOCTOR");
+        roles.add(roleDoctor);
+        UserEntity user = UserEntity.builder()
+                .email(newDoctor.getEmail())
+                .password(passwordEncoder.encode("test"))
+                .active(true)
+                .roles(roles)
+                .build();
+        userRepository.save(user);
+        newDoctor.setUser(user);
         DoctorEntity doctor = doctorDao.save(newDoctor);
 
         for (LocalDate date : BootstrapApplicationComponent.generateDateList()) {
@@ -91,7 +111,13 @@ public class DoctorService {
 
     @Transactional
     public void deleteById(Integer doctorId) {
+
+        Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
+        String email = doctorById
+                .orElseThrow(()-> new RuntimeException("doctor with id: [%s] not found".formatted(doctorId)))
+                .getEmail();
         doctorDao.deleteDoctor(doctorId);
+        userRepository.deleteByEmail(email);
     }
 
     public DoctorDto findByEmail(String email) {
@@ -101,5 +127,6 @@ public class DoctorService {
         }
         return DoctorByEmail.get();
 
-    }
-}
+    }}
+
+
