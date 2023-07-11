@@ -167,6 +167,12 @@ public class AppointmentService {
                     "</body>" +
                     "</html>";
         }
+
+    public AppointmentEntity findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, String timeOfVisit) {
+       Optional<AppointmentEntity> appointment =
+               appointmentDao.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
+        return appointment.orElse(null);
     }
+}
 
 

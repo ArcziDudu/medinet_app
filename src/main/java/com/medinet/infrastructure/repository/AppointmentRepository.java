@@ -8,6 +8,7 @@ import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +38,11 @@ public class AppointmentRepository implements AppointmentDao {
     @Override
     public Optional<AppointmentEntity> findById(Integer appointmentID) {
         return appointmentJpaRepository.findById(appointmentID);
+    }
+
+    @Override
+    public Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, String timeOfVisit) {
+        return appointmentJpaRepository.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
     }
 
 

@@ -4,6 +4,8 @@ import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
+import com.medinet.infrastructure.security.RoleEntity;
+import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import lombok.AllArgsConstructor;
@@ -13,15 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(DoctorRestController.API_DOCTOR)
 public class DoctorRestController {
     private DoctorMapper doctorMapper;
+    private RoleRepository roleRepository;
     private final UserRepository userRepository;
+
     public static final String API_DOCTOR = "/api/doctor";
     public final String API_ALL_DOCTOR = "/all";
     public final String API_ALL_DOCTOR_PAGE = "/all/{page}";
@@ -65,26 +71,6 @@ public class DoctorRestController {
     public ResponseEntity<?> deleteDoctor(@PathVariable Integer doctorId){
             doctorService.deleteById(doctorId);
             return ResponseEntity.ok().build();
-    }
-
-    @PutMapping(API_ONE_DOCTOR)
-    public ResponseEntity<?> updateDoctor(
-            @PathVariable Integer doctorId,
-            @RequestBody DoctorDto doctorDto
-    ) {
-        DoctorEntity existingDoctor = doctorMapper.mapFromDto(doctorService.findDoctorById(doctorId));
-
-        existingDoctor.setName(doctorDto.getName());
-        existingDoctor.setSurname(doctorDto.getSurname());
-        existingDoctor.setEmail(doctorDto.getEmail());
-        existingDoctor.setPriceForVisit(doctorDto.getPriceForVisit());
-        existingDoctor.setAddress(doctorDto.getAddress());
-        existingDoctor.setCalendars(doctorDto.getCalendars());
-        existingDoctor.setAppointments(doctorDto.getAppointments());
-        existingDoctor.setOpinions(doctorDto.getOpinions());
-
-        doctorService.create(existingDoctor);
-        return ResponseEntity.ok().build();
     }
 
 }

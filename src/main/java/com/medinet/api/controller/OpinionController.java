@@ -6,20 +6,14 @@ import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.OpinionService;
 import com.medinet.business.services.PatientService;
-import com.medinet.infrastructure.entity.DoctorEntity;
-import com.medinet.infrastructure.entity.OpinionEntity;
-import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.OpinionMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
-import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -32,7 +26,7 @@ public class OpinionController {
     private OpinionMapper opinionMapper;
 
     @PostMapping("/opinion/send")
-    public String showUsersPage(
+    public String sendOpinion(
             @RequestParam("doctorId") Integer doctorId,
             @RequestParam("opinionNote") String note
 

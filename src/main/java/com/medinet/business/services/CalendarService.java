@@ -4,6 +4,7 @@ import com.medinet.api.dto.CalendarDto;
 import com.medinet.business.dao.CalendarDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.CalendarEntity;
+import com.medinet.infrastructure.entity.DoctorEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,14 @@ public class CalendarService {
 
     public void save(CalendarEntity calendar) {
         calendarDao.save(calendar);
+    }
+
+    public CalendarEntity findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
+        Optional<CalendarEntity> calendar = calendarDao
+                .findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
+        if(calendar.isEmpty()){
+            log.error("Problem with calendar service. Calendar  not found!");
+        }
+        return calendarDao.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment).get();
     }
 }

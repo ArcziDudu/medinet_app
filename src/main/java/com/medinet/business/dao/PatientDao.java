@@ -16,4 +16,6 @@ public interface PatientDao {
     boolean existsByPhoneNumber(String phoneNumber);
 
     Optional<PatientDto> findByUserId(int id);
+
+    Optional<PatientDto> findByEmail(String email);
 }
