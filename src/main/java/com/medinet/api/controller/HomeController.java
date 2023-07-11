@@ -41,7 +41,7 @@ public class HomeController {
     @GetMapping("/booking")
     public String showBookingPage(@RequestParam(defaultValue = "0") int page, Model model, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean hasAccess = authentication.getAuthorities().stream()
+        boolean hasAccessPatientAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ADMIN")
                         || auth.getAuthority().equals("PATIENT"));
 
@@ -49,7 +49,7 @@ public class HomeController {
         boolean hasAccessDoctor = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("DOCTOR"));
 
-        if (hasAccess) {
+        if (hasAccessPatientAdmin) {
             String email = principal.getName();
             UserEntity currentUser = userRepository.findByEmail(email);
             int id = currentUser.getId();

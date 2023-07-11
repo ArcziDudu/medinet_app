@@ -53,9 +53,9 @@ public class DoctorController {
         Integer doctorId = byEmail.getDoctorId();
 
 
-        var completedAppointment = appointmentService.findAllCompletedAppointments("done");
-        var pendingAppointment = appointmentService.findAllCompletedAppointments("pending");
-        var upcomingAppointment = appointmentService.findAllCompletedAppointments("upcoming");
+        var completedAppointment = appointmentService.findAllCompletedAppointments("done",doctorId );
+        var pendingAppointment = appointmentService.findAllCompletedAppointments("pending", doctorId);
+        var upcomingAppointment = appointmentService.findAllCompletedAppointments("upcoming", doctorId);
         DoctorDto doctorById = doctorService.findDoctorById(doctorId);
         return Map.of(
                 "doctor", doctorById,
