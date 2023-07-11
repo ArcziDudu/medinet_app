@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                                         "/main.css",
                                         "/doctor_page.css",
                                         "/invoice/**",
-
+                                        "/api/**",
                                         "/myAccount.css").permitAll()
                                 .requestMatchers("/doctor/**",
                                         "appointment/approve/**"
