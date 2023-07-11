@@ -13,11 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +29,9 @@ public class AppointmentService {
     private final AppointmentDao appointmentDao;
     private final CalendarService calendarService;
     private final AppointmentMapper appointmentMapper;
+    private final PdfGeneratorService pdfGeneratorService;
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
     public String getVisitNumber() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
@@ -112,4 +116,50 @@ public class AppointmentService {
     public void save(AppointmentEntity appointment) {
         appointmentDao.saveAppointment(appointment);
     }
-}
+
+    public void generatePdf(Optional<AppointmentEntity> invoice) throws Exception {
+        String uuid = invoice.get().getUUID();
+        OffsetDateTime nowDate = OffsetDateTime.now();
+        pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice.get()), nowDate), uuid);
+    }
+
+        private String generateHtmlFromInvoice (AppointmentDto invoice, OffsetDateTime nowDate){
+            return
+                    "<!doctype html>" +
+                    "<html>" +
+                    "<head>" +
+                    "<style>" +
+                    "   body {" +
+                            "position: relative;" +
+                            "font-family: Arial, sans-serif;" +
+                            "display: flex;" +
+                            "margin-top: 50px;" +
+                            "justify-content: center;" +
+                            "align-items: flex-start;" +
+                            "text-align: start;" +
+                            "font-size: 19px; " +
+                            "font-weight: bold; " +
+                            "}" +
+                            "h6{" +
+                            "margin-top:30px"+
+                            "}"+
+                    "</style>" +
+                    "</head>" +
+                    "<body>" +
+                    "<h4>Faktura: Wizyta w przychodni medinet</h4>" +
+                    "<h4>Numer wizyty: " + invoice.getUUID() + "</h4>" +
+                    "<p>Data wizyty: " + invoice.getDateOfAppointment() + "</p>" +
+                    "<p>Godzina: " + invoice.getTimeOfVisit() + "</p>" +
+                    "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() + " " + invoice.getPatient().getSurname() + "</p>" +
+                    "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet() + "</p>" +
+                    "<p>Lekarz: " + invoice.getDoctor().getName() + " " + invoice.getDoctor().getSurname() + "</p>" +
+                    "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
+                    "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
+
+                    "<h6>Wystawiono dnia: " +nowDate.format(formatter)+ "</h6>" +
+                    "</body>" +
+                    "</html>";
+        }
+    }
+
+

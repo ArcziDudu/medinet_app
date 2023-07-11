@@ -47,7 +47,6 @@ public class ScheduledTasksService {
                                     .formatted(upcomingAppointment.getAppointmentId()));
                             return new RuntimeException("Problem with appointment service. Check logs!");
                         });
-
                 appointment.setStatus("pending");
                 appointmentService.save(appointment);
 

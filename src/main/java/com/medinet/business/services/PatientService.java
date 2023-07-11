@@ -22,7 +22,7 @@ public class PatientService {
     private final PatientDao patientDao;
 
     public PatientDto findById(Integer patientId) {
-        Optional<PatientDto> patientById = patientDao.findById(patientId);
+        Optional<PatientDto> patientById = patientDao.findByUserId(patientId);
         if(patientById.isEmpty()){
             throw new NotFoundException("Could not find patient by id: [%s]".formatted(patientId));
         }
