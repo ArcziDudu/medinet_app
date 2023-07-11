@@ -31,7 +31,7 @@ public class PatientService {
     }
 
 
-    public void createNewPatient(PatientEntity newPatient, int id) {
+    public void createNewPatient(PatientEntity newPatient) {
         patientDao.save(newPatient);
     }
 

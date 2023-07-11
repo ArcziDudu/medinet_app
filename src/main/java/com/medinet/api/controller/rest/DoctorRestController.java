@@ -25,9 +25,6 @@ import java.util.Set;
 @RequestMapping(DoctorRestController.API_DOCTOR)
 public class DoctorRestController {
     private DoctorMapper doctorMapper;
-    private RoleRepository roleRepository;
-    private final UserRepository userRepository;
-
     public static final String API_DOCTOR = "/api/doctor";
     public final String API_ALL_DOCTOR = "/all";
     public final String API_ALL_DOCTOR_PAGE = "/all/{page}";
