@@ -1,4 +1,4 @@
-package pl.zajavka.api.controller.rest;
+
 
 import com.medinet.api.dto.ExceptionMessage;
 import com.medinet.domain.exception.NotFoundException;

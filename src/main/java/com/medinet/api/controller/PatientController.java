@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -25,8 +26,10 @@ public class PatientController {
     private AppointmentService appointmentService;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
     @GetMapping("/account/user/{userId}")
-    public String showUsersPage(@PathVariable("userId") Integer doctorId, Model model) {
-        PatientDto currentPatient = patientService.findByUserId(doctorId);
+    public String showUsersPage(@PathVariable("userId") Integer userId, Model model) {
+
+
+        PatientDto currentPatient = patientService.findByUserId(userId);
         List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
         List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 

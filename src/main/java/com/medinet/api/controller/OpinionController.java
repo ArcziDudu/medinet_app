@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.OffsetDateTime;
 
 @Controller
@@ -28,12 +29,13 @@ public class OpinionController {
     @PostMapping("/opinion/send")
     public String sendOpinion(
             @RequestParam("doctorId") Integer doctorId,
-            @RequestParam("opinionNote") String note
+            @RequestParam("opinionNote") String note,
+            Principal principal
 
     ) {
-        Integer patientId = 1;
+        String email = principal.getName();
 
-        PatientDto patient = patientService.findById(patientId);
+        PatientDto patient = patientService.findByEmail(email);
         DoctorDto doctor = doctorService.findDoctorById(doctorId);
 
         OpinionDto opinion = new OpinionDto();

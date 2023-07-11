@@ -14,6 +14,7 @@ import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -133,14 +134,12 @@ public class AppointmentRestController {
     }
     @PatchMapping(API_APPOINTMENT_UPDATE_MESSAGE)
     public ResponseEntity<?> updateAppointmentMessage(@PathVariable Integer appointmentId, @RequestBody String message) {
-        Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
-        if(appointment.isEmpty()){
-            return ResponseEntity.badRequest()
-                    .body("Wizyta o podanym id nie istnieje");
-        } else if (!Objects.equals(appointment.get().getStatus(), "pending")) {
-            return ResponseEntity.badRequest()
-                    .body("Nie można modyfikować wizyty, która się nie zakoćzyła");
-        }
+
+     try{
+         Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
+     }catch (NotFoundException ex){
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+     }
         appointmentService.approveAppointment(appointmentId, message);
             return ResponseEntity.ok().build();
     }
