@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationForm {
+public class RegistrationFormDto {
     private String name;
     private String surname;
 

@@ -114,11 +114,12 @@ public class DoctorService {
     public void deleteById(Integer doctorId) {
 
         Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
-        String email = doctorById
-                .orElseThrow(()-> new RuntimeException("doctor with id: [%s] not found".formatted(doctorId)))
-                .getEmail();
+        if(doctorById.isEmpty()){
+            throw new NotFoundException("Could not find doctor by id: [%s]".formatted(doctorId));
+        }
+
         doctorDao.deleteDoctor(doctorId);
-        userRepository.deleteByEmail(email);
+        userRepository.deleteByEmail(doctorById.get().getEmail());
     }
 
     public DoctorDto findByEmail(String email) {
