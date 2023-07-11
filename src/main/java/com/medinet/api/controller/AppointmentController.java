@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -112,8 +113,20 @@ public class AppointmentController {
         model.addAttribute("calendarId", calendarId);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
-        return "redirect:/";
+        return "redirect:/booking";
 
     }
 
+    @PostMapping(value = "/invoice/generatePdf/{appointmentId}")
+    public String generatePdf(
+            @PathVariable("appointmentId") Integer appointmentId) {
+        try {
+            Optional<AppointmentEntity> appointmetnById = appointmentService.findById(appointmentId);
+
+            appointmentService.generatePdf(appointmetnById);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/account/user/1";
+    }
 }
