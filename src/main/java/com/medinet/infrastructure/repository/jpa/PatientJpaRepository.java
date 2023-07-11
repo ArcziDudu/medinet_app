@@ -1,5 +1,6 @@
 package com.medinet.infrastructure.repository.jpa;
 
+import com.medinet.api.dto.PatientDto;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.security.UserEntity;
 
@@ -18,4 +19,6 @@ public interface PatientJpaRepository extends JpaRepository<PatientEntity, Integ
     boolean existsByPhoneNumber(String phoneNumber);
 
    Optional<PatientEntity> findByUserId(int id);
+
+    Optional<PatientEntity> findByEmail(String email);
 }

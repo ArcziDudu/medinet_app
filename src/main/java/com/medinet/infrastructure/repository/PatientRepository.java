@@ -47,5 +47,10 @@ public class PatientRepository implements PatientDao {
         return patientJpaRepository.findByUserId(id).map(patientMapper::mapFromEntity);
     }
 
+    @Override
+    public Optional<PatientDto> findByEmail(String email) {
+        return patientJpaRepository.findByEmail(email).map(patientMapper::mapFromEntity);
+    }
+
 
 }

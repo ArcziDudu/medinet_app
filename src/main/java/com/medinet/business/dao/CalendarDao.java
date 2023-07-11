@@ -2,6 +2,7 @@ package com.medinet.business.dao;
 
 import com.medinet.api.dto.CalendarDto;
 import com.medinet.infrastructure.entity.CalendarEntity;
+import com.medinet.infrastructure.entity.DoctorEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,4 +17,5 @@ public interface CalendarDao {
 
     void save(CalendarEntity calendar);
 
+    Optional<CalendarEntity> findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment);
 }

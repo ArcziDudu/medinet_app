@@ -86,6 +86,7 @@ public class DoctorService {
 
     @Transactional
     public DoctorEntity create(DoctorEntity newDoctor) {
+
         Set<RoleEntity> roles = new HashSet<>();
         RoleEntity roleDoctor = roleRepository.findByRole("DOCTOR");
         roles.add(roleDoctor);

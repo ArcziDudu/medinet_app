@@ -1,6 +1,7 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.PatientDto;
+import com.medinet.business.dao.DoctorDao;
 import com.medinet.business.dao.PatientDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
@@ -44,5 +45,13 @@ public class PatientService {
             throw new NotFoundException("Could not find patient by id: [%s]".formatted(id));
         }
         return patientById.get();
+    }
+
+    public PatientDto findByEmail(String email) {
+        Optional<PatientDto> patientByEmail = patientDao.findByEmail(email);
+        if(patientByEmail.isEmpty()){
+            throw new NotFoundException("Could not find patient by email: [%s]".formatted(email));
+        }
+        return patientByEmail.get();
     }
 }
