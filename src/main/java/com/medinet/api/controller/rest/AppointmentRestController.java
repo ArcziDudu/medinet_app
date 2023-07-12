@@ -13,6 +13,11 @@ import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +39,7 @@ public class AppointmentRestController {
     public static final String API_APPOINTMENT_CREATE = "/create";
     public static final String API_APPOINTMENT_FIND_BY_ID = "/{appointmentId}";
     public static final String API_APPOINTMENT_DELETE = "/{appointmentId}";
-    public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS= "/find/all/{status}";
+    public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS = "/find/all/{status}";
     public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS_AND_DOCTOR_ID = "/find/all/{status}/{doctorId}";
     public static final String API_APPOINTMENT_UPDATE_MESSAGE = "/{appointmentId}";
 
@@ -46,8 +51,13 @@ public class AppointmentRestController {
     private final DoctorMapper doctorMapper;
     private final CalendarService calendarService;
 
+
     @PostMapping(value = API_APPOINTMENT_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createAppointment(@RequestBody RequestDto requestDto) {
+    @Operation(summary = "Create an appointment",
+            description = "Create an appointment based on the provided details")
+    public ResponseEntity<?> createAppointment(@RequestBody
+                                               @Schema(description = "Appointment request")
+                                               RequestDto requestDto) {
         LocalTime visitTime = LocalTime.parse(requestDto.getTimeOfVisit());
 
         LocalTime minAllowedTime = LocalTime.of(8, 0);
@@ -57,105 +67,141 @@ public class AppointmentRestController {
 
         if (currentDate.plusWeeks(2).isBefore(appointmentDate)) {
             return ResponseEntity.badRequest()
-                    .body("Nieprawidłowa data wizyty - nie możesz umówić się na termin późniejszy niż dwa tygodnie od dzisiaj!");
+                    .body("Invalid appointment date - you cannot schedule an appointment more than two weeks from today!");
         }
         if (currentDate.plusDays(1).isAfter(appointmentDate)) {
             return ResponseEntity.badRequest()
-                    .body("Nieprawidłowa data wizyty - nie możesz umówić się na termin wcześniejszy niż jutro!");
+                    .body("Invalid appointment date - you cannot schedule an appointment earlier than tomorrow!");
         }
         if (appointmentDate.getDayOfWeek() == DayOfWeek.SATURDAY || appointmentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
             return ResponseEntity.badRequest()
-                    .body("Nieprawidłowa data wizyty - nie możesz umówić się na weekend!");
+                    .body("Invalid appointment date - you cannot schedule an appointment on the weekend!");
         }
         if (visitTime.isBefore(minAllowedTime) || visitTime.isAfter(maxAllowedTime)) {
             return ResponseEntity.badRequest()
-                    .body("Nieprawidłowa godzina wizyty!");
-
+                    .body("Invalid appointment time!");
         } else {
-
             AppointmentEntity existAppointment = appointmentService.findByDateOfAppointmentAndTimeOfVisit(
                     requestDto.getDateOfAppointment(),
                     requestDto.getTimeOfVisit());
             if (existAppointment != null) {
                 return ResponseEntity.badRequest()
-                        .body("Podany termin jest zarezerwowany!");
+                        .body("The selected time slot is already booked!");
             }
 
             DoctorEntity doctorEntity = doctorMapper.mapFromDto(doctorService.findDoctorById(requestDto.getDoctorId()));
             CalendarEntity calendar = calendarService
                     .findByDoctorIdAndDateOfAppointment(doctorEntity, requestDto.getDateOfAppointment());
 
-            AppointmentDto appointment = AppointmentDto.builder()
-                    .dateOfAppointment(requestDto.getDateOfAppointment())
-                    .timeOfVisit(requestDto.getTimeOfVisit())
-                    .patient(patientMapper.mapFromDto(patientService.findByEmail(requestDto.getEmail())))
-                    .doctor(doctorMapper.mapFromDto(doctorService.findDoctorById(requestDto.getDoctorId())))
-                    .issueInvoice(OffsetDateTime.now())
-                    .calendarId(calendar.getCalendarId())
-                    .status("pending")
-                    .UUID(appointmentService.getVisitNumber())
-                    .build();
+            AppointmentDto appointment = createAppointmentDto(requestDto, calendar);
 
             appointmentService.processAppointment(appointmentMapper.mapFromDto(appointment));
             return ResponseEntity.ok().build();
         }
     }
 
+    private AppointmentDto createAppointmentDto(RequestDto requestDto, CalendarEntity calendar) {
+        return AppointmentDto.builder()
+                .dateOfAppointment(requestDto.getDateOfAppointment())
+                .timeOfVisit(requestDto.getTimeOfVisit())
+                .patient(patientMapper.mapFromDto(patientService.findByEmail(requestDto.getEmail())))
+                .doctor(doctorMapper.mapFromDto(doctorService.findDoctorById(requestDto.getDoctorId())))
+                .issueInvoice(OffsetDateTime.now())
+                .calendarId(calendar.getCalendarId())
+                .status("pending")
+                .UUID(appointmentService.getVisitNumber())
+                .build();
+    }
     @GetMapping(value = API_APPOINTMENT_FIND_BY_ID)
+    @Operation(summary = "Get appointment by ID",
+            description = "Retrieve information about an appointment based on its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Appointment found"),
+            @ApiResponse(responseCode = "404", description = "Appointment not found")
+    })
     public ResponseEntity<AppointmentDto> AppointmentById(@PathVariable Integer appointmentId) {
 
         if (Objects.isNull(appointmentId)) {
             return ResponseEntity.notFound().build();
         }
         Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
-        if (appointment.isEmpty()){
-            throw new NotFoundException("Wizyta o id [%s] nie istniejte".formatted(appointment));
+        if (appointment.isEmpty()) {
+            throw new NotFoundException("Appointment with ID [%s] not found".formatted(appointment));
         }
-      return ResponseEntity.ok(appointmentMapper.mapFromEntity(appointment.get()));
+        return ResponseEntity.ok(appointmentMapper.mapFromEntity(appointment.get()));
     }
+
 
     @GetMapping(value = API_APPOINTMENT_FIND_ALL_BY_STATUS)
+    @Operation(summary = "Get appointments by status",
+            description = "Retrieve appointments based on the specified status")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Appointments found"),
+            @ApiResponse(responseCode = "400", description = "Invalid status provided")
+    })
     public ResponseEntity<?> AppointmentsByStatus(@PathVariable String status) {
         if (!status.equals("done") && !status.equals("pending") && !status.equals("upcoming")) {
-           return ResponseEntity.badRequest().body("nieprawidłowy status wizyty");
+            return ResponseEntity.badRequest().body("Invalid appointment status");
         }
 
-        return ResponseEntity
-                .ok(appointmentService.findAllAppointmentsByStatus(status));
+        return ResponseEntity.ok(appointmentService.findAllAppointmentsByStatus(status));
     }
+
+
     @GetMapping(value = API_APPOINTMENT_FIND_ALL_BY_STATUS_AND_DOCTOR_ID)
-    public ResponseEntity<?> AppointmentsByStatusAndDoctorId(@PathVariable String status, @PathVariable Integer doctorId) {
+    @Operation(summary = "Get appointments by status and doctor ID",
+            description = "Retrieve appointments based on the specified status and doctor ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Appointments found"),
+            @ApiResponse(responseCode = "400", description = "Invalid status provided")
+    })
+    public ResponseEntity<?> AppointmentsByStatusAndDoctorId(
+            @PathVariable @Parameter(description = "Appointment status") String status,
+            @PathVariable @Parameter(description = "Doctor ID") Integer doctorId
+    ) {
         if (!status.equals("done") && !status.equals("pending") && !status.equals("upcoming")) {
-            return ResponseEntity.badRequest().body("nieprawidłowy status wizyty");
+            return ResponseEntity.badRequest().body("Invalid appointment status");
         }
 
-        return ResponseEntity
-                .ok(appointmentService.findAllAppointmentsByStatusAndDoctorID(status, doctorId));
+        return ResponseEntity.ok(appointmentService.findAllAppointmentsByStatusAndDoctorID(status, doctorId));
     }
+
     @PatchMapping(API_APPOINTMENT_UPDATE_MESSAGE)
-    public ResponseEntity<?> updateAppointmentMessage(@PathVariable Integer appointmentId, @RequestBody String message) {
-
-     try{
-         Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
-     }catch (NotFoundException ex){
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-     }
-        appointmentService.approveAppointment(appointmentId, message);
-            return ResponseEntity.ok().build();
-    }
-    @DeleteMapping(API_APPOINTMENT_DELETE)
-    public ResponseEntity<?> deleteAppointment(@PathVariable Integer appointmentId) {
-        Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
-        if(appointment.isEmpty()){
-            return ResponseEntity.badRequest()
-                    .body("Wizyta o podanym id nie istnieje");
-        } else if (Objects.equals(appointment.get().getStatus(), "pending")) {
-            return ResponseEntity.badRequest()
-                    .body("Nie można anulować wizyty, która się odbyła");
+    @Operation(summary = "Update appointment message", description = "Update the message for an appointment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Appointment message updated"),
+            @ApiResponse(responseCode = "400", description = "Invalid appointment ID or message provided")
+    })
+    public ResponseEntity<?> updateAppointmentMessage(
+            @PathVariable @Parameter(description = "Appointment ID") Integer appointmentId,
+            @RequestBody @Schema(description = "New appointment message") String message
+    ) {
+        try {
+            Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
+        } catch (NotFoundException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
-        else if (Objects.equals(appointment.get().getStatus(), "done")) {
-            return ResponseEntity.badRequest()
-                    .body("Nie można anulować wizyty, która się odbyła");
+
+        appointmentService.approveAppointment(appointmentId, message);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(API_APPOINTMENT_DELETE)
+    @Operation(summary = "Delete appointment", description = "Delete an appointment by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Appointment deleted"),
+            @ApiResponse(responseCode = "400", description = "Invalid appointment ID or cannot delete the appointment")
+    })
+    public ResponseEntity<?> deleteAppointment(
+            @PathVariable @Parameter(description = "Appointment ID") Integer appointmentId
+    ) {
+        Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
+        if (appointment.isEmpty()) {
+            return ResponseEntity.badRequest().body("Appointment with the provided ID does not exist");
+        } else if (Objects.equals(appointment.get().getStatus(), "pending")) {
+            return ResponseEntity.badRequest().body("Cannot cancel an appointment that has already taken place");
+        } else if (Objects.equals(appointment.get().getStatus(), "done")) {
+            return ResponseEntity.badRequest().body("Cannot cancel an appointment that has already taken place");
         }
         Integer calendarId = appointment.get().getCalendarId();
         String timeOfVisit = appointment.get().getTimeOfVisit();
