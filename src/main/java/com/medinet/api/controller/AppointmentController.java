@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,20 +69,22 @@ public class AppointmentController {
         UserEntity currentUser = userRepository.findByEmail(email);
         int id = currentUser.getId();
 
-
-        DoctorDto doctor = doctorService.findDoctorById(doctorId);
-        PatientDto patient = patientService.findByUserId(id);
-        AppointmentEntity appointment = new AppointmentEntity();
-        appointment.setDateOfAppointment(dateOfAppointment);
-        appointment.setUUID(UUID);
-        appointment.setDoctor(doctorMapper.mapFromDto(doctor));
-        appointment.setPatient(patientMapper.mapFromDto(patient));
-        appointment.setTimeOfVisit(timeOfVisit);
-        appointment.setIssueInvoice(appointmentService.issueInvoice());
-        appointment.setCalendarId(calendarId);
-        appointment.setStatus("pending");
-        appointmentService.processAppointment(appointment);
-
+        try {
+            DoctorDto doctor = doctorService.findDoctorById(doctorId);
+            PatientDto patient = patientService.findByUserId(id);
+            AppointmentEntity appointment = new AppointmentEntity();
+            appointment.setDateOfAppointment(dateOfAppointment);
+            appointment.setUUID(UUID);
+            appointment.setDoctor(doctorMapper.mapFromDto(doctor));
+            appointment.setPatient(patientMapper.mapFromDto(patient));
+            appointment.setTimeOfVisit(timeOfVisit);
+            appointment.setIssueInvoice(appointmentService.issueInvoice());
+            appointment.setCalendarId(calendarId);
+            appointment.setStatus("pending");
+            appointmentService.processAppointment(appointment);
+        }catch (RuntimeException e){
+            throw new RuntimeException();
+        }
         return "redirect:/booking";
     }
 

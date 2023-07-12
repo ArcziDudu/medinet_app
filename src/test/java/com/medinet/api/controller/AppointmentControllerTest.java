@@ -6,22 +6,25 @@ import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.entity.AppointmentEntity;
+import com.medinet.infrastructure.entity.DoctorEntity;
+import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -55,8 +58,35 @@ class AppointmentControllerTest {
     }
 
     @Test
+    void sendRequestToQueueWithValidData() {
+        //given
+        Integer doctorId = 1;
+        Integer patientId = 1;
+        String timeOfVisit = "10:00";
+        LocalDate dateOfAppointment = LocalDate.now();
+        Integer calendarId = 1;
+        String email = "test@example.com";
+        UserEntity currentUser = new UserEntity();
+        currentUser.setId(1);
+        when(principal.getName()).thenReturn(email);
+        when(userRepository.findByEmail(email)).thenReturn(currentUser);
+        DoctorDto doctorDto = new DoctorDto();
+        when(doctorService.findDoctorById(doctorId)).thenReturn(doctorDto);
+        PatientDto patientDto = new PatientDto();
+        when(patientService.findByUserId(patientId)).thenReturn(patientDto);
+        AppointmentEntity appointmentEntity = new AppointmentEntity();
+        when(doctorMapper.mapFromDto(doctorDto)).thenReturn(new DoctorEntity());
+        when(patientMapper.mapFromDto(patientDto)).thenReturn(new PatientEntity());
+        //when
+        String result = appointmentController.sendRequestToQueue(dateOfAppointment, timeOfVisit, "123456",
+                calendarId, doctorId, principal);
+        //then
+        Assertions.assertEquals("redirect:/booking", result);
+    }
+
+    @Test
     void ThatReturnsAppointmentBookingPage() {
-        // Arrange
+        // given
         Integer doctorId = 11;
         int patientId = 2;
         String timeOfVisit = "10:00 AM";
@@ -121,7 +151,6 @@ class AppointmentControllerTest {
         //then
         Assertions.assertEquals("redirect:/booking", viewName);
     }
-
 
     @Test
     void thatRemoveAppointmentAndRedirectToBooking() {
