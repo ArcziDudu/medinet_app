@@ -9,6 +9,9 @@ import com.medinet.infrastructure.security.RoleEntity;
 import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -41,30 +44,41 @@ public class PatientRestController {
     private final PatientService patientService;
 
     @PostMapping(value = API_PATIENT_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createNewPatient(@Valid
-                                               @RequestBody RegistrationFormDto registrationFormDto) {
+    @Operation(summary = "Create a new patient",
+            description = "Create a new patient based on the provided registration form")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Patient created")
+    })
+    public ResponseEntity<?> createNewPatient(@Valid @RequestBody RegistrationFormDto registrationFormDto) {
         RoleEntity patient = roleRepository.findByRole("PATIENT");
         Set<RoleEntity> roles = new HashSet<>();
         roles.add(patient);
 
-
-
         PatientEntity newPatient = prepareNewPatient(registrationFormDto, roles);
         patientService.createNewPatient(newPatient);
+
         return ResponseEntity
                 .created(URI.create(API_PATIENT_CREATE + PATIENT_ID_RESULT.formatted(newPatient.getPatientId())))
                 .build();
-
     }
 
+
     private PatientEntity prepareNewPatient(RegistrationFormDto registrationFormDto, Set<RoleEntity> roles) {
-        UserEntity newPatientUser = UserEntity.builder()
+        UserEntity newPatientUser = getUserEntity(registrationFormDto, roles);
+        userRepository.save(newPatientUser);
+        return newPatient(registrationFormDto, newPatientUser);
+    }
+
+    private UserEntity getUserEntity(RegistrationFormDto registrationFormDto, Set<RoleEntity> roles) {
+        return UserEntity.builder()
                 .email(registrationFormDto.getEmail())
                 .password(passwordEncoder.encode(registrationFormDto.getPassword()))
                 .roles(roles)
                 .active(true)
                 .build();
-        userRepository.save(newPatientUser);
+    }
+
+    private static PatientEntity newPatient(RegistrationFormDto registrationFormDto, UserEntity newPatientUser) {
         return PatientEntity.builder()
                 .user(newPatientUser)
                 .appointments(new HashSet<>())

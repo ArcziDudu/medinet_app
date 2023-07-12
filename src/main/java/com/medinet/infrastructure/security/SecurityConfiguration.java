@@ -51,6 +51,8 @@ public class SecurityConfiguration {
                                         "/doctor_page.css",
                                         "/invoice/**",
                                         "/api/**",
+                                        "/swagger-ui/**",
+                                        "/v3/**",
                                         "/myAccount.css").permitAll()
                                 .requestMatchers("/doctor/**",
                                         "appointment/approve/**"
