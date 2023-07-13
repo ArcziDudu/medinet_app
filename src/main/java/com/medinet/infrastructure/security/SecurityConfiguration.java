@@ -65,6 +65,7 @@ public class SecurityConfiguration {
 
                 ).formLogin(
                         form -> form
+                                .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/booking")
                                 .permitAll()
@@ -77,7 +78,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
     SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
