@@ -75,3 +75,6 @@ tasks.named('test') {
         events "passed", "skipped", "failed"
     }
 }
+bootJar {
+    archiveFileName = "medinet.${archiveExtension.get()}"
+}
