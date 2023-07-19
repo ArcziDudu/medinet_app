@@ -25,8 +25,6 @@ import java.util.Set;
 public class DoctorController {
     private DoctorService doctorService;
     private AppointmentService appointmentService;
-    private final CalendarMapper calendarMapper;
-
 
     private final DateTimeFormatter polishMonthFormatter
             = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));

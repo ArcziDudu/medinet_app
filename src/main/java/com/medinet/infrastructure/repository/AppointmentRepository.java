@@ -42,7 +42,9 @@ public class AppointmentRepository implements AppointmentDao {
     }
 
     @Override
-    public Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
+    public Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(
+            LocalDate dateOfAppointment,
+            LocalTime timeOfVisit) {
         return appointmentJpaRepository.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
     }
 
