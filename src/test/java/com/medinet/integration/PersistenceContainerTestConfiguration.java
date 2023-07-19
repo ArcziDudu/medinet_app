@@ -24,8 +24,6 @@ public class PersistenceContainerTestConfiguration {
             .withUsername(USERNAME)
             .withPassword(PASSWORD);
         postgresqlContainer.start();
-//        System.setProperty("spring.datasource.username", postgresqlContainer.getUsername());
-//        System.setProperty("spring.datasource.password", postgresqlContainer.getPassword());
         return postgresqlContainer;
     }
 

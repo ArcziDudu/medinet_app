@@ -37,7 +37,6 @@ import static org.mockito.Mockito.*;
 class DoctorRepositoryTest {
     @Mock
     private DoctorJpaRepository doctorJpaRepository;
-
     @Test
     public void testFindAllAvailableSpecialization() {
         // given
@@ -105,7 +104,6 @@ class DoctorRepositoryTest {
         assertTrue(result.isPresent());
         assertEquals(doctorEntity, result.get());
 
-        // Upewnij się, że odpowiednie metody zostały wywołane na mockach
         verify(doctorJpaRepository, times(1)).findByEmail(doctorEntity.getEmail());
 
     }
