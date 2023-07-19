@@ -4,6 +4,7 @@ import com.medinet.api.dto.AppointmentDto;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,6 @@ public interface AppointmentDao {
 
     Optional<AppointmentEntity> findById(Integer appointmentID);
 
-    Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, String timeOfVisit);
+    Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
 
 }

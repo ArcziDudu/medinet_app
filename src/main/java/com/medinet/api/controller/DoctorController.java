@@ -41,7 +41,7 @@ public class DoctorController {
         Integer doctorId = byEmail.getDoctorId();
 
 
-        var completedAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("done",doctorId );
+        var completedAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("done", doctorId);
         var pendingAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("pending", doctorId);
         var upcomingAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("upcoming", doctorId);
         DoctorDto doctorById = doctorService.findDoctorById(doctorId);
@@ -74,7 +74,7 @@ public class DoctorController {
     }
 
     @GetMapping("/specialist/details/{doctorId}")
-    public String showSortedDoctorsPage(
+    public String showDoctorDetailsPage(
             @PathVariable(value = "doctorId") Integer doctorId,
             Model model) {
         DoctorDto doctorProfile = doctorService.findDoctorById(doctorId);
@@ -86,20 +86,13 @@ public class DoctorController {
     }
 
     @GetMapping("/user/{userId}")
-    public String getUser(@PathVariable("userId") Integer userId, Model model, Principal principal) {
-
-        String email = principal.getName();
-        DoctorDto byEmail = doctorService.findByEmail(email);
-        Integer doctorId = byEmail.getDoctorId();
+    public String getUser(
+            @PathVariable("userId") Integer userId,
+            Model model) {
 
         DoctorDto user = doctorService.findDoctorById(userId);
-        Set<CalendarEntity> calendars = doctorService.findDoctorById(doctorId).getCalendars();
-        calendars.forEach(calendarMapper::mapFromEntity);
-
-        List<LocalDate> dates = calendars.stream().map(CalendarEntity::getDate).toList();
 
         model.addAttribute("doctor", user);
-        model.addAttribute("dates", dates);
 
         return "myAccountDoctor";
     }

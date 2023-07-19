@@ -34,8 +34,6 @@
 
         .wrapper{
             min-height: 100%;
-            height: auto !important;
-            height: 100%;
             margin-bottom:-29px;
         }
 
@@ -62,7 +60,7 @@
             top: 0;
             transition: opacity .5s ease;
             width: 100vw;
-            background-image: url("/static/main_background_forMedinetHome.jpg");
+            background-image: url(th:href="@{/static/main_background_forMedinetHome.jpg}");
             background-position: center;
             background-size: contain;
             opacity: 1;
@@ -315,7 +313,7 @@
             </div>
             <div class="navbar-links">
                 <a href="#" class="navbar-link">Polityka</a>
-                <a href="/medinet/booking" class="navbar-link">Znajdź specjalistę</a>
+                <a th:href="@{/medinet/booking}" class="navbar-link">Znajdź specjalistę</a>
                 <a href="#" class="navbar-link">Dostępne placówki</a>
             </div>
         </div>

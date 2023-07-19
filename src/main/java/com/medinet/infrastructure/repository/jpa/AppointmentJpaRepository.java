@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +23,5 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntit
             """)
     List<AppointmentEntity> findAllByStatus(@Param("status") String status);
 
-    Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, String timeOfVisit);
+    Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
 }

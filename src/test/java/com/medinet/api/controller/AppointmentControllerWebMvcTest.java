@@ -6,14 +6,13 @@ import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
+import com.medinet.infrastructure.entity.AddressEntity;
 import com.medinet.infrastructure.entity.AppointmentEntity;
-import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
-import com.medinet.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -28,13 +27,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.ui.Model;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static com.medinet.util.EntityFixtures.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.web.reactive.result.view.Rendering.view;
 
 @WebMvcTest(controllers = AppointmentController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -68,41 +72,6 @@ public class AppointmentControllerWebMvcTest {
     @Mock
     private Model model;
 
-//    @Test
-//    @WithMockUser
-//    public void testBookingAppointment() throws Exception {
-//        // Given
-//        int doctorId = 1;
-//        int patientId = 2;
-//        String timeOfVisit = "10:00 AM";
-//        LocalDate dateOfAppointment = LocalDate.of(2023, 7, 12);
-//        int calendarId = 3;
-//        String expectedViewName = "appointmentBooking";
-//        DoctorEntity doctorEntity = someDoctor1();
-//        PatientDto patientDto = new PatientDto();
-//        String UUID = "abcd1234";
-//        DoctorDto doctorDto = doctorMapper.mapFromEntity(doctorEntity);
-//        when(doctorService.findDoctorById(doctorId)).thenReturn(doctorDto);
-//        when(patientService.findByUserId(patientId)).thenReturn(patientDto);
-//        when(appointmentService.getVisitNumber()).thenReturn(UUID);
-//
-//        // When
-//        mockMvc.perform(MockMvcRequestBuilders.get("/request")
-//                        .param("doctorId", String.valueOf(doctorId))
-//                        .param("patientId", String.valueOf(patientId))
-//                        .param("selectedHour", timeOfVisit)
-//                        .param("selectedDate", dateOfAppointment.toString())
-//                        .param("calendarId", String.valueOf(calendarId)))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.view().name(expectedViewName))
-//                .andExpect(MockMvcResultMatchers.model().attribute("doctor", doctorEntity))
-//                .andExpect(MockMvcResultMatchers.model().attribute("patient", patientDto))
-//                .andExpect(MockMvcResultMatchers.model().attribute("visitNumber", UUID))
-//                .andExpect(MockMvcResultMatchers.model().attribute("selectedHour", timeOfVisit))
-//                .andExpect(MockMvcResultMatchers.model().attribute("selectedDate", dateOfAppointment))
-//                .andExpect(MockMvcResultMatchers.model().attribute("calendarId", calendarId));
-//    }
-
     @Test
     @WithMockUser
     public void testSendRequestToQueue() throws Exception {
@@ -119,26 +88,26 @@ public class AppointmentControllerWebMvcTest {
         UserEntity userEntity = UserEntity.builder().id(userId).build();
 
 
-        Mockito.when(userRepository.findByEmail(email)).thenReturn(userEntity);
+        when(userRepository.findByEmail(email)).thenReturn(userEntity);
 
 
-        Mockito.when(doctorService.findDoctorById(doctorId)).thenReturn(doctorDto);
+        when(doctorService.findDoctorById(doctorId)).thenReturn(doctorDto);
 
-        Mockito.when(patientService.findByUserId(userId)).thenReturn(patientDto);
+        when(patientService.findByUserId(userId)).thenReturn(patientDto);
 
         AppointmentDto appointmentDto = new AppointmentDto();
-        Mockito.when(appointmentService.processAppointment(Mockito.any(AppointmentEntity.class)))
+        when(appointmentService.processAppointment(Mockito.any(AppointmentEntity.class)))
                 .thenReturn(appointmentDto);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/booking/appointment")
+        mockMvc.perform(post("/booking/appointment")
                         .param("DateOfAppointment", dateOfAppointment.toString())
                         .param("HourOfAppointment", timeOfVisit)
                         .param("UUID", UUID)
                         .param("calendarId", Integer.toString(calendarId))
                         .param("doctorId", doctorId.toString())
-                        .principal(() -> email)) // Set the authenticated user
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                        .principal(() -> email))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/booking"));
     }
 
@@ -148,40 +117,114 @@ public class AppointmentControllerWebMvcTest {
         Integer appointmentId = 1;
         String message = "Approved";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/appointment/approve/{appointmentId}", appointmentId)
+        mockMvc.perform(post("/appointment/approve/{appointmentId}", appointmentId)
                         .param("message", message))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/booking"));
         verify(appointmentService, times(1)).approveAppointment(appointmentId, message);
     }
 
+    @Test
+    void testBookingAppointment() throws Exception {
+        // Test data
+        int doctorId = 1;
+        int patientId = 2;
+        LocalTime selectedHour = LocalTime.of(10, 0);
+        LocalDate selectedDate = LocalDate.of(2023, 7, 19);
+        int calendarId = 3;
+        String uuid = UUID.randomUUID().toString();
 
-//
-//    @Test
-//    public void testRemoveAppointment() throws Exception {
-//        // Given
-//        int appointmentId = 1;
-//        String selectedHour = "12:00";
-//        int calendarId = 2;
-//        String principalEmail = "test@example.com";
-//        UserEntity currentUser = new UserEntity();
-//        currentUser.setId(1);
-//        currentUser.setEmail(principalEmail);
-//        when(userRepository.findByEmail(principalEmail)).thenReturn(currentUser);
-//        PatientDto currentPatient = new PatientDto();
-//        when(patientService.findById(currentUser.getId())).thenReturn(currentPatient);
-//
-//        // When & Then
-//        mockMvc.perform(delete("/booking/remove/{appointmentId}", appointmentId)
-//                        .param("selectedHour", selectedHour)
-//                        .param("calendarId", String.valueOf(calendarId))
-//                        .principal(principal))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(redirectedUrl("/booking"));
-//
-//        verify(appointmentService, times(1)).processRemovingAppointment(appointmentId, selectedHour, calendarId);
-//        verify(patientService, times(1)).findById(currentUser.getId());
-//    }
+        // Mocking DoctorDto for the doctor
+        DoctorDto doctor = new DoctorDto();
+        doctor.setDoctorId(doctorId);
+        when(doctorService.findDoctorById(doctorId)).thenReturn(doctor);
+
+        // Mocking PatientDto for the patient
+        PatientDto patient = new PatientDto();
+        patient.setPatientId(patientId);
+        when(patientService.findByUserId(patientId)).thenReturn(patient);
+
+        // Mocking the UUID for the visit number
+        when(appointmentService.getVisitNumber()).thenReturn(uuid);
+        AddressEntity address = new AddressEntity();
+        address.setCity("City Name");
+        address.setStreet("Street Name");
+        doctor.setAddress(address);
+
+        doctor.setPriceForVisit(new BigDecimal(200));
+
+        mockMvc.perform(get("/request")
+                        .param("doctorId", String.valueOf(doctorId))
+                        .param("patientId", String.valueOf(patientId))
+                        .param("selectedHour", selectedHour.toString())
+                        .param("selectedDate", selectedDate.toString())
+                        .param("calendarId", String.valueOf(calendarId)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("appointmentBooking"))
+                .andExpect(model().attribute("doctor", doctor))
+                .andExpect(model().attribute("calendarId", calendarId))
+                .andExpect(model().attribute("patient", patient))
+                .andExpect(model().attribute("selectedHour", selectedHour))
+                .andExpect(model().attribute("selectedDate", selectedDate))
+                .andExpect(model().attribute("visitNumber", uuid));
+
+        // Verify that the appropriate service methods were called
+        verify(doctorService, times(1)).findDoctorById(doctorId);
+        verify(patientService, times(1)).findByUserId(patientId);
+        verify(appointmentService, times(1)).getVisitNumber();
+    }
+    @Test
+    void testRemoveAppointment() throws Exception {
+        //given
+        int appointmentId = 1;
+        LocalTime selectedHour = LocalTime.of(10, 0);
+        int calendarId = 2;
+        String userEmail = "user@example.com";
+        int userId = 1;
+
+        when(principal.getName()).thenReturn(userEmail);
+        UserEntity currentUser = new UserEntity();
+        currentUser.setId(userId);
+        when(userRepository.findByEmail(userEmail)).thenReturn(currentUser);
+
+        PatientDto currentPatient = new PatientDto();
+        currentPatient.setPatientId(userId);
+        when(patientService.findById(userId)).thenReturn(currentPatient);
+
+        List<AppointmentDto> upcomingAppointments = List.of();
+        List<AppointmentDto> completedAppointments = List.of();
+        when(appointmentService.findUpcomingAppointments(currentPatient)).thenReturn(upcomingAppointments);
+        when(appointmentService.findCompletedAppointments(currentPatient)).thenReturn(completedAppointments);
+
+        //when
+        mockMvc.perform(delete("/booking/remove/{appointmentId}", appointmentId)
+                        .param("selectedHour", selectedHour.toString())
+                        .param("calendarId", String.valueOf(calendarId))
+                        .principal(principal))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/booking"));
+
+        //then
+        verify(appointmentService, times(1)).processRemovingAppointment(appointmentId, selectedHour, calendarId);
+        verify(patientService, times(1)).findById(userId);
+        verify(appointmentService, times(1)).findUpcomingAppointments(currentPatient);
+        verify(appointmentService, times(1)).findCompletedAppointments(currentPatient);
+        verify(userRepository, times(1)).findByEmail(userEmail);
+    }
+    @Test
+    void testGeneratePdf() throws Exception {
+
+        int appointmentId = 1;
 
 
+        AppointmentEntity appointmentEntity = new AppointmentEntity();
+        when(appointmentService.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
+
+        mockMvc.perform(post("/invoice/generatePdf/{appointmentId}", appointmentId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/account/user/1"));
+        
+        verify(appointmentService, times(1)).findById(appointmentId);
+        verify(appointmentService, times(1)).generatePdf(Optional.of(appointmentEntity));
+    }
 }

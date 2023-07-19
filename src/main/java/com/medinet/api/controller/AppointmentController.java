@@ -36,7 +36,7 @@ public class AppointmentController {
     @GetMapping("/request")
     public String bookingAppointment(@RequestParam("doctorId") Integer doctorId,
                                      @RequestParam("patientId") Integer patientId,
-                                     @RequestParam("selectedHour") String timeOfVisit,
+                                     @RequestParam("selectedHour") LocalTime timeOfVisit,
                                      @RequestParam("selectedDate") LocalDate dateOfAppointment,
                                      @RequestParam("calendarId") Integer calendarId,
                                      Model model) {
@@ -58,7 +58,7 @@ public class AppointmentController {
     @PostMapping("/booking/appointment")
     public String sendRequestToQueue(
             @RequestParam("DateOfAppointment") LocalDate dateOfAppointment,
-            @RequestParam("HourOfAppointment") String timeOfVisit,
+            @RequestParam("HourOfAppointment") LocalTime timeOfVisit,
             @RequestParam("UUID") String UUID,
             @RequestParam("calendarId") Integer calendarId,
             @RequestParam("doctorId") Integer doctorId,
@@ -83,7 +83,7 @@ public class AppointmentController {
             appointment.setStatus("pending");
             appointmentService.processAppointment(appointment);
         }catch (RuntimeException e){
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         return "redirect:/booking";
     }
@@ -99,7 +99,7 @@ public class AppointmentController {
     @DeleteMapping("booking/remove/{appointmentId}")
     public String removeAppointment(
             @PathVariable(value = "appointmentId") Integer appointmentID,
-            @RequestParam(value = "selectedHour") String calendarHour,
+            @RequestParam(value = "selectedHour") LocalTime calendarHour,
             @RequestParam(value = "calendarId") Integer calendarId,
             Principal principal,
             Model model) {
@@ -133,4 +133,6 @@ public class AppointmentController {
         }
         return "redirect:/account/user/1";
     }
+
+
 }

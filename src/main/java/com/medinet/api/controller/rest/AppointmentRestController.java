@@ -58,7 +58,7 @@ public class AppointmentRestController {
     public ResponseEntity<?> createAppointment(@RequestBody
                                                @Schema(description = "Appointment request")
                                                RequestDto requestDto) {
-        LocalTime visitTime = LocalTime.parse(requestDto.getTimeOfVisit());
+        LocalTime visitTime = requestDto.getTimeOfVisit();
 
         LocalTime minAllowedTime = LocalTime.of(8, 0);
         LocalTime maxAllowedTime = LocalTime.of(16, 0);
@@ -204,7 +204,7 @@ public class AppointmentRestController {
             return ResponseEntity.badRequest().body("Cannot cancel an appointment that has already taken place");
         }
         Integer calendarId = appointment.get().getCalendarId();
-        String timeOfVisit = appointment.get().getTimeOfVisit();
+        LocalTime timeOfVisit = appointment.get().getTimeOfVisit();
         appointmentService.processRemovingAppointment(appointmentId, timeOfVisit, calendarId);
         return ResponseEntity.ok().build();
     }

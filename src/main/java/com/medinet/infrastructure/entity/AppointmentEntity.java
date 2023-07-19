@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -22,7 +23,7 @@ public class AppointmentEntity {
     private Integer appointmentId;
 
     @Column(name = "time_of_visit")
-    private String timeOfVisit;
+    private LocalTime timeOfVisit;
 
     @Column(name = "status")
     private String status;
