@@ -4,7 +4,7 @@ CREATE TABLE appointment
     patient_id          INT                      NOT NULL,
     doctor_id           INT                      NOT NULL,
     calendar_id         INT                      NOT NULL,
-    time_of_visit       VARCHAR(21)              NOT NULL,
+    time_of_visit       time                     NOT NULL,
     time_of_issue       TIMESTAMP WITH TIME ZONE NOT NULL,
     date_of_appointment DATE                     NOT NULL,
     status              text                     NOT NULL,

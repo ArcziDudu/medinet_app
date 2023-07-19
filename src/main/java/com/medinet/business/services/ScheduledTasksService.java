@@ -30,10 +30,9 @@ public class ScheduledTasksService {
                 .stream().map(appointmentMapper::mapFromDto).toList();
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         for (AppointmentEntity upcomingAppointment : upcoming) {
             if (upcomingAppointment.getDateOfAppointment().equals(today)
-                    && now.isAfter(LocalTime.parse(upcomingAppointment.getTimeOfVisit(), formatter))) {
+                    && now.isAfter(upcomingAppointment.getTimeOfVisit())) {
 
                 AppointmentEntity appointment = appointmentService.findById(upcomingAppointment.getAppointmentId())
                         .orElseThrow(() -> {

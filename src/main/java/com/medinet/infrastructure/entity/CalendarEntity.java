@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -28,8 +29,7 @@ public class CalendarEntity {
     private LocalDate date;
 
     @Column(name = "hours")
-    private List<String> hours;
-
+    private List<LocalTime> hours;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
