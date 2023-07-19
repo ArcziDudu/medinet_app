@@ -53,7 +53,7 @@ public class RegisterController {
         }
 
         if (result.hasErrors()) {
-            return "/register";
+            return "register";
         }
         UserEntity newUser = UserEntity.builder()
                 .email(form.getEmail())

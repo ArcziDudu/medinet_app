@@ -45,6 +45,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/login",
                                         "/",
                                         "/register/**",
+                                        "/main_background_forMedinetHome.jpg",
                                         "/error",
                                         "/booking/**",
                                         "/main.css",

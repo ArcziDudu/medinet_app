@@ -64,7 +64,7 @@ public class AppointmentService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             if (appointment.getDateOfAppointment().isBefore(today)
                     || (appointment.getDateOfAppointment().equals(today)
-                    && now.equals(LocalTime.parse(appointment.getTimeOfVisit(), formatter)))) {
+                    && now.equals(appointment.getTimeOfVisit()))) {
                 appointment.setStatus("pending");
             } else {
                 appointment.setStatus("upcoming");
@@ -96,14 +96,14 @@ public class AppointmentService {
 
     @Transactional
     public void processRemovingAppointment(Integer appointmentID,
-                                           String calendarHour,
+                                           LocalTime calendarHour,
                                            Integer calendarId) {
         Optional<CalendarEntity> calendar = calendarService.findById(calendarId);
-        List<String> hours = calendar.orElseThrow().getHours();
+        List<LocalTime> hours = calendar.orElseThrow().getHours();
         hours.add(calendarHour);
-        hours.sort(new Comparator<String>() {
+        hours.sort(new Comparator<LocalTime>() {
             @Override
-            public int compare(String hour1, String hour2) {
+            public int compare(LocalTime hour1, LocalTime hour2) {
                 return hour1.compareTo(hour2);
             }
         });
@@ -138,7 +138,7 @@ public class AppointmentService {
         pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice.get()), nowDate), uuid);
     }
 
-    @Transactional
+
     private String generateHtmlFromInvoice(AppointmentDto invoice, OffsetDateTime nowDate) {
         return
                 "<!doctype html>" +
@@ -178,7 +178,7 @@ public class AppointmentService {
                         "</html>";
     }
 
-    public AppointmentEntity findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, String timeOfVisit) {
+    public AppointmentEntity findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
         Optional<AppointmentEntity> appointment =
                 appointmentDao.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
         return appointment.orElse(null);

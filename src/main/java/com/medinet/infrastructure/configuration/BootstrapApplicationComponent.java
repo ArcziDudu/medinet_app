@@ -42,14 +42,14 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
     }
 
 
-    public static List<String> hoursArrayGenerator() {
+    public static List<LocalTime> hoursArrayGenerator() {
         LocalTime startTime = LocalTime.of(8, 0);
         LocalTime endTime = LocalTime.of(16, 0);
 
-        List<String> hours = new ArrayList<>();
+        List<LocalTime> hours = new ArrayList<>();
         LocalTime currentTime = startTime;
         while (currentTime.isBefore(endTime)) {
-                hours.add(currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+                hours.add(currentTime);
                 currentTime = currentTime.plusHours(1);
         }
         return hours;
@@ -63,7 +63,7 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
         }
 
         List<LocalDate> twoWeeksDatesForDoctors = generateDateList();
-        List<String> hours = hoursArrayGenerator();
+        List<LocalTime> hours = hoursArrayGenerator();
         List<DoctorEntity> all = doctorJpaRepository.findAll();
         for (LocalDate date : twoWeeksDatesForDoctors) {
                 for (DoctorEntity doctor : all) {
