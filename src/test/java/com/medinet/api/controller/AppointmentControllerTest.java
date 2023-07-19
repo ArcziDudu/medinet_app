@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
@@ -62,7 +63,7 @@ class AppointmentControllerTest {
         //given
         Integer doctorId = 1;
         Integer patientId = 1;
-        String timeOfVisit = "10:00";
+        LocalTime timeOfVisit = LocalTime.of(10, 0);
         LocalDate dateOfAppointment = LocalDate.now();
         Integer calendarId = 1;
         String email = "test@example.com";
@@ -89,7 +90,7 @@ class AppointmentControllerTest {
         // given
         Integer doctorId = 11;
         int patientId = 2;
-        String timeOfVisit = "10:00 AM";
+        LocalTime timeOfVisit = LocalTime.of(12, 0);
         LocalDate dateOfAppointment = LocalDate.of(2023, 7, 12);
         Integer calendarId = 3;
         String expectedViewName = "appointmentBooking";
@@ -116,7 +117,7 @@ class AppointmentControllerTest {
     void ThatSendRequestToQueueAndRedirectsToBookingPage() {
         // Given
         LocalDate dateOfAppointment = LocalDate.of(2023, 7, 12);
-        String timeOfVisit = "10:00 AM";
+        LocalTime timeOfVisit = LocalTime.of(12, 0);
         String UUID = "abcd1234";
         Integer calendarId = 3;
         Integer doctorId = 1;
@@ -155,7 +156,7 @@ class AppointmentControllerTest {
     @Test
     void thatRemoveAppointmentAndRedirectToBooking() {
         int appointmentID = 1;
-        String calendarHour = "12:00";
+        LocalTime calendarHour = LocalTime.of(12, 0);
         int calendarId = 1;
         String email = "test@example.com";
         UserEntity currentUser = new UserEntity();

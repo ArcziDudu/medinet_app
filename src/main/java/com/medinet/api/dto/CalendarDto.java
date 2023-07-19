@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 @Data
 @Builder
@@ -15,6 +16,6 @@ import java.util.List;
 public class CalendarDto {
     Integer calendarId;
     LocalDate date;
-    List<String> hours;
+    List<LocalTime> hours;
     DoctorEntity doctor;
 }

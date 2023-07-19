@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 
 @Data
@@ -16,7 +17,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class AppointmentDto {
     Integer appointmentId;
-    String timeOfVisit;
+    LocalTime timeOfVisit;
     String status;
     String noteOfAppointment;
     String UUID;
