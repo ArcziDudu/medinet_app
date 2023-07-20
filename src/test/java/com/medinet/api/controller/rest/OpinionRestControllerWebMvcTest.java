@@ -46,7 +46,7 @@ public class OpinionRestControllerWebMvcTest {
     private DoctorMapper doctorMapper;
 
     @Test
-    public void allOpinionsByPatient_ReturnsOpinions_WhenPatientIdIsValid() throws Exception {
+    public void allOpinionsByPatientReturnsOpinionsWhenPatientIdIsValid() throws Exception {
         // given
         Integer patientId = 1; // replace with an appropriate patient id
         List<OpinionDto> opinions = new ArrayList<>();
@@ -62,7 +62,7 @@ public class OpinionRestControllerWebMvcTest {
     }
 
     @Test
-    public void allOpinionsByDoctor_ReturnsOpinions_WhenDoctorIdIsValid() throws Exception {
+    public void allOpinionsByDoctorReturnsOpinionsWhenDoctorIdIsValid() throws Exception {
         // given
         Integer doctorId = 1; // replace with an appropriate doctor id
         List<OpinionDto> opinions = new ArrayList<>();
