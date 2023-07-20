@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AppointmentService should")
 class AppointmentServiceTest {
     @Mock
     private AppointmentDao appointmentDao;
@@ -39,6 +39,7 @@ class AppointmentServiceTest {
 
     @InjectMocks
     private AppointmentService appointmentService;
+
 
     @Test
     public void processRemovingAppointment_RemovesAppointmentAndAddsHourToCalendar() {

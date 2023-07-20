@@ -1,12 +1,10 @@
 package com.medinet.api.controller.rest;
 
-import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.OpinionDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.OpinionService;
 import com.medinet.business.services.PatientService;
 import com.medinet.domain.exception.NotFoundException;
-import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
@@ -21,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -31,8 +28,8 @@ import java.util.List;
 public class OpinionRestController {
     public static final String API_OPINION = "/api/opinion";
     public static final String API_OPINION_ALL = "/all";
-    public static final String API_OPINION_BY_PATIENT = "/{patientId}";
-    public static final String API_OPINION_BY_DOCTOR = "/{doctorId}";
+    public static final String API_OPINION_BY_PATIENT = "/patient/{patientId}";
+    public static final String API_OPINION_BY_DOCTOR = "/doctor/{doctorId}";
     public static final String API_OPINION_CREATE = "/create/{patientId}/{doctorId}";
 
     private final OpinionService opinionService;
@@ -78,7 +75,7 @@ public class OpinionRestController {
             @ApiResponse(responseCode = "200", description = "Opinion created"),
             @ApiResponse(responseCode = "400", description = "Invalid patient ID or doctor ID")
     })
-    public ResponseEntity<?> createDoctor(
+    public ResponseEntity<?> createOpinion(
             @PathVariable @Parameter(description = "Patient ID") Integer patientId,
             @PathVariable @Parameter(description = "Doctor ID") Integer doctorId,
             @RequestBody @Schema(description = "Opinion text") String opinion) {

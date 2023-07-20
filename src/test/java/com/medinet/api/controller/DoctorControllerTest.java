@@ -73,10 +73,10 @@ class DoctorControllerTest {
         when(appointmentService.findAllAppointmentsByStatusAndDoctorID("upcoming", doctorDto.getDoctorId()))
                 .thenReturn(upcomingAppointments);
 
-        // Act
+        // wehn
         Map<String, ?> data = doctorController.prepareNecessaryDataForDoctor(principal);
 
-        // Assert
+        // then
         assertEquals(doctorDto, data.get("doctor"));
         assertEquals(completedAppointments, data.get("completedAppointment"));
         assertEquals(pendingAppointments, data.get("pendingAppointment"));

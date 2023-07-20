@@ -21,9 +21,7 @@ public class CalendarService {
     private final CalendarDao calendarDao;
 
     public List<CalendarDto> findAllCalendar() {
-        List<CalendarDto> calendars = calendarDao.findAllCalendar();
-        log.info("Available calendars: [{}]", calendars.size());
-        return calendars;
+        return calendarDao.findAllCalendar();
     }
 
 
