@@ -32,7 +32,7 @@ public class DoctorRestController {
     public final String API_ALL_DOCTOR = "/all";
     public final String API_ALL_DOCTOR_PAGE = "/all/{page}";
     public final String API_ONE_DOCTOR = "/{doctorId}";
-    public final String API_CREATE_DOCTOR = "/create";
+    public static final String API_CREATE_DOCTOR = "/create";
     public static final String DOCTOR_ID_RESULT = "/%s";
     private final DoctorService doctorService;
 
@@ -44,11 +44,11 @@ public class DoctorRestController {
             @ApiResponse(responseCode = "404", description = "Doctor not found")
     })
     public ResponseEntity<DoctorDto> oneDoctorById(@PathVariable Integer doctorId) {
-        if (Objects.isNull(doctorId)) {
+        DoctorDto doctorDto = doctorService.findDoctorById(doctorId);
+        if (Objects.isNull(doctorDto)) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity
-                .ok(doctorService.findDoctorById(doctorId));
+        return ResponseEntity.ok(doctorDto);
     }
 
     @GetMapping(value = API_ALL_DOCTOR)

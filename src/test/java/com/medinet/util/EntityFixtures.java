@@ -1,6 +1,8 @@
 package com.medinet.util;
 
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.infrastructure.entity.AddressEntity;
+import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.security.UserEntity;
@@ -8,6 +10,9 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @UtilityClass
@@ -108,6 +113,21 @@ public class EntityFixtures {
                         .city("Kraków")
                         .postalCode("55-151")
                         .build())
+                .build();
+    }
+
+    public static AppointmentDto someAppointment1(){
+        return AppointmentDto.builder()
+                .appointmentId(1)
+                .timeOfVisit(LocalTime.of(10, 0))
+                .status("done")
+                .noteOfAppointment("First appointment note")
+                .UUID("123e4567-e89b-12d3-a456-426614174000")
+                .issueInvoice(OffsetDateTime.now())
+                .dateOfAppointment(LocalDate.of(2023, 7, 20))
+                .patient(new PatientEntity())
+                .doctor(new DoctorEntity())
+                .calendarId(1)
                 .build();
     }
 }
