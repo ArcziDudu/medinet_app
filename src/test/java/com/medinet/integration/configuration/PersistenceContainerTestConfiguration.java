@@ -1,4 +1,4 @@
-package com.medinet.integration;
+package com.medinet.integration.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;

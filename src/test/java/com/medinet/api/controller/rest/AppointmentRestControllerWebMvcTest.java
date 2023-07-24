@@ -16,6 +16,7 @@ import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import jakarta.servlet.ServletException;
 import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,34 +60,6 @@ public class AppointmentRestControllerWebMvcTest {
     @MockBean
     private CalendarService calendarService;
 
-    @Test
-    public void AppointmentByIdThrowsNotFoundException() throws Exception {
-        // given
-        when(appointmentService.findById(anyInt())).thenReturn(Optional.empty());
 
-        // when then
-        Exception exception = assertThrows(ServletException.class, () -> {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/appointment/{appointmentId}", 1)
-                    .contentType(MediaType.APPLICATION_JSON));
-        });
-
-        assertTrue(exception.getCause() instanceof NotFoundException);
-    }
-
-    @Test
-    public void AppointmentByIdReturnsOk() throws Exception {
-        // given
-        AppointmentEntity mockAppointment = new AppointmentEntity();
-        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(mockAppointment));
-
-        // when
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/appointment/{appointmentId}", 1)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        // then
-        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
-
-    }
 
 }

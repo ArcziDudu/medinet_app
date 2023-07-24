@@ -19,4 +19,5 @@ public interface AppointmentDao {
 
     Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
 
+    List<AppointmentDto> findAll();
 }

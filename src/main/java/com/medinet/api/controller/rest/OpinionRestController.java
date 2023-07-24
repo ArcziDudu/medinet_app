@@ -94,7 +94,6 @@ public class OpinionRestController {
                 .note(opinion)
                 .build();
 
-        opinionService.processOpinion(newOpinion);
 
         return ResponseEntity.ok(opinionService.processOpinion(newOpinion));
     }

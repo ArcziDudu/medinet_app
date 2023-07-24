@@ -1,12 +1,11 @@
 package com.medinet.infrastructure.repository;
 
-import com.medinet.api.dto.OpinionDto;
 import com.medinet.infrastructure.entity.AddressEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.jpa.OpinionJpaRepository;
-import com.medinet.integration.PersistenceContainerTestConfiguration;
+import com.medinet.integration.configuration.PersistenceContainerTestConfiguration;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

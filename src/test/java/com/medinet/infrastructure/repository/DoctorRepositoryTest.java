@@ -1,10 +1,8 @@
 package com.medinet.infrastructure.repository;
 
-import com.medinet.api.dto.DoctorDto;
 import com.medinet.infrastructure.entity.DoctorEntity;
-import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
-import com.medinet.integration.PersistenceContainerTestConfiguration;
+import com.medinet.integration.configuration.PersistenceContainerTestConfiguration;
 import com.medinet.util.EntityFixtures;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -16,15 +14,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
-import java.awt.print.Pageable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.medinet.util.EntityFixtures.patient1;
-import static com.medinet.util.EntityFixtures.someDoctor1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
