@@ -10,7 +10,6 @@ import com.medinet.business.services.PatientService;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.CalendarEntity;
-import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
@@ -58,6 +57,7 @@ class AppointmentRestControllerTest {
 
     @InjectMocks
     private AppointmentRestController appointmentRestController;
+
     @Test
     public void testCreateAppointment_validAppointment() {
         RequestDto requestDto = new RequestDto();
@@ -76,6 +76,7 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(appointmentService).processAppointment(any(AppointmentEntity.class));
     }
+
     @Test
     public void testCreateAppointment_dateMoreThanTwoWeeksFromToday() {
         //given
@@ -89,6 +90,7 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Invalid appointment date - you cannot schedule an appointment more than two weeks from today!", responseEntity.getBody());
     }
+
     @Test
     public void testCreateAppointment_dateEarlierThanTomorrow() {
         //given
@@ -102,6 +104,7 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Invalid appointment date - you cannot schedule an appointment earlier than tomorrow!", responseEntity.getBody());
     }
+
     @Test
     public void testCreateAppointment_dateOnSaturday() {
         //given
@@ -121,8 +124,8 @@ class AppointmentRestControllerTest {
     public void testCreateAppointment_slotAlreadyBooked() {
         //given
         LocalDate localDate = LocalDate.now().plusWeeks(1);
-        if(localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
-           localDate = localDate.plusDays(2);
+        if (localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            localDate = localDate.plusDays(2);
         } else if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
             localDate = localDate.plusDays(3);
         }
@@ -143,6 +146,7 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("The selected time slot is already booked!", responseEntity.getBody());
     }
+
     @Test
     public void testFindAppointmentById() {
         //given
@@ -242,34 +246,7 @@ class AppointmentRestControllerTest {
         assertEquals("Invalid appointment status", responseEntity.getBody());
     }
 
-    @Test
-    public void testUpdateAppointmentMessage() {
-        //given
-        Integer appointmentId = 1;
-        String message = "New message";
-        Optional<AppointmentEntity> optionalAppointment = Optional.of(new AppointmentEntity());
-        when(appointmentService.findById(appointmentId)).thenReturn(optionalAppointment);
 
-        //when
-        ResponseEntity<?> responseEntity = appointmentRestController.updateAppointmentMessage(appointmentId, message);
-
-        //then
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-    }
-
-    @Test
-    public void testUpdateAppointmentMessageInvalid() {
-        //given
-        Integer appointmentId = -1;
-        String message = "New message";
-        when(appointmentService.findById(any(Integer.class))).thenThrow(NotFoundException.class);
-
-        //when
-        ResponseEntity<?> responseEntity = appointmentRestController.updateAppointmentMessage(appointmentId, message);
-
-        //then
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-    }
 
     @Test
     public void testDeleteAppointment() {

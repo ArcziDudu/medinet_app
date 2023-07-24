@@ -46,10 +46,10 @@ public class RegisterController {
                                BindingResult result) {
 
         if (userRepository.existsByEmail(form.getEmail())) {
-            result.rejectValue("email", null, "Ten email jest już zarejestrowany");
+            result.rejectValue("email", "400", "Ten email jest już zarejestrowany");
         }
         else if (patientService.findByPhoneNumber(form.getPhoneNumber())) {
-            result.rejectValue("phoneNumber", null, "Ten numer jest już zarejestrowany");
+            result.rejectValue("phoneNumber", "400", "Ten numer jest już zarejestrowany");
         }
 
         if (result.hasErrors()) {

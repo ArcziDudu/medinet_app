@@ -71,7 +71,7 @@ public class OpinionRestControllerWebMvcTest {
         when(opinionService.findAll()).thenReturn(opinions);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/opinion/doctort/"+ doctorId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/opinion/doctor/"+ doctorId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(opinions)));
@@ -83,14 +83,13 @@ public class OpinionRestControllerWebMvcTest {
         Integer doctorId = 2;
         String opinion = "Test opinion";
         OpinionDto opinionDto = new OpinionDto();
-        // set properties of opinionEntity as necessary
 
         when(doctorService.findDoctorById(doctorId)).thenReturn(new DoctorDto());
         when(patientService.findById(patientId)).thenReturn(new PatientDto());
         when(opinionService.processOpinion(any(OpinionEntity.class))).thenReturn(opinionDto);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.post("api/opinion/create/"+ patientId + "/" + doctorId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/opinion/create/"+ patientId + "/" + doctorId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(opinion))
                 .andExpect(status().isOk())

@@ -29,9 +29,9 @@ import java.util.Set;
 public class DoctorRestController {
     private DoctorMapper doctorMapper;
     public static final String API_DOCTOR = "/api/doctor";
-    public final String API_ALL_DOCTOR = "/all";
-    public final String API_ALL_DOCTOR_PAGE = "/all/{page}";
-    public final String API_ONE_DOCTOR = "/{doctorId}";
+    public static final String API_ALL_DOCTOR = "/all";
+    public static final String API_ALL_DOCTOR_PAGE = "/all/{page}";
+    public static final String API_ONE_DOCTOR = "/{doctorId}";
     public static final String API_CREATE_DOCTOR = "/create";
     public static final String DOCTOR_ID_RESULT = "/%s";
     private final DoctorService doctorService;

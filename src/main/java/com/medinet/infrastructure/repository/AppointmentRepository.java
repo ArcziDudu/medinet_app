@@ -48,5 +48,13 @@ public class AppointmentRepository implements AppointmentDao {
         return appointmentJpaRepository.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
     }
 
+    @Override
+    public List<AppointmentDto> findAll() {
+        return appointmentJpaRepository.findAll()
+                .stream()
+                .map(appointmentMapper::mapFromEntity)
+                .toList();
+    }
+
 
 }

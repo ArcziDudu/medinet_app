@@ -37,7 +37,7 @@ import java.util.Optional;
 public class AppointmentRestController {
     public static final String API_APPOINTMENT = "/api/appointment";
     public static final String API_APPOINTMENT_CREATE = "/create";
-    public static final String API_APPOINTMENT_FIND_BY_ID = "/{appointmentId}";
+    public static final String API_APPOINTMENT_FIND_BY_ID = "/find/{appointmentId}";
     public static final String API_APPOINTMENT_DELETE = "/{appointmentId}";
     public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS = "/find/all/{status}";
     public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS_AND_DOCTOR_ID = "/find/all/{status}/{doctorId}";
@@ -64,7 +64,9 @@ public class AppointmentRestController {
         LocalTime maxAllowedTime = LocalTime.of(16, 0);
         LocalDate currentDate = LocalDate.now();
         LocalDate appointmentDate = requestDto.getDateOfAppointment();
-
+        AppointmentEntity existAppointment = appointmentService.findByDateOfAppointmentAndTimeOfVisit(
+                requestDto.getDateOfAppointment(),
+                requestDto.getTimeOfVisit());
         if (currentDate.plusWeeks(2).isBefore(appointmentDate)) {
             return ResponseEntity.badRequest()
                     .body("Invalid appointment date - you cannot schedule an appointment more than two weeks from today!");
@@ -80,14 +82,11 @@ public class AppointmentRestController {
         if (visitTime.isBefore(minAllowedTime) || visitTime.isAfter(maxAllowedTime)) {
             return ResponseEntity.badRequest()
                     .body("Invalid appointment time!");
+        }
+        if (existAppointment != null) {
+            return ResponseEntity.badRequest()
+                    .body("The selected time slot is already booked!");
         } else {
-            AppointmentEntity existAppointment = appointmentService.findByDateOfAppointmentAndTimeOfVisit(
-                    requestDto.getDateOfAppointment(),
-                    requestDto.getTimeOfVisit());
-            if (existAppointment != null) {
-                return ResponseEntity.badRequest()
-                        .body("The selected time slot is already booked!");
-            }
 
             DoctorEntity doctorEntity = doctorMapper.mapFromDto(doctorService.findDoctorById(requestDto.getDoctorId()));
             CalendarEntity calendar = calendarService
@@ -112,6 +111,7 @@ public class AppointmentRestController {
                 .UUID(appointmentService.getVisitNumber())
                 .build();
     }
+
     @GetMapping(value = API_APPOINTMENT_FIND_BY_ID)
     @Operation(summary = "Get appointment by ID",
             description = "Retrieve information about an appointment based on its ID")
@@ -126,7 +126,7 @@ public class AppointmentRestController {
         }
         Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
         if (appointment.isEmpty()) {
-            throw new NotFoundException("Appointment with ID [%s] not found".formatted(appointment));
+            throw new NotFoundException("Appointment with ID [%s] not found".formatted(appointmentId));
         }
         return ResponseEntity.ok(appointmentMapper.mapFromEntity(appointment.get()));
     }
@@ -176,6 +176,15 @@ public class AppointmentRestController {
             @PathVariable @Parameter(description = "Appointment ID") Integer appointmentId,
             @RequestBody @Schema(description = "New appointment message") String message
     ) {
+        Optional<AppointmentEntity> appointmentCheck = appointmentService.findById(appointmentId);
+        if (appointmentCheck.get().getStatus().equals("done")) {
+            return ResponseEntity.badRequest()
+                    .body("You can not modify appointment with status done!");
+        }
+        if (appointmentCheck.get().getStatus().equals("upcoming")) {
+            return ResponseEntity.badRequest()
+                    .body("You can not modify appointment with status upcoming!");
+        }
         try {
             Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
         } catch (NotFoundException ex) {
