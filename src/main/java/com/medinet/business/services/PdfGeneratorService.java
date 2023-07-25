@@ -27,17 +27,6 @@ public class PdfGeneratorService {
             .build();
   }
     public void generatePdf(String htmlContent, String uuid) {
-        String desktopPath = System.getProperty("user.home") + "/Desktop";
-        String folderName = "invoices";
-        String filename = "faktura_medinet" + uuid + ".pdf";
-        Path folderPath = Paths.get(desktopPath, folderName);
-        Path filePath = Paths.get(desktopPath, folderName, filename);
-
-        try {
-            Files.createDirectories(folderPath);
-        } catch (IOException e) {
-            System.out.println("Błąd podczas tworzenia folderu: " + e.getMessage());
-        }
 
         webClient.post()
                 .uri("https://htmlpdfapi.com/api/v1/pdf")
@@ -45,10 +34,8 @@ public class PdfGeneratorService {
                 .retrieve()
                 .bodyToMono(byte[].class)
                 .subscribe(pdfBytes -> {
-                    try {
-                        FileOutputStream outputStream = new FileOutputStream(filePath.toFile());
+                    try (FileOutputStream outputStream = new FileOutputStream("src/main/resources/invoices/faktura_medinet"+uuid+".pdf")) {
                         outputStream.write(pdfBytes);
-                        outputStream.close();
                         System.out.println("Plik PDF został zapisany.");
                     } catch (IOException e) {
                         System.out.println("Błąd podczas zapisywania pliku PDF: " + e.getMessage());

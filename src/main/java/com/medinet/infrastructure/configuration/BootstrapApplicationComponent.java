@@ -26,7 +26,7 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
 
 
     public static List<LocalDate> generateDateList() {
-        LocalDate currentDate = LocalDate.now().plusDays(1);
+        LocalDate currentDate = LocalDate.now();
         LocalDate endDate = currentDate.plusWeeks(2);
 
         List<LocalDate> dateTimeList = new ArrayList<>();
