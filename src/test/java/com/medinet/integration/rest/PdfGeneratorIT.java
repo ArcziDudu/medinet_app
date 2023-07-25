@@ -45,7 +45,7 @@ public class PdfGeneratorIT {
 
     @Test
     public void testGeneratePdf() throws Exception {
-        // Define the UUID and HTML content
+
         String uuid = "51b6266c-5444-47b0-87b3-b41b0227188f";
         String htmlContent = testHtml();
 
@@ -56,7 +56,7 @@ public class PdfGeneratorIT {
 
         File pdfFile = new File("src/main/resources/invoices/faktura_medinet51b6266c-5444-47b0-87b3-b41b0227188f.pdf");
 
-        // Wait up to 10 seconds for the PDF file to be saved
+
         assertTimeout(Duration.ofSeconds(10), () -> {
             while (!pdfFile.exists()) {
                 Thread.sleep(1000);

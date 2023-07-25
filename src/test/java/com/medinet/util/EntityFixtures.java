@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static java.util.UUID.randomUUID;
 
@@ -88,7 +89,7 @@ public class EntityFixtures {
                         .postalCode("55-555")
                         .build())
                 .appointments(Set.of())
-                .calendars(Set.of())
+                .calendars(new TreeSet<>())
                 .opinions(Set.of())
                 .user(UserEntity.builder()
                         .email("test@testowy.pl")
