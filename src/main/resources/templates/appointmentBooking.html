@@ -45,16 +45,16 @@
         }
         .back{
            align-self: flex-start;
+           padding:10px
            margin-bottom: 15px;
+           text-decoration:none;
             border: 2px solid white;
             border-radius: 20px;
             background-color: rgb(38, 133, 228);
             color: white;
             font-weight: bold;
         }
-        .back:hover{
-            background-color: rgb(12, 91, 170);
-        }
+
         h6{
             margin-bottom: 10px;
         }
@@ -63,7 +63,7 @@
 <body>
     <div class="container">
         <div class="main">
-            <button th:href="@{/booking}" class="back">Powrót</button>
+            <a th:href="@{/booking}" class="back" target="_self">Powrót</a>
             <div class="info">
                 <div class="about">
                     <h6 th:text="${'Wizyta nr: '+visitNumber}"></h6>

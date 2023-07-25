@@ -10,94 +10,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <title>Medinet - internetowa przychodnia</title>
-    <style>
-        body {
-            position: relative;
-            background-color: #cfdde7;
-            font-family: 'Roboto', sans-serif;
-            color: #1b2734;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.5;
-            margin: 0;
-            overflow-x: hidden;
-            height: 100%;
-            text-align: center;
-            padding-top: 20px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-            background-color: #0e85b2d4;
-            color: white;
-            padding: 0 20px;
-            max-width: 90%;
-            margin: 0 auto;
-            width: 100%;
-            z-index: 999;
-            box-shadow: 0px 20px 200px rgba(0, 0, 0, 0.523);
-        }
-
-        .navbar-brand {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        .navbar-brand a {
-            text-decoration: none;
-        }
-
-        .navbar-links {
-            display: flex;
-            align-items: center;
-            width: 400px;
-            justify-content: space-between;
-        }
-
-        .navbar-link {
-            margin-left: 10px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .navbar-link:hover {
-            color: #274e75;
-            transition: 0.3s;
-        }
-
-
-        .hash-list > li {
-            display: block;
-            float: left;
-            border-right: 1px solid rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-        }
-    </style>
+    <link th:href = "@{/myAccountDoctor.css}" rel="stylesheet">
 </head>
 
 <body>
 <div class="wrapper">
     <nav class="navbar">
         <div class="container">
-            <div class="navbar-brand">
-                <a class="sprawdzenie" href="" style="text-decoration: none; color: white">Logo</a>
+            <div class="navbar-brand" style="font-weight:bold">
+                <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
             </div>
             <div class="navbar-links">
-                <a href="#" class="navbar-link">Polityka</a>
-                <a th:href="@{/booking}" class="navbar-link">Znajdź specjalistę</a>
+                <a th:href="@{/booking}" class="navbar-link">Moje wizyty</a>
                 <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
             </div>
         </div>
     </nav>
-    <div class="container profile-box "
-         style="display: flex;
-          flex-direction: column;
-          border: 3px solid white;
-          background-color: #91979f4a;
-            margin-top: 50px;">
+    <div class="container profile-box ">
         <div class="up-half"
              style="
             display: flex;">
@@ -123,20 +52,10 @@
                       padding-top: 10px;
                        font-weight: bold;">
                     <h4 th:text="${'Dr. '+doctor.getName() +' '+doctor.getSurname()}"></h4>
-                    <h5 th:text="${doctor.getSpecialization()}" style="letter-spacing: 2px; ">\</h5>
+                    <h5 th:text="${doctor.getSpecialization()}" style="letter-spacing: 2px;"></h5>
                 </div>
             </div>
-            <div class="right-side"
-                 style="display: flex;
-                 height: 300px;
-                  flex-direction: column;
-                  margin-top: 15px;
-                   width: 50%;
-                   background-color: white;
-                   -webkit-box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
--moz-box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
-box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
-                   ">
+            <div class="right-side">
                 <div class="right-up-side"
                      style="
                      padding: 20px;
@@ -147,8 +66,6 @@ box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
                       width: 100%;
                      ">
                     <h3 th:text="${doctor.getName() +' '+doctor.getSurname()}"></h3>
-                    <h4 style="color:#319FC5; font-weight: bold;">Uczelnia</h4>
-                    <h5>Prywatne technikum zawodowe w nowym sączu</h5>
                 </div>
                 <div class="right-down-side"
                      style="
@@ -161,7 +78,7 @@ box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
                     <div class="speciality" style="margin: 30px;">
                         <h4s style="color:#319FC5; font-weight: bold;">Specjalizacja</h4s>
                         <h4 th:text="${doctor.getSpecialization()}"
-                            style="border: 2px solid black; border-radius: 20px; margin-left: 10px;"></h4>
+                            style="border: 2px solid black; border-radius: 20px; margin-left: 10px; padding:15px"></h4>
                     </div>
 
                 </div>
@@ -193,37 +110,7 @@ box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
                 <H5 style="color:#319FC5; font-weight: bold; margin-top: 40px;">ADRES PRZYCHODNI</H5>
                 <h5 th:text="${doctor.getAddress().getCity()+ ', '+ doctor.getAddress().getStreet()}"></h5>
             </div>
-            <div class="right-down-side" style=" margin-left: 20px;
 
-             display:flex;
-             flex-direction: column;
-           justify-content: center;
-           align-items: center;
-              ">
-                <H5 style="color:#319FC5; font-weight: bold;">Zmiana hasła</H5>
-                <form th:action="@{/change-password}" method="post"
-                      style="display:flex;
-                 flex-direction: column;">
-                    <div>
-                        <label for="oldPassword" style="margin-bottom: 20px">Stare hasło:</label>
-                        <input type="password" id="oldPassword" name="oldPassword" required>
-                    </div>
-                    <div>
-                        <label for="newPassword" style="margin-bottom: 20px">Nowe hasło:</label>
-                        <input type="password" id="newPassword" name="newPassword" required>
-                    </div>
-                    <div>
-                        <input type="submit" value="Zmień hasło" style="background-color: #0e86b2;
-                        color: white;
-                        width: 50%;
-                        border-radius: 25px;
-                      margin-left: 40px;
-                         border: 2px solid blue">
-                    </div>
-                </form>
-
-                </h5>
-            </div>
         </div>
 
 

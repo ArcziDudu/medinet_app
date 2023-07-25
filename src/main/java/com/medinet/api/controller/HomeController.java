@@ -2,6 +2,7 @@ package com.medinet.api.controller;
 
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.DoctorService;
+import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import lombok.AllArgsConstructor;
@@ -17,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -97,7 +97,15 @@ public class HomeController {
                 doctorSpecialization,
                 doctorCity,
                 page);
-
+        if(allDoctors.getSize()>0){
+            for (DoctorDto doctor : allDoctors) {
+                TreeSet<CalendarEntity> sortedCalendars = doctor.getCalendars().stream()
+                        .filter(Objects::nonNull)
+                        .sorted(getCalendarEntityComparator())
+                        .collect(Collectors.toCollection(TreeSet::new));
+                doctor.setCalendars(sortedCalendars);
+            }
+        }
 
         long totalElements = doctorService.findAllDoctorsBySpecializationAndCity(
                         doctorSpecialization,
@@ -119,5 +127,7 @@ public class HomeController {
 
         return "mainPageBookingAppointments";
     }
-
+    public static Comparator<CalendarEntity> getCalendarEntityComparator() {
+        return Comparator.comparing(CalendarEntity::getDate);
+    }
 }
