@@ -224,7 +224,7 @@ public class EntityFixtures {
 
     public static OpinionEntity opinion(){
         return OpinionEntity.builder()
-                .doctor(someDoctor1())
+                .doctor(someDoctor2())
                 .patient(patient1())
                 .dateOfCreateOpinion(OffsetDateTime.now())
                 .note("test opinion")
@@ -233,7 +233,7 @@ public class EntityFixtures {
     }
     public static OpinionEntity opinion2(){
         return OpinionEntity.builder()
-                .doctor(someDoctor1())
+                .doctor(someDoctor2())
                 .patient(patient1())
                 .dateOfCreateOpinion(OffsetDateTime.now())
                 .note("test opinion2")
@@ -242,8 +242,8 @@ public class EntityFixtures {
     }
     public static OpinionEntity opinion3(){
         return OpinionEntity.builder()
-                .doctor(someDoctor1())
-                .patient(patient2())
+                .doctor(someDoctor2())
+                .patient(patient1())
                 .dateOfCreateOpinion(OffsetDateTime.now())
                 .note("test opinion3")
                 .opinionId(3)

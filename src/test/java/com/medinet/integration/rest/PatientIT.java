@@ -1,6 +1,8 @@
 package com.medinet.integration.rest;
 
+import com.medinet.api.dto.PatientDto;
 import com.medinet.api.dto.RegistrationFormDto;
+import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.jpa.PatientJpaRepository;
 import com.medinet.integration.configuration.RestAssuredIntegrationTestBase;
@@ -11,14 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.medinet.api.controller.rest.PatientRestController.API_PATIENT;
-import static com.medinet.api.controller.rest.PatientRestController.API_PATIENT_CREATE;
+import static com.medinet.api.controller.rest.PatientRestController.*;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 public class PatientIT extends RestAssuredIntegrationTestBase{
     @Autowired
     private PatientJpaRepository patientJpaRepository;
+    @Autowired
+    private PatientService patientService;
     @Test
     public void testCreateNewPatient() {
         List<PatientEntity> all = patientJpaRepository.findAll();
@@ -37,7 +41,22 @@ public class PatientIT extends RestAssuredIntegrationTestBase{
         assertEquals(2, allAfter.size());
         patientJpaRepository.deleteById(allAfter.get(1).getPatientId());
     }
-
+    @Test
+    public void testGetOnePatientById() {
+        PatientDto patientById = patientService.findById(1);
+        given().spec(requestSpecification())
+                .contentType(ContentType.JSON)
+                .pathParam("patientId", 1)
+                .when()
+                .get("http://localhost:" + port + basePath + API_PATIENT +
+                        API_ONE_PATIENT)
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("patientId", equalTo(patientById.getPatientId()))
+                .body("name", equalTo(patientById.getName()))
+                .body("email", equalTo(patientById.getEmail()));
+    }
     private static RegistrationFormDto getRegistrationFormDto() {
         return RegistrationFormDto
                 .builder()

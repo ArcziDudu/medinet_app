@@ -1,6 +1,7 @@
 package com.medinet.api.controller.rest;
 
 import com.medinet.api.dto.AppointmentDto;
+import com.medinet.api.dto.PatientDto;
 import com.medinet.api.dto.RegistrationFormDto;
 import com.medinet.api.dto.RequestDto;
 import com.medinet.business.services.PatientService;
@@ -17,10 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.DayOfWeek;
@@ -28,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @RestController
@@ -35,6 +34,7 @@ import java.util.Set;
 @RequestMapping(PatientRestController.API_PATIENT)
 public class PatientRestController {
     public static final String API_PATIENT = "/api/patient";
+    public static final String API_ONE_PATIENT = "/{patientId}";
     public static final String API_PATIENT_CREATE = "/create";
     public static final String PATIENT_ID_RESULT = "/%s";
 
@@ -42,7 +42,19 @@ public class PatientRestController {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PatientService patientService;
-
+    @GetMapping(value = API_ONE_PATIENT)
+    @Operation(summary = "Get one patient by ID", description = "Retrieve information about a patient based on their ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Doctor found"),
+            @ApiResponse(responseCode = "404", description = "Doctor not found")
+    })
+    public ResponseEntity<PatientDto> onePatientById(@PathVariable Integer patientId) {
+        PatientDto patientById = patientService.findById(patientId);
+        if (Objects.isNull(patientById)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(patientById);
+    }
     @PostMapping(value = API_PATIENT_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new patient",
             description = "Create a new patient based on the provided registration form")
