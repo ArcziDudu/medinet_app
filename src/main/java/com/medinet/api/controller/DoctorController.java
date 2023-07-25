@@ -32,7 +32,7 @@ public class DoctorController {
             = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
 
-    private Map<String, ?> prepareNecessaryDataForDoctor(Principal principal) {
+    Map<String, ?> prepareNecessaryDataForDoctor(Principal principal) {
 
         String email = principal.getName();
         DoctorDto byEmail = doctorService.findByEmail(email);

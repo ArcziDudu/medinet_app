@@ -1,4 +1,4 @@
-
+package com.medinet.api.controller.rest;
 
 import com.medinet.api.dto.ExceptionMessage;
 import com.medinet.domain.exception.NotFoundException;
@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -65,6 +66,10 @@ public class GlobalExceptionRestHandler extends ResponseEntityExceptionHandler {
             .body(ExceptionMessage.of(errorId));
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleAppointmentNotFoundException(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
     public HttpStatus getHttpStatusFromException(final Class<?> exception) {
         return EXCEPTION_STATUS.getOrDefault(exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }

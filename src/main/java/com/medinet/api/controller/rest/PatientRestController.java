@@ -35,7 +35,7 @@ import java.util.Set;
 @RequestMapping(PatientRestController.API_PATIENT)
 public class PatientRestController {
     public static final String API_PATIENT = "/api/patient";
-    public static final String API_PATIENT_CREATE = "/crate";
+    public static final String API_PATIENT_CREATE = "/create";
     public static final String PATIENT_ID_RESULT = "/%s";
 
     private final PasswordEncoder passwordEncoder;

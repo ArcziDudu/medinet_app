@@ -2,7 +2,7 @@ package com.medinet.infrastructure.repository;
 
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.jpa.PatientJpaRepository;
-import com.medinet.integration.PersistenceContainerTestConfiguration;
+import com.medinet.integration.configuration.PersistenceContainerTestConfiguration;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -183,6 +183,10 @@ public class AppointmentService {
                 appointmentDao.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
         return appointment.orElse(null);
     }
+
+    public List<AppointmentDto> findAll() {
+        return appointmentDao.findAll();
+    }
 }
 
 

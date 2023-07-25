@@ -1,1 +1,0 @@
--- insert into doctor (name, surname, email, price_for_visit, specialization, address_id) values ('Bab', 'Ackred', 'backred0@cnn.com', 291, 'Kardiolog', 1);

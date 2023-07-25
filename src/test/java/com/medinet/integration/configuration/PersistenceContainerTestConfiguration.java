@@ -1,4 +1,4 @@
-package com.medinet.integration;
+package com.medinet.integration.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,8 +24,6 @@ public class PersistenceContainerTestConfiguration {
             .withUsername(USERNAME)
             .withPassword(PASSWORD);
         postgresqlContainer.start();
-//        System.setProperty("spring.datasource.username", postgresqlContainer.getUsername());
-//        System.setProperty("spring.datasource.password", postgresqlContainer.getPassword());
         return postgresqlContainer;
     }
 
