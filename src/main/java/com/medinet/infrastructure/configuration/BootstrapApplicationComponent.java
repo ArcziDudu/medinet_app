@@ -71,6 +71,7 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
                         calendar.setDoctor(doctor);
                         calendar.setDate(date);
                         calendar.setHours(hours);
+
                         calendarJpaRepository.save(calendar);
                 }
         }

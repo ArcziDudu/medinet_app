@@ -91,10 +91,9 @@
     <div class="wrapper">
         <nav class="container navbar">
             <div class="navbar-logo">
-                <a th:href="@{/booking}">Logo</a>
+                <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
             </div>
             <div class="navbar-links">
-                <a href="#" class="navbar-link">Polityka</a>
                 <a th:href="@{/account/user/{userId}(userId=${user})}" th:method="get" class="navbar-link">Moje konto</a>
                 <a th:href="@{/logout}" th:method="get" class="navbar-link">Wyloguj</a>
             </div>
@@ -206,7 +205,7 @@
 
                                     <div class="doctor-specialization" style="font-weight: bold">
                                         <p th:text="${doctor.specialization}"></p>
-                                        <span style="text-decoration: underline blue">14 opinii</span>
+                                        <p style="text-decoration: underline blue" th:text="${doctor.getOpinions().size()+' opinii'}"></p>
                                     </div>
 
 

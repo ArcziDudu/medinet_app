@@ -15,34 +15,6 @@
     <link th:href="@{/doctor_page.css}" rel="stylesheet">
 <!--        <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
-    <style>
-
-        .page-button {
-            margin-right: 25px;
-            width: 200px;
-            height: 50px;
-            border-radius: 0px 25px 25px 0;
-            cursor: pointer;
-            background-color: #1b679e;
-            transition: 0.3s;
-        }
-
-        .page-button:hover {
-            background-color: #2a78b0;
-        }
-
-        .button-link {
-            line-height: 40px;
-            color: white;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .button-link:hover {
-            color: white;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -50,10 +22,9 @@
 <div class="wrapper">
     <nav class="container navbar">
         <div class="navbar-logo">
-            <a th:href="@{/}">Logo</a>
+            <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
         </div>
         <div class="navbar-links" id="appointments">
-            <a href="#" class="navbar-link">Polityka</a>
             <a th:href="@{/user/{userId}(userId=${doctor.doctorId})}" class="navbar-link">Moje konto</a>
             <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
         </div>

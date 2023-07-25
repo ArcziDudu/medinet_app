@@ -13,15 +13,13 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
-
-    <link href="../static/styles/style.css" th:href="@{../static/styles/style.css}" rel="stylesheet"/>
     <title>Medinet</title>
     <style>
         body {
             position: relative;
             background-color: #cfdde7;
             color: #1b2734;
-            font-family: Roboto, Helvetica Neue, Helvetica, Segoe UI, Arial, Noto Sans, Liberation Sans, system-ui, -apple-system, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            font-family: Roboto,sans-serif;
             font-size: 1rem;
             font-weight: 400;
             line-height: 1.5;
@@ -141,8 +139,7 @@
 
         .navbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+
             height: 80px;
             background-color: #0e85b2d4;
             color: white;
@@ -167,11 +164,10 @@
             display: flex;
             align-items: center;
             width: 400px;
-            justify-content: space-between;
         }
 
         .navbar-link {
-            margin-left: 10px;
+            margin-left: 150px;
             color: white;
             text-decoration: none;
         }
@@ -301,6 +297,7 @@
             color: black;
         }
 
+
     </style>
 </head>
 
@@ -309,12 +306,10 @@
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand">
-                <a class="sprawdzenie" href="" style="text-decoration: none; color: white">Logo</a>
+                <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
             </div>
             <div class="navbar-links">
-                <a href="#" class="navbar-link">Polityka</a>
-                <a th:href="@{/medinet/booking}" class="navbar-link">Znajdź specjalistę</a>
-                <a href="#" class="navbar-link">Dostępne placówki</a>
+                <a href="#" class="navbar-link">Polityka serwisu</a>
             </div>
         </div>
 
@@ -482,12 +477,12 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="wpx-100 img-round mgb-20"
                              title="" alt="" data-edit="false" data-editor="field"
                              data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
-                        <p class="fs-110 font-cond-l" contenteditable="false">" Sed ut perspiciatis unde omnis iste
-                            natus
-                            error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.
-                            "
-                        </p>
-                        <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Sean Carter</h5>
+                        <p class="fs-110 font-cond-l" contenteditable="false">"Medinet to wspaniała alternatywa dla
+                            tradycyjnej przychodni dentystycznej. Dzięki Medinet, nie muszę już siedzieć w poczekalni
+                            czekając aż miła pani w recepcji znajdzie dla mnie dogodny termin, co jest dużym plusem dla
+                            introwertyka. Nie wiem, jak długo jeszcze będę musiał chodzić do dentysty, ale wiem, że jeśli
+                            będzie mi potrzebny termin, to zawsze mogę liczyć na Medinet. Polecam! " </p> <h5
+                            class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Elon Musk</h5>
                     </li>
                 </ul>
             </div>

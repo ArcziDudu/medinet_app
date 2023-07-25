@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Data
 @Builder
@@ -25,7 +26,7 @@ public class DoctorDto {
     private BigDecimal priceForVisit;
     private String specialization;
     private AddressEntity address;
-    private Set<CalendarEntity> calendars;
+    private TreeSet<CalendarEntity> calendars;
     private Set<AppointmentEntity> appointments;
     private Set<OpinionEntity> opinions;
     private UserEntity user;
