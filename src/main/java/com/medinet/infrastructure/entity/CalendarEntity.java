@@ -19,7 +19,10 @@ import java.util.List;
 @Entity
 @Table(name = "calendar")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "calendarId")
-public class CalendarEntity {
+public class CalendarEntity implements Comparable<CalendarEntity>{
+    public int compareTo(CalendarEntity other) {
+        return this.date.compareTo(other.getDate());
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "calendar_id")

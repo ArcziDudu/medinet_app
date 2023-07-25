@@ -78,6 +78,7 @@ public class DoctorController {
         DoctorDto doctorProfile = doctorService.findDoctorById(doctorId);
 
         model.addAttribute("doctor", doctorProfile);
+        model.addAttribute("format", formatter);
         model.addAttribute("dateFormatter", polishMonthFormatter);
         model.addAttribute("polishDayFormatter", polishDayFormatter);
         return "doctorDetails";

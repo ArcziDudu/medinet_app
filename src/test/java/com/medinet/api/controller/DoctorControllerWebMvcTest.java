@@ -97,13 +97,13 @@ public class DoctorControllerWebMvcTest {
                 .specialization(doctorEntity.getSpecialization())
                 .user(doctorEntity.getUser())
                 .opinions(doctorEntity.getOpinions())
-                .calendars(doctorEntity.getCalendars())
+                .calendars(new TreeSet<>(doctorEntity.getCalendars()))
                 .name(doctorEntity.getName())
                 .email(doctorEntity.getEmail())
                 .surname(doctorEntity.getSurname())
                 .priceForVisit(doctorEntity.getPriceForVisit())
                 .address(doctorEntity.getAddress())
-                .calendars(doctorEntity.getCalendars())
+                .calendars(new TreeSet<>(doctorEntity.getCalendars()))
                 .appointments(doctorEntity.getAppointments())
                 .build();
     }
