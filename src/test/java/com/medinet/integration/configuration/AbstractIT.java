@@ -1,4 +1,4 @@
-package com.medinet.integration;
+package com.medinet.integration.configuration;
 
 import com.medinet.Application;
 import org.junit.jupiter.api.AfterEach;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
-@Import(PersistenceContainerTestConfiguration.class)
+
 @SpringBootTest(
     classes = Application.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT

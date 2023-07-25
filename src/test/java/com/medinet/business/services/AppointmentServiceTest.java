@@ -1,9 +1,11 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.AppointmentDto;
+import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
+import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AppointmentService should")
 class AppointmentServiceTest {
     @Mock
     private AppointmentDao appointmentDao;
@@ -40,6 +40,74 @@ class AppointmentServiceTest {
     @InjectMocks
     private AppointmentService appointmentService;
 
+
+    @Test
+    public void processRemovingAppointment_RemovesAppointmentAndAddsHourToCalendar() {
+        //given
+        Integer appointmentId = 123;
+        LocalTime calendarHour = LocalTime.of(10, 0);
+        Integer calendarId = 456;
+
+        CalendarEntity calendarEntity = new CalendarEntity();
+        calendarEntity.setCalendarId(calendarId);
+        calendarEntity.setHours(new ArrayList<>());
+
+        when(calendarService.findById(calendarId)).thenReturn(Optional.of(calendarEntity));
+
+        //when
+
+        appointmentService.processRemovingAppointment(appointmentId, calendarHour, calendarId);
+        //then
+        verify(appointmentDao).removeAppointment(appointmentId);
+
+        List<LocalTime> hoursAfterProcess = calendarEntity.getHours();
+        assertEquals(calendarHour, hoursAfterProcess.get(0));
+    }
+    @Test
+    void findCompletedAppointmentsReturnsCompletedAppointments() {
+        // Given
+        PatientDto currentPatient = new PatientDto();
+        Set<AppointmentEntity> appointments = new HashSet<>();
+        AppointmentEntity appointment1 = new AppointmentEntity();
+        appointment1.setStatus("done");
+        appointments.add(appointment1);
+
+        AppointmentEntity appointment2 = new AppointmentEntity();
+        appointment2.setStatus("upcoming");
+        appointments.add(appointment2);
+
+        currentPatient.setAppointments(appointments);
+
+        // When
+        List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+
+        // Then
+        assertEquals(1, completedAppointments.size());
+
+    }
+
+    @Test
+    void findUpcomingAppointmentsReturnsUpcomingAppointments() {
+        // Given
+        PatientDto currentPatient = new PatientDto();
+        Set<AppointmentEntity> appointments = new HashSet<>();
+        AppointmentEntity appointment1 = new AppointmentEntity();
+        appointment1.setStatus("upcoming");
+        appointments.add(appointment1);
+
+        AppointmentEntity appointment2 = new AppointmentEntity();
+        appointment2.setStatus("done");
+        appointments.add(appointment2);
+
+        currentPatient.setAppointments(appointments);
+
+        // When
+        List<AppointmentDto> upcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
+
+        // Then
+        assertEquals(1, upcomingAppointments.size());
+
+    }
 
     @Test
     @DisplayName("Should return all appointments with the given statuses")

@@ -1,14 +1,21 @@
 package com.medinet.util;
 
-import com.medinet.infrastructure.entity.AddressEntity;
-import com.medinet.infrastructure.entity.DoctorEntity;
-import com.medinet.infrastructure.entity.PatientEntity;
+import com.medinet.api.dto.AppointmentDto;
+import com.medinet.api.dto.DoctorDto;
+import com.medinet.api.dto.RequestDto;
+import com.medinet.infrastructure.entity.*;
 import com.medinet.infrastructure.security.UserEntity;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.Set;
+
+import static java.util.UUID.randomUUID;
 
 @UtilityClass
 public class EntityFixtures {
@@ -45,22 +52,46 @@ public class EntityFixtures {
                 .doctorId(2)
                 .name("Krystian")
                 .surname("Medinet")
-                .email("medinet@medinet.pl")
-                .specialization("Kardiolog")
+                .email("test@medinet.pl")
+                .specialization("Ginekolog")
                 .priceForVisit(new BigDecimal(200))
                 .address(AddressEntity.builder()
                         .addressId(2)
                         .country("Poland")
                         .street("Polna 32")
-                        .city("Kraków")
+                        .city("Warszawa")
                         .postalCode("55-555")
                         .build())
                 .appointments(Set.of())
                 .calendars(Set.of())
                 .opinions(Set.of())
                 .user(UserEntity.builder()
-                        .id(2)
                         .email("medinet@medinet.pl")
+                        .active(true)
+                        .password("test")
+                        .build())
+                .build();
+    }
+    public static DoctorDto someDoctorDto(){
+        return DoctorDto.builder()
+                .doctorId(3)
+                .name("Tester")
+                .surname("testowy")
+                .email("test@testowy.pl")
+                .specialization("Ginekolog")
+                .priceForVisit(new BigDecimal(200))
+                .address(AddressEntity.builder()
+                        .addressId(3)
+                        .country("Test")
+                        .street("Polna 32")
+                        .city("Test")
+                        .postalCode("55-555")
+                        .build())
+                .appointments(Set.of())
+                .calendars(Set.of())
+                .opinions(Set.of())
+                .user(UserEntity.builder()
+                        .email("test@testowy.pl")
                         .active(true)
                         .password("test")
                         .build())
@@ -108,6 +139,114 @@ public class EntityFixtures {
                         .city("Kraków")
                         .postalCode("55-151")
                         .build())
+                .build();
+    }
+
+    public static AppointmentDto someAppointment1(){
+        return AppointmentDto.builder()
+                .appointmentId(1)
+                .timeOfVisit(LocalTime.of(10, 0))
+                .status("done")
+                .noteOfAppointment("First appointment note")
+                .UUID("123e4567-e89b-12d3-a456-426614174000")
+                .issueInvoice(OffsetDateTime.now())
+                .dateOfAppointment(LocalDate.of(2023, 7, 26))
+                .patient(new PatientEntity())
+                .doctor(new DoctorEntity())
+                .calendarId(1)
+                .build();
+    }
+
+    public static RequestDto requestDto(){
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+            localDate = localDate.plusDays(4);
+        }
+        return RequestDto.builder()
+                .email("admin@admin.pl")
+                .timeOfVisit(LocalTime.of(10,0))
+                .dateOfAppointment(localDate)
+                .doctorId(1)
+                .build();
+    }
+    public static AppointmentEntity appointment(){
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+            localDate = localDate.plusDays(4);
+        }
+        return AppointmentEntity.builder()
+                .UUID(randomUUID().toString())
+                .appointmentId(1)
+                .calendarId(1)
+                .status("done")
+                .dateOfAppointment(localDate)
+                .timeOfVisit(LocalTime.of(15,0))
+                .patient(patient1())
+                .doctor(someDoctor1())
+                .issueInvoice(OffsetDateTime.now())
+                .build();
+    }
+    public static AppointmentEntity appointment2(){
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+            localDate = localDate.plusDays(4);
+        }
+        return AppointmentEntity.builder()
+                .UUID(randomUUID().toString())
+                .appointmentId(2)
+                .calendarId(2)
+                .status("upcoming")
+                .dateOfAppointment(localDate)
+                .timeOfVisit(LocalTime.of(15,0))
+                .patient(patient1())
+                .doctor(someDoctor1())
+                .issueInvoice(OffsetDateTime.now())
+                .build();
+    }
+    public static AppointmentEntity appointment3(){
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+            localDate = localDate.plusDays(4);
+        }
+        return AppointmentEntity.builder()
+                .UUID(randomUUID().toString())
+                .appointmentId(3)
+                .calendarId(1)
+                .status("pending")
+                .noteOfAppointment("test")
+                .dateOfAppointment(localDate)
+                .timeOfVisit(LocalTime.of(15,0))
+                .patient(patient1())
+                .doctor(someDoctor1())
+                .issueInvoice(OffsetDateTime.now())
+                .build();
+    }
+
+    public static OpinionEntity opinion(){
+        return OpinionEntity.builder()
+                .doctor(someDoctor1())
+                .patient(patient1())
+                .dateOfCreateOpinion(OffsetDateTime.now())
+                .note("test opinion")
+                .opinionId(1)
+                .build();
+    }
+    public static OpinionEntity opinion2(){
+        return OpinionEntity.builder()
+                .doctor(someDoctor1())
+                .patient(patient1())
+                .dateOfCreateOpinion(OffsetDateTime.now())
+                .note("test opinion2")
+                .opinionId(2)
+                .build();
+    }
+    public static OpinionEntity opinion3(){
+        return OpinionEntity.builder()
+                .doctor(someDoctor1())
+                .patient(patient2())
+                .dateOfCreateOpinion(OffsetDateTime.now())
+                .note("test opinion3")
+                .opinionId(3)
                 .build();
     }
 }

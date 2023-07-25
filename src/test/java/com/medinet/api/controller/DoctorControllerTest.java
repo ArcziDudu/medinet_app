@@ -1,6 +1,8 @@
 package com.medinet.api.controller;
 
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
+import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -9,10 +11,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -31,7 +41,68 @@ class DoctorControllerTest {
     private DoctorMapper doctorMapper;
     @InjectMocks
     private DoctorController doctorController;
+    @Mock
+    private AppointmentService appointmentService;
+    @Mock
+    private ModelAndView modelAndView;
 
+    @Mock
+    private Formatter formatter;
+
+
+    @Test
+    public void testPrepareNecessaryDataForDoctor() {
+        // given
+        String userEmail = "doctor@example.com";
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userEmail, "password");
+        when(principal.getName()).thenReturn(userEmail);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        DoctorDto doctorDto = new DoctorDto();
+        doctorDto.setDoctorId(1);
+        when(doctorService.findByEmail(userEmail)).thenReturn(doctorDto);
+        when(doctorService.findDoctorById(doctorDto.getDoctorId())).thenReturn(doctorDto);
+
+
+        List<AppointmentDto> completedAppointments = Arrays.asList(new AppointmentDto(), new AppointmentDto());
+        List<AppointmentDto> pendingAppointments = Arrays.asList(new AppointmentDto());
+        List<AppointmentDto> upcomingAppointments = Arrays.asList(new AppointmentDto(), new AppointmentDto());
+        when(appointmentService.findAllAppointmentsByStatusAndDoctorID("done", doctorDto.getDoctorId()))
+                .thenReturn(completedAppointments);
+        when(appointmentService.findAllAppointmentsByStatusAndDoctorID("pending", doctorDto.getDoctorId()))
+                .thenReturn(pendingAppointments);
+        when(appointmentService.findAllAppointmentsByStatusAndDoctorID("upcoming", doctorDto.getDoctorId()))
+                .thenReturn(upcomingAppointments);
+
+        // wehn
+        Map<String, ?> data = doctorController.prepareNecessaryDataForDoctor(principal);
+
+        // then
+        assertEquals(doctorDto, data.get("doctor"));
+        assertEquals(completedAppointments, data.get("completedAppointment"));
+        assertEquals(pendingAppointments, data.get("pendingAppointment"));
+        assertEquals(upcomingAppointments, data.get("upcomingAppointment"));
+    }
+
+    @Test
+    public void testDoctorMainPage() {
+        // given
+        String userEmail = "doctor@example.com";
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userEmail, "password");
+        when(principal.getName()).thenReturn(userEmail);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        DoctorDto doctorDto = new DoctorDto();
+        doctorDto.setDoctorId(1);
+
+        when(doctorService.findByEmail(userEmail)).thenReturn(doctorDto);
+        when(doctorService.findDoctorById(doctorDto.getDoctorId())).thenReturn(doctorDto);
+
+        // when
+        ModelAndView modelAndView = doctorController.doctorMainPage(principal);
+
+        // then
+        assertEquals("DoctorUpcomingAppointments", modelAndView.getViewName());
+    }
 
     @Test
     @DisplayName("Should throw an exception when invalid doctorId is provided")
@@ -47,7 +118,6 @@ class DoctorControllerTest {
         verify(model, times(1)).addAttribute(eq("polishDayFormatter"), any(DateTimeFormatter.class));
         assertEquals("doctorDetails", result);
     }
-
 
     @Test
     public void testShowSortedDoctorsPage() {
@@ -83,5 +153,4 @@ class DoctorControllerTest {
 
         verify(model, times(1)).addAttribute(eq("doctor"), eq(requestedDoctor));
     }
-
 }
