@@ -6,8 +6,14 @@ import com.medinet.business.services.PatientService;
 import com.medinet.business.services.RegisterService;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
+import com.medinet.infrastructure.security.RoleEntity;
+import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -15,9 +21,16 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,6 +45,12 @@ class RegisterControllerTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private JavaMailSender mailSender;
+    @Mock
+    private MimeMessage mimeMessage ;
+    @Mock
+    private RoleRepository roleRepository;
     @Captor
     private ArgumentCaptor<UserEntity> userEntityCaptor;
 
@@ -62,6 +81,41 @@ class RegisterControllerTest {
         assertEquals("register", result);
     }
 
+    @Test
+    public void testShowPasswordReminderForm() {
+        String viewName = registerController.showPasswordReminderForm(model);
+        verify(model, times(1)).addAttribute("email", "");
+        assertEquals("PasswordRecovery", viewName);
+    }
+
+    @Test
+    public void testRecoveryPasswordNonExistingEmail() throws MessagingException, UnsupportedEncodingException {
+        String email = "doctor@example.com";
+        RoleEntity doctorRole = new RoleEntity();
+        doctorRole.setRole("DOCTOR");
+        UserEntity user = new UserEntity();
+        user.setRoles(Collections.singleton(doctorRole));
+        when(roleRepository.findByRole("DOCTOR")).thenReturn(doctorRole);
+        when(userRepository.findByEmail(email)).thenReturn(user);
+        when(userRepository.existsByEmail(email)).thenReturn(false);
+        String viewName = registerController.recoveryPassword(email, model);
+        verify(model, times(1)).addAttribute("error", "Ten email nie istnieje w bazie danych");
+        assertEquals("PasswordRecovery", viewName);
+    }
+    @Test
+    public void testRecoveryPasswordDoctorEmail() throws MessagingException, UnsupportedEncodingException {
+        String email = "doctor@example.com";
+        RoleEntity doctorRole = new RoleEntity();
+        doctorRole.setRole("DOCTOR");
+        UserEntity user = new UserEntity();
+        user.setRoles(Collections.singleton(doctorRole));
+        when(roleRepository.findByRole("DOCTOR")).thenReturn(doctorRole);
+        when(userRepository.findByEmail(email)).thenReturn(user);
+        when(userRepository.existsByEmail(email)).thenReturn(true);
+        String viewName = registerController.recoveryPassword(email, model);
+        verify(model, times(1)).addAttribute("error", "Ten email należy do lekarza!");
+        assertEquals("PasswordRecovery", viewName);
+    }
 
     @Test
     void registrationValidFormRedirectToBooking() {

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.medinet.util.EntityFixtures.someAppointment1;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -59,7 +58,7 @@ class AppointmentRestControllerTest {
     private AppointmentRestController appointmentRestController;
 
     @Test
-    public void testCreateAppointment_validAppointment() {
+    public void testCreateAppointmentValidAppointment() {
         RequestDto requestDto = new RequestDto();
         LocalDate nextWednesday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
         requestDto.setDateOfAppointment(nextWednesday);
@@ -78,7 +77,7 @@ class AppointmentRestControllerTest {
     }
 
     @Test
-    public void testCreateAppointment_dateMoreThanTwoWeeksFromToday() {
+    public void testCreateAppointmentDateMoreThanTwoWeeksFromToday() {
         //given
         RequestDto requestDto = new RequestDto();
         requestDto.setDateOfAppointment(LocalDate.now().plusWeeks(3));
@@ -92,7 +91,7 @@ class AppointmentRestControllerTest {
     }
 
     @Test
-    public void testCreateAppointment_dateEarlierThanTomorrow() {
+    public void testCreateAppointmentDateEarlierThanTomorrow() {
         //given
         RequestDto requestDto = new RequestDto();
         requestDto.setDateOfAppointment(LocalDate.now());
@@ -106,7 +105,7 @@ class AppointmentRestControllerTest {
     }
 
     @Test
-    public void testCreateAppointment_dateOnSaturday() {
+    public void testCreateAppointmentDateOnSaturday() {
         //given
         RequestDto requestDto = new RequestDto();
         LocalDate nextSaturday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
@@ -121,7 +120,7 @@ class AppointmentRestControllerTest {
     }
 
     @Test
-    public void testCreateAppointment_slotAlreadyBooked() {
+    public void testCreateAppointmentSlotAlreadyBooked() {
         //given
         LocalDate localDate = LocalDate.now().plusWeeks(1);
         if (localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
@@ -201,7 +200,52 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(appointments, responseEntity.getBody());
     }
+    @Test
+    public void testUpdateAppointmentMessageDoneStatus() {
+        AppointmentEntity appointmentEntity = new AppointmentEntity();
+        appointmentEntity.setStatus("done");
 
+        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(appointmentEntity));
+
+        ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("You can not modify appointment with status done!", response.getBody());
+    }
+
+    @Test
+    public void testUpdateAppointmentMessageUpcomingStatus() {
+        AppointmentEntity appointmentEntity = new AppointmentEntity();
+        appointmentEntity.setStatus("upcoming");
+
+        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(appointmentEntity));
+
+        ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("You can not modify appointment with status upcoming!", response.getBody());
+    }
+
+    @Test
+    public void testUpdateAppointmentMessageNotFound() {
+        when(appointmentService.findById(anyInt())).thenThrow(new NotFoundException("Appointment not found"));
+
+        assertThrows(NotFoundException.class, () -> {
+            appointmentRestController.updateAppointmentMessage(1, "New message");
+        });
+    }
+    @Test
+    public void testUpdateAppointmentMessageSuccess() {
+        AppointmentEntity appointmentEntity = new AppointmentEntity();
+        appointmentEntity.setStatus("pending");
+
+        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(appointmentEntity));
+        Mockito.doNothing().when(appointmentService).approveAppointment(anyInt(), any());
+
+        ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
     @Test
     public void testAppointmentsByStatusInvalid() {
         //given
