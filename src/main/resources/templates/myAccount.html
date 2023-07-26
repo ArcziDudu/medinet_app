@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!--     <link th:href = "@{/myAccount.css}" rel="stylesheet">-->
-    <link rel="stylesheet" href="../static/myAccount.css">
+     <link th:href = "@{/myAccount.css}" rel="stylesheet">
+<!--    <link rel="stylesheet" href="../static/myAccount.css">-->
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -24,11 +24,18 @@
             <div class="navbar-logo">
                 <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
             </div>
+
             <div class="navbar-links">
                 <a th:href="@{/booking}" class="navbar-link">Dostępni Lekarze</a>
                 <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
             </div>
         </nav>
+        <div th:if="${error != null}">
+            <p class="text-danger">[[${error}]]</p>
+        </div>
+        <div th:if="${message != null}">
+            <p class="text-warning">[[${message}]]</p>
+        </div>
         <div class="container main-box">
             <div class=" container rigth-side" id="appointments">
                 <div class="nav">
@@ -125,36 +132,27 @@
 
             </div>
         </div>
+
+        </div>
         <div class="container main-box" style="height:300px">
-        <div class="right-down-side" style=" margin-left: 20px;
-             display:flex;
-             flex-direction: column;
-             justify-content:center;
-             ">
-            <H5 style="color:#319FC5; font-weight: bold;">Zmiana hasła</H5>
-            <form th:action="@{/change-password}" method="post"
-                  style="display:flex;
-                 flex-direction: column;">
+
+            <form action="#" th:action="@{/password/change}" th:object="${passwordForm}" method="post">
                 <div>
-                    <label for="oldPassword" style="margin-bottom: 20px">Stare hasło:</label>
-                    <input type="password" id="oldPassword" name="oldPassword" required>
+                    <label for="currentPassword">Old Password:</label>
+                    <input type="password" id="currentPassword" th:field="*{currentPassword}" required/>
+
                 </div>
                 <div>
-                    <label for="newPassword" style="margin-bottom: 20px">Nowe hasło:</label>
-                    <input type="password" id="newPassword" name="newPassword" required>
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" th:field="*{newPassword}" required/>
+                    <p th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error-message"></p>
                 </div>
+
                 <div>
-                    <input type="submit" value="Zmień hasło" style="background-color: #0e86b2;
-                        color: white;
-                        width: 50%;
-                        border-radius: 25px;
-                      margin-left: 40px;
-                         border: 2px solid blue">
+                    <button type="submit">Change Password</button>
                 </div>
             </form>
 
-            </h5>
-        </div>
         </div>
         <footer class="down-navigation">
             <h5>© Medinet 2023</h5>
