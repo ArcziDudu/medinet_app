@@ -75,7 +75,7 @@ public class EntityFixtures {
     }
     public static DoctorDto someDoctorDto(){
         return DoctorDto.builder()
-                .doctorId(3)
+                .doctorId(100)
                 .name("Tester")
                 .surname("testowy")
                 .email("test@testowy.pl")

@@ -48,9 +48,9 @@ public class OpinionRestControllerWebMvcTest {
     @Test
     public void allOpinionsByPatientReturnsOpinionsWhenPatientIdIsValid() throws Exception {
         // given
-        Integer patientId = 1; // replace with an appropriate patient id
+        Integer patientId = 1;
         List<OpinionDto> opinions = new ArrayList<>();
-        // add OpinionDto objects to the list as necessary
+
 
         when(opinionService.findAll()).thenReturn(opinions);
 
@@ -64,9 +64,8 @@ public class OpinionRestControllerWebMvcTest {
     @Test
     public void allOpinionsByDoctorReturnsOpinionsWhenDoctorIdIsValid() throws Exception {
         // given
-        Integer doctorId = 1; // replace with an appropriate doctor id
+        Integer doctorId = 1;
         List<OpinionDto> opinions = new ArrayList<>();
-        // add OpinionDto objects to the list as necessary
 
         when(opinionService.findAll()).thenReturn(opinions);
 

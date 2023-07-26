@@ -28,7 +28,7 @@ public class DoctorIT
     @Transactional
     public void testCreateDoctor() {
         List<DoctorDto> allDoctors = doctorService.findAllDoctors();
-        assertEquals(1, allDoctors.size());
+        assertEquals(98, allDoctors.size());
         DoctorDto doctorDto = someDoctorDto();
         given().spec(requestSpecification())
                 .body(doctorDto)
@@ -38,11 +38,11 @@ public class DoctorIT
                 .then()
                 .statusCode(201);
         List<DoctorDto> allDoctorsAfter = doctorService.findAllDoctors();
-        assertEquals(2, allDoctorsAfter.size());
-        DoctorDto doctorById = doctorService.findDoctorById(3);
+        assertEquals(99, allDoctorsAfter.size());
+        DoctorDto doctorById = doctorService.findDoctorById(100);
         assertEquals(doctorDto.getName(), doctorById.getName());
         assertEquals(doctorDto.getEmail(), doctorById.getEmail());
-        doctorService.deleteById(3);
+        doctorService.deleteById(100);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class DoctorIT
     @Test
     public void testGetAllDoctors() {
         List<DoctorDto> allDoctors = doctorService.findAllDoctors();
-        assertEquals(2, allDoctors.size());
+        assertEquals(99, allDoctors.size());
         given()
                 .spec(requestSpecification())
                 .when()
@@ -85,7 +85,7 @@ public class DoctorIT
                         + API_ALL_DOCTOR)
                 .then()
                 .statusCode(200)
-                .body("size()", is(2));
+                .body("size()", is(99));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class DoctorIT
     @Test
     void deleteDoctorTest() {
         List<DoctorDto> allDoctors = doctorService.findAllDoctors();
-        assertEquals(2, allDoctors.size());
+        assertEquals(99, allDoctors.size());
         given()
                 .contentType(ContentType.JSON)
                 .pathParam("doctorId", 1)
@@ -114,6 +114,6 @@ public class DoctorIT
                 .then()
                 .statusCode(200);
         List<DoctorDto> allDoctorsAfter = doctorService.findAllDoctors();
-        assertEquals(1, allDoctorsAfter.size());
+        assertEquals(98, allDoctorsAfter.size());
     }
 }

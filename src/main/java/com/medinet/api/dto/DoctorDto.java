@@ -5,10 +5,7 @@ import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.security.UserEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -16,6 +13,7 @@ import java.util.TreeSet;
 
 @Data
 @Builder
+@ToString(of = "name")
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoctorDto {
