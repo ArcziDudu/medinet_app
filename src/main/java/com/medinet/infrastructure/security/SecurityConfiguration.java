@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                                         "/myAccountDoctor.css",
                                         "/doctor_page.css",
                                         "/invoice/**",
+                                        "/password/**",
                                         "/api/**",
                                         "/swagger-ui/**",
                                         "/v3/**",
@@ -63,9 +64,11 @@ public class SecurityConfiguration {
                                         , "/user/**").hasAnyAuthority("DOCTOR")
                                 .requestMatchers(
                                         "/request/**",
+                                        "/booking?page/**",
                                         "/account/**",
+                                        "password/**",
                                         "/specialist/details/**",
-                                        "/opinion/**").hasAnyAuthority("PATIENT", "ADMIN")
+                                        "/opinion/**").hasAnyAuthority("PATIENT")
 
                 ).formLogin(
                         form -> form

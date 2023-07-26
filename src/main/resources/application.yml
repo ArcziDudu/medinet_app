@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/medinet_database
     username: postgres
-    password: 1234
+    password: postgres
     hikari:
       idle-timeout: 10000
       connectionTimeout: 20000
@@ -24,3 +24,14 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  mail:
+    host: smtp.gmail.com
+    username: medinet.rezerwacje@gmail.com
+    password: mxzmilkzpmczghun
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
