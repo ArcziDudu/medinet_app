@@ -352,7 +352,7 @@
 
                 <button th:if="${!doctors.first}" class="page-button"
                         style="border-radius: 25px 0 0 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/doctors(page=${doctors.number - 1})}">Poprzednia strona</a>
+                    <a class="button-link" th:href="@{/booking(page=${doctors.number - 1})}">Poprzednia strona</a>
                 </button>
 
                 <button th:if="${doctors.hasNext}" class="page-button next"
