@@ -15,18 +15,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import java.security.Principal;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -50,6 +47,7 @@ class PatientControllerTest {
     private AppointmentService appointmentService;
     @Mock
     private Model model;
+
     @Test
     void showUsersPage() {
         //given
@@ -69,6 +67,7 @@ class PatientControllerTest {
         verify(model).addAttribute("CompletedAppointments", completed);
         assertEquals("myAccount", result);
     }
+
     @Test
     public void testChangePassword() {
 
@@ -89,6 +88,7 @@ class PatientControllerTest {
         verify(userRepository, times(1)).save(any(UserEntity.class));
         assertThat(result).isEqualTo("myAccount");
     }
+
     @Test
     public void testChangePasswordIncorrect() {
 
@@ -109,26 +109,27 @@ class PatientControllerTest {
         verify(userRepository, times(0)).save(any(UserEntity.class));
         assertThat(result).isEqualTo("myAccount");
     }
+
     @Test
     public void testChangePasswordWithBindingErrors() {
-        // Set up form and user entity
+
         ChangePasswordForm passwordForm = new ChangePasswordForm();
         UserEntity currentUser = new UserEntity();
 
-        // Set up mock behavior
+
         when(principal.getName()).thenReturn("test@test.com");
         when(userRepository.findByEmail(anyString())).thenReturn(currentUser);
-        when(passwordEncoder.matches(null, null)).thenReturn(true); // password matches// password matches
+        when(passwordEncoder.matches(null, null)).thenReturn(true);
         when(bindingResult.hasErrors()).thenReturn(true); // binding result has errors
 
-        // Call the method under test
+
         String returnValue = patientController.changePassword(passwordForm, bindingResult, model, principal);
 
-        // Verify interactions with mock objects
-        verify(model, times(1)).addAttribute("error", "Nowe hasło musi składać się z minimum sześciu znaków oraz musi zawierać co najmniej jedną cyfrę.");
-        verify(userRepository, times(1)).save(any(UserEntity.class)); // save should be called when there are binding errors
 
-        // Verify the return value
+        verify(model, times(1)).addAttribute("error", "Nowe hasło musi składać się z minimum sześciu znaków oraz musi zawierać co najmniej jedną cyfrę.");
+        verify(userRepository, times(1)).save(any(UserEntity.class));
+
+
         assertEquals("myAccount", returnValue);
     }
 }

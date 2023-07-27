@@ -19,8 +19,9 @@ public class SpringDocConfiguration {
                 .packagesToScan(Application.class.getPackageName())
                 .build();
     }
+
     @Bean
-    public OpenAPI springDocOpenApi(){
+    public OpenAPI springDocOpenApi() {
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()

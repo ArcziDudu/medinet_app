@@ -37,6 +37,7 @@ public class OpinionRestController {
     private final PatientMapper patientMapper;
     private final DoctorService doctorService;
     private final DoctorMapper doctorMapper;
+
     @GetMapping(value = API_OPINION_ALL)
     @Operation(summary = "Get all opinions", description = "Retrieve all opinions")
     @ApiResponses(value = {

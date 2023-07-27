@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,7 +81,7 @@ public class AppointmentController {
             appointment.setCalendarId(calendarId);
             appointment.setStatus("pending");
             appointmentService.processAppointment(appointment);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
         return "redirect:/booking";

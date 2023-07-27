@@ -2,11 +2,10 @@ package com.medinet.api.controller.rest;
 
 import com.medinet.api.controller.GlobalExceptionHandler;
 import com.medinet.domain.exception.NotFoundException;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.Test;
-import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GlobalExceptionTest {
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
+
     @Test
     public void handleExceptionTest() {
         Exception exception = new Exception("Test exception");

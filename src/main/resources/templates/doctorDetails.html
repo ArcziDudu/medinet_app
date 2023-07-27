@@ -54,7 +54,7 @@
             display: flex;
             align-items: center;
             width: 400px;
-            justify-content: space-between;
+            justify-content: space-around;
         }
 
         .navbar-link {
@@ -88,6 +88,8 @@
     background-color: #fff;
     margin-bottom: 20px;
 }
+
+
     </style>
 </head>
 
@@ -99,7 +101,6 @@
                 <a class="sprawdzenie" href="/booking" style="text-decoration: none; color: white">Logo</a>
             </div>
             <div class="navbar-links">
-                <a href="#" class="navbar-link">Polityka</a>
                 <a th:href="@{/booking}" class="navbar-link">Znajdź specjalistę</a>
                 <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
             </div>
@@ -121,13 +122,15 @@
                     align-items: flex-start;
                      margin-top: 15px;
                      ">
-                <div  class="avatar"
-                     style="height: 250px;
-                     width: 200px;
-                     margin: 0 auto;
-                     background-image: url(/src/main/resources/static/avatar_profile_page.jpg);
-                     background-position: center;
-                     background-size: cover; "></div>
+                <div class="avatar"
+
+                     th:style="'background-image: url(' + @{/images/avatar_profile_page.jpg} + ');
+                height: 250px;
+                width: 200px;
+                margin: 0 auto;
+                background-position: center;
+                background-size: cover; '"></div>
+
                 <div class="name-surname"
                      style="text-align: center;
                      background-color:#02A7DD;
@@ -205,10 +208,11 @@ box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
         </div>
         <div class="down-half" style=" background-color: #d8e2e6; margin: 25px; padding: 16px;">
 
-            <div class="hero-box opinions" style="flex-direction: column" >
-                <div   th:each="OneOpinion: ${doctor.getOpinions()}"  class="one-opinion">
+            <div class="hero-box opinions" style="flex-direction: column">
+                <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
                     <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}">asdf</h5>
-                    <h5 th:text="${'Autor: ' + OneOpinion.getPatient().getName() +' '+OneOpinion.getPatient().getSurname()}">fdsa</h5>
+                    <h5 th:text="${'Autor: ' + OneOpinion.getPatient().getName() +' '+OneOpinion.getPatient().getSurname()}">
+                        fdsa</h5>
                     <p th:text="${OneOpinion.getNote()}">das</p>
                 </div>
 

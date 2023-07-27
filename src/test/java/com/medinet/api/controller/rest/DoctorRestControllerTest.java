@@ -1,11 +1,9 @@
 package com.medinet.api.controller.rest;
 
-import com.medinet.api.controller.DoctorController;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
-import com.medinet.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +17,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -31,8 +30,8 @@ class DoctorRestControllerTest {
     private DoctorService doctorService;
     @InjectMocks
     private DoctorRestController doctorRestController;
-    private final String API_CREATE_DOCTOR = "/create";
     private static final String DOCTOR_ID_RESULT = "/%s";
+
     @Test
     public void testOneDoctorById_doctorFound() {
         //given
@@ -50,6 +49,7 @@ class DoctorRestControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedDoctorDto, responseEntity.getBody());
     }
+
     @Test
     public void testOneDoctorById_doctorIdIsNull() {
         //given
@@ -110,6 +110,7 @@ class DoctorRestControllerTest {
         assertEquals(expectedDoctorsPage.getNumber(), actualDoctorsPage.getNumber());
         assertEquals(expectedDoctorsPage.getContent(), actualDoctorsPage.getContent());
     }
+
     @Test
     public void testCreateDoctor() {
         //given
@@ -127,8 +128,10 @@ class DoctorRestControllerTest {
         //then
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 
+        String API_CREATE_DOCTOR = "/create";
         assertEquals(API_CREATE_DOCTOR + DOCTOR_ID_RESULT.formatted(expectedDoctorEntity.getDoctorId()), responseEntity.getHeaders().getLocation().getPath());
     }
+
     @Test
     public void testDeleteDoctor() {
         //given

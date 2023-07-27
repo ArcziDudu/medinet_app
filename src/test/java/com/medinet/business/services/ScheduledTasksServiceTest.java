@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,6 +71,7 @@ class ScheduledTasksServiceTest {
 
         assertEquals("pending", upcomingAppointmentEntity.getStatus());
     }
+
     @Test
     @DisplayName("Should not change the status of the appointment if the appointment time is equal to the current time")
     void testMyMethod_NoChangeInStatusIfAppointmentTimeIsEqualToCurrentTime() {

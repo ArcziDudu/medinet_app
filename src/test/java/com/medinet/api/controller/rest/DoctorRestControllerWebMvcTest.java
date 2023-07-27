@@ -14,14 +14,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static com.medinet.api.controller.rest.DoctorRestController.API_CREATE_DOCTOR;
 import static com.medinet.api.controller.rest.DoctorRestController.DOCTOR_ID_RESULT;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +32,7 @@ public class DoctorRestControllerWebMvcTest {
     private DoctorService doctorService;
     @MockBean
     private DoctorMapper doctorMapper;
+
     @Test
     public void oneDoctorById_ReturnsDoctorDto_WhenDoctorIdIsValid() throws Exception {
         // given
@@ -48,6 +47,7 @@ public class DoctorRestControllerWebMvcTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(doctorDto)));
     }
+
     @Test
     public void oneDoctorByIdReturnsNotFoundWhenDoctorIdIsInvalid() throws Exception {
         // given
@@ -60,6 +60,7 @@ public class DoctorRestControllerWebMvcTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     public void createDoctorReturnsCreatedWhenDoctorDtoIsValid() throws Exception {
         // given

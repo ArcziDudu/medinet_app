@@ -200,6 +200,7 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(appointments, responseEntity.getBody());
     }
+
     @Test
     public void testUpdateAppointmentMessageDoneStatus() {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
@@ -234,6 +235,7 @@ class AppointmentRestControllerTest {
             appointmentRestController.updateAppointmentMessage(1, "New message");
         });
     }
+
     @Test
     public void testUpdateAppointmentMessageSuccess() {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
@@ -246,6 +248,7 @@ class AppointmentRestControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
     @Test
     public void testAppointmentsByStatusInvalid() {
         //given
@@ -289,7 +292,6 @@ class AppointmentRestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Invalid appointment status", responseEntity.getBody());
     }
-
 
 
     @Test

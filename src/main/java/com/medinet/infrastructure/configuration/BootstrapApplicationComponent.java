@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +48,8 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
         List<LocalTime> hours = new ArrayList<>();
         LocalTime currentTime = startTime;
         while (currentTime.isBefore(endTime)) {
-                hours.add(currentTime);
-                currentTime = currentTime.plusHours(1);
+            hours.add(currentTime);
+            currentTime = currentTime.plusHours(1);
         }
         return hours;
     }
@@ -58,7 +57,7 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
     @Override
     @Transactional
     public void onApplicationEvent(final @NonNull ContextRefreshedEvent event) {
-        if(calendarJpaRepository.findAll().size()>0){
+        if (calendarJpaRepository.findAll().size() > 0) {
             return;
         }
 
@@ -66,14 +65,14 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
         List<LocalTime> hours = hoursArrayGenerator();
         List<DoctorEntity> all = doctorJpaRepository.findAll();
         for (LocalDate date : twoWeeksDatesForDoctors) {
-                for (DoctorEntity doctor : all) {
-                    CalendarEntity calendar = new CalendarEntity();
-                        calendar.setDoctor(doctor);
-                        calendar.setDate(date);
-                        calendar.setHours(hours);
+            for (DoctorEntity doctor : all) {
+                CalendarEntity calendar = new CalendarEntity();
+                calendar.setDoctor(doctor);
+                calendar.setDate(date);
+                calendar.setHours(hours);
 
-                        calendarJpaRepository.save(calendar);
-                }
+                calendarJpaRepository.save(calendar);
+            }
         }
     }
 }

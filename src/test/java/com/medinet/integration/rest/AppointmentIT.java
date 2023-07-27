@@ -3,12 +3,10 @@ package com.medinet.integration.rest;
 import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.RequestDto;
 import com.medinet.business.services.AppointmentService;
-import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.integration.configuration.RestAssuredIntegrationTestBase;
 import io.restassured.http.ContentType;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,10 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.medinet.api.controller.rest.AppointmentRestController.*;
@@ -43,24 +39,26 @@ public class AppointmentIT
         appointmentService.save(appointment2());
         appointmentService.save(appointment3());
     }
+
     @Test
     @Transactional
-    public void  testCreateAppointment(){
+    public void testCreateAppointment() {
         List<AppointmentDto> all = appointmentService.findAll();
         assertEquals(2, all.size());
         given().spec(requestSpecification())
                 .body(requestDto())
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                +API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_CREATE)
                 .then()
                 .statusCode(200);
         List<AppointmentDto> allAfter = appointmentService.findAll();
         assertEquals(3, allAfter.size());
 
     }
+
     @Test
-    public void  testCreateAppointmentWith2Weeks(){
+    public void testCreateAppointmentWith2Weeks() {
         RequestDto requestDto = requestDto();
         requestDto.setDateOfAppointment(LocalDate.now().plusWeeks(3));
         List<AppointmentDto> all = appointmentService.findAll();
@@ -69,15 +67,16 @@ public class AppointmentIT
                 .body(requestDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        +API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_CREATE)
                 .then()
                 .statusCode(400)
                 .body(is("Invalid appointment date - you cannot schedule an appointment more than two weeks from today!"));
         List<AppointmentDto> allAfter = appointmentService.findAll();
         assertEquals(3, allAfter.size());
     }
+
     @Test
-    public void  testCreateAppointmentEarlierThanTomorrow(){
+    public void testCreateAppointmentEarlierThanTomorrow() {
         RequestDto requestDto = requestDto();
         requestDto.setDateOfAppointment(LocalDate.now());
         List<AppointmentDto> all = appointmentService.findAll();
@@ -86,17 +85,19 @@ public class AppointmentIT
                 .body(requestDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        +API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_CREATE)
                 .then()
                 .statusCode(400)
-                .body(is("Invalid appointment date - you cannot schedule an appointment earlier than tomorrow!"));;
+                .body(is("Invalid appointment date - you cannot schedule an appointment earlier than tomorrow!"));
+        ;
         List<AppointmentDto> allAfter = appointmentService.findAll();
         assertEquals(3, allAfter.size());
 
     }
+
     @ParameterizedTest
     @MethodSource("provideWeekendDays")
-    public void  testCreateAppointmentOnWeekend(DayOfWeek day){
+    public void testCreateAppointmentOnWeekend(DayOfWeek day) {
         RequestDto requestDto = requestDto();
         requestDto
                 .setDateOfAppointment(LocalDate.now().with(TemporalAdjusters.next(day)));
@@ -106,17 +107,20 @@ public class AppointmentIT
                 .body(requestDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        +API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_CREATE)
                 .then()
                 .statusCode(400)
-                .body(is("Invalid appointment date - you cannot schedule an appointment on the weekend!"));;
+                .body(is("Invalid appointment date - you cannot schedule an appointment on the weekend!"));
+        ;
         List<AppointmentDto> allAfter = appointmentService.findAll();
         assertEquals(3, allAfter.size());
 
     }
+
     private static Stream<DayOfWeek> provideWeekendDays() {
         return Stream.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
     }
+
     @ParameterizedTest
     @ValueSource(strings = {"done", "pending"})
     public void testGetExistingAppointmentByStatusParameterized(String status) {
@@ -189,6 +193,7 @@ public class AppointmentIT
                 .statusCode(404)
                 .body(is("Appointment with ID [999] not found"));
     }
+
     @Test
     @Transactional
     public void testDeleteAppointment() {

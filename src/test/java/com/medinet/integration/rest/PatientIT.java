@@ -17,12 +17,14 @@ import static com.medinet.api.controller.rest.PatientRestController.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @Transactional
-public class PatientIT extends RestAssuredIntegrationTestBase{
+public class PatientIT extends RestAssuredIntegrationTestBase {
     @Autowired
     private PatientJpaRepository patientJpaRepository;
     @Autowired
     private PatientService patientService;
+
     @Test
     public void testCreateNewPatient() {
         List<PatientEntity> all = patientJpaRepository.findAll();
@@ -32,7 +34,7 @@ public class PatientIT extends RestAssuredIntegrationTestBase{
                 .contentType(ContentType.JSON)
                 .body(registrationFormDto)
                 .when()
-                .post("http://localhost:" + port + basePath +API_PATIENT+
+                .post("http://localhost:" + port + basePath + API_PATIENT +
                         API_PATIENT_CREATE)
                 .then()
                 .log().everything()
@@ -41,6 +43,7 @@ public class PatientIT extends RestAssuredIntegrationTestBase{
         assertEquals(2, allAfter.size());
         patientJpaRepository.deleteById(allAfter.get(1).getPatientId());
     }
+
     @Test
     public void testGetOnePatientById() {
         PatientDto patientById = patientService.findById(1);
@@ -57,6 +60,7 @@ public class PatientIT extends RestAssuredIntegrationTestBase{
                 .body("name", equalTo(patientById.getName()))
                 .body("email", equalTo(patientById.getEmail()));
     }
+
     private static RegistrationFormDto getRegistrationFormDto() {
         return RegistrationFormDto
                 .builder()

@@ -22,8 +22,7 @@ import java.util.Set;
 
 import static com.medinet.api.controller.rest.PatientRestController.API_PATIENT_CREATE;
 import static com.medinet.api.controller.rest.PatientRestController.PATIENT_ID_RESULT;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

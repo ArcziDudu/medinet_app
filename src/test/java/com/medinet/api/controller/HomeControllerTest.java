@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,9 +38,10 @@ class HomeControllerTest {
     private Principal principal;
     @Mock
     private DoctorService doctorService;
+
     @Test
     public void testHomepage() {
-       //when
+        //when
         String viewName = homeController.homepage();
 
         // then
@@ -82,6 +83,7 @@ class HomeControllerTest {
         verify(model, times(1)).addAttribute(eq("polishDayFormatter"), any());
         verify(model, times(1)).addAttribute(eq("user"), anyInt());
     }
+
     @Test
     public void testShowBookingPageAsDoctor() {
         // given
@@ -97,6 +99,7 @@ class HomeControllerTest {
         // then
         assertEquals("redirect:/doctor", viewName);
     }
+
     @Test
     public void testShowSortedDoctorsPage() {
         ///given

@@ -1,11 +1,10 @@
 package com.medinet.api.controller.rest;
 
-import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.api.dto.RegistrationFormDto;
-import com.medinet.api.dto.RequestDto;
 import com.medinet.business.services.PatientService;
-import com.medinet.infrastructure.entity.*;
+import com.medinet.infrastructure.entity.AddressEntity;
+import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.security.RoleEntity;
 import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserEntity;
@@ -21,10 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -42,6 +37,7 @@ public class PatientRestController {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PatientService patientService;
+
     @GetMapping(value = API_ONE_PATIENT)
     @Operation(summary = "Get one patient by ID", description = "Retrieve information about a patient based on their ID")
     @ApiResponses(value = {
@@ -55,6 +51,7 @@ public class PatientRestController {
         }
         return ResponseEntity.ok(patientById);
     }
+
     @PostMapping(value = API_PATIENT_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new patient",
             description = "Create a new patient based on the provided registration form")

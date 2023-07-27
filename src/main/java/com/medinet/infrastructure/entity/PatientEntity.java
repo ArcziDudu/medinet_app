@@ -18,6 +18,7 @@ public class PatientEntity {
     public Set<AppointmentEntity> getAppointments() {
         return appointments;
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "patient_id")

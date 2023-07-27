@@ -1,7 +1,8 @@
 package com.medinet.api.controller;
 
 import com.medinet.api.dto.RegistrationFormDto;
-import com.medinet.business.services.*;
+import com.medinet.business.services.PatientService;
+import com.medinet.business.services.RegisterService;
 import com.medinet.infrastructure.entity.AddressEntity;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.security.RoleEntity;
@@ -12,18 +13,19 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Controller
@@ -57,14 +59,13 @@ public class RegisterController {
     }
 
     @PostMapping("/password/recovery")
-    public String recoveryPassword(@RequestParam("email") String email,Model model)  {
+    public String recoveryPassword(@RequestParam("email") String email, Model model) {
         RoleEntity doctorRole = roleRepository.findByRole("DOCTOR");
         if (!userRepository.existsByEmail(email)) {
             model.addAttribute("error", "Ten email nie istnieje w bazie danych");
             return "PasswordRecovery";
 
-        }
-        else if (userRepository.findByEmail(email).getRoles().contains(doctorRole)) {
+        } else if (userRepository.findByEmail(email).getRoles().contains(doctorRole)) {
             model.addAttribute("error", "Ten email należy do lekarza!");
             return "PasswordRecovery";
         } else {
@@ -78,7 +79,6 @@ public class RegisterController {
 
         return "redirect:/login";
     }
-
 
 
     void sendEmail(String recipientEmail, String password) {
@@ -106,7 +106,6 @@ public class RegisterController {
             e.printStackTrace();
         }
     }
-
 
 
     @PostMapping("/register/save")

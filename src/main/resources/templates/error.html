@@ -11,17 +11,17 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Sorry mate, seems that You can't use this webapp properly!</h1>
-        <b><span th:if="${errorMessage}" th:text="${errorMessage}">Error</span></b>
-        <br>
+<div class="container">
+    <h1>Sorry mate, seems that You can't use this webapp properly!</h1>
+    <b><span th:if="${errorMessage}" th:text="${errorMessage}">Error</span></b>
+    <br>
 
-        <br>
-        <br>
-        <p>
-            <a th:href="@{/booking}" class="btn btn-info" role="button">Back to the main page</a>
-        </p>
-    </div>
+    <br>
+    <br>
+    <p>
+        <a th:href="@{/booking}" class="btn btn-info" role="button">Back to the main page</a>
+    </p>
+</div>
 </body>
 
 </html>

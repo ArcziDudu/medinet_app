@@ -120,6 +120,7 @@ class PatientRepositoryTest {
         // then
         assertThat(exists).isFalse();
     }
+
     @Test
     void testFindByUserId() {
         // given
@@ -149,6 +150,7 @@ class PatientRepositoryTest {
         // then
         assertThat(byUserId).isNotPresent();
     }
+
     @Test
     void thatShouldFindByEmail() {
         // given

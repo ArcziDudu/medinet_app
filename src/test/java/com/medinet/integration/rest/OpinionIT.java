@@ -2,8 +2,6 @@ package com.medinet.integration.rest;
 
 import com.medinet.api.dto.OpinionDto;
 import com.medinet.business.services.OpinionService;
-import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
-import com.medinet.infrastructure.repository.jpa.PatientJpaRepository;
 import com.medinet.integration.configuration.RestAssuredIntegrationTestBase;
 import io.restassured.http.ContentType;
 import jakarta.transaction.Transactional;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 public class OpinionIT
-        extends RestAssuredIntegrationTestBase{
+        extends RestAssuredIntegrationTestBase {
     @Autowired
     private OpinionService opinionService;
 
@@ -50,8 +48,9 @@ public class OpinionIT
                 .body("[1].opinionId", equalTo(opinion2().getOpinionId()))
                 .body("[2].opinionId", equalTo(opinion3().getOpinionId()));
     }
+
     @Test
-    public void testCreateOpinion(){
+    public void testCreateOpinion() {
         List<OpinionDto> all = opinionService.findAll();
         assertEquals(3, all.size());
         String opinion = "this doctor is amazing!";
@@ -69,8 +68,9 @@ public class OpinionIT
         List<OpinionDto> allAfter = opinionService.findAll();
         assertEquals(4, allAfter.size());
     }
+
     @Test
-    public void testCreateOpinionWithIncorrectIds(){
+    public void testCreateOpinionWithIncorrectIds() {
         List<OpinionDto> all = opinionService.findAll();
         assertEquals(4, all.size());
         String opinion = "this doctor is amazing!";
@@ -88,8 +88,9 @@ public class OpinionIT
         List<OpinionDto> allAfter = opinionService.findAll();
         assertEquals(4, allAfter.size());
     }
+
     @Test
-    public void testGetOpinionByPatientId(){
+    public void testGetOpinionByPatientId() {
         given()
                 .spec(requestSpecification())
                 .when()
@@ -101,8 +102,9 @@ public class OpinionIT
                 .contentType(ContentType.JSON)
                 .body("size()", is(4));
     }
+
     @Test
-    public void testGetOpinionByDoctorId(){
+    public void testGetOpinionByDoctorId() {
         given()
                 .spec(requestSpecification())
                 .when()
