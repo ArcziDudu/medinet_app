@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OpinionMapperImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.repository.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: OpinionMapperImpl (com.medinet.infrastructure.repository.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OpinionMapperImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68.4%
+  </span>
+  <span class="absValue">
+    (26/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository.mapper;
+&nbsp;
+&nbsp;import com.medinet.api.dto.OpinionDto;
+&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import com.medinet.infrastructure.entity.OpinionEntity;
+&nbsp;import com.medinet.infrastructure.entity.PatientEntity;
+&nbsp;import javax.annotation.processing.Generated;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;@Generated(
+&nbsp;    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+&nbsp;    date = &quot;2023-07-27T18:14:54+0200&quot;,
+&nbsp;    comments = &quot;version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.1.1.jar, environment: Java 18.0.2 (Oracle Corporation)&quot;
+&nbsp;)
+&nbsp;@Component
+<b class="fc">&nbsp;public class OpinionMapperImpl implements OpinionMapper {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public OpinionDto mapFromEntity(OpinionEntity entity) {
+<b class="fc">&nbsp;        if ( entity == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        OpinionDto.OpinionDtoBuilder opinionDto = OpinionDto.builder();</b>
+&nbsp;
+<b class="fc">&nbsp;        opinionDto.opinionId( entity.getOpinionId() );</b>
+<b class="fc">&nbsp;        opinionDto.dateOfCreateOpinion( entity.getDateOfCreateOpinion() );</b>
+<b class="fc">&nbsp;        opinionDto.note( entity.getNote() );</b>
+<b class="fc">&nbsp;        opinionDto.patient( patientEntityToPatientEntity( entity.getPatient() ) );</b>
+<b class="fc">&nbsp;        opinionDto.doctor( doctorEntityToDoctorEntity( entity.getDoctor() ) );</b>
+&nbsp;
+<b class="fc">&nbsp;        return opinionDto.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public OpinionEntity mapFromDto(OpinionDto dtos) {
+<b class="nc">&nbsp;        if ( dtos == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        OpinionEntity.OpinionEntityBuilder opinionEntity = OpinionEntity.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        opinionEntity.opinionId( dtos.getOpinionId() );</b>
+<b class="nc">&nbsp;        opinionEntity.dateOfCreateOpinion( dtos.getDateOfCreateOpinion() );</b>
+<b class="nc">&nbsp;        opinionEntity.note( dtos.getNote() );</b>
+<b class="nc">&nbsp;        opinionEntity.patient( dtos.getPatient() );</b>
+<b class="nc">&nbsp;        opinionEntity.doctor( dtos.getDoctor() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return opinionEntity.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected PatientEntity patientEntityToPatientEntity(PatientEntity patientEntity) {
+<b class="fc">&nbsp;        if ( patientEntity == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        PatientEntity.PatientEntityBuilder patientEntity1 = PatientEntity.builder();</b>
+&nbsp;
+<b class="fc">&nbsp;        patientEntity1.patientId( patientEntity.getPatientId() );</b>
+<b class="fc">&nbsp;        patientEntity1.name( patientEntity.getName() );</b>
+<b class="fc">&nbsp;        patientEntity1.email( patientEntity.getEmail() );</b>
+<b class="fc">&nbsp;        patientEntity1.surname( patientEntity.getSurname() );</b>
+<b class="fc">&nbsp;        patientEntity1.phoneNumber( patientEntity.getPhoneNumber() );</b>
+&nbsp;
+<b class="fc">&nbsp;        return patientEntity1.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected DoctorEntity doctorEntityToDoctorEntity(DoctorEntity doctorEntity) {
+<b class="fc">&nbsp;        if ( doctorEntity == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        DoctorEntity.DoctorEntityBuilder doctorEntity1 = DoctorEntity.builder();</b>
+&nbsp;
+<b class="fc">&nbsp;        doctorEntity1.doctorId( doctorEntity.getDoctorId() );</b>
+<b class="fc">&nbsp;        doctorEntity1.name( doctorEntity.getName() );</b>
+<b class="fc">&nbsp;        doctorEntity1.surname( doctorEntity.getSurname() );</b>
+<b class="fc">&nbsp;        doctorEntity1.email( doctorEntity.getEmail() );</b>
+<b class="fc">&nbsp;        doctorEntity1.priceForVisit( doctorEntity.getPriceForVisit() );</b>
+<b class="fc">&nbsp;        doctorEntity1.specialization( doctorEntity.getSpecialization() );</b>
+&nbsp;
+<b class="fc">&nbsp;        return doctorEntity1.build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-07-27 21:47</div>
+</div>
+</body>
+</html>

@@ -48,7 +48,7 @@ class OpinionRepositoryTest {
         List<OpinionEntity> all = opinionJpaRepository.findAll();
 
         assertThat(savedDto).isEqualTo(expectedDto);
-        assertThat(all).hasSize(1);
+        assertThat(all).hasSize(100);
     }
 
     private static OpinionEntity getOpinionEntity() {

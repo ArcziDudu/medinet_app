@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DoctorRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: DoctorRepository (com.medinet.infrastructure.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DoctorRepository</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (12/28)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DoctorRepository$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (12/28)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository;
+&nbsp;
+&nbsp;import com.medinet.api.dto.DoctorDto;
+&nbsp;import com.medinet.business.dao.DoctorDao;
+&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
+&nbsp;import com.medinet.infrastructure.repository.mapper.DoctorMapper;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Repository
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class DoctorRepository implements DoctorDao {
+&nbsp;    private final DoctorJpaRepository doctorJpaRepository;
+&nbsp;    private final DoctorMapper doctorMapper;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;DoctorDto&gt; findAllDoctors() {
+<b class="fc">&nbsp;        return doctorJpaRepository.findAll().stream()</b>
+<b class="fc">&nbsp;                .map(doctorMapper::mapFromEntity)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;DoctorDto&gt; findAll(Pageable pageable) {
+<b class="fc">&nbsp;        Page&lt;DoctorEntity&gt; page = doctorJpaRepository.findAll(pageable);</b>
+<b class="fc">&nbsp;        List&lt;DoctorDto&gt; doctorDtos = page.getContent().stream()</b>
+<b class="fc">&nbsp;                .map(doctorMapper::mapFromEntity)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+<b class="fc">&nbsp;        return new PageImpl&lt;&gt;(doctorDtos, pageable, page.getTotalElements());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;DoctorDto&gt; findDoctorById(Integer doctorId) {
+<b class="fc">&nbsp;        return doctorJpaRepository.findById(doctorId).map(doctorMapper::mapFromEntity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;DoctorDto&gt; findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Pageable pageable) {
+&nbsp;
+<b class="nc">&nbsp;        Page&lt;DoctorEntity&gt; allDoctorsBySpecializationAndCity =</b>
+<b class="nc">&nbsp;                doctorJpaRepository.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, pageable);</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;DoctorDto&gt; doctorsDtosBySpecAndCity = allDoctorsBySpecializationAndCity.getContent().stream()</b>
+<b class="nc">&nbsp;                .map(doctorMapper::mapFromEntity)</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        return new PageImpl&lt;&gt;(doctorsDtosBySpecAndCity, pageable, allDoctorsBySpecializationAndCity.getTotalElements());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Set&lt;String&gt; findAllAvailableSpecialization() {
+<b class="nc">&nbsp;        return doctorJpaRepository.findAll()</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .map(DoctorEntity::getSpecialization)</b>
+<b class="nc">&nbsp;                .collect(Collectors.toSet());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Set&lt;String&gt; findAllAvailableCities() {
+<b class="nc">&nbsp;        return doctorJpaRepository.findAll()</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .map(a -&gt; a.getAddress().getCity())</b>
+<b class="nc">&nbsp;                .collect(Collectors.toSet());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public DoctorEntity save(DoctorEntity newDoctor) {
+<b class="fc">&nbsp;        return doctorJpaRepository.save(newDoctor);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void deleteDoctor(Integer doctorId) {
+<b class="fc">&nbsp;        doctorJpaRepository.deleteById(doctorId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;DoctorDto&gt; findByEmail(String email) {
+<b class="nc">&nbsp;        return doctorJpaRepository.findByEmail(email)</b>
+<b class="nc">&nbsp;                .map(doctorMapper::mapFromEntity);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-07-27 21:47</div>
+</div>
+</body>
+</html>

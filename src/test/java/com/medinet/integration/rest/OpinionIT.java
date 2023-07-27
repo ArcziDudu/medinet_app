@@ -26,12 +26,6 @@ public class OpinionIT
     @Autowired
     private OpinionService opinionService;
 
-    @BeforeAll
-    void setUp() {
-        opinionService.processOpinion(opinion());
-        opinionService.processOpinion(opinion2());
-        opinionService.processOpinion(opinion3());
-    }
 
     @Test
     public void testAllOpinions() {
@@ -43,16 +37,16 @@ public class OpinionIT
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("size()", is(4))
-                .body("[0].opinionId", equalTo(opinion().getOpinionId()))
-                .body("[1].opinionId", equalTo(opinion2().getOpinionId()))
-                .body("[2].opinionId", equalTo(opinion3().getOpinionId()));
+                .body("size()", is(98))
+                .body("[0].opinionId", equalTo(1))
+                .body("[1].opinionId", equalTo(2))
+                .body("[2].opinionId", equalTo(3));
     }
 
     @Test
     public void testCreateOpinion() {
         List<OpinionDto> all = opinionService.findAll();
-        assertEquals(3, all.size());
+        assertEquals(97, all.size());
         String opinion = "this doctor is amazing!";
         given()
                 .spec(requestSpecification())
@@ -66,13 +60,13 @@ public class OpinionIT
                 .statusCode(200)
                 .contentType(ContentType.JSON);
         List<OpinionDto> allAfter = opinionService.findAll();
-        assertEquals(4, allAfter.size());
+        assertEquals(98, allAfter.size());
     }
 
     @Test
     public void testCreateOpinionWithIncorrectIds() {
         List<OpinionDto> all = opinionService.findAll();
-        assertEquals(4, all.size());
+        assertEquals(98, all.size());
         String opinion = "this doctor is amazing!";
         given()
                 .spec(requestSpecification())
@@ -86,7 +80,7 @@ public class OpinionIT
                 .statusCode(400)
                 .contentType(ContentType.JSON);
         List<OpinionDto> allAfter = opinionService.findAll();
-        assertEquals(4, allAfter.size());
+        assertEquals(98, allAfter.size());
     }
 
     @Test
@@ -100,7 +94,7 @@ public class OpinionIT
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("size()", is(4));
+                .body("size()", is(98));
     }
 
     @Test
@@ -108,12 +102,12 @@ public class OpinionIT
         given()
                 .spec(requestSpecification())
                 .when()
-                .pathParam("doctorId", 2)
+                .pathParam("doctorId", 8)
                 .get("http://localhost:" + port + basePath + API_OPINION
                         + API_OPINION_BY_DOCTOR)
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("size()", is(4));
+                .body("size()", is(2));
     }
 }
