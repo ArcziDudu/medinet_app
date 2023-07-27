@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class CalendarRepository implements CalendarDao {
     private CalendarJpaRepository calendarJpaRepository;
     private CalendarMapper calendarMapper;
+
     @Override
     public List<CalendarDto> findAllCalendar() {
         return calendarJpaRepository.findAllByOrderByDate().stream()
@@ -32,12 +33,12 @@ public class CalendarRepository implements CalendarDao {
 
     @Override
     public void save(CalendarEntity calendar) {
-      calendarJpaRepository.save(calendar);
+        calendarJpaRepository.save(calendar);
     }
 
     @Override
     public Optional<CalendarEntity> findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
-       return calendarJpaRepository.findByDoctorAndDate(doctor, dateOfAppointment);
+        return calendarJpaRepository.findByDoctorAndDate(doctor, dateOfAppointment);
     }
 
 

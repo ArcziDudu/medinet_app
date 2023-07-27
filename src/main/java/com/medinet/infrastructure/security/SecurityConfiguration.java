@@ -45,6 +45,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/login",
                                         "/",
                                         "/register/**",
+                                        "/policy",
                                         "/images/avatar_profile_page.jpg",
                                         "/images/doctor.png",
                                         "/error",
@@ -86,6 +87,7 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
     SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {

@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(PersistenceContainerTestConfiguration.class)
 public abstract class RestAssuredIntegrationTestBase
-    extends AbstractIT
-    implements ControllerTestSupport{
-    
+        extends AbstractIT
+        implements ControllerTestSupport {
+
     private String jSessionIdValue;
 
     @Autowired
@@ -33,7 +33,6 @@ public abstract class RestAssuredIntegrationTestBase
     void contextLoaded() {
         assertThat(true).isTrue();
     }
-
 
 
     public RequestSpecification requestSpecification() {

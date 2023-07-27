@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.medinet.api.controller.rest.OpinionRestController.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,7 +54,7 @@ public class OpinionRestControllerWebMvcTest {
         when(opinionService.findAll()).thenReturn(opinions);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/opinion/patient/"  + patientId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/opinion/patient/" + patientId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(opinions)));
@@ -70,11 +69,12 @@ public class OpinionRestControllerWebMvcTest {
         when(opinionService.findAll()).thenReturn(opinions);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/opinion/doctor/"+ doctorId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/opinion/doctor/" + doctorId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(opinions)));
     }
+
     @Test
     public void createOpinionReturnsOkWhenPatientIdAndDoctorIdAreValid() throws Exception {
         // given
@@ -88,7 +88,7 @@ public class OpinionRestControllerWebMvcTest {
         when(opinionService.processOpinion(any(OpinionEntity.class))).thenReturn(opinionDto);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/opinion/create/"+ patientId + "/" + doctorId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/opinion/create/" + patientId + "/" + doctorId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(opinion))
                 .andExpect(status().isOk())

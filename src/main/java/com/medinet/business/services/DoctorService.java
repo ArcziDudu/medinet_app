@@ -1,13 +1,11 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.DoctorDto;
-import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.DoctorDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.configuration.BootstrapApplicationComponent;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
-
 import com.medinet.infrastructure.security.RoleEntity;
 import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserEntity;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -114,7 +111,7 @@ public class DoctorService {
     public void deleteById(Integer doctorId) {
 
         Optional<DoctorDto> doctorById = doctorDao.findDoctorById(doctorId);
-        if(doctorById.isEmpty()){
+        if (doctorById.isEmpty()) {
             throw new NotFoundException("Could not find doctor by id: [%s]".formatted(doctorId));
         }
 
@@ -123,12 +120,13 @@ public class DoctorService {
     }
 
     public DoctorDto findByEmail(String email) {
-        Optional<DoctorDto> DoctorByEmail =  doctorDao.findByEmail(email);
-        if(DoctorByEmail.isEmpty()){
+        Optional<DoctorDto> DoctorByEmail = doctorDao.findByEmail(email);
+        if (DoctorByEmail.isEmpty()) {
             throw new NotFoundException("Could not find doctor by email: [%s]".formatted(email));
         }
         return DoctorByEmail.get();
 
-    }}
+    }
+}
 
 

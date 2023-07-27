@@ -18,11 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -145,10 +145,10 @@ class DoctorControllerTest {
 
         when(doctorService.findDoctorById(1)).thenReturn(requestedDoctor);
 
-        // Perform the method call
+
         String viewName = doctorController.getUser(1, model);
 
-        // Assertions
+
         assertEquals("myAccountDoctor", viewName);
 
         verify(model, times(1)).addAttribute(eq("doctor"), eq(requestedDoctor));

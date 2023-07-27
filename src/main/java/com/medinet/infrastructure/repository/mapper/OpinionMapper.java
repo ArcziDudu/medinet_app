@@ -18,5 +18,6 @@ public interface OpinionMapper {
     @Mapping(target = "doctor.appointments", ignore = true)
     @Mapping(target = "doctor.user", ignore = true)
     OpinionDto mapFromEntity(OpinionEntity entity);
+
     OpinionEntity mapFromDto(OpinionDto dtos);
 }

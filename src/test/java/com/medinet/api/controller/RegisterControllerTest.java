@@ -1,19 +1,15 @@
 package com.medinet.api.controller;
 
 import com.medinet.api.dto.RegistrationFormDto;
-import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.PatientService;
 import com.medinet.business.services.RegisterService;
 import com.medinet.infrastructure.entity.PatientEntity;
-import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.RoleEntity;
 import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -28,11 +24,9 @@ import org.springframework.validation.BindingResult;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,7 +42,7 @@ class RegisterControllerTest {
     @Mock
     private JavaMailSender mailSender;
     @Mock
-    private MimeMessage mimeMessage ;
+    private MimeMessage mimeMessage;
     @Mock
     private RoleRepository roleRepository;
     @Captor
@@ -63,6 +57,7 @@ class RegisterControllerTest {
     private BindingResult bindingResult;
     @Mock
     private PatientService patientService;
+
     @Test
     void login() {
         String login = registerController.login();
@@ -70,7 +65,7 @@ class RegisterControllerTest {
     }
 
     @Test
-    void thatShowRegisterForm(){
+    void thatShowRegisterForm() {
         //given
         RegistrationFormDto form = new RegistrationFormDto();
         //when
@@ -101,6 +96,7 @@ class RegisterControllerTest {
         verify(model, times(1)).addAttribute("error", "Ten email nie istnieje w bazie danych");
         assertEquals("PasswordRecovery", viewName);
     }
+
     @Test
     public void testRecoveryPasswordDoctorEmail() throws MessagingException, UnsupportedEncodingException {
         String email = "doctor@example.com";
@@ -158,7 +154,6 @@ class RegisterControllerTest {
         assertEquals("SampleStreet", capturedPatientEntity.getAddress().getStreet());
         assertEquals("12345", capturedPatientEntity.getAddress().getPostalCode());
     }
-
 
 
 }

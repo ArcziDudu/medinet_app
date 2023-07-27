@@ -132,17 +132,17 @@ public class AppointmentControllerWebMvcTest {
         int calendarId = 3;
         String uuid = UUID.randomUUID().toString();
 
-        // Mocking DoctorDto for the doctor
+
         DoctorDto doctor = new DoctorDto();
         doctor.setDoctorId(doctorId);
         when(doctorService.findDoctorById(doctorId)).thenReturn(doctor);
 
-        // Mocking PatientDto for the patient
+
         PatientDto patient = new PatientDto();
         patient.setPatientId(patientId);
         when(patientService.findByUserId(patientId)).thenReturn(patient);
 
-        // Mocking the UUID for the visit number
+
         when(appointmentService.getVisitNumber()).thenReturn(uuid);
         AddressEntity address = new AddressEntity();
         address.setCity("City Name");
@@ -171,6 +171,7 @@ public class AppointmentControllerWebMvcTest {
         verify(patientService, times(1)).findByUserId(patientId);
         verify(appointmentService, times(1)).getVisitNumber();
     }
+
     @Test
     void testRemoveAppointment() throws Exception {
         //given
@@ -209,6 +210,7 @@ public class AppointmentControllerWebMvcTest {
         verify(appointmentService, times(1)).findCompletedAppointments(currentPatient);
         verify(userRepository, times(1)).findByEmail(userEmail);
     }
+
     @Test
     void testGeneratePdf() throws Exception {
 
@@ -221,7 +223,7 @@ public class AppointmentControllerWebMvcTest {
         mockMvc.perform(post("/invoice/generatePdf/{appointmentId}", appointmentId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/account/user/1"));
-        
+
         verify(appointmentService, times(1)).findById(appointmentId);
         verify(appointmentService, times(1)).generatePdf(Optional.of(appointmentEntity));
     }

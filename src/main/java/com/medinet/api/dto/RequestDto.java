@@ -1,6 +1,5 @@
 package com.medinet.api.dto;
 
-import com.medinet.infrastructure.entity.PatientEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

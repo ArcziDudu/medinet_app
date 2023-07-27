@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class AppointmentRepository implements AppointmentDao {
     private final AppointmentJpaRepository appointmentJpaRepository;
     private final AppointmentMapper appointmentMapper;
+
     @Override
     public void saveAppointment(AppointmentEntity appointment) {
         appointmentJpaRepository.save(appointment);

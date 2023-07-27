@@ -24,7 +24,7 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +47,7 @@ class OpinionRestControllerTest {
     public void testAllOpinions() {
         //given
         List<OpinionDto> expectedOpinions = Arrays.asList(
-               giveOpinion(1, "test1"),
+                giveOpinion(1, "test1"),
                 giveOpinion(2, "test2"),
                 giveOpinion(3, "test3")
         );
@@ -64,6 +64,7 @@ class OpinionRestControllerTest {
             assertEquals(expectedOpinions.get(i).getNote(), actualOpinions.get(i).getNote());
         }
     }
+
     @Test
     public void testAllOpinionsByPatient() {
         //given
@@ -72,7 +73,7 @@ class OpinionRestControllerTest {
         patient.setPatientId(patientId);
 
         List<OpinionDto> allOpinions = Arrays.asList(
-               giveOpinion(1, "test1", patient),
+                giveOpinion(1, "test1", patient),
                 giveOpinion(1, "test2", patient)
         );
 
@@ -103,8 +104,8 @@ class OpinionRestControllerTest {
         doctor.setDoctorId(5);
 
         List<OpinionDto> allOpinions = Arrays.asList(
-             giveOpinion(1,"test", doctor),
-                giveOpinion(2,"test2", doctor)
+                giveOpinion(1, "test", doctor),
+                giveOpinion(2, "test2", doctor)
 
         );
 
@@ -124,6 +125,7 @@ class OpinionRestControllerTest {
             assertEquals(expectedOpinions.get(i).getNote(), actualOpinions.get(i).getNote());
         }
     }
+
     @Test
     public void testCreateDoctor() {
         //given
@@ -175,6 +177,7 @@ class OpinionRestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(exceptionMessage, responseEntity.getBody());
     }
+
     private OpinionDto giveOpinion(int id, String test, DoctorEntity doctor) {
         return OpinionDto.builder()
                 .opinionId(id)
@@ -183,13 +186,14 @@ class OpinionRestControllerTest {
                 .build();
     }
 
-    private OpinionDto giveOpinion(Integer id, String note){
+    private OpinionDto giveOpinion(Integer id, String note) {
         return OpinionDto.builder()
                 .opinionId(id)
                 .note(note)
                 .build();
     }
-    private OpinionDto giveOpinion(Integer id, String note, PatientEntity patientEntity){
+
+    private OpinionDto giveOpinion(Integer id, String note, PatientEntity patientEntity) {
         return OpinionDto.builder()
                 .opinionId(id)
                 .note(note)

@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class HomeController {
     static final String HOME = "/";
+    static final String POLICY = "/policy";
+    static final String BOOKING = "/booking";
+    static final String BOOKING_FIND = "/booking/find";
 
     private DoctorService doctorService;
     private final UserRepository userRepository;
@@ -38,7 +41,14 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/booking")
+
+    @RequestMapping(value = POLICY, method = RequestMethod.GET)
+    public String policy() {
+        return "policy.html";
+    }
+
+
+    @GetMapping(BOOKING)
     public String showBookingPage(@RequestParam(defaultValue = "0") int page, Model model, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasAccessPatient = authentication.getAuthorities().stream()
@@ -77,7 +87,7 @@ public class HomeController {
     }
 
 
-    @GetMapping("/booking/find")
+    @GetMapping(BOOKING_FIND)
     public String showSortedDoctorsPage(
             @RequestParam(value = "doctorSpecialization") String doctorSpecialization,
             @RequestParam(value = "doctorCity") String doctorCity,
@@ -96,7 +106,7 @@ public class HomeController {
                 doctorSpecialization,
                 doctorCity,
                 page);
-        if(allDoctors.getSize()>0){
+        if (allDoctors.getSize() > 0) {
             for (DoctorDto doctor : allDoctors) {
                 TreeSet<CalendarEntity> sortedCalendars = doctor.getCalendars().stream()
                         .filter(Objects::nonNull)
@@ -126,6 +136,7 @@ public class HomeController {
 
         return "mainPageBookingAppointments";
     }
+
     public static Comparator<CalendarEntity> getCalendarEntityComparator() {
         return Comparator.comparing(CalendarEntity::getDate);
     }

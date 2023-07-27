@@ -1,6 +1,5 @@
 package com.medinet.business.services;
 
-import com.medinet.business.dao.CalendarDao;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.util.EntityFixtures;

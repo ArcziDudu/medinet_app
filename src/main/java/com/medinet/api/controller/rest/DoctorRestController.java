@@ -4,10 +4,6 @@ import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
-import com.medinet.infrastructure.security.RoleEntity;
-import com.medinet.infrastructure.security.RoleRepository;
-import com.medinet.infrastructure.security.UserEntity;
-import com.medinet.infrastructure.security.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,10 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor

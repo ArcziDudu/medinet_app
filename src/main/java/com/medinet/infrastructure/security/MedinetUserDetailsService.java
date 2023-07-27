@@ -30,20 +30,20 @@ public class MedinetUserDetailsService implements UserDetailsService {
 
     private List<GrantedAuthority> getUserAuthority(Set<RoleEntity> userRoles) {
         return userRoles.stream()
-            .map(role -> new SimpleGrantedAuthority(role.getRole()))
-            .distinct()
-            .collect(Collectors.toList());
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private UserDetails buildUserForAuthentication(UserEntity user, List<GrantedAuthority> authorities) {
         return new User(
-            user.getEmail(),
-            user.getPassword(),
-            user.getActive(),
-            true,
-            true,
-            true,
-            authorities
+                user.getEmail(),
+                user.getPassword(),
+                user.getActive(),
+                true,
+                true,
+                true,
+                authorities
         );
     }
 }

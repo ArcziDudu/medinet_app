@@ -1,11 +1,9 @@
 package com.medinet.business.services;
 
 import com.medinet.business.dao.DoctorDao;
-import com.medinet.business.dao.PatientDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.security.RoleRepository;
 import com.medinet.infrastructure.security.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
@@ -16,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,13 +22,13 @@ class DoctorServiceTest {
     @Mock
     private DoctorDao doctorDao;
     @Mock
-    private  CalendarService calendarService;
+    private CalendarService calendarService;
     @Mock
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
     @Mock
-    private  RoleRepository roleRepository;
+    private RoleRepository roleRepository;
     @Mock
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private DoctorService doctorService;
 

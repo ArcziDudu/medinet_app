@@ -1,6 +1,5 @@
 package com.medinet.api.controller;
 
-import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
@@ -13,16 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.Formatter;
+import java.util.Map;
+import java.util.TreeSet;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -53,6 +50,7 @@ public class DoctorControllerWebMvcTest {
     private Formatter formatter;
     @Mock
     private DoctorController doctorController;
+
     @Test
     public void testShowDoctorDetailsPage() throws Exception {
         // given

@@ -6,83 +6,83 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-     <link th:href = "@{/doctor_page.css}" rel="stylesheet">
-<!--   <link rel="stylesheet" href="../static/doctor_page.css">-->
+    <link th:href="@{/doctor_page.css}" rel="stylesheet">
+    <!--   <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <nav class="container navbar">
-            <div class="navbar-logo">
-                <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
-            </div>
-            <div class="navbar-links">
-                <a th:href="@{/user/{userId}(userId=${doctor.doctorId})}" class="navbar-link">Moje konto</a>
-                <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
-            </div>
-        </nav>
-        <section class="doctors-box">
+<div class="wrapper">
+    <nav class="container navbar">
+        <div class="navbar-logo">
+            <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
+        </div>
+        <div class="navbar-links">
+            <a th:href="@{/user/{userId}(userId=${doctor.doctorId})}" class="navbar-link">Moje konto</a>
+            <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
+        </div>
+    </nav>
+    <section class="doctors-box">
 
-            <div class="container" style="display: flex; justify-content: center; margin-bottom: 20px">
+        <div class="container" style="display: flex; justify-content: center; margin-bottom: 20px">
 
-                <button class="page-button next"
-                        style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/doctor}">Nadchodzące wizyty</a>
-                </button>
-                <button class="page-button next"
-                        style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
-                    <a class="button-link" th:href="@{/doctor/appointments/pending}">Do zatwierdzenia</a>
-                </button>
+            <button class="page-button next"
+                    style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
+                <a class="button-link" th:href="@{/doctor}">Nadchodzące wizyty</a>
+            </button>
+            <button class="page-button next"
+                    style="border-radius: 25px 25px 25px 25px; border: 2px solid white;">
+                <a class="button-link" th:href="@{/doctor/appointments/pending}">Do zatwierdzenia</a>
+            </button>
+        </div>
+        <div class="container">
+            <div class="title-box">
+                <h3>Historia twoich pacjentów</h3>
             </div>
-            <div class="container">
-                <div class="title-box">
-                    <h3>Historia twoich pacjentów</h3>
-                </div>
-            </div>
+        </div>
 
-                <div class="container reserved-appointments">
-                    <div th:each="appointment :${completedAppointment}">
-                        <div class="visit-invoice">
-                            <div class="up-side">
-                                <h6 style="color: black;" th:text="${appointment.getUUID()}"></h6>
-                                <h6 th:text="${'Data zarezerwowania: '+ appointment.getIssueInvoice()}"></h6>
-                                <h6 th:text="${'Data wizyty: '+ appointment.getDateOfAppointment()}"></h6>
-                                <h6 th:text="${'Godzina wizyty: '+ appointment.getTimeOfVisit()}"></h6>
-                                <h6 style="color: black;"
-                                    th:text="${'Pacjent: ' + appointment.getPatient().getName()
+        <div class="container reserved-appointments">
+            <div th:each="appointment :${completedAppointment}">
+                <div class="visit-invoice">
+                    <div class="up-side">
+                        <h6 style="color: black;" th:text="${appointment.getUUID()}"></h6>
+                        <h6 th:text="${'Data zarezerwowania: '+ appointment.getIssueInvoice()}"></h6>
+                        <h6 th:text="${'Data wizyty: '+ appointment.getDateOfAppointment()}"></h6>
+                        <h6 th:text="${'Godzina wizyty: '+ appointment.getTimeOfVisit()}"></h6>
+                        <h6 style="color: black;"
+                            th:text="${'Pacjent: ' + appointment.getPatient().getName()
                             +' ' +appointment.getPatient().getSurname()}"></h6>
-                                <h6 th:text="${'Email '+ appointment.getPatient().getEmail()}"></h6>
-                                <h6 th:text="${'Telefon: '+ appointment.getPatient.getPhoneNumber()}"></h6>
-                                <h6 th:text="${'Lekarz: ' + appointment.getDoctor().getName() +
+                        <h6 th:text="${'Email '+ appointment.getPatient().getEmail()}"></h6>
+                        <h6 th:text="${'Telefon: '+ appointment.getPatient.getPhoneNumber()}"></h6>
+                        <h6 th:text="${'Lekarz: ' + appointment.getDoctor().getName() +
                             ' '+ appointment.getDoctor().getSurname()}"></h6>
-                                <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                        <h6 th:text="${'Temat: Wizyta u specjalisty - '
                             +appointment.getDoctor().getSpecialization()}"></h6>
-                                <h6 th:text="${'Koszt wizyty '+ appointment.getDoctor.getPriceForVisit()}"></h6>
-                                <h6 th:text="${'Notatka lekarza: '+ appointment.getNoteOfAppointment()}"></h6>
-                            </div>
-
-                        </div>
+                        <h6 th:text="${'Koszt wizyty '+ appointment.getDoctor.getPriceForVisit()}"></h6>
+                        <h6 th:text="${'Notatka lekarza: '+ appointment.getNoteOfAppointment()}"></h6>
                     </div>
+
                 </div>
-              
-
             </div>
+        </div>
 
-        </section>
-    </div>
 
-    <footer class="down-navigation">
-        <h5>© Medinet 2023</h5>
-    </footer>
-    <script>
+</div>
+
+</section>
+</div>
+
+<footer class="down-navigation">
+    <h5>© Medinet 2023</h5>
+</footer>
+<script>
         const buttons = document.querySelectorAll('.send-opinion');
 
         buttons.forEach(button => {
@@ -92,7 +92,9 @@
                 popup.classList.toggle('show');
             });
         });
-    </script>
+
+
+</script>
 </body>
 
 </html>

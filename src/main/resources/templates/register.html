@@ -15,7 +15,7 @@
             <div class="card-header">
                 <h2 class="text-center">Rejestracja - Medinet</h2>
             </div>
-           <div th:if="${param.success}">
+            <div th:if="${param.success}">
                 <div class="alert alert-info">
                     Zostałeś zarejstrowany poprawnie!
                 </div>
@@ -27,25 +27,26 @@
                             <div class="left-side">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Imię</label>
-                                    <input class="form-control" id="name" name="name" th:value="${form.name}" />
+                                    <input class="form-control" id="name" name="name" th:value="${form.name}"/>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="form-label">Nazwisko</label>
-                                    <input class="form-control" id="surname" name="surname" th:value="${form.surname}" />
+                                    <input class="form-control" id="surname" name="surname" th:value="${form.surname}"/>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="form-label">E-mail</label>
-                                    <input class="form-control" id="email" name="email" th:value="${form.email}" />
-                                    <p th:errors = "${form.email}" class="text-danger"
+                                    <input class="form-control" id="email" name="email" th:value="${form.email}"/>
+                                    <p th:errors="${form.email}" class="text-danger"
                                        th:if="${#fields.hasErrors('email')}"></p>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="form-label">Hasło</label>
-                                    <input class="form-control" id="password" type="password" name="password" th:value="${form.password}" />
-                                    <p th:errors = "${form.password}" class="text-danger"
+                                    <input class="form-control" id="password" type="password" name="password"
+                                           th:value="${form.password}"/>
+                                    <p th:errors="${form.password}" class="text-danger"
                                        th:if="${#fields.hasErrors('password')}"></p>
                                 </div>
                             </div>
@@ -55,22 +56,24 @@
                             <div class="right-side">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Numer Telefonu</label>
-                                    <input class="form-control" id="phoneNumber" name="phoneNumber" th:value="${form.phoneNumber}" />
-                                    <p th:errors = "${form.phoneNumber}" class="text-danger"
+                                    <input class="form-control" id="phoneNumber" name="phoneNumber"
+                                           th:value="${form.phoneNumber}"/>
+                                    <p th:errors="${form.phoneNumber}" class="text-danger"
                                        th:if="${#fields.hasErrors('phoneNumber')}"></p>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label">Adres</label>
-                                    <input class="form-control" id="street" name="street" th:value="${form.street}" />
+                                    <input class="form-control" id="street" name="street" th:value="${form.street}"/>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label">Miasto</label>
-                                    <input class="form-control" id="city" name="city" th:value="${form.city}" />
+                                    <input class="form-control" id="city" name="city" th:value="${form.city}"/>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="form-label">Kod pocztowy</label>
-                                    <input class="form-control" id="postalCode" name="postalCode" th:value="${form.postalCode}" />
+                                    <input class="form-control" id="postalCode" name="postalCode"
+                                           th:value="${form.postalCode}"/>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +85,6 @@
                     </div>
                 </form>
             </div>
-
 
 
         </div>

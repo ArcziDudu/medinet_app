@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class DoctorRepository implements DoctorDao {
     private final DoctorJpaRepository doctorJpaRepository;
     private final DoctorMapper doctorMapper;
+
     @Override
     public List<DoctorDto> findAllDoctors() {
         return doctorJpaRepository.findAll().stream()
@@ -44,18 +45,16 @@ public class DoctorRepository implements DoctorDao {
     }
 
 
-
-
-        @Override
+    @Override
     public Page<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Pageable pageable) {
 
-            Page<DoctorEntity> allDoctorsBySpecializationAndCity =
-                    doctorJpaRepository.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, pageable);
+        Page<DoctorEntity> allDoctorsBySpecializationAndCity =
+                doctorJpaRepository.findAllDoctorsBySpecializationAndCity(doctorSpecialization, doctorCity, pageable);
 
-            List<DoctorDto> doctorsDtosBySpecAndCity = allDoctorsBySpecializationAndCity.getContent().stream()
-                    .map(doctorMapper::mapFromEntity)
-                    .collect(Collectors.toList());
-            return new PageImpl<>(doctorsDtosBySpecAndCity, pageable, allDoctorsBySpecializationAndCity.getTotalElements());
+        List<DoctorDto> doctorsDtosBySpecAndCity = allDoctorsBySpecializationAndCity.getContent().stream()
+                .map(doctorMapper::mapFromEntity)
+                .collect(Collectors.toList());
+        return new PageImpl<>(doctorsDtosBySpecAndCity, pageable, allDoctorsBySpecializationAndCity.getTotalElements());
     }
 
 
@@ -71,7 +70,7 @@ public class DoctorRepository implements DoctorDao {
     public Set<String> findAllAvailableCities() {
         return doctorJpaRepository.findAll()
                 .stream()
-                .map(a->a.getAddress().getCity())
+                .map(a -> a.getAddress().getCity())
                 .collect(Collectors.toSet());
     }
 

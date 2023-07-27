@@ -19,7 +19,6 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -31,6 +30,7 @@ import static org.mockito.Mockito.*;
 class DoctorRepositoryTest {
     @Mock
     private DoctorJpaRepository doctorJpaRepository;
+
     @Test
     public void testFindAllAvailableSpecialization() {
         // given
@@ -77,7 +77,7 @@ class DoctorRepositoryTest {
         // when
         Set<String> result = doctorJpaRepository.findAll()
                 .stream()
-                .map(a->a.getAddress().getCity())
+                .map(a -> a.getAddress().getCity())
                 .collect(Collectors.toSet());
         // then
         assertNotNull(result);
@@ -154,7 +154,7 @@ class DoctorRepositoryTest {
     }
 
     @Test
-    public void testFindAllDoctors(){
+    public void testFindAllDoctors() {
 
         PageRequest page = PageRequest.of(0, 10);
 

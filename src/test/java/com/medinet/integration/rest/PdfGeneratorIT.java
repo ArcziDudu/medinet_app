@@ -16,8 +16,6 @@ import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -37,7 +35,7 @@ public class PdfGeneratorIT {
         WebClient webClient = WebClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader("Authentication","Token Ti6QZHzQNWNqAgku0bKJaxLWabFkbhiM")
+                .defaultHeader("Authentication", "Token co4o4OpK6M_WpBgMYInX2ybs6NmWwQ8e")
                 .build();
 
         pdfGeneratorService = new PdfGeneratorService(webClient);
@@ -84,7 +82,7 @@ public class PdfGeneratorIT {
                 pdfFile.delete();
             }
         }
-        }
+    }
 
 
     private String testHtml() {

@@ -3,8 +3,6 @@ package com.medinet.api.controller;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
-import com.medinet.infrastructure.entity.CalendarEntity;
-import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @AllArgsConstructor

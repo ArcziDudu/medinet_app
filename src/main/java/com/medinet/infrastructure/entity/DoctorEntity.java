@@ -1,17 +1,13 @@
 package com.medinet.infrastructure.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.medinet.infrastructure.security.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Getter
 @Setter

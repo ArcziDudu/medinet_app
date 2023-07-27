@@ -11,8 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @Import(PersistenceContainerTestConfiguration.class)
 @SpringBootTest(
-    classes = Application.class,
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+        classes = Application.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 public abstract class AbstractIT {
 

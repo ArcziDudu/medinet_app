@@ -6,7 +6,6 @@ import com.medinet.api.dto.RequestDto;
 import com.medinet.infrastructure.entity.*;
 import com.medinet.infrastructure.security.UserEntity;
 import lombok.experimental.UtilityClass;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
@@ -22,7 +21,7 @@ import static java.util.UUID.randomUUID;
 public class EntityFixtures {
 
 
-    public static DoctorEntity someDoctor1(){
+    public static DoctorEntity someDoctor1() {
         return DoctorEntity.builder()
                 .doctorId(1)
                 .name("Krystian")
@@ -48,7 +47,8 @@ public class EntityFixtures {
                         .build())
                 .build();
     }
-    public static DoctorEntity someDoctor2(){
+
+    public static DoctorEntity someDoctor2() {
         return DoctorEntity.builder()
                 .doctorId(2)
                 .name("Krystian")
@@ -73,7 +73,8 @@ public class EntityFixtures {
                         .build())
                 .build();
     }
-    public static DoctorDto someDoctorDto(){
+
+    public static DoctorDto someDoctorDto() {
         return DoctorDto.builder()
                 .doctorId(100)
                 .name("Tester")
@@ -98,7 +99,8 @@ public class EntityFixtures {
                         .build())
                 .build();
     }
-    public static PatientEntity patient1(){
+
+    public static PatientEntity patient1() {
         return PatientEntity.builder()
                 .patientId(1)
                 .name("John")
@@ -120,7 +122,8 @@ public class EntityFixtures {
                         .build())
                 .build();
     }
-    public static PatientEntity patient2(){
+
+    public static PatientEntity patient2() {
         return PatientEntity.builder()
                 .patientId(2)
                 .name("Test")
@@ -143,7 +146,7 @@ public class EntityFixtures {
                 .build();
     }
 
-    public static AppointmentDto someAppointment1(){
+    public static AppointmentDto someAppointment1() {
         return AppointmentDto.builder()
                 .appointmentId(1)
                 .timeOfVisit(LocalTime.of(10, 0))
@@ -158,21 +161,22 @@ public class EntityFixtures {
                 .build();
     }
 
-    public static RequestDto requestDto(){
+    public static RequestDto requestDto() {
         LocalDate localDate = LocalDate.now().plusDays(1);
-        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+        if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) || localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             localDate = localDate.plusDays(4);
         }
         return RequestDto.builder()
                 .email("admin@admin.pl")
-                .timeOfVisit(LocalTime.of(10,0))
+                .timeOfVisit(LocalTime.of(10, 0))
                 .dateOfAppointment(localDate)
                 .doctorId(1)
                 .build();
     }
-    public static AppointmentEntity appointment(){
+
+    public static AppointmentEntity appointment() {
         LocalDate localDate = LocalDate.now().plusDays(1);
-        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+        if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) || localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             localDate = localDate.plusDays(4);
         }
         return AppointmentEntity.builder()
@@ -181,15 +185,16 @@ public class EntityFixtures {
                 .calendarId(1)
                 .status("done")
                 .dateOfAppointment(localDate)
-                .timeOfVisit(LocalTime.of(15,0))
+                .timeOfVisit(LocalTime.of(15, 0))
                 .patient(patient1())
                 .doctor(someDoctor1())
                 .issueInvoice(OffsetDateTime.now())
                 .build();
     }
-    public static AppointmentEntity appointment2(){
+
+    public static AppointmentEntity appointment2() {
         LocalDate localDate = LocalDate.now().plusDays(1);
-        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+        if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) || localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             localDate = localDate.plusDays(4);
         }
         return AppointmentEntity.builder()
@@ -198,15 +203,16 @@ public class EntityFixtures {
                 .calendarId(2)
                 .status("upcoming")
                 .dateOfAppointment(localDate)
-                .timeOfVisit(LocalTime.of(15,0))
+                .timeOfVisit(LocalTime.of(15, 0))
                 .patient(patient1())
                 .doctor(someDoctor1())
                 .issueInvoice(OffsetDateTime.now())
                 .build();
     }
-    public static AppointmentEntity appointment3(){
+
+    public static AppointmentEntity appointment3() {
         LocalDate localDate = LocalDate.now().plusDays(1);
-        if(localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)||localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+        if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) || localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             localDate = localDate.plusDays(4);
         }
         return AppointmentEntity.builder()
@@ -216,14 +222,14 @@ public class EntityFixtures {
                 .status("pending")
                 .noteOfAppointment("test")
                 .dateOfAppointment(localDate)
-                .timeOfVisit(LocalTime.of(15,0))
+                .timeOfVisit(LocalTime.of(15, 0))
                 .patient(patient1())
                 .doctor(someDoctor1())
                 .issueInvoice(OffsetDateTime.now())
                 .build();
     }
 
-    public static OpinionEntity opinion(){
+    public static OpinionEntity opinion() {
         return OpinionEntity.builder()
                 .doctor(someDoctor2())
                 .patient(patient1())
@@ -232,7 +238,8 @@ public class EntityFixtures {
                 .opinionId(1)
                 .build();
     }
-    public static OpinionEntity opinion2(){
+
+    public static OpinionEntity opinion2() {
         return OpinionEntity.builder()
                 .doctor(someDoctor2())
                 .patient(patient1())
@@ -241,7 +248,8 @@ public class EntityFixtures {
                 .opinionId(2)
                 .build();
     }
-    public static OpinionEntity opinion3(){
+
+    public static OpinionEntity opinion3() {
         return OpinionEntity.builder()
                 .doctor(someDoctor2())
                 .patient(patient1())

@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -63,6 +62,7 @@ class AppointmentServiceTest {
         List<LocalTime> hoursAfterProcess = calendarEntity.getHours();
         assertEquals(calendarHour, hoursAfterProcess.get(0));
     }
+
     @Test
     void findCompletedAppointmentsReturnsCompletedAppointments() {
         // Given

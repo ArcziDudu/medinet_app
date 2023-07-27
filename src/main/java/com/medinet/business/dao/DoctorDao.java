@@ -11,7 +11,9 @@ import java.util.Set;
 
 public interface DoctorDao {
     List<DoctorDto> findAllDoctors();
+
     Page<DoctorDto> findAll(Pageable pageable);
+
     Optional<DoctorDto> findDoctorById(Integer doctorId);
 
     Page<DoctorDto> findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Pageable pageable);

@@ -11,7 +11,8 @@ import com.medinet.infrastructure.repository.mapper.OpinionMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
