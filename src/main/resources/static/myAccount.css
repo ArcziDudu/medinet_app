@@ -210,3 +210,42 @@ body {
     background-color: #fff;
     margin-bottom: 20px;
 }
+ .btn{
+            border: 2px solid white;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .btn:hover{
+            border: 2px solid white;
+            color:white;
+           background-color: #2fa6d1d4;
+        }
+        .newPassword {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        label {
+            margin-right: 10px;
+        }
+        
+        .form-input-right {
+            margin-left: auto;
+        }
+        
+        .form-btn-center {
+            margin-left: auto;
+            margin-right: auto;
+        }

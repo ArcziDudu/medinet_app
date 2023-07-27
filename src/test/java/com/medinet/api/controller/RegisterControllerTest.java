@@ -96,7 +96,6 @@ class RegisterControllerTest {
         UserEntity user = new UserEntity();
         user.setRoles(Collections.singleton(doctorRole));
         when(roleRepository.findByRole("DOCTOR")).thenReturn(doctorRole);
-        when(userRepository.findByEmail(email)).thenReturn(user);
         when(userRepository.existsByEmail(email)).thenReturn(false);
         String viewName = registerController.recoveryPassword(email, model);
         verify(model, times(1)).addAttribute("error", "Ten email nie istnieje w bazie danych");

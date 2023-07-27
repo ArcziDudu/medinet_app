@@ -27,6 +27,13 @@ public class PdfGeneratorService {
             .build();
   }
     public void generatePdf(String htmlContent, String uuid) {
+        String pdfDirectory = System.getenv("PDF_DIRECTORY");
+        String filePath;
+        if (pdfDirectory != null) {
+            filePath = pdfDirectory + "/faktura_medinet" + uuid + ".pdf";
+        } else {
+            filePath = "src/main/resources/invoices/faktura_medinet" + uuid + ".pdf";
+        }
 
         webClient.post()
                 .uri("https://htmlpdfapi.com/api/v1/pdf")
@@ -34,9 +41,11 @@ public class PdfGeneratorService {
                 .retrieve()
                 .bodyToMono(byte[].class)
                 .subscribe(pdfBytes -> {
-                    try (FileOutputStream outputStream = new FileOutputStream("src/main/resources/invoices/faktura_medinet"+uuid+".pdf")) {
+                    try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
                         outputStream.write(pdfBytes);
                         System.out.println("Plik PDF został zapisany.");
+                        System.out.println("Numer UUID faktury: "+ uuid);
+                        System.out.println("Plik znajduję się pod ścieżką: "+ filePath);
                     } catch (IOException e) {
                         System.out.println("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
                     }
