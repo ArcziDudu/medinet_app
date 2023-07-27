@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DoctorRestControllerWebMvcTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DoctorRestControllerWebMvcTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.medinet.api.controller.rest.html">com.medinet.api.controller.rest</a> &gt; DoctorRestControllerWebMvcTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.596s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">createDoctorReturnsCreatedWhenDoctorDtoIsValid()</td>
+<td class="success">0.267s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">oneDoctorByIdReturnsNotFoundWhenDoctorIdIsInvalid()</td>
+<td class="success">0.039s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">oneDoctorById_ReturnsDoctorDto_WhenDoctorIdIsValid()</td>
+<td class="success">0.290s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2023-07-27T22:37:44.675+02:00  INFO 176508 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest]: DoctorRestControllerWebMvcTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-27T22:37:44.906+02:00  INFO 176508 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.medinet.Application for test class com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.1)
+
+2023-07-27T22:37:45.049+02:00  WARN 176508 --- [    Test worker] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/org.json/json/20160810/aca5eb39e2a12fddd6c472b240afe9ebea3a6733/json-20160810.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2023-07-27T22:37:45.051+02:00  INFO 176508 --- [    Test worker] c.m.a.c.r.DoctorRestControllerWebMvcTest : Starting DoctorRestControllerWebMvcTest using Java 18.0.2 with PID 176508 (started by artur in C:\Users\artur\IdeaProjects\medinet_app_final)
+2023-07-27T22:37:45.054+02:00  INFO 176508 --- [    Test worker] c.m.a.c.r.DoctorRestControllerWebMvcTest : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2023-07-27T22:37:46.766+02:00  INFO 176508 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@23e95661, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2bdc2c26, org.springframework.security.web.context.SecurityContextHolderFilter@65899694, org.springframework.security.web.header.HeaderWriterFilter@1caff0db, org.springframework.security.web.csrf.CsrfFilter@34b294c4, org.springframework.security.web.authentication.logout.LogoutFilter@57d71569, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@38e61b69, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5280e62e, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@553d9329, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@57753d41, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@453d2a55, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@31cae1e4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7a725c89, org.springframework.security.web.access.ExceptionTranslationFilter@7b01f056, org.springframework.security.web.access.intercept.AuthorizationFilter@64903a20]
+2023-07-27T22:37:46.791+02:00  INFO 176508 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-07-27T22:37:46.791+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-07-27T22:37:46.793+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2023-07-27T22:37:46.826+02:00  INFO 176508 --- [    Test worker] c.m.a.c.r.DoctorRestControllerWebMvcTest : Started DoctorRestControllerWebMvcTest in 1.905 seconds (process running for 26.939)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.1.1</a> at Jul 27, 2023, 10:39:29 PM</p>
+</div>
+</div>
+</body>
+</html>

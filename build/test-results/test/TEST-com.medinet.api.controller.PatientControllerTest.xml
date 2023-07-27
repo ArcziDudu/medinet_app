@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.PatientControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:43" hostname="ARTUR" time="0.411">
+  <properties/>
+  <testcase name="testChangePasswordWithBindingErrors()" classname="com.medinet.api.controller.PatientControllerTest" time="0.19"/>
+  <testcase name="testChangePasswordIncorrect()" classname="com.medinet.api.controller.PatientControllerTest" time="0.198"/>
+  <testcase name="testChangePassword()" classname="com.medinet.api.controller.PatientControllerTest" time="0.007"/>
+  <testcase name="showUsersPage()" classname="com.medinet.api.controller.PatientControllerTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.rest.OpinionRestControllerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:47" hostname="ARTUR" time="0.037">
+  <properties/>
+  <testcase name="testAllOpinions()" classname="com.medinet.api.controller.rest.OpinionRestControllerTest" time="0.009"/>
+  <testcase name="testAllOpinionsByPatient()" classname="com.medinet.api.controller.rest.OpinionRestControllerTest" time="0.004"/>
+  <testcase name="testAllOpinionsByDoctor()" classname="com.medinet.api.controller.rest.OpinionRestControllerTest" time="0.008"/>
+  <testcase name="testCreateDoctor_NotFoundException()" classname="com.medinet.api.controller.rest.OpinionRestControllerTest" time="0.006"/>
+  <testcase name="testCreateDoctor()" classname="com.medinet.api.controller.rest.OpinionRestControllerTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

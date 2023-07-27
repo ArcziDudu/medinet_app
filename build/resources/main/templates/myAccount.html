@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link th:href="@{/myAccount.css}" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="../static/myAccount.css">-->
+    <title>Medinet - internetowa przychodnia</title>
+</head>
+
+<body>
+<div class="wrapper">
+
+    <nav class="container navbar">
+        <div class="navbar-logo">
+            <a th:href="@{/booking}" style="text-decoration: none; color: white; cursor:pointer; font-weight:bold">Medinet</a>
+        </div>
+
+        <div class="navbar-links">
+            <a th:href="@{/booking}" class="navbar-link">Dostępni Lekarze</a>
+            <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
+        </div>
+    </nav>
+    <div th:if="${error != null}">
+        <p class="text-danger">[[${error}]]</p>
+    </div>
+    <div th:if="${message != null}">
+        <p class="text-success">[[${message}]]</p>
+    </div>
+    <div class="container main-box">
+        <div class=" container rigth-side" id="appointments">
+            <div class="nav">
+                <button onclick="goToOpinion()">Moje Opinie</button>
+                <button onclick="goToPassword()">Zmiana Hasła</button>
+            </div>
+
+            <div class="hero-box" id="referencedDiv">
+                <div class="upcoming">
+                    <h3 style="color: white;">Nadchodzące</h3>
+                    <div th:each="invoice :${UpcomingAppointments}">
+                        <div class="visit-invoice">
+                            <div class="up-side">
+                                <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
+                                <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"></h6>
+                                <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"></h6>
+                                <h6 style="color: black;"
+                                    th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
+                                    +' ' +invoice.getPatient().getSurname()}"></h6>
+                                <h6 th:text="${'Adres przychodni: '+
+                                     invoice.getDoctor().getAddress().getCity() + ' '+
+                                     invoice.getDoctor().getAddress().getStreet()}"></h6>
+                                <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
+                                    ' '+ invoice.getDoctor().getSurname()}"></h6>
+                                <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                                    +invoice.getDoctor().getSpecialization()}"></h6>
+
+                            </div>
+                            <form id="doctorDetails"
+                                  th:action="@{/booking/remove/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
+                                  th:method="DELETE">
+                                <input type="hidden" name="calendarDate" th:value="${invoice.getDateOfAppointment()}"/>
+                                <input type="hidden" name="selectedHour" th:value="${invoice.getTimeOfVisit()}"/>
+                                <input type="hidden" name="calendarId" th:value="${invoice.getCalendarId()}"/>
+                                <input type="submit" value="Anuluj" class="btn" style="
+                                       background-color: red;
+                                        color: white;
+                                        z-index: 1;
+                                         font-weight: bold;
+                                          border: 2px solid white;
+                                           border-radius: 20px;
+                                            margin-top: 25px;
+                                            margin-bottom: 20px;
+                                            width: 135px;">
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="received">
+                    <h3 style="color: white;">Odbyte</h3>
+                    <div th:each="invoice :${CompletedAppointments}">
+                        <form th:action="@{/invoice/generatePdf/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
+                              method="POST">
+                            <div class="visit-invoice">
+                                <div class="up-side">
+
+                                    <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
+                                    <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"></h6>
+                                    <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"></h6>
+                                    <h6 style="color: black;"
+                                        th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
+                                    +' ' +invoice.getPatient().getSurname()}"></h6>
+                                    <h6 th:text="${'Adres przychodni: '+
+                                     invoice.getDoctor().getAddress().getCity() + ' '+
+                                     invoice.getDoctor().getAddress().getStreet()}"></h6>
+                                    <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
+                                    ' '+ invoice.getDoctor().getSurname()}"></h6>
+                                    <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                                    +invoice.getDoctor().getSpecialization()}"></h6>
+                                    <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
+                                    <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
+                                    <button style="margin: 0 auto" type="submit">Pobierz fakture</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container main-box">
+        <div class=" container rigth-side">
+            <div class="nav" id="opinions">
+                <button onclick="goToAppointments()">Moje wizyty</button>
+            </div>
+            <div class="hero-box opinions" style="flex-direction: column">
+
+                <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="one-opinion">
+                    <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}"></h5>
+                    <h5 th:text="${'Wystawione lekarzowi: ' + OneOpinion.getDoctor().getName() +' '+OneOpinion.getDoctor().getSurname()}"></h5>
+                    <p th:text="${OneOpinion.getNote()}"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="container main-box" style="height:300px">
+
+    <div class="newPassword" id="password">
+
+        <form action="#" th:action="@{/password/change}" th:object="${passwordForm}" method="post">
+            <div class="form-row">
+                <label for="currentPassword">Aktualne hasło:</label>
+                <input type="password" id="currentPassword" th:field="*{currentPassword}" required
+                       class="form-input form-input-right"/>
+            </div>
+            <div class="form-row">
+                <label for="newPassword">Nowe hasło:</label>
+                <input type="password" id="newPassword" th:field="*{newPassword}" required
+                       class="form-input form-input-right"/>
+                <p th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error-message"></p>
+            </div>
+            <div class="form-row">
+                <button class="btn form-btn-center" type="submit">Zmień hasło</button>
+            </div>
+
+
+        </form>
+        <button class="btn form-btn-center" onclick="goToAppointments()" style="background-color: green;">Moje wizyty
+        </button>
+    </div>
+</div>
+<footer class="down-navigation">
+    <h5>© Medinet 2023</h5>
+</footer>
+</div>
+<script>
+        function goToOpinion() {
+            var div = document.getElementById("opinions");
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+    function goToAppointments() {
+        var div = document.getElementById("appointments");
+        div.scrollIntoView({ behavior: 'smooth' });
+    }
+    function goToPassword() {
+        var div = document.getElementById("password");
+        div.scrollIntoView({ behavior: 'smooth' });
+    }
+
+
+
+</script>
+</body>
+
+</html>

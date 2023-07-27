@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.DoctorControllerWebMvcTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:42" hostname="ARTUR" time="0.147">
+  <properties/>
+  <testcase name="testGetUser()" classname="com.medinet.api.controller.DoctorControllerWebMvcTest" time="0.096"/>
+  <testcase name="testShowDoctorDetailsPage()" classname="com.medinet.api.controller.DoctorControllerWebMvcTest" time="0.045"/>
+  <system-out><![CDATA[2023-07-27T22:37:40.370+02:00  INFO 176508 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.medinet.api.controller.DoctorControllerWebMvcTest]: DoctorControllerWebMvcTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-27T22:37:40.411+02:00  INFO 176508 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.medinet.Application for test class com.medinet.api.controller.DoctorControllerWebMvcTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.1)
+
+2023-07-27T22:37:40.712+02:00  WARN 176508 --- [    Test worker] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/org.json/json/20160810/aca5eb39e2a12fddd6c472b240afe9ebea3a6733/json-20160810.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2023-07-27T22:37:40.715+02:00  INFO 176508 --- [    Test worker] c.m.a.c.DoctorControllerWebMvcTest       : Starting DoctorControllerWebMvcTest using Java 18.0.2 with PID 176508 (started by artur in C:\Users\artur\IdeaProjects\medinet_app_final)
+2023-07-27T22:37:40.716+02:00  INFO 176508 --- [    Test worker] c.m.a.c.DoctorControllerWebMvcTest       : No active profile set, falling back to 1 default profile: "default"
+2023-07-27T22:37:42.569+02:00  INFO 176508 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5c940e28, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@56c39949, org.springframework.security.web.context.SecurityContextHolderFilter@5472c27a, org.springframework.security.web.header.HeaderWriterFilter@144fc5fa, org.springframework.security.web.csrf.CsrfFilter@5f1bd673, org.springframework.security.web.authentication.logout.LogoutFilter@d96f413, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@c50d1b2, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@43945480, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@41f3f64, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@365c8a47, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@555b3ec9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@299e245c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@454f6cc5, org.springframework.security.web.access.ExceptionTranslationFilter@54351197, org.springframework.security.web.access.intercept.AuthorizationFilter@3423f353]
+2023-07-27T22:37:42.595+02:00  INFO 176508 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-07-27T22:37:42.595+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-07-27T22:37:42.597+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2023-07-27T22:37:42.620+02:00  INFO 176508 --- [    Test worker] c.m.a.c.DoctorControllerWebMvcTest       : Started DoctorControllerWebMvcTest in 2.105 seconds (process running for 22.733)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

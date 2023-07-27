@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - PatientRepositoryTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>PatientRepositoryTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.medinet.infrastructure.repository.html">com.medinet.infrastructure.repository</a> &gt; PatientRepositoryTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">10</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.733s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">findByIdWhenPatientIdDoesNotExist()</td>
+<td class="success">0.031s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testExistsByPhoneNumber()</td>
+<td class="success">0.065s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testFindByNonExistingEmail()</td>
+<td class="success">0.051s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testFindByNonExistingUserId()</td>
+<td class="success">0.077s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testFindByUserId()</td>
+<td class="success">0.060s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">thatDoesNotExistByPhoneNumber()</td>
+<td class="success">0.060s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">thatSavePatientCorrect()</td>
+<td class="success">0.067s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">thatShouldFindByEmail()</td>
+<td class="success">0.141s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">thatShouldFindByIdCorrect()</td>
+<td class="success">0.050s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">thatShouldReturnAllPatients()</td>
+<td class="success">0.131s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2023-07-27T22:38:16.982+02:00  INFO 176508 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.medinet.infrastructure.repository.PatientRepositoryTest]: PatientRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-27T22:38:16.998+02:00  INFO 176508 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.medinet.Application for test class com.medinet.infrastructure.repository.PatientRepositoryTest
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: insert into patient (address_id,email,name,phone,surname,user_id) values (?,?,?,?,?,?)
+Hibernate: update patient set address_id=?,email=?,name=?,phone=?,surname=?,user_id=? where patient_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: select p1_0.patient_id,p1_0.address_id,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,p1_0.user_id from patient p1_0
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: update patient set address_id=?,email=?,name=?,phone=?,surname=?,user_id=? where patient_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: select p1_0.patient_id,p1_0.address_id,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,p1_0.user_id from patient p1_0 where p1_0.user_id=?
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id where p1_0.patient_id=?
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: update patient set address_id=?,email=?,name=?,phone=?,surname=?,user_id=? where patient_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: select p1_0.patient_id from patient p1_0 where p1_0.phone=? fetch first ? rows only
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: insert into patient (address_id,email,name,phone,surname,user_id) values (?,?,?,?,?,?)
+Hibernate: select p1_0.patient_id from patient p1_0 where p1_0.phone=? fetch first ? rows only
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: update patient set address_id=?,email=?,name=?,phone=?,surname=?,user_id=? where patient_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: select p1_0.patient_id,p1_0.address_id,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,p1_0.user_id from patient p1_0
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: update patient set address_id=?,email=?,name=?,phone=?,surname=?,user_id=? where patient_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: select p1_0.patient_id,p1_0.address_id,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,p1_0.user_id from patient p1_0 where p1_0.email=?
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: insert into patient (address_id,email,name,phone,surname,user_id) values (?,?,?,?,?,?)
+Hibernate: select p1_0.patient_id,p1_0.address_id,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,p1_0.user_id from patient p1_0 where p1_0.email=?
+Hibernate: select p1_0.patient_id,a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,u1_0.user_id,u1_0.active,u1_0.email,u1_0.password,r1_0.user_id,r1_1.role_id,r1_1.role from patient p1_0 left join address a1_0 on a1_0.address_id=p1_0.address_id left join medinet_user u1_0 on u1_0.user_id=p1_0.user_id left join (medinet_user_role r1_0 join medinet_role r1_1 on r1_1.role_id=r1_0.role_id) on u1_0.user_id=r1_0.user_id where p1_0.patient_id=?
+Hibernate: select a1_0.address_id,a1_0.city,a1_0.country,a1_0.postal_code,a1_0.street from address a1_0 where a1_0.address_id=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.email,u1_0.password from medinet_user u1_0 where u1_0.user_id=?
+Hibernate: update patient set address_id=?,email=?,name=?,phone=?,surname=?,user_id=? where patient_id=?
+Hibernate: update address set city=?,country=?,postal_code=?,street=? where address_id=?
+Hibernate: select p1_0.patient_id,p1_0.address_id,p1_0.email,p1_0.name,p1_0.phone,p1_0.surname,p1_0.user_id from patient p1_0 where p1_0.user_id=?
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.1.1</a> at Jul 27, 2023, 10:39:29 PM</p>
+</div>
+</div>
+</body>
+</html>

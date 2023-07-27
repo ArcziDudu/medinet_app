@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.rest.PatientRestControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:49" hostname="ARTUR" time="0.005">
+  <properties/>
+  <testcase name="testCreateNewPatient()" classname="com.medinet.api.controller.rest.PatientRestControllerTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.integration.rest.PdfGeneratorIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:39:13" hostname="ARTUR" time="8.494">
+  <properties/>
+  <testcase name="testGeneratePdf()" classname="com.medinet.integration.rest.PdfGeneratorIT" time="8.494"/>
+  <system-out><![CDATA[Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2023-07-27T22:39:13.464+02:00  INFO 176508 --- [    Test worker] wiremock.org.eclipse.jetty.util.log      : Logging initialized @113576ms
+Plik PDF został zapisany.
+Numer UUID faktury: 51b6266c-5444-47b0-87b3-b41b0227188f
+Plik znajduję się pod ścieżką: src/main/resources/invoices/faktura_medinet51b6266c-5444-47b0-87b3-b41b0227188f.pdf
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

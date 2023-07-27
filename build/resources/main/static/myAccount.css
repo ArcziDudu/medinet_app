@@ -1,0 +1,251 @@
+:root {
+    --primary-color: #0e85b2d4;
+    --main-body0color: #cfdde7;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--main-body0color);
+    color: #1b2734;
+    font-size: 1rem;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.down-navigation {
+    background-color: #0e85b2d4;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    bottom: 0;
+    display: none;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 30px;
+    max-width: 90%;
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0px 20px 200px rgba(0, 0, 0, 0.523);
+    text-decoration: none;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    width: 350px;
+    justify-content: space-around;
+}
+
+.navbar-link {
+    margin-left: 10px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.navbar-link:hover {
+    color: #274e75;
+    transition: 0.4s;
+}
+
+.main-box {
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    background-color: #e4edf4;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 20px;
+    height: 600px;
+}
+
+.left-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border: 4px solid var(--primary-color);
+    height: 400px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background-color: rgb(123, 41, 41);
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.data h6 {
+    font-weight: bold;
+}
+
+.data span {
+    font-weight: normal;
+}
+
+.settings {
+    margin-top: 40px;
+}
+
+.settings h6 {
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--primary-color);
+    border: 2px solid white;
+    color: white;
+    transition: .3s;
+}
+
+.settings h6:hover {
+    color: #2577ca;
+    background-color: white;
+    border: 2px solid var(--primary-color);
+}
+
+.settings .logout {
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: rgb(180, 58, 58);
+    border: 2px solid white;
+    color: white;
+    transition: .3s;
+}
+
+.logout:hover {
+    background: rgb(218, 82, 82);
+}
+
+.rigth-side {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 800px;
+}
+
+.rigth-side button {
+    margin-right: 30px;
+    width: 150px;
+    border: 2px solid white;
+    color: white;
+    background-color: var(--primary-color);
+    z-index: 999;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.rigth-side button:hover {
+    background-color: #2fa6d1d4;
+}
+
+.visit-invoice {
+    justify-content: center;
+    height: auto;
+    width: 280px;
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px auto;
+}
+
+.hero-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 50px;
+    width: 60rem;
+    height: 90%;
+    margin-top: 30px;
+    margin-left: 20px;
+    background-color: var(--primary-color);
+   overflow: scroll;
+    position: relative;
+
+}
+
+.up-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.up-side h6 {
+    margin-bottom: 10px;
+}
+.opinions{
+    display: flex;
+    flex-direction: column;
+}
+
+.one-opinion{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+ .btn{
+            border: 2px solid white;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .btn:hover{
+            border: 2px solid white;
+            color:white;
+           background-color: #2fa6d1d4;
+        }
+        .newPassword {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        label {
+            margin-right: 10px;
+        }
+        
+        .form-input-right {
+            margin-left: auto;
+        }
+        
+        .form-btn-center {
+            margin-left: auto;
+            margin-right: auto;
+        }

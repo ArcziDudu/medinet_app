@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:46" hostname="ARTUR" time="0.61">
+  <properties/>
+  <testcase name="oneDoctorById_ReturnsDoctorDto_WhenDoctorIdIsValid()" classname="com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest" time="0.29"/>
+  <testcase name="createDoctorReturnsCreatedWhenDoctorDtoIsValid()" classname="com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest" time="0.267"/>
+  <testcase name="oneDoctorByIdReturnsNotFoundWhenDoctorIdIsInvalid()" classname="com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest" time="0.039"/>
+  <system-out><![CDATA[2023-07-27T22:37:44.675+02:00  INFO 176508 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest]: DoctorRestControllerWebMvcTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-27T22:37:44.906+02:00  INFO 176508 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.medinet.Application for test class com.medinet.api.controller.rest.DoctorRestControllerWebMvcTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.1)
+
+2023-07-27T22:37:45.049+02:00  WARN 176508 --- [    Test worker] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/org.json/json/20160810/aca5eb39e2a12fddd6c472b240afe9ebea3a6733/json-20160810.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2023-07-27T22:37:45.051+02:00  INFO 176508 --- [    Test worker] c.m.a.c.r.DoctorRestControllerWebMvcTest : Starting DoctorRestControllerWebMvcTest using Java 18.0.2 with PID 176508 (started by artur in C:\Users\artur\IdeaProjects\medinet_app_final)
+2023-07-27T22:37:45.054+02:00  INFO 176508 --- [    Test worker] c.m.a.c.r.DoctorRestControllerWebMvcTest : No active profile set, falling back to 1 default profile: "default"
+2023-07-27T22:37:46.766+02:00  INFO 176508 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@23e95661, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2bdc2c26, org.springframework.security.web.context.SecurityContextHolderFilter@65899694, org.springframework.security.web.header.HeaderWriterFilter@1caff0db, org.springframework.security.web.csrf.CsrfFilter@34b294c4, org.springframework.security.web.authentication.logout.LogoutFilter@57d71569, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@38e61b69, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5280e62e, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@553d9329, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@57753d41, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@453d2a55, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@31cae1e4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7a725c89, org.springframework.security.web.access.ExceptionTranslationFilter@7b01f056, org.springframework.security.web.access.intercept.AuthorizationFilter@64903a20]
+2023-07-27T22:37:46.791+02:00  INFO 176508 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-07-27T22:37:46.791+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-07-27T22:37:46.793+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2023-07-27T22:37:46.826+02:00  INFO 176508 --- [    Test worker] c.m.a.c.r.DoctorRestControllerWebMvcTest : Started DoctorRestControllerWebMvcTest in 1.905 seconds (process running for 26.939)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

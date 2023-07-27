@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.rest.AppointmentRestControllerTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:44" hostname="ARTUR" time="0.276">
+  <properties/>
+  <testcase name="testDeleteAppointmentAlreadyDone()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.086"/>
+  <testcase name="testCreateAppointmentValidAppointment()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.011"/>
+  <testcase name="testCreateAppointmentDateEarlierThanTomorrow()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.006"/>
+  <testcase name="testCreateAppointmentDateOnSaturday()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.005"/>
+  <testcase name="testAppointmentsByStatusAndDoctorIdInvalid()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.007"/>
+  <testcase name="testFindAppointmentByIdNotFound()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.006"/>
+  <testcase name="testCreateAppointmentSlotAlreadyBooked()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.004"/>
+  <testcase name="testUpdateAppointmentMessageDoneStatus()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.005"/>
+  <testcase name="testAppointmentsByStatusInvalid()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.004"/>
+  <testcase name="testAppointmentsByStatus()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.006"/>
+  <testcase name="testDeleteAppointmentNonExist()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.004"/>
+  <testcase name="testDeleteAppointment()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.004"/>
+  <testcase name="testCreateAppointmentDateMoreThanTwoWeeksFromToday()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.011"/>
+  <testcase name="testUpdateAppointmentMessageUpcomingStatus()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.013"/>
+  <testcase name="testUpdateAppointmentMessageNotFound()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.024"/>
+  <testcase name="testFindAppointmentById()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.014"/>
+  <testcase name="testAppointmentsByStatusAndDoctorId()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.015"/>
+  <testcase name="testUpdateAppointmentMessageSuccess()" classname="com.medinet.api.controller.rest.AppointmentRestControllerTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

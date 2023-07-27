@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.AppointmentControllerWebMvcTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:38" hostname="ARTUR" time="1.477">
+  <properties/>
+  <testcase name="testRemoveAppointment()" classname="com.medinet.api.controller.AppointmentControllerWebMvcTest" time="0.276"/>
+  <testcase name="testSendRequestToQueue()" classname="com.medinet.api.controller.AppointmentControllerWebMvcTest" time="0.093"/>
+  <testcase name="testGeneratePdf()" classname="com.medinet.api.controller.AppointmentControllerWebMvcTest" time="0.014"/>
+  <testcase name="ThatApproveAppointment()" classname="com.medinet.api.controller.AppointmentControllerWebMvcTest" time="0.012"/>
+  <testcase name="testBookingAppointment()" classname="com.medinet.api.controller.AppointmentControllerWebMvcTest" time="1.056"/>
+  <system-out><![CDATA[Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+22:37:28.335 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.medinet.api.controller.AppointmentControllerWebMvcTest]: AppointmentControllerWebMvcTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:37:28.932 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.medinet.Application for test class com.medinet.api.controller.AppointmentControllerWebMvcTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.1)
+
+2023-07-27T22:37:30.653+02:00  WARN 176508 --- [    Test worker] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/org.json/json/20160810/aca5eb39e2a12fddd6c472b240afe9ebea3a6733/json-20160810.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/artur/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2023-07-27T22:37:30.687+02:00  INFO 176508 --- [    Test worker] c.m.a.c.AppointmentControllerWebMvcTest  : Starting AppointmentControllerWebMvcTest using Java 18.0.2 with PID 176508 (started by artur in C:\Users\artur\IdeaProjects\medinet_app_final)
+2023-07-27T22:37:30.690+02:00  INFO 176508 --- [    Test worker] c.m.a.c.AppointmentControllerWebMvcTest  : No active profile set, falling back to 1 default profile: "default"
+2023-07-27T22:37:37.935+02:00  INFO 176508 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5693d1d2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@571c7572, org.springframework.security.web.context.SecurityContextHolderFilter@5b31a9e3, org.springframework.security.web.header.HeaderWriterFilter@48126a17, org.springframework.security.web.csrf.CsrfFilter@3c9cfcde, org.springframework.security.web.authentication.logout.LogoutFilter@2aac87ab, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7533923b, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@68f1b89, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@c6a3f47, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7e84a52b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3b590f6a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7a14ab66, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@15a0f9, org.springframework.security.web.access.ExceptionTranslationFilter@2acbe46d, org.springframework.security.web.access.intercept.AuthorizationFilter@758311ed]
+2023-07-27T22:37:38.141+02:00  INFO 176508 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-07-27T22:37:38.141+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-07-27T22:37:38.144+02:00  INFO 176508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2023-07-27T22:37:38.527+02:00  INFO 176508 --- [    Test worker] c.m.a.c.AppointmentControllerWebMvcTest  : Started AppointmentControllerWebMvcTest in 9.325 seconds (process running for 18.639)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

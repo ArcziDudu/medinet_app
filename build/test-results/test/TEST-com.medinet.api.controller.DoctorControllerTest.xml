@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.api.controller.DoctorControllerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:40" hostname="ARTUR" time="0.309">
+  <properties/>
+  <testcase name="testDoctorMainPage()" classname="com.medinet.api.controller.DoctorControllerTest" time="0.229"/>
+  <testcase name="testGetUser()" classname="com.medinet.api.controller.DoctorControllerTest" time="0.007"/>
+  <testcase name="testPrepareNecessaryDataForDoctor()" classname="com.medinet.api.controller.DoctorControllerTest" time="0.013"/>
+  <testcase name="testShowSortedDoctorsPage()" classname="com.medinet.api.controller.DoctorControllerTest" time="0.021"/>
+  <testcase name="Should throw an exception when invalid doctorId is provided" classname="com.medinet.api.controller.DoctorControllerTest" time="0.029"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

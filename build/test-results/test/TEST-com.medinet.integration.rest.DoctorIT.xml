@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.integration.rest.DoctorIT" tests="7" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:38:57" hostname="ARTUR" time="10.906">
+  <properties/>
+  <testcase name="contextLoaded()" classname="com.medinet.integration.rest.DoctorIT" time="0.007"/>
+  <testcase name="testGetAllDoctorsByPage()" classname="com.medinet.integration.rest.DoctorIT" time="1.659"/>
+  <testcase name="testGetDoctorByNonExistingId()" classname="com.medinet.integration.rest.DoctorIT" time="0.039"/>
+  <testcase name="testGetDoctorById()" classname="com.medinet.integration.rest.DoctorIT" time="1.383"/>
+  <testcase name="testGetAllDoctors()" classname="com.medinet.integration.rest.DoctorIT" time="4.047"/>
+  <testcase name="deleteDoctorTest()" classname="com.medinet.integration.rest.DoctorIT" time="1.829"/>
+  <testcase name="testCreateDoctor()" classname="com.medinet.integration.rest.DoctorIT" time="1.923"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

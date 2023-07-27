@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.integration.rest.AppointmentIT" tests="15" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:38:43" hostname="ARTUR" time="13.426">
+  <properties/>
+  <testcase name="contextLoaded()" classname="com.medinet.integration.rest.AppointmentIT" time="0.014"/>
+  <testcase name="testGetAppointmentsByInvalidId()" classname="com.medinet.integration.rest.AppointmentIT" time="2.72"/>
+  <testcase name="testGetAppointmentsById()" classname="com.medinet.integration.rest.AppointmentIT" time="4.218"/>
+  <testcase name="testCreateAppointmentWith2Weeks()" classname="com.medinet.integration.rest.AppointmentIT" time="0.329"/>
+  <testcase name="testCreateAppointmentEarlierThanTomorrow()" classname="com.medinet.integration.rest.AppointmentIT" time="0.09"/>
+  <testcase name="testGetAppointmentsByInvalidStatus()" classname="com.medinet.integration.rest.AppointmentIT" time="0.037"/>
+  <testcase name="testDeleteAppointmentDoneStatus()" classname="com.medinet.integration.rest.AppointmentIT" time="0.104"/>
+  <testcase name="[1] day=SATURDAY" classname="com.medinet.integration.rest.AppointmentIT" time="0.117"/>
+  <testcase name="[2] day=SUNDAY" classname="com.medinet.integration.rest.AppointmentIT" time="0.073"/>
+  <testcase name="testDeleteAppointment()" classname="com.medinet.integration.rest.AppointmentIT" time="0.146"/>
+  <testcase name="testGetExistingAppointmentByCorrectStatus()" classname="com.medinet.integration.rest.AppointmentIT" time="2.404"/>
+  <testcase name="[1] status=done" classname="com.medinet.integration.rest.AppointmentIT" time="1.432"/>
+  <testcase name="[2] status=pending" classname="com.medinet.integration.rest.AppointmentIT" time="1.383"/>
+  <testcase name="testCreateAppointment()" classname="com.medinet.integration.rest.AppointmentIT" time="0.194"/>
+  <testcase name="testDeleteAppointmentPendingStatus()" classname="com.medinet.integration.rest.AppointmentIT" time="0.064"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

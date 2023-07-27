@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ScheduledTasksService should" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:50" hostname="ARTUR" time="0.029">
+  <properties/>
+  <testcase name="Should not change the status of the appointment if the appointment time is equal to the current time" classname="com.medinet.business.services.ScheduledTasksServiceTest" time="0.008"/>
+  <testcase name="testMyMethod()" classname="com.medinet.business.services.ScheduledTasksServiceTest" time="0.011"/>
+  <testcase name="Should throw an exception when the appointment with the given id is not found" classname="com.medinet.business.services.ScheduledTasksServiceTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

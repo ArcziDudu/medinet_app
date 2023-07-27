@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.integration.rest.PatientIT" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:39:10" hostname="ARTUR" time="2.239">
+  <properties/>
+  <testcase name="contextLoaded()" classname="com.medinet.integration.rest.PatientIT" time="0.005"/>
+  <testcase name="testCreateNewPatient()" classname="com.medinet.integration.rest.PatientIT" time="0.496"/>
+  <testcase name="testGetOnePatientById()" classname="com.medinet.integration.rest.PatientIT" time="1.733"/>
+  <system-out><![CDATA[HTTP/1.1 201 
+Location: /create/2
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Thu, 27 Jul 2023 20:39:10 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

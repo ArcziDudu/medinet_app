@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.medinet.business.services.AppointmentServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-07-27T20:37:49" hostname="ARTUR" time="0.264">
+  <properties/>
+  <testcase name="findCompletedAppointmentsReturnsCompletedAppointments()" classname="com.medinet.business.services.AppointmentServiceTest" time="0.158"/>
+  <testcase name="Should change the status of the appointment to 'done' and set the note when the appointment is found" classname="com.medinet.business.services.AppointmentServiceTest" time="0.004"/>
+  <testcase name="Should return an empty list when there are no completed appointments for a specific doctor" classname="com.medinet.business.services.AppointmentServiceTest" time="0.032"/>
+  <testcase name="Should return an empty list when there are no completed appointments with the given status" classname="com.medinet.business.services.AppointmentServiceTest" time="0.005"/>
+  <testcase name="Should return the appointment when the appointmentId is valid" classname="com.medinet.business.services.AppointmentServiceTest" time="0.004"/>
+  <testcase name="Should return empty when the appointmentId is not valid" classname="com.medinet.business.services.AppointmentServiceTest" time="0.006"/>
+  <testcase name="processRemovingAppointment_RemovesAppointmentAndAddsHourToCalendar()" classname="com.medinet.business.services.AppointmentServiceTest" time="0.004"/>
+  <testcase name="findUpcomingAppointmentsReturnsUpcomingAppointments()" classname="com.medinet.business.services.AppointmentServiceTest" time="0.004"/>
+  <testcase name="Should throw NotFoundException when the appointment is not found" classname="com.medinet.business.services.AppointmentServiceTest" time="0.008"/>
+  <testcase name="Should return all appointments with the given statuses" classname="com.medinet.business.services.AppointmentServiceTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
