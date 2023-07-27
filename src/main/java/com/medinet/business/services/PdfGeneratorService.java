@@ -1,6 +1,7 @@
 package com.medinet.business.services;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class PdfGeneratorService {
 
     private final WebClient webClient;
@@ -41,14 +43,15 @@ public class PdfGeneratorService {
                 .subscribe(pdfBytes -> {
                     try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
                         outputStream.write(pdfBytes);
-                        System.out.println("Plik PDF został zapisany.");
-                        System.out.println("Numer UUID faktury: " + uuid);
-                        System.out.println("Plik znajduję się pod ścieżką: " + filePath);
+                        log.info("Plik PDF został zapisany.");
+                        log.info("Numer UUID faktury: " + uuid);
+                        log.info("Plik znajduję się pod ścieżką: " + filePath);
                     } catch (IOException e) {
-                        System.out.println("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
+                        log.error("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
+
                     }
                 }, error -> {
-                    System.out.println("Błąd podczas generowania pliku PDF: " + error.getMessage());
+                    log.error("Błąd podczas generowania pliku PDF: " + error.getMessage());
                 });
     }
 }
