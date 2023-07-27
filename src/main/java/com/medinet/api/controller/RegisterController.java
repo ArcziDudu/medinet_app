@@ -57,13 +57,14 @@ public class RegisterController {
     }
 
     @PostMapping("/password/recovery")
-    public String recoveryPassword(@RequestParam("email") String email,Model model) throws MessagingException, UnsupportedEncodingException {
+    public String recoveryPassword(@RequestParam("email") String email,Model model)  {
         RoleEntity doctorRole = roleRepository.findByRole("DOCTOR");
-        boolean doctor = userRepository.findByEmail(email).getRoles().contains(doctorRole);
         if (!userRepository.existsByEmail(email)) {
             model.addAttribute("error", "Ten email nie istnieje w bazie danych");
             return "PasswordRecovery";
-        } else if (doctor) {
+
+        }
+        else if (userRepository.findByEmail(email).getRoles().contains(doctorRole)) {
             model.addAttribute("error", "Ten email należy do lekarza!");
             return "PasswordRecovery";
         } else {

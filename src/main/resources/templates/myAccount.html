@@ -40,7 +40,9 @@
             <div class=" container rigth-side" id="appointments">
                 <div class="nav">
                     <button onclick="goToOpinion()">Moje Opinie</button>
+                    <button onclick="goToPassword()">Zmiana Hasła</button>
                 </div>
+                
                 <div class="hero-box" id="referencedDiv">
                     <div class="upcoming">
                         <h3 style="color: white;">Nadchodzące</h3>
@@ -134,25 +136,29 @@
         </div>
 
         </div>
+
         <div class="container main-box" style="height:300px">
 
-            <form action="#" th:action="@{/password/change}" th:object="${passwordForm}" method="post">
-                <div>
-                    <label for="currentPassword">Old Password:</label>
-                    <input type="password" id="currentPassword" th:field="*{currentPassword}" required/>
-
-                </div>
-                <div>
-                    <label for="newPassword">New Password:</label>
-                    <input type="password" id="newPassword" th:field="*{newPassword}" required/>
-                    <p th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error-message"></p>
-                </div>
-
-                <div>
-                    <button type="submit">Change Password</button>
-                </div>
-            </form>
-
+            <div class="newPassword" id="password">
+        
+                <form action="#" th:action="@{/password/change}" th:object="${passwordForm}" method="post">
+                    <div class="form-row">
+                        <label for="currentPassword">Aktualne hasło:</label>
+                        <input type="password" id="currentPassword" th:field="*{currentPassword}" required class="form-input form-input-right"/>
+                    </div>
+                    <div class="form-row">
+                        <label for="newPassword">Nowe hasło:</label>
+                        <input type="password" id="newPassword" th:field="*{newPassword}" required class="form-input form-input-right"/>
+                        <p th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error-message"></p>
+                    </div>
+                    <div class="form-row">
+                        <button class="btn form-btn-center" type="submit">Zmień hasło</button>
+                    </div>
+                
+                     
+                </form>
+                <button class="btn form-btn-center" onclick="goToAppointments()" style="background-color: green;">Moje wizyty</button>
+            </div>
         </div>
         <footer class="down-navigation">
             <h5>© Medinet 2023</h5>
@@ -167,6 +173,11 @@
         var div = document.getElementById("appointments");
         div.scrollIntoView({ behavior: 'smooth' });
     }
+    function goToPassword() {
+        var div = document.getElementById("password");
+        div.scrollIntoView({ behavior: 'smooth' });
+    }
+
     </script>
 </body>
 

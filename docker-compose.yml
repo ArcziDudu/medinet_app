@@ -22,8 +22,9 @@ services:
       - POSTGRES_DB=medinet_database
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - DOCKER_ENV=true
     volumes:
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - /home/user/moje_dokumenty/invoices:/app/invoices
       - db-data:/var/lib/postgresql/data
     networks:
       - spring-boot-postgres
