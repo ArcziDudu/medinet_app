@@ -229,36 +229,4 @@ public class EntityFixtures {
                 .build();
     }
 
-    public static OpinionEntity opinion() {
-        return OpinionEntity.builder()
-
-                .doctor(someDoctor2())
-                .patient(patient1())
-                .dateOfCreateOpinion(OffsetDateTime.now())
-                .note("test opinion")
-                .opinionId(1)
-                .build();
-    }
-
-    public static OpinionEntity opinion2() {
-        return OpinionEntity.builder()
-
-                .doctor(someDoctor2())
-                .patient(patient1())
-                .dateOfCreateOpinion(OffsetDateTime.now())
-                .note("test opinion2")
-                .opinionId(2)
-                .build();
-    }
-
-    public static OpinionEntity opinion3() {
-        return OpinionEntity.builder()
-
-                .doctor(someDoctor2())
-                .patient(patient1())
-                .dateOfCreateOpinion(OffsetDateTime.now())
-                .note("test opinion3")
-                .opinionId(3)
-                .build();
-    }
 }
