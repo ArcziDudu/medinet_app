@@ -46,6 +46,8 @@ public class PdfGeneratorService {
                         log.info("Plik PDF został zapisany.");
                         log.info("Numer UUID faktury: " + uuid);
                         log.info("Plik znajduję się pod ścieżką: " + filePath);
+                        System.out.println("Plik PDF został zapisany.");
+                        System.out.println("Plik znajduję się pod ścieżką: " + filePath);
                     } catch (IOException e) {
                         log.error("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
 
