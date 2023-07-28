@@ -55,7 +55,7 @@ np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/
 
 Uruchamianie
 
-Program przeznaczony jest do uruchamiania w środowisku Docker. W tym celu należy pobrać repozytorium w formacie zip, wypakować, otworzyć terminal 
+Program przeznaczony jest do uruchamiania w środowisku Docker. W tym celu należy pobrać repozytorium, wypakować, otworzyć terminal 
 przechodzimy do folderu z aplikacją, następnie wykonujemy polecenie docker build -t medinet .
 Teraz mając obraz aplikacji, należy uruchomić kontener docker compose up -d
 Można włączyć logi aplikacji komendą docker logs medinet_app-master-backend-1
