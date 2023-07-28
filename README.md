@@ -38,6 +38,7 @@ Funkcjonalności:
 - Po pobraniu faktury do kontenera Dockera możemy pobrać ją do folderu z aplikacją komendą
  docker cp <id kontenera>:<ścieżka z logów i nazwa faktury> ./
 np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/usr/src/app/invoices/faktura_medinet912c18b7-d558-4e49-9c45-64bc9a4a3186.pdf ./
+- Faktura zostanie pobrana do folderu z aplikacją 
 - Jeżeli z jakiegoś powodu nr faktury nie jest logowany w terminalu to można wejść w moje konto i skopiować nr UUID z daje faktury
 - Jest to darmowe api i pozwala na  100 darmowych wywołań więc w przypadku poniższego błędu należy dostarczyć nowy token
 
@@ -55,8 +56,27 @@ np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/
 
 Uruchamianie
 
-Program przeznaczony jest do uruchamiania w środowisku Docker. W tym celu należy pobrać repozytorium, wypakować, otworzyć terminal 
-przechodzimy do folderu z aplikacją, następnie wykonujemy polecenie docker build -t medinet .
+Program przeznaczony jest do uruchamiania w środowisku Docker. W tym celu należy pobrać repozytorium, otworzyć terminal 
+następnie należy zbudować obraz poleceniem docker build -t medinet .
 Teraz mając obraz aplikacji, należy uruchomić kontener docker compose up -d
 Można włączyć logi aplikacji komendą docker logs medinet_app-master-backend-1
 W przeglądarce wejść na adres http://localhost:8190/medinet/
+
+Zastosowane technologie:
+- Java
+- Spring Boot
+- Hibernate
+- Flyway
+- Java mail sender
+- Docker
+- Open api
+- Postgre Sql
+- Rest Assured
+- Wiremock
+- htmlpdfapi
+- Spring Security
+- Lombok
+- HTML
+- CSS
+- Bootstrap
+  Pokrycie testami wynosi 80%
