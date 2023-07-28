@@ -39,7 +39,7 @@ Funkcjonalności:
  docker cp <id kontenera>:<ścieżka z logów i nazwa faktury> ./
 np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/usr/src/app/invoices/faktura_medinet912c18b7-d558-4e49-9c45-64bc9a4a3186.pdf ./
 - Faktura zostanie pobrana do folderu z aplikacją 
-- Jeżeli z jakiegoś powodu nr faktury nie jest logowany w terminalu to można wejść w moje konto i skopiować nr UUID z daje faktury
+- Jeżeli z jakiegoś powodu nr faktury nie jest logowany w terminalu to można wejść w moje konto i skopiować nr UUID z danej faktury
 - Jest to darmowe api i pozwala na  100 darmowych wywołań więc w przypadku poniższego błędu należy dostarczyć nowy token
 
 ![img_6.png](readmeImages/img_6.png)
