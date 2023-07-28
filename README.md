@@ -33,8 +33,11 @@ Funkcjonalności:
 - Wylogowujemy się i wracamy do konta które rezerwowało wizytę, wchodzimy na "moje konto"
 - W tym momencie mamy możliwość pobrania faktury za wizyte, wystawianej przez zewnętrzne api ze strony htmlpdfapi.com .
 - W przypadku uruchamiania programu przez intelij faktura zostanie pobrana do folderu src/main/resources/invoices
-- W przypadku uruchamiania przez Docker plik zostanie pobrany do ścieżki
+- W przypadku uruchamiania przez Docker plik zostanie pobrany do ścieżki /usr/src/app/invoices/
 - W obu przypadkach status pobrania i  ścieżka zostanie wyświetlona w logach apliakcji w terminalu
+- Po pobraniu faktury do kontenera Dockera możemy pobrać ją do folderu z aplikacją komendą
+ docker cp <id kontenera>:<ścieżka z logów i nazwa faktury> ./
+np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/usr/src/app/invoices/faktura_medinet912c18b7-d558-4e49-9c45-64bc9a4a3186.pdf ./
 - Jest to darmowe api i pozwala na  100 darmowych wywołań więc w przypadku poniższego błędu należy dostarczyć nowy token
 
 ![img_6.png](readmeImages/img_6.png)
@@ -49,3 +52,9 @@ Funkcjonalności:
   - Mechanizm działa w taki sposób, że jeżeli adres email istnieje w bazie danych to wysyłane jest na ten adres wygenerowane przez system hasło, przy którym można zostać lub zmienić je w zakładce Moje konto
 ![img_8.png](readmeImages/img_8.png)
 
+Uruchamianie
+Program przeznaczony jest do uruchamiania w środowisku Docker. W tym celu należy pobrać repozytorium w formacie zip, wypakować, otworzyć terminal 
+przechodzimy do folderu z aplikacją, następnie wyokonujemy polecenie docker build -t medinet .
+Teraz mając obraz aplikacji, należy uruchomić kontener docker compose up -d
+Można włączyć logi aplikacji komendą docker logs medinet_app-master-backend-1
+W przeglądarce wejść na adres http://localhost:8190/medinet/
