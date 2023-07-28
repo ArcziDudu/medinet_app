@@ -79,4 +79,5 @@ Zastosowane technologie:
 - HTML
 - CSS
 - Bootstrap
+  
   Pokrycie testami wynosi 80%
