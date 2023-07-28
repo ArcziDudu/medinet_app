@@ -14,12 +14,12 @@ Funkcjonalności:
 ![img_2.png](readmeImages/img_2.png)
 ![img.png](readmeImages/img.png)
 5. Wystawienie opinii lekarzowi - Pacjent ma możliwość wystawienia opinii lekarzaowi która będzie widoczna na jego profilu po kliknięciu w przycisk szczegóły
-![img_3.png](readmeImages/img_3.png) <img width="532" alt="image" src="https://github.com/ArcziDudu/medinet_app/assets/97475821/5c412982-7294-4a2d-9074-a76c15b6ab04">
+![img_3.png](readmeImages/img_3.png) 
  
 6. Pacjent może pobrać fakture z wizyty która się odbyła. Aby to zrobić należy zrobić poniższe kroki:
    - Wybieramy interesujący nas termin: Wizyty są dostępne na dwa tygodnie do przodu nie licząc weekendu, od godziny 8 do 15 - takie są zasady zatrudniania specjalistów w Medinet. Logika programu zakłada że rezerwować wizytę można zawsze na conajmniej następny dzień natomiast żeby umożliwić przetestowanie wszystkich możliwości, dodany jest również dzień dzisiejszy.
    - Lekarz ma możliwość wypisania recepty lub notatki do wizyty tylko takiej która już się odbyła oraz ma na to 24 godziny, po tym czasie jeśli nic nie napisze, wizyta otrzymuje status zakończonej.
-   - Dlatego w celu testu wybieramy godzine oraz date która już minęła np jeśli godzina testowania to czwartek 27 lipca godzina 17;00 to wybieramy termin wizyty czwartek 27 lipca godzina 10 rano - chodzi o to zebysmy nie musieli czekać kilka dni na wizyte żeby lekarz mógł wystawić opinie, docelowo najbliższy termin jaki możemy zarezerwować to zawsze następny dzień roboczy. 
+   - Dlatego w celu testu wybieramy godzine oraz date która już minęła np jeśli godzina testowania to czwartek 27 lipca godzina 17;00 to wybieramy termin wizyty czwartek 27 lipca godzina 10 rano - chodzi o to zebyśmy nie musieli czekać kilka dni na wizyte żeby lekarz mógł wystawić opinie, docelowo najbliższy termin jaki możemy zarezerwować to zawsze następny dzień roboczy. 
  - Po zarezerwowaniu wizyty, przechodzimy na profil specjalisty, w tym celu klikamy w szczegóły lekarza u którego zarezerwowalismy wizyte i kopiujemy jego adress email, klikamy przycisk wyloguj i logujemy sie na profil lekarza skopiowanym emailem, hasło dla każdego specjalisty to: test
    , następnie klikamy w przycisk "Do zatwierdzenia" - program działa tak że sprawdza co godzinę czy wizyta się odbyła to znaczy czy ma status pendning i oczekuje na notatke od lekarza, natomiast w celu testowania aplikacji, program robi to co 20 sekund
    

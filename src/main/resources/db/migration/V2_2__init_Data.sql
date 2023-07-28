@@ -1,5 +1,5 @@
 insert into address (country, city, postal_code, street) values ('Polska', 'Dukla', '38-450', '18 Lotheville Point');
-insert  into address(country, city, postal_code, street) values('Polska','Admin', '33-314', 'adminowa 32');
+insert  into address(country, city, postal_code, street) values('Polska','Wrocław', '33-314', 'adminowa 32');
 insert into address (country, city, postal_code, street) values ('Polska', 'Białystok', '62-050', '69107 Rockefeller Parkway');
 insert into address (country, city, postal_code, street) values ('Polska', 'Wrocław', '72-005', '33324 Barnett Parkway');
 insert into address (country, city, postal_code, street) values ('Polska', 'Wrocław', '78-301', '00866 Scofield Circle');
