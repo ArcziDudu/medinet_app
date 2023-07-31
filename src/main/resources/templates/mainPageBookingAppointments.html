@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/main.css}" rel="stylesheet">
-<!--       <link rel="stylesheet" href="../static/main.css">-->
+    <!--       <link rel="stylesheet" href="../static/main.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
         .available-hour {
@@ -85,6 +85,7 @@
         }
 
 
+
     </style>
 </head>
 
@@ -109,7 +110,10 @@
 transition: opacity .2s, display .2s;">
         <p style="color: white; font-weight: bold;">Wizyta została zarejestrowana!</p>
         <p style="color: white; font-weight: bold;">Szczegóły znajdziesz w sekcji Moje konto</p>
-        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+        <button onclick="closeAlert()"
+                style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
+            Zamknij
+        </button>
     </div>
     <div class="container succes" th:if="${param.opinion}"
          style="background-color: rgba(0, 128, 0, 0.5);
@@ -119,7 +123,10 @@ transition: opacity .2s, display .2s;">
 transition: opacity .2s, display .2s;">
         <p style="color: white; font-weight: bold;">Opinia została wystawiona!</p>
         <p style="color: white; font-weight: bold;">Swoje opinie znajdziesz w sekcji Moje konto</p>
-        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+        <button onclick="closeAlert()"
+                style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
+            Zamknij
+        </button>
     </div>
     <section class="doctors-box">
         <div class="container">
@@ -146,33 +153,23 @@ transition: opacity .2s, display .2s;">
                 <div class="btn">
                     <a th:href="@{/booking}">Pokaż wszystkich</a>
                 </div>
-                <form action="#" th:action="@{/booking/find}" method="GET">
+                <form id="searchForm" action="#" th:action="@{/booking/find}" method="GET">
                     <label for="doctorSpecializations">Specjalizacje:</label>
-                    <select id="doctorSpecializations" th:name="doctorSpecialization" style="background-color: white;
-                             color: black;
-
-">
+                    <select id="doctorSpecializations" th:name="doctorSpecialization" style="background-color: white; color: black;" required>
+                        <option value="" selected>Wybierz specjalizację...</option>
                         <option th:each="specialization : ${specializations}" th:value="${specialization}"
-                                th:text="${specialization}" style=" color: white;
-                                background-color: #0e85b2d4;
-                                border: 2px solid white;
-                                font-weight: bold;"></option>
+                                th:text="${specialization}" style="color: white; background-color: #0e85b2d4; border: 2px solid white; font-weight: bold;">
+                        </option>
                     </select>
                     <label for="doctorCities" style="margin-left: 50px">Miasto:</label>
-                    <select id="doctorCities" th:name="doctorCity" style="background-color: white;
-                             color: black;
-                             ">
-                        <option th:each="city : ${cities}" th:value="${city}" th:text="${city}" style=" color: white;
-                                background-color: #0e85b2d4;
-                                border: 2px solid white;
-                                font-weight: bold;"></option>
+                    <select id="doctorCities" th:name="doctorCity" style="background-color: white; color: black;" required>
+                        <option value="" selected>Wybierz miasto...</option>
+                        <option th:each="city : ${cities}" th:value="${city}" th:text="${city}" style="color: white; background-color: #0e85b2d4; border: 2px solid white; font-weight: bold;">
+                        </option>
                     </select>
-                    <input type="submit" value="Szukaj " class="btn" style="background-color: #3f7293;
-                                color: white;
-                                 font-weight: bold;
-                                 border: 2px solid white;
-                                  margin-left: 30px">
+                    <input type="submit" value="Szukaj" class="btn" style="background-color: #3f7293; color: white; font-weight: bold; border: 2px solid white; margin-left: 30px">
                 </form>
+
             </div>
 
             <div class="available-doctors" style="margin-top: 30px">
@@ -235,9 +232,15 @@ transition: opacity .2s, display .2s;">
 
                                 <div class="doctor-specialization" style="font-weight: bold">
                                     <p th:text="${doctor.specialization}"></p>
-                                    <p style="text-decoration: underline blue"
-                                       th:text="${doctor.getOpinions().size()+' opinii'}"></p>
+                                    <p>
+                                        <span th:text="${doctor.getOpinions().size()}"></span>
+                                        <span th:if="${doctor.getOpinions().size() == 1}"> opinia</span>
+                                        <span th:if="${doctor.getOpinions().size() > 1 && doctor.getOpinions().size() < 5}"> opinie</span>
+                                        <span th:if="${doctor.getOpinions().size() >= 5 || doctor.getOpinions().isEmpty()}"> opinii</span>
+                                    </p>
                                 </div>
+
+
 
 
                             </div>
@@ -416,6 +419,7 @@ function closeAlert() {
         container.style.display = 'none';
     }, 200);
 }
+
 
 </script>
 </body>
