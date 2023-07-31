@@ -4,6 +4,7 @@ import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.PatientDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.PatientEntity;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class PatientService {
         return patientById.get();
     }
 
-
+@Transactional
     public void createNewPatient(PatientEntity newPatient) {
         patientDao.save(newPatient);
     }

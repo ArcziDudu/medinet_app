@@ -4,6 +4,7 @@ import com.medinet.api.dto.CalendarDto;
 import com.medinet.business.dao.CalendarDao;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class CalendarService {
         return calendarDao.findAllCalendar();
     }
 
-
+    @Transactional
     public Optional<CalendarEntity> findById(Integer calendarId) {
         Optional<CalendarEntity> calendar = calendarDao.findById(calendarId);
         if (calendar.isEmpty()) {
@@ -37,6 +38,7 @@ public class CalendarService {
         calendarDao.save(calendar);
     }
 
+    @Transactional
     public CalendarEntity findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
         Optional<CalendarEntity> calendar = calendarDao
                 .findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
@@ -44,5 +46,6 @@ public class CalendarService {
             log.error("Problem with calendar service. Calendar  not found!");
         }
         return calendarDao.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment).get();
+        // TODO: 31.07.2023 zmienic na serwis 
     }
 }

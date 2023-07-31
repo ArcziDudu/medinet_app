@@ -5,15 +5,14 @@ import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.jpa.CalendarJpaRepository;
 import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +24,13 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
 
 
     public static List<LocalDate> generateDateList() {
-        LocalDate currentDate = LocalDate.now();
+        Instant instant = Instant.now();
+
+        ZoneId zoneId = ZoneId.of("Europe/Warsaw");
+
+        LocalDate currentDate = LocalDate.ofInstant(instant, zoneId).minusDays(2);
         LocalDate endDate = currentDate.plusWeeks(2);
+
 
         List<LocalDate> dateTimeList = new ArrayList<>();
 

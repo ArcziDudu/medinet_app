@@ -2,6 +2,7 @@ package com.medinet.business.services;
 
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,6 +24,7 @@ public class ScheduledTasksService {
     //jeśli tak to przekazywana jest lekarzowi, który ma 24h
     // na dodanie  notatki z wizyty, jeśli tego nie zrobi, "wizyta" jest oznaczana jako zakończona
     @Scheduled(fixedRate = 20000)
+    @Transactional
     public void myMethod() {
         List<AppointmentEntity> upcoming = appointmentService
                 .findAllAppointmentsByStatus("upcoming")
