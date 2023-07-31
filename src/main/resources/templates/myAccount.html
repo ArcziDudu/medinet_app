@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link th:href="@{/myAccount.css}" rel="stylesheet">
-    <!--    <link rel="stylesheet" href="../static/myAccount.css">-->
+<!--    <link th:href="@{/myAccount.css}" rel="stylesheet">-->
+        <link rel="stylesheet" href="../static/myAccount.css">
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -30,11 +30,22 @@
             <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
         </div>
     </nav>
-    <div th:if="${error != null}">
-        <p class="text-danger">[[${error}]]</p>
+
+    <div class="container succes text-warning" th:if="${error != null}">
+        <p >[[${error}]]</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
-    <div th:if="${message != null}">
-        <p class="text-success">[[${message}]]</p>
+    <div class="container succes text-warning" th:if="${message != null}">
+        <p >[[${message}]]</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+    </div>
+    <div class="container succes text-warning" th:if="${param.success}">
+        <p style=" font-weight: bold;">Wizyta została anulowana!</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+    </div>
+    <div class="container succes text-warning" th:if="${param.generate}">
+        <p style=" font-weight: bold;">Faktura została wygenerowana i  pobrana!</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
     <div class="container main-box">
         <div class=" container rigth-side" id="appointments">
@@ -183,7 +194,13 @@
         div.scrollIntoView({ behavior: 'smooth' });
     }
 
-
+function closeAlert() {
+    const container = document.querySelector('.succes');
+    container.style.opacity = '0';
+    setTimeout(() => {
+        container.style.display = 'none';
+    }, 200);
+}
 
 </script>
 </body>

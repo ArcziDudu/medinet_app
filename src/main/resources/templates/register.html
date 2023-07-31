@@ -14,11 +14,18 @@
         <div class="card">
             <div class="card-header">
                 <h2 class="text-center">Rejestracja - Medinet</h2>
+
             </div>
-            <div th:if="${param.success}">
-                <div class="alert alert-info">
-                    Zostałeś zarejstrowany poprawnie!
-                </div>
+            <div class="container" th:if="${param.success}"
+                 style="background-color: rgba(0, 128, 0, 0.5);
+                  text-align:center;
+                   padding:10px">
+                <p style="color: white; font-weight:bold;">Na podany adres email został wysłany link aktywacyjny - kliknij w niego aby dokończyć proces rejestracji</p>
+               <a th:href="@{/}"
+                  style="color:blue;
+                   text-decoration:underline;
+                   font-weight:bold;
+                    cursor:pointer;">Strona główna</a>
             </div>
             <div class="card-body">
                 <form method="post" role="form" th:action="@{/register/save}" th:object="${form}">

@@ -84,7 +84,7 @@ public class AppointmentController {
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
-        return "redirect:/booking";
+        return "redirect:/booking?success=true";
     }
 
     @PostMapping("/appointment/approve/{appointmentId}")
@@ -116,13 +116,16 @@ public class AppointmentController {
         model.addAttribute("calendarId", calendarId);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
-        return "redirect:/booking";
+        return "redirect:/account/user/" + id + "?success=true";
 
     }
 
     @PostMapping(value = "/invoice/generatePdf/{appointmentId}")
     public String generatePdf(
-            @PathVariable("appointmentId") Integer appointmentId) {
+            @PathVariable("appointmentId") Integer appointmentId, Principal principal) {
+        String email = principal.getName();
+        UserEntity currentUser = userRepository.findByEmail(email);
+        int id = currentUser.getId();
         try {
             Optional<AppointmentEntity> appointmetnById = appointmentService.findById(appointmentId);
 
@@ -130,7 +133,7 @@ public class AppointmentController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return "redirect:/account/user/1";
+        return "redirect:/account/user/"+id+"?generate=true";
     }
 
 

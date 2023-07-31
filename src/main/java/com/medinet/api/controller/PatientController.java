@@ -63,7 +63,7 @@ public class PatientController {
 
 
         if (!passwordEncoder.matches(passwordForm.getCurrentPassword(), currentUser.getPassword())) {
-            model.addAttribute("error", "hasło nieprawidłowe");
+            model.addAttribute("error", "aktualne hasło nieprawidłowe!");
             model.addAttribute("passwordForm", changePasswordForm);
             model.addAttribute("CurrentPatient", currentPatient);
             model.addAttribute("format", formatter);

@@ -45,7 +45,6 @@
         }
         .back{
            align-self: flex-start;
-           padding:10px
            margin-bottom: 15px;
            text-decoration:none;
             border: 2px solid white;
@@ -65,7 +64,7 @@
 <body>
 <div class="container">
     <div class="main">
-        <a th:href="@{/booking}" class="back" target="_self">Powrót</a>
+        <a th:href="@{/booking}" class="back" target="_self" style="padding:5px">Powrót</a>
         <div class="info">
             <div class="about">
                 <h6 th:text="${'Wizyta nr: '+visitNumber}"></h6>

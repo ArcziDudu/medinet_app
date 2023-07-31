@@ -45,6 +45,6 @@ public class OpinionController {
         opinion.setNote(note);
         opinion.setDateOfCreateOpinion(OffsetDateTime.now());
         opinionService.processOpinion(opinionMapper.mapFromDto(opinion));
-        return "redirect:/booking";
+        return "redirect:/booking?opinion=true";
     }
 }

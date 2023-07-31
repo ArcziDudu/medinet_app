@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/main.css}" rel="stylesheet">
-    <!--   <link rel="stylesheet" href="../static/main.css">-->
+<!--       <link rel="stylesheet" href="../static/main.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
         .available-hour {
@@ -100,6 +100,27 @@
             <a th:href="@{/logout}" th:method="get" class="navbar-link">Wyloguj</a>
         </div>
     </nav>
+
+    <div class="container succes" th:if="${param.success}"
+         style="background-color: rgba(0, 128, 0, 0.5);
+            text-align: center;
+            padding: 10px;
+            position: relative;
+transition: opacity .2s, display .2s;">
+        <p style="color: white; font-weight: bold;">Wizyta została zarejestrowana!</p>
+        <p style="color: white; font-weight: bold;">Szczegóły znajdziesz w sekcji Moje konto</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+    </div>
+    <div class="container succes" th:if="${param.opinion}"
+         style="background-color: rgba(0, 128, 0, 0.5);
+            text-align: center;
+            padding: 10px;
+            position: relative;
+transition: opacity .2s, display .2s;">
+        <p style="color: white; font-weight: bold;">Opinia została wystawiona!</p>
+        <p style="color: white; font-weight: bold;">Swoje opinie znajdziesz w sekcji Moje konto</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+    </div>
     <section class="doctors-box">
         <div class="container">
             <div class="title-box">
@@ -388,6 +409,13 @@
             });
         });
 
+function closeAlert() {
+    const container = document.querySelector('.succes');
+    container.style.opacity = '0';
+    setTimeout(() => {
+        container.style.display = 'none';
+    }, 200);
+}
 
 </script>
 </body>
