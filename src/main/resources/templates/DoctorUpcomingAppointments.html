@@ -85,8 +85,13 @@ background-color: saddlebrown">
                     </button>
                 </div>
                 <div class="hero-box opinions" style="flex-direction: column">
+
                     <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
-                        <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}"></h5>
+                        <th:block th:with="offsetDateTime=${OneOpinion.dateOfCreateOpinion}">
+                            <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                                <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
+                            </th:block>
+                        </th:block>
                         <h5 th:text="${'Wystawione Przez: ' + OneOpinion.getPatient().getName() +' '+OneOpinion.getPatient().getSurname()}"></h5>
                         <p th:text="${OneOpinion.getNote()}"></p>
                     </div>

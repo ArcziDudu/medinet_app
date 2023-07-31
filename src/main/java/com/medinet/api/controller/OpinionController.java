@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Controller
 @AllArgsConstructor
@@ -45,6 +47,6 @@ public class OpinionController {
         opinion.setNote(note);
         opinion.setDateOfCreateOpinion(OffsetDateTime.now());
         opinionService.processOpinion(opinionMapper.mapFromDto(opinion));
-        return "redirect:/booking";
+        return "redirect:/booking?opinion=true";
     }
 }

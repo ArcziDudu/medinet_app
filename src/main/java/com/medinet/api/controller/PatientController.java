@@ -2,9 +2,12 @@ package com.medinet.api.controller;
 
 import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.ChangePasswordForm;
+import com.medinet.api.dto.OpinionDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.PatientService;
+import com.medinet.infrastructure.entity.CalendarEntity;
+import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import jakarta.validation.Valid;
@@ -19,8 +22,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -29,7 +37,8 @@ public class PatientController {
     private AppointmentService appointmentService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm z");
+
 
     @GetMapping("/account/user/{userId}")
     public String showUsersPage(@PathVariable("userId") Integer userId, Model model) {
@@ -39,12 +48,22 @@ public class PatientController {
         List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
 
+        TreeSet<OpinionEntity> opinionsSortedByDate = currentPatient
+                .getOpinions()
+                .stream()
+                .sorted(getOpinionEntityComparator())
+                .collect(Collectors.toCollection(TreeSet::new));
+        currentPatient.setOpinions(opinionsSortedByDate);
         model.addAttribute("passwordForm", changePasswordForm);
         model.addAttribute("CurrentPatient", currentPatient);
         model.addAttribute("format", formatter);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
         return "myAccount";
+    }
+
+    private Comparator<? super OpinionEntity> getOpinionEntityComparator() {
+        return Comparator.comparing(OpinionEntity::getDateOfCreateOpinion);
     }
 
 
@@ -63,7 +82,7 @@ public class PatientController {
 
 
         if (!passwordEncoder.matches(passwordForm.getCurrentPassword(), currentUser.getPassword())) {
-            model.addAttribute("error", "hasło nieprawidłowe");
+            model.addAttribute("error", "aktualne hasło nieprawidłowe!");
             model.addAttribute("passwordForm", changePasswordForm);
             model.addAttribute("CurrentPatient", currentPatient);
             model.addAttribute("format", formatter);

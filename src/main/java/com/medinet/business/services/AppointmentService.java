@@ -60,7 +60,6 @@ public class AppointmentService {
         {
             LocalDate today = LocalDate.now();
             LocalTime now = LocalTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             if (appointment.getDateOfAppointment().isBefore(today)
                     || (appointment.getDateOfAppointment().equals(today)
                     && now.equals(appointment.getTimeOfVisit()))) {
@@ -78,7 +77,6 @@ public class AppointmentService {
     }
 
     @Transactional
-
     public List<AppointmentDto> findUpcomingAppointments(PatientDto currentPatient) {
         return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("upcoming"))
                 .map(appointmentMapper::mapFromEntity)
@@ -132,6 +130,7 @@ public class AppointmentService {
 
     @Transactional
     public void generatePdf(Optional<AppointmentEntity> invoice) throws Exception {
+        // TODO: 31.07.2023 zmienic na serwis i bez optional 
         String uuid = invoice.get().getUUID();
         OffsetDateTime nowDate = OffsetDateTime.now();
         pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice.get()), nowDate), uuid);
@@ -143,6 +142,7 @@ public class AppointmentService {
                 "<!doctype html>" +
                         "<html>" +
                         "<head>" +
+                        "<meta charset=UTF-8>" +
                         "<style>" +
                         "   body {" +
                         "position: relative;" +
@@ -159,18 +159,19 @@ public class AppointmentService {
                         "margin-top:30px" +
                         "}" +
                         "</style>" +
+
                         "</head>" +
                         "<body>" +
                         "<h4>Faktura: Wizyta w przychodni medinet</h4>" +
-                        "<h4>Numer wizyty: " + invoice.getUUID() + "</h4>" +
-                        "<p>Data wizyty: " + invoice.getDateOfAppointment() + "</p>" +
-                        "<p>Godzina: " + invoice.getTimeOfVisit() + "</p>" +
-                        "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() + " " + invoice.getPatient().getSurname() + "</p>" +
+                        "<h4>Numer wizyty: " + invoice.getUUID() +"</h4>" +
+                        "<p>Data wizyty: " + invoice.getDateOfAppointment() +"</p>" +
+                        "<p>Godzina: " + invoice.getTimeOfVisit() +"</p>" +
+                        "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() +" " + invoice.getPatient().getSurname() + "</p>" +
                         "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet() + "</p>" +
-                        "<p>Lekarz: " + invoice.getDoctor().getName() + " " + invoice.getDoctor().getSurname() + "</p>" +
+                        "<p>Lekarz: " + invoice.getDoctor().getName() +" " + invoice.getDoctor().getSurname() + "</p>" +
                         "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
                         "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
-                        "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit() + "</p>" +
+                        "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit()+"</p>" +
 
                         "<h6>Wystawiono dnia: " + nowDate.format(formatter) + "</h6>" +
                         "</body>" +

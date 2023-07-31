@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/myAccount.css}" rel="stylesheet">
-    <!--    <link rel="stylesheet" href="../static/myAccount.css">-->
+<!--        <link rel="stylesheet" href="../static/myAccount.css">-->
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -30,11 +30,22 @@
             <a th:href="@{/logout}" class="navbar-link">Wyloguj</a>
         </div>
     </nav>
-    <div th:if="${error != null}">
-        <p class="text-danger">[[${error}]]</p>
+
+    <div class="container succes text-warning" th:if="${error != null}">
+        <p >[[${error}]]</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
-    <div th:if="${message != null}">
-        <p class="text-success">[[${message}]]</p>
+    <div class="container succes text-warning" th:if="${message != null}">
+        <p >[[${message}]]</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+    </div>
+    <div class="container succes text-warning" th:if="${param.success}">
+        <p style=" font-weight: bold;">Wizyta została anulowana!</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+    </div>
+    <div class="container succes text-warning" th:if="${param.generate}">
+        <p style=" font-weight: bold;">Faktura została wygenerowana i  pobrana!</p>
+        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
     <div class="container main-box">
         <div class=" container rigth-side" id="appointments">
@@ -108,6 +119,7 @@
                                     +invoice.getDoctor().getSpecialization()}"></h6>
                                     <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
                                     <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
+                                    <a href="#" download>Pobierz fakturę</a>
                                     <button style="margin: 0 auto" type="submit">Pobierz fakture</button>
                                 </div>
                             </div>
@@ -127,10 +139,14 @@
             </div>
             <div class="hero-box opinions" style="flex-direction: column">
 
-                <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="one-opinion">
-                    <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}"></h5>
-                    <h5 th:text="${'Wystawione lekarzowi: ' + OneOpinion.getDoctor().getName() +' '+OneOpinion.getDoctor().getSurname()}"></h5>
-                    <p th:text="${OneOpinion.getNote()}"></p>
+                <div th:each="oneOpinion : ${CurrentPatient.getOpinions()}" class="one-opinion">
+                    <th:block th:with="offsetDateTime=${oneOpinion.dateOfCreateOpinion}">
+                        <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                            <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
+                        </th:block>
+                    </th:block>
+                    <h5 th:text="${'Wystawione lekarzowi: ' + oneOpinion.doctor.name + ' ' + oneOpinion.doctor.surname}"></h5>
+                    <p th:text="${oneOpinion.note}"></p>
                 </div>
             </div>
 
@@ -183,7 +199,13 @@
         div.scrollIntoView({ behavior: 'smooth' });
     }
 
-
+function closeAlert() {
+    const container = document.querySelector('.succes');
+    container.style.opacity = '0';
+    setTimeout(() => {
+        container.style.display = 'none';
+    }, 200);
+}
 
 </script>
 </body>

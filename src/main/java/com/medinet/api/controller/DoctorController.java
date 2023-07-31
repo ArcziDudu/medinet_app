@@ -3,6 +3,7 @@ package com.medinet.api.controller;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
+import com.medinet.infrastructure.entity.OpinionEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -25,7 +29,7 @@ public class DoctorController {
             = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));
     private final DateTimeFormatter polishDayFormatter
             = DateTimeFormatter.ofPattern("EEE", new Locale("pl"));
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm z");
 
     Map<String, ?> prepareNecessaryDataForDoctor(Principal principal) {
 
@@ -33,13 +37,18 @@ public class DoctorController {
         DoctorDto byEmail = doctorService.findByEmail(email);
         Integer doctorId = byEmail.getDoctorId();
 
-
         var completedAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("done", doctorId);
         var pendingAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("pending", doctorId);
         var upcomingAppointment = appointmentService.findAllAppointmentsByStatusAndDoctorID("upcoming", doctorId);
-        DoctorDto doctorById = doctorService.findDoctorById(doctorId);
+        DoctorDto doctor = doctorService.findDoctorById(doctorId);
+        TreeSet<OpinionEntity> opinionsSortedByDate = doctor
+                .getOpinions()
+                .stream()
+                .sorted(getOpinionEntityComparator())
+                .collect(Collectors.toCollection(TreeSet::new));
+        doctor.setOpinions(opinionsSortedByDate);
         return Map.of(
-                "doctor", doctorById,
+                "doctor", doctor,
                 "format", formatter,
                 "completedAppointment", completedAppointment,
                 "pendingAppointment", pendingAppointment,
@@ -47,7 +56,9 @@ public class DoctorController {
         );
     }
 
-
+    private Comparator<? super OpinionEntity> getOpinionEntityComparator() {
+        return Comparator.comparing(OpinionEntity::getDateOfCreateOpinion);
+    }
     @GetMapping(value = "/doctor")
     public ModelAndView doctorMainPage(Principal principal) {
         Map<String, ?> data = prepareNecessaryDataForDoctor(principal);

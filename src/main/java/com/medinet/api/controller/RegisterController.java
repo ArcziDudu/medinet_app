@@ -111,7 +111,7 @@ public class RegisterController {
     @PostMapping("/register/save")
     public String registration(@Valid
                                @ModelAttribute("form") RegistrationFormDto form,
-                               BindingResult result) {
+                               BindingResult result, Model model) {
 
         if (userRepository.existsByEmail(form.getEmail())) {
             result.rejectValue("email", "400", "Ten email jest już zarejestrowany");
@@ -143,7 +143,7 @@ public class RegisterController {
                 .build();
         registerService.save(newUser);
         patientService.createNewPatient(newPatient);
-        return "redirect:/booking";
+        return "redirect:/register?success=true";
 
     }
 
