@@ -28,11 +28,15 @@
                                 <div class="form-group mb-3">
                                     <label class="form-label">Imię</label>
                                     <input class="form-control" id="name" name="name" th:value="${form.name}"/>
+                                    <p th:errors="${form.name}" class="text-danger"
+                                       th:if="${#fields.hasErrors('name')}"></p>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="form-label">Nazwisko</label>
                                     <input class="form-control" id="surname" name="surname" th:value="${form.surname}"/>
+                                    <p th:errors="${form.surname}" class="text-danger"
+                                       th:if="${#fields.hasErrors('surname')}"></p>
                                 </div>
 
                                 <div class="form-group mb-3">
@@ -64,16 +68,22 @@
                                 <div class="form-group mb-3">
                                     <label class="form-label">Adres</label>
                                     <input class="form-control" id="street" name="street" th:value="${form.street}"/>
+                                    <p th:errors="${form.street}" class="text-danger"
+                                       th:if="${#fields.hasErrors('street')}"></p>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label">Miasto</label>
                                     <input class="form-control" id="city" name="city" th:value="${form.city}"/>
+                                    <p th:errors="${form.city}" class="text-danger"
+                                       th:if="${#fields.hasErrors('city')}"></p>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="form-label">Kod pocztowy</label>
                                     <input class="form-control" id="postalCode" name="postalCode"
                                            th:value="${form.postalCode}"/>
+                                    <p th:errors="${form.postalCode}" class="text-danger"
+                                       th:if="${#fields.hasErrors('postalCode')}"></p>
                                 </div>
                             </div>
                         </div>
