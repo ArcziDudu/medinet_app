@@ -139,10 +139,14 @@
             </div>
             <div class="hero-box opinions" style="flex-direction: column">
 
-                <div th:each="OneOpinion: ${CurrentPatient.getOpinions()}" class="one-opinion">
-                    <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}"></h5>
-                    <h5 th:text="${'Wystawione lekarzowi: ' + OneOpinion.getDoctor().getName() +' '+OneOpinion.getDoctor().getSurname()}"></h5>
-                    <p th:text="${OneOpinion.getNote()}"></p>
+                <div th:each="oneOpinion : ${CurrentPatient.getOpinions()}" class="one-opinion">
+                    <th:block th:with="offsetDateTime=${oneOpinion.dateOfCreateOpinion}">
+                        <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                            <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
+                        </th:block>
+                    </th:block>
+                    <h5 th:text="${'Wystawione lekarzowi: ' + oneOpinion.doctor.name + ' ' + oneOpinion.doctor.surname}"></h5>
+                    <p th:text="${oneOpinion.note}"></p>
                 </div>
             </div>
 

@@ -411,7 +411,7 @@ insert into medinet_user_role (user_id, role_id) values (99, 1);
 insert into medinet_user_role (user_id, role_id) values (100, 1);
 
 
-insert into opinion (patient_id, doctor_id, date, note) values (1, 57, '2023-02-15 04:58:17', 'Bardzo profesjonalne podejście do pacjenta.');
+
 insert into opinion (patient_id, doctor_id, date, note) values (1, 72, '2022-10-02 05:04:51', 'Bardzo dobry specjalista - polecam');
 insert into opinion (patient_id, doctor_id, date, note) values (1, 48, '2022-11-07 00:32:12', 'Bardzo miły lekarz');
 insert into opinion (patient_id, doctor_id, date, note) values (1, 84, '2023-04-26 15:46:52', 'odpowiedział na wszystkie moje pytania.');
