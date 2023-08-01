@@ -35,11 +35,11 @@ import java.util.Optional;
 @RequestMapping(AppointmentRestController.API_APPOINTMENT)
 public class AppointmentRestController {
     public static final String API_APPOINTMENT = "/api/appointment";
-    public static final String API_APPOINTMENT_CREATE = "/create";
+    public static final String API_APPOINTMENT_NEW = "/new";
     public static final String API_APPOINTMENT_FIND_BY_ID = "/find/{appointmentId}";
     public static final String API_APPOINTMENT_DELETE = "/{appointmentId}";
-    public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS = "/find/all/{status}";
-    public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS_AND_DOCTOR_ID = "/find/all/{status}/{doctorId}";
+    public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS = "/all/{status}";
+    public static final String API_APPOINTMENT_FIND_ALL_BY_STATUS_AND_DOCTOR_ID = "/all/{status}/{doctorId}";
     public static final String API_APPOINTMENT_UPDATE_MESSAGE = "/{appointmentId}";
 
     private final AppointmentService appointmentService;
@@ -51,7 +51,7 @@ public class AppointmentRestController {
     private final CalendarService calendarService;
 
 
-    @PostMapping(value = API_APPOINTMENT_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = API_APPOINTMENT_NEW, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create an appointment",
             description = "Create an appointment based on the provided details")
     public ResponseEntity<?> createAppointment(@RequestBody

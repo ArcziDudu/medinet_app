@@ -90,7 +90,12 @@ public class AppointmentService {
                 .collect(Collectors.toList());
 
     }
-
+    @Transactional
+    public List<AppointmentDto> findPendingAppointments(PatientDto currentPatient) {
+        return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("pending"))
+                .map(appointmentMapper::mapFromEntity)
+                .collect(Collectors.toList());
+    }
     @Transactional
     public void processRemovingAppointment(Integer appointmentID,
                                            LocalTime calendarHour,
@@ -130,7 +135,7 @@ public class AppointmentService {
 
     @Transactional
     public void generatePdf(Optional<AppointmentEntity> invoice) throws Exception {
-        // TODO: 31.07.2023 zmienic na serwis i bez optional 
+        // TODO: 31.07.2023 zmienic na serwis i bez optional
         String uuid = invoice.get().getUUID();
         OffsetDateTime nowDate = OffsetDateTime.now();
         pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice.get()), nowDate), uuid);
@@ -187,6 +192,8 @@ public class AppointmentService {
     public List<AppointmentDto> findAll() {
         return appointmentDao.findAll();
     }
+
+
 }
 
 

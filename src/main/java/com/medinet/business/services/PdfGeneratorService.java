@@ -11,6 +11,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @AllArgsConstructor
@@ -28,34 +31,44 @@ public class PdfGeneratorService {
                 .build();
     }
 
+
     public void generatePdf(String htmlContent, String uuid) {
         String pdfDirectory = System.getenv("PDF_DIRECTORY");
         String filePath;
         if (pdfDirectory != null) {
             filePath = pdfDirectory + "/faktura_medinet" + uuid + ".pdf";
         } else {
-            filePath = "src/main/resources/invoices/faktura_medinet" + uuid + ".pdf";
+            filePath = "C:/medinet/faktura_medinet" + uuid + ".pdf";
         }
 
-        webClient.post()
-                .uri("https://htmlpdfapi.com/api/v1/pdf")
-                .body(BodyInserters.fromValue("{\"html\": \"" + htmlContent + "\"}"))
-                .retrieve()
-                .bodyToMono(byte[].class)
-                .subscribe(pdfBytes -> {
-                    try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                        outputStream.write(pdfBytes);
-                        log.info("Plik PDF został zapisany.");
-                        log.info("Numer UUID faktury: " + uuid);
-                        log.info("Plik znajduję się pod ścieżką: " + filePath);
-                        System.out.println("Plik PDF został zapisany.");
-                        System.out.println("Plik znajduję się pod ścieżką: " + filePath);
-                    } catch (IOException e) {
-                        log.error("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
+        try {
+            Path directoryPath = Paths.get(filePath).getParent();
+            if (!Files.exists(directoryPath)) {
+                Files.createDirectories(directoryPath);
+            }
 
-                    }
-                }, error -> {
-                    log.error("Błąd podczas generowania pliku PDF: " + error.getMessage());
-                });
+            webClient.post()
+                    .uri("https://htmlpdfapi.com/api/v1/pdf")
+                    .body(BodyInserters.fromValue("{\"html\": \"" + htmlContent + "\"}"))
+                    .retrieve()
+                    .bodyToMono(byte[].class)
+                    .subscribe(pdfBytes -> {
+                        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                            outputStream.write(pdfBytes);
+                            log.info("Plik PDF został zapisany.");
+                            log.info("Numer UUID faktury: " + uuid);
+                            log.info("Plik znajduje się pod ścieżką: " + filePath);
+                            System.out.println("Plik PDF został zapisany.");
+                            System.out.println("Plik znajduje się pod ścieżką: " + filePath);
+                        } catch (IOException e) {
+                            log.error("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
+                        }
+                    }, error -> {
+                        log.error("Błąd podczas generowania pliku PDF: " + error.getMessage());
+                    });
+        } catch (IOException e) {
+            log.error("Błąd podczas tworzenia folderu: " + e.getMessage());
+        }
     }
+
 }

@@ -11,6 +11,7 @@ CREATE TABLE medinet_user
     email           VARCHAR(32)  NOT NULL,
     password        VARCHAR(128) NOT NULL,
     active          BOOLEAN      NOT NULL,
+    verify_code     VARCHAR(36),
     PRIMARY KEY (user_id)
 );
 

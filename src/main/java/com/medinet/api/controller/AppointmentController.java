@@ -31,8 +31,13 @@ public class AppointmentController {
     private DoctorMapper doctorMapper;
     private PatientMapper patientMapper;
     private final UserRepository userRepository;
+    private final String REQUEST = "/request";
+    private final String BOOKING_APPOINTMENT = "/booking/appointment";
+    private final String APPOINTMENT_APPROVE_ID = "/appointment/approve/{appointmentId}";
+    private final String APPOINTMENT_REMOVE_ID = "booking/remove/{appointmentId}";
+    private final String GENERATE_PDF = "/invoice/generatePdf/{appointmentId}";
 
-    @GetMapping("/request")
+    @GetMapping(REQUEST)
     public String bookingAppointment(@RequestParam("doctorId") Integer doctorId,
                                      @RequestParam("patientId") Integer patientId,
                                      @RequestParam("selectedHour") LocalTime timeOfVisit,
@@ -54,7 +59,7 @@ public class AppointmentController {
         return "appointmentBooking";
     }
 
-    @PostMapping("/booking/appointment")
+    @PostMapping(BOOKING_APPOINTMENT)
     public String sendRequestToQueue(
             @RequestParam("DateOfAppointment") LocalDate dateOfAppointment,
             @RequestParam("HourOfAppointment") LocalTime timeOfVisit,
@@ -87,7 +92,7 @@ public class AppointmentController {
         return "redirect:/booking?success=true";
     }
 
-    @PostMapping("/appointment/approve/{appointmentId}")
+    @PostMapping(APPOINTMENT_APPROVE_ID)
     public String approveAppointment(@PathVariable(value = "appointmentId") Integer appointmentID,
                                      @RequestParam("message") String message) {
         appointmentService.approveAppointment(appointmentID, message);
@@ -95,7 +100,7 @@ public class AppointmentController {
         return "redirect:/booking";
     }
 
-    @DeleteMapping("booking/remove/{appointmentId}")
+    @DeleteMapping(APPOINTMENT_REMOVE_ID)
     public String removeAppointment(
             @PathVariable(value = "appointmentId") Integer appointmentID,
             @RequestParam(value = "selectedHour") LocalTime calendarHour,
@@ -120,7 +125,7 @@ public class AppointmentController {
 
     }
 
-    @PostMapping(value = "/invoice/generatePdf/{appointmentId}")
+    @PostMapping(GENERATE_PDF)
     public String generatePdf(
             @PathVariable("appointmentId") Integer appointmentId, Principal principal) {
         String email = principal.getName();
@@ -133,7 +138,7 @@ public class AppointmentController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return "redirect:/account/user/"+id+"?generate=true";
+        return "redirect:/account/user/" + id + "?generate=true";
     }
 
 

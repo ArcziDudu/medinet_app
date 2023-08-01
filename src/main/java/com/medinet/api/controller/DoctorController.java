@@ -24,6 +24,11 @@ import java.util.stream.Collectors;
 public class DoctorController {
     private DoctorService doctorService;
     private AppointmentService appointmentService;
+    private final String DOCTOR = "/doctor";
+    private final String DOCTOR_APPOINTMENT_PENDING = "/doctor/appointments/pending";
+    private final String DOCTOR_APPOINTMENT_DONE = "/doctor/appointments/done";
+    private final String SPECIALIST_DETAILS_ID = "/specialist/details/{doctorId}";
+    private final String USER_ID = "/user/{userId}";
 
     private final DateTimeFormatter polishMonthFormatter
             = DateTimeFormatter.ofPattern("LLL", new Locale("pl"));
@@ -59,25 +64,26 @@ public class DoctorController {
     private Comparator<? super OpinionEntity> getOpinionEntityComparator() {
         return Comparator.comparing(OpinionEntity::getDateOfCreateOpinion);
     }
-    @GetMapping(value = "/doctor")
+
+    @GetMapping(DOCTOR)
     public ModelAndView doctorMainPage(Principal principal) {
         Map<String, ?> data = prepareNecessaryDataForDoctor(principal);
         return new ModelAndView("DoctorUpcomingAppointments", data);
     }
 
-    @GetMapping(value = "/doctor/appointments/pending")
+    @GetMapping(DOCTOR_APPOINTMENT_PENDING)
     public ModelAndView doctorPendingAppointmentsPage(Principal principal) {
         Map<String, ?> data = prepareNecessaryDataForDoctor(principal);
         return new ModelAndView("DoctorPendingAppointments", data);
     }
 
-    @GetMapping(value = "/doctor/appointments/done")
+    @GetMapping(DOCTOR_APPOINTMENT_DONE)
     public ModelAndView doctorDoneAppointmentsPage(Principal principal) {
         Map<String, ?> data = prepareNecessaryDataForDoctor(principal);
         return new ModelAndView("DoctorDoneAppointments", data);
     }
 
-    @GetMapping("/specialist/details/{doctorId}")
+    @GetMapping(SPECIALIST_DETAILS_ID)
     public String showDoctorDetailsPage(
             @PathVariable(value = "doctorId") Integer doctorId,
             Model model) {
@@ -90,7 +96,7 @@ public class DoctorController {
         return "doctorDetails";
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping(USER_ID)
     public String getUser(
             @PathVariable("userId") Integer userId,
             Model model) {

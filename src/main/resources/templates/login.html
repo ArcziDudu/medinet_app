@@ -54,15 +54,17 @@
                                     placeholder="Wprowadź hasło"
                             />
                         </div>
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary">Zaloguj</button>
-                            <span> Nie masz konta?
+                        <button type="submit" class="btn btn-primary container" >Zaloguj się</button>
+                        <div class="form-group mb-3 container" style="text-align:center; margin-top:10px">
+                               <span> Nie masz konta?
                                 <a th:href="@{/register}">Zarejestruj się</a>
+                            </span>
+                            <span>
+                                <a th:href="@{/verification}">Aktywuj konto</a>
                             </span>
                             <span> lub
                                 <a th:href="@{/password/reminder}">Odzyskaj hasło</a>
                             </span>
-
                         </div>
                     </form>
                 </div>

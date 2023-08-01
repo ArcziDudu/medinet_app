@@ -28,8 +28,9 @@ public class OpinionController {
     private PatientMapper patientMapper;
     private DoctorMapper doctorMapper;
     private OpinionMapper opinionMapper;
+    private final String OPINION_NEW = "/opinion/new";
 
-    @PostMapping("/opinion/send")
+    @PostMapping(OPINION_NEW)
     public String sendOpinion(
             @RequestParam("doctorId") Integer doctorId,
             @RequestParam("opinionNote") String note,

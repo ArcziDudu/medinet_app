@@ -24,11 +24,7 @@ public class BootstrapApplicationComponent implements ApplicationListener<Contex
 
 
     public static List<LocalDate> generateDateList() {
-        Instant instant = Instant.now();
-
-        ZoneId zoneId = ZoneId.of("Europe/Warsaw");
-
-        LocalDate currentDate = LocalDate.ofInstant(instant, zoneId).minusDays(2);
+        LocalDate currentDate = LocalDate.now();
         LocalDate endDate = currentDate.plusWeeks(2);
 
 
