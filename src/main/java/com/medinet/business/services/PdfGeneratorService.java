@@ -1,7 +1,10 @@
 package com.medinet.business.services;
 
+import com.medinet.infrastructure.entity.InvoiceEntity;
+import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -14,13 +17,22 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @AllArgsConstructor
+
 @Slf4j
 public class PdfGeneratorService {
 
     private final WebClient webClient;
+
+    @Autowired
+    private InvoiceJpaRepository invoiceJpaRepository;
 
     public PdfGeneratorService() {
         this.webClient = WebClient.builder()
@@ -33,42 +45,22 @@ public class PdfGeneratorService {
 
 
     public void generatePdf(String htmlContent, String uuid) {
-        String pdfDirectory = System.getenv("PDF_DIRECTORY");
-        String filePath;
-        if (pdfDirectory != null) {
-            filePath = pdfDirectory + "/faktura_medinet" + uuid + ".pdf";
-        } else {
-            filePath = "C:/medinet/faktura_medinet" + uuid + ".pdf";
-        }
-
-        try {
-            Path directoryPath = Paths.get(filePath).getParent();
-            if (!Files.exists(directoryPath)) {
-                Files.createDirectories(directoryPath);
-            }
-
-            webClient.post()
-                    .uri("https://htmlpdfapi.com/api/v1/pdf")
-                    .body(BodyInserters.fromValue("{\"html\": \"" + htmlContent + "\"}"))
-                    .retrieve()
-                    .bodyToMono(byte[].class)
-                    .subscribe(pdfBytes -> {
-                        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                            outputStream.write(pdfBytes);
-                            log.info("Plik PDF został zapisany.");
+        webClient.post()
+                .uri("https://htmlpdfapi.com/api/v1/pdf")
+                .body(BodyInserters.fromValue("{\"html\": \"" + htmlContent + "\"}"))
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .subscribe(
+                        pdfBytes -> {
+                            InvoiceEntity pdfDocument = new InvoiceEntity();
+                            pdfDocument.setUuid(uuid);
+                            pdfDocument.setPdfData(pdfBytes);
+                            invoiceJpaRepository.save(pdfDocument);
+                            log.info("Plik PDF został wygenerowany i zapisany w bazie danych.");
                             log.info("Numer UUID faktury: " + uuid);
-                            log.info("Plik znajduje się pod ścieżką: " + filePath);
-                            System.out.println("Plik PDF został zapisany.");
-                            System.out.println("Plik znajduje się pod ścieżką: " + filePath);
-                        } catch (IOException e) {
-                            log.error("Błąd podczas zapisywania pliku PDF: " + e.getMessage());
-                        }
-                    }, error -> {
-                        log.error("Błąd podczas generowania pliku PDF: " + error.getMessage());
-                    });
-        } catch (IOException e) {
-            log.error("Błąd podczas tworzenia folderu: " + e.getMessage());
-        }
+                        },
+                        error -> log.error("Błąd podczas generowania pliku PDF: " + error.getMessage())
+                );
     }
 
 }

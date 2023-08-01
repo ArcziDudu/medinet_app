@@ -1,5 +1,6 @@
 package com.medinet.business.services;
 
+import com.medinet.api.controller.PdfDownloadController;
 import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
@@ -30,6 +31,7 @@ public class AppointmentService {
     private final CalendarService calendarService;
     private final AppointmentMapper appointmentMapper;
     private final PdfGeneratorService pdfGeneratorService;
+    private final PdfDownloadController pdfDownloadController;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
 
@@ -124,8 +126,13 @@ public class AppointmentService {
         }
     }
 
-    public Optional<AppointmentEntity> findById(Integer appointmentId) {
-        return appointmentDao.findById(appointmentId);
+    public AppointmentEntity findById(Integer appointmentId) {
+
+        Optional<AppointmentEntity> appointmentById = appointmentDao.findById(appointmentId);
+        if (appointmentById.isEmpty()) {
+            throw new NotFoundException("Could not find appointment by Id: [%s]".formatted(appointmentId));
+        }
+        return appointmentById.get();
     }
 
     @Transactional
@@ -134,11 +141,10 @@ public class AppointmentService {
     }
 
     @Transactional
-    public void generatePdf(Optional<AppointmentEntity> invoice) throws Exception {
-        // TODO: 31.07.2023 zmienic na serwis i bez optional
-        String uuid = invoice.get().getUUID();
+    public void generatePdf(AppointmentEntity invoice) {
+        String uuid = invoice.getUUID();
         OffsetDateTime nowDate = OffsetDateTime.now();
-        pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice.get()), nowDate), uuid);
+        pdfGeneratorService.generatePdf(generateHtmlFromInvoice(appointmentMapper.mapFromEntity(invoice), nowDate), uuid);
     }
 
 
@@ -176,7 +182,7 @@ public class AppointmentService {
                         "<p>Lekarz: " + invoice.getDoctor().getName() +" " + invoice.getDoctor().getSurname() + "</p>" +
                         "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
                         "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
-                        "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit()+"</p>" +
+                        "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit()+" zł</p>" +
 
                         "<h6>Wystawiono dnia: " + nowDate.format(formatter) + "</h6>" +
                         "</body>" +

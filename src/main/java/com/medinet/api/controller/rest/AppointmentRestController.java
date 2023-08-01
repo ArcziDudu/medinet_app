@@ -123,11 +123,9 @@ public class AppointmentRestController {
         if (Objects.isNull(appointmentId)) {
             return ResponseEntity.notFound().build();
         }
-        Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
-        if (appointment.isEmpty()) {
-            throw new NotFoundException("Appointment with ID [%s] not found".formatted(appointmentId));
-        }
-        return ResponseEntity.ok(appointmentMapper.mapFromEntity(appointment.get()));
+        AppointmentEntity appointment = appointmentService.findById(appointmentId);
+
+        return ResponseEntity.ok(appointmentMapper.mapFromEntity(appointment));
     }
 
 
@@ -175,17 +173,17 @@ public class AppointmentRestController {
             @PathVariable @Parameter(description = "Appointment ID") Integer appointmentId,
             @RequestBody @Schema(description = "New appointment message") String message
     ) {
-        Optional<AppointmentEntity> appointmentCheck = appointmentService.findById(appointmentId);
-        if (appointmentCheck.get().getStatus().equals("done")) {
+      AppointmentEntity appointmentCheck = appointmentService.findById(appointmentId);
+        if (appointmentCheck.getStatus().equals("done")) {
             return ResponseEntity.badRequest()
                     .body("You can not modify appointment with status done!");
         }
-        if (appointmentCheck.get().getStatus().equals("upcoming")) {
+        if (appointmentCheck.getStatus().equals("upcoming")) {
             return ResponseEntity.badRequest()
                     .body("You can not modify appointment with status upcoming!");
         }
         try {
-            Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
+            AppointmentEntity appointment = appointmentService.findById(appointmentId);
         } catch (NotFoundException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
@@ -203,16 +201,16 @@ public class AppointmentRestController {
     public ResponseEntity<?> deleteAppointment(
             @PathVariable @Parameter(description = "Appointment ID") Integer appointmentId
     ) {
-        Optional<AppointmentEntity> appointment = appointmentService.findById(appointmentId);
-        if (appointment.isEmpty()) {
+       AppointmentEntity appointment = appointmentService.findById(appointmentId);
+        if (Objects.isNull(appointment)) {
             return ResponseEntity.badRequest().body("Appointment with the provided ID does not exist");
-        } else if (Objects.equals(appointment.get().getStatus(), "pending")) {
+        } else if (Objects.equals(appointment.getStatus(), "pending")) {
             return ResponseEntity.badRequest().body("Cannot cancel an appointment that has already taken place");
-        } else if (Objects.equals(appointment.get().getStatus(), "done")) {
+        } else if (Objects.equals(appointment.getStatus(), "done")) {
             return ResponseEntity.badRequest().body("Cannot cancel an appointment that has already taken place");
         }
-        Integer calendarId = appointment.get().getCalendarId();
-        LocalTime timeOfVisit = appointment.get().getTimeOfVisit();
+        Integer calendarId = appointment.getCalendarId();
+        LocalTime timeOfVisit = appointment.getTimeOfVisit();
         appointmentService.processRemovingAppointment(appointmentId, timeOfVisit, calendarId);
         return ResponseEntity.ok().build();
     }

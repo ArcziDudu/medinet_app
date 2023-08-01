@@ -7,6 +7,7 @@ import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.entity.AppointmentEntity;
+import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
@@ -15,12 +16,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -36,6 +37,7 @@ public class AppointmentController {
     private final String APPOINTMENT_APPROVE_ID = "/appointment/approve/{appointmentId}";
     private final String APPOINTMENT_REMOVE_ID = "booking/remove/{appointmentId}";
     private final String GENERATE_PDF = "/invoice/generatePdf/{appointmentId}";
+    private InvoiceJpaRepository invoiceJpaRepository;
 
     @GetMapping(REQUEST)
     public String bookingAppointment(@RequestParam("doctorId") Integer doctorId,
@@ -121,25 +123,24 @@ public class AppointmentController {
         model.addAttribute("calendarId", calendarId);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
-        return "redirect:/account/user/" + id + "?success=true";
+        return "redirect:/account/user/" + id + "?remove=true";
 
     }
 
     @PostMapping(GENERATE_PDF)
     public String generatePdf(
-            @PathVariable("appointmentId") Integer appointmentId, Principal principal) {
-        String email = principal.getName();
-        UserEntity currentUser = userRepository.findByEmail(email);
-        int id = currentUser.getId();
-        try {
-            Optional<AppointmentEntity> appointmetnById = appointmentService.findById(appointmentId);
+            @PathVariable("appointmentId") Integer appointmentId) throws InterruptedException {
+        AppointmentEntity appointmentById = appointmentService.findById(appointmentId);
+        String uuid = appointmentById.getUUID();
 
-            appointmentService.generatePdf(appointmetnById);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (!invoiceJpaRepository.existsByUuid(uuid)) {
+            appointmentService.generatePdf(appointmentById);
+            Thread.sleep(3000);
+            return "redirect:/invoice/download/" + uuid;
         }
-        return "redirect:/account/user/" + id + "?generate=true";
+        return "redirect:/invoice/download/" + uuid;
     }
+
 
 
 }

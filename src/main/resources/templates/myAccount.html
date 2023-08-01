@@ -39,12 +39,12 @@
         <p >[[${message}]]</p>
         <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
-    <div class="container succes text-warning" th:if="${param.success}">
+    <div class="container succes text-warning" th:if="${param.remove}">
         <p style=" font-weight: bold;">Wizyta została anulowana!</p>
         <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
-    <div class="container succes text-warning" th:if="${param.generate}">
-        <p style=" font-weight: bold;">Faktura została wygenerowana i  pobrana!</p>
+    <div class="container succes text-warning" th:if="${param.success}">
+        <p style="font-weight: bold;">Faktura została wygenerowana!</p>
         <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
     <div class="container main-box">
@@ -145,13 +145,10 @@
                                     +invoice.getDoctor().getSpecialization()}"></h6>
                                     <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
                                     <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
-                                    <a href="#" download>Pobierz fakturę</a>
-                                    <a th:href="@{/invoice/generatePdf/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                                       th:download="'faktura_medinet' + ${invoice.getUUID()} + '.pdf'">Pobierz fakturę</a>
-
-                                    <button style="margin: 0 auto" type="submit" >Pobierz fakture</button>
+                                    <button style="margin: 0 auto" type="submit" >Faktura</button>
                                 </div>
                             </div>
+
                         </form>
                     </div>
 
