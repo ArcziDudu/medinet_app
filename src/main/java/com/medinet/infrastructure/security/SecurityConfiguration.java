@@ -45,6 +45,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/login",
                                         "/",
                                         "/register/**",
+                                        "/verification",
+                                        "/account/is-active",
                                         "/policy",
                                         "/images/avatar_profile_page.jpg",
                                         "/images/doctor.png",

@@ -2,11 +2,9 @@ package com.medinet.api.controller;
 
 import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.ChangePasswordForm;
-import com.medinet.api.dto.OpinionDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.PatientService;
-import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
@@ -22,11 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -39,13 +35,17 @@ public class PatientController {
     private final PasswordEncoder passwordEncoder;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm z");
 
+    private final String ACCOUNT_USER_ID = "/account/user/{userId}";
+    private final String PASSWORD_CHANGE = "/password/change";
 
-    @GetMapping("/account/user/{userId}")
+
+    @GetMapping(ACCOUNT_USER_ID)
     public String showUsersPage(@PathVariable("userId") Integer userId, Model model) {
 
         PatientDto currentPatient = patientService.findByUserId(userId);
         List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
         List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+        List<AppointmentDto> pendingAppointments = appointmentService.findPendingAppointments(currentPatient);
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
 
         TreeSet<OpinionEntity> opinionsSortedByDate = currentPatient
@@ -59,6 +59,7 @@ public class PatientController {
         model.addAttribute("format", formatter);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
+        model.addAttribute("pendingAppointments", pendingAppointments);
         return "myAccount";
     }
 
@@ -67,7 +68,7 @@ public class PatientController {
     }
 
 
-    @PostMapping("/password/change")
+    @PostMapping(PASSWORD_CHANGE)
     public String changePassword(@Valid @ModelAttribute("passwordForm") ChangePasswordForm passwordForm,
                                  BindingResult bindingResult,
                                  Model model,

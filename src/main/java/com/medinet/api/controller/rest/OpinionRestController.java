@@ -30,7 +30,7 @@ public class OpinionRestController {
     public static final String API_OPINION_ALL = "/all";
     public static final String API_OPINION_BY_PATIENT = "/patient/{patientId}";
     public static final String API_OPINION_BY_DOCTOR = "/doctor/{doctorId}";
-    public static final String API_OPINION_CREATE = "/create/{patientId}/{doctorId}";
+    public static final String API_OPINION_NEW = "/new/{patientId}/{doctorId}";
 
     private final OpinionService opinionService;
     private final PatientService patientService;
@@ -70,7 +70,7 @@ public class OpinionRestController {
                 .toList();
     }
 
-    @PostMapping(value = API_OPINION_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = API_OPINION_NEW, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create an opinion", description = "Create a new opinion based on the provided details")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opinion created"),
@@ -85,7 +85,7 @@ public class OpinionRestController {
             doctorService.findDoctorById(doctorId);
             patientService.findById(patientId);
         } catch (NotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
 
         OpinionEntity newOpinion = OpinionEntity.builder()

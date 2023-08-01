@@ -16,16 +16,12 @@
                 <h2 class="text-center">Rejestracja - Medinet</h2>
 
             </div>
-            <div class="container" th:if="${param.success}"
-                 style="background-color: rgba(0, 128, 0, 0.5);
-                  text-align:center;
-                   padding:10px">
-                <p style="color: white; font-weight:bold;">Na podany adres email został wysłany link aktywacyjny - kliknij w niego aby dokończyć proces rejestracji</p>
-               <a th:href="@{/}"
-                  style="color:blue;
-                   text-decoration:underline;
-                   font-weight:bold;
-                    cursor:pointer;">Strona główna</a>
+
+            <div th:if="${param.success}">
+                <div class="alert alert-success"style="text-align:center">
+                    <p>Na podany adres email został wysłany kod aktywacyjny - aktywuj konto, aby dokończyć proces rejestracji</p>
+                    <a th:href="@{/verification}" class="btn btn-primary">Aktywuj konto</a>
+                </div>
             </div>
             <div class="card-body">
                 <form method="post" role="form" th:action="@{/register/save}" th:object="${form}">
@@ -95,10 +91,16 @@
                             </div>
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-primary container" >Rejestracja</button>
+                    <div class="form-group mb-3 container" style="text-align:center; margin-top:10px">
+                        <span>Masz już konto? <a th:href="@{/login}">Zaloguj się,</a></span>
+                            <span>
+                                <a th:href="@{/verification}">Aktywuj konto</a>
+                            </span>
+                        <span> lub
+                                <a th:href="@{/password/reminder}">Odzyskaj hasło</a>
+                            </span>
 
-                    <div class="form-group" style="margin-bottom: 30px;">
-                        <button class="btn btn-primary" type="submit">Zarejestruj</button>
-                        <span>Masz już konto? <a th:href="@{/login}">Zaloguj się</a></span>
                     </div>
                 </form>
             </div>

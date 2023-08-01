@@ -30,7 +30,7 @@ import java.util.Set;
 public class PatientRestController {
     public static final String API_PATIENT = "/api/patient";
     public static final String API_ONE_PATIENT = "/{patientId}";
-    public static final String API_PATIENT_CREATE = "/create";
+    public static final String API_PATIENT_NEW = "/new";
     public static final String PATIENT_ID_RESULT = "/%s";
 
     private final PasswordEncoder passwordEncoder;
@@ -52,7 +52,7 @@ public class PatientRestController {
         return ResponseEntity.ok(patientById);
     }
 
-    @PostMapping(value = API_PATIENT_CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = API_PATIENT_NEW, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new patient",
             description = "Create a new patient based on the provided registration form")
     @ApiResponses(value = {
@@ -67,7 +67,7 @@ public class PatientRestController {
         patientService.createNewPatient(newPatient);
 
         return ResponseEntity
-                .created(URI.create(API_PATIENT_CREATE + PATIENT_ID_RESULT.formatted(newPatient.getPatientId())))
+                .created(URI.create(API_PATIENT_NEW + PATIENT_ID_RESULT.formatted(newPatient.getPatientId())))
                 .build();
     }
 

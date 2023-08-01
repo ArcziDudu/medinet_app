@@ -26,7 +26,7 @@ public class DoctorRestController {
     public static final String API_ALL_DOCTOR = "/all";
     public static final String API_ALL_DOCTOR_PAGE = "/all/{page}";
     public static final String API_ONE_DOCTOR = "/{doctorId}";
-    public static final String API_CREATE_DOCTOR = "/create";
+    public static final String API_NEW_DOCTOR = "/new";
     public static final String DOCTOR_ID_RESULT = "/%s";
     private final DoctorService doctorService;
 
@@ -64,12 +64,12 @@ public class DoctorRestController {
             @ApiResponse(responseCode = "201", description = "Doctor created"),
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
-    @PostMapping(value = API_CREATE_DOCTOR, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = API_NEW_DOCTOR, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DoctorDto> createDoctor(@RequestBody DoctorDto doctorDto) {
 
         DoctorEntity created = doctorService.create(doctorMapper.mapFromDto(doctorDto));
         return ResponseEntity
-                .created(URI.create(API_CREATE_DOCTOR + DOCTOR_ID_RESULT.formatted(created.getDoctorId())))
+                .created(URI.create(API_NEW_DOCTOR + DOCTOR_ID_RESULT.formatted(created.getDoctorId())))
                 .build();
     }
 

@@ -294,7 +294,7 @@ transition: opacity .2s, display .2s;">
                             </button>
                         </div>
                         <div class="popup" th:id="'lekarz' + ${doctor.getDoctorId()}">
-                            <form action="#" th:action="@{/opinion/send}" th:object="${OpinionDto}" method="POST"
+                            <form action="#" th:action="@{/opinion/new}" th:object="${OpinionDto}" method="POST"
                                   style="display: flex;
 
                                    flex-direction: column;

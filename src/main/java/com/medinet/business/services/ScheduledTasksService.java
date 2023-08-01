@@ -35,12 +35,7 @@ public class ScheduledTasksService {
             if (upcomingAppointment.getDateOfAppointment().equals(today)
                     && now.isAfter(upcomingAppointment.getTimeOfVisit())) {
 
-                AppointmentEntity appointment = appointmentService.findById(upcomingAppointment.getAppointmentId())
-                        .orElseThrow(() -> {
-                            log.error("Problem with appointment service. Appointment with id [%s] not found!"
-                                    .formatted(upcomingAppointment.getAppointmentId()));
-                            return new RuntimeException("Problem with appointment service. Check logs!");
-                        });
+                AppointmentEntity appointment = appointmentService.findById(upcomingAppointment.getAppointmentId());
                 appointment.setStatus("pending");
                 appointmentService.save(appointment);
 

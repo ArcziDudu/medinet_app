@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/myAccount.css}" rel="stylesheet">
-<!--        <link rel="stylesheet" href="../static/myAccount.css">-->
+        <link rel="stylesheet" href="../static/myAccount.css">
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -39,12 +39,12 @@
         <p >[[${message}]]</p>
         <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
-    <div class="container succes text-warning" th:if="${param.success}">
+    <div class="container succes text-warning" th:if="${param.remove}">
         <p style=" font-weight: bold;">Wizyta została anulowana!</p>
         <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
-    <div class="container succes text-warning" th:if="${param.generate}">
-        <p style=" font-weight: bold;">Faktura została wygenerowana i  pobrana!</p>
+    <div class="container succes text-warning" th:if="${param.success}">
+        <p style="font-weight: bold;">Faktura została wygenerowana!</p>
         <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
     </div>
     <div class="container main-box">
@@ -96,6 +96,32 @@
                     </div>
 
                 </div>
+                <div class="pending">
+                    <h3 style="color: white;">Oczekujące na zalecenia</h3>
+                    <div th:each="invoice :${pendingAppointments}">
+
+                            <div class="visit-invoice">
+                                <div class="up-side">
+                                    <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
+                                    <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"></h6>
+                                    <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"></h6>
+                                    <h6 style="color: black;"
+                                        th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
+                                    +' ' +invoice.getPatient().getSurname()}"></h6>
+                                    <h6 th:text="${'Adres przychodni: '+
+                                     invoice.getDoctor().getAddress().getCity() + ' '+
+                                     invoice.getDoctor().getAddress().getStreet()}"></h6>
+                                    <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
+                                    ' '+ invoice.getDoctor().getSurname()}"></h6>
+                                    <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                                    +invoice.getDoctor().getSpecialization()}"></h6>
+                                    <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
+                                </div>
+                            </div>
+
+                    </div>
+
+                </div>
                 <div class="received">
                     <h3 style="color: white;">Odbyte</h3>
                     <div th:each="invoice :${CompletedAppointments}">
@@ -119,10 +145,10 @@
                                     +invoice.getDoctor().getSpecialization()}"></h6>
                                     <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
                                     <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
-                                    <a href="#" download>Pobierz fakturę</a>
-                                    <button style="margin: 0 auto" type="submit">Pobierz fakture</button>
+                                    <button style="margin: 0 auto" type="submit" >Faktura</button>
                                 </div>
                             </div>
+
                         </form>
                     </div>
 

@@ -30,7 +30,8 @@ public class UserEntity {
 
     @Column(name = "active")
     private Boolean active;
-
+    @Column(name = "verify_code")
+    private String verifyCode;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
