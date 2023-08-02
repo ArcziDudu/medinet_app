@@ -174,7 +174,7 @@ class OpinionRestControllerTest {
         ResponseEntity<?> responseEntity = opinionRestController.createOpinion(patientId, doctorId, opinionText);
 
         //then
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals(exceptionMessage, responseEntity.getBody());
     }
 

@@ -124,7 +124,7 @@ public class RegisterController {
     @PostMapping(REGISTER_SAVE)
     public String registration(@Valid
                                @ModelAttribute("form") RegistrationFormDto form,
-                               BindingResult result, Model model) {
+                               BindingResult result) {
 
         if (userRepository.existsByEmail(form.getEmail())) {
             result.rejectValue("email", "400", "Ten email jest już zarejestrowany");

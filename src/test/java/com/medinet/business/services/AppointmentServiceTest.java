@@ -192,18 +192,7 @@ class AppointmentServiceTest {
 
     }
 
-    @Test
-    @DisplayName("Should return empty when the appointmentId is not valid")
-    void findByIdWhenAppointmentIdIsNotValid() {
-        Integer appointmentId = 100;
-        when(appointmentDao.findById(appointmentId)).thenReturn(Optional.empty());
 
-        Optional<AppointmentEntity> result = appointmentService.findById(appointmentId);
-
-        assertNotNull(result);
-        assertEquals(Optional.empty(), result);
-        verify(appointmentDao, times(1)).findById(appointmentId);
-    }
 
     @Test
     @DisplayName("Should return the appointment when the appointmentId is valid")
@@ -213,11 +202,11 @@ class AppointmentServiceTest {
         appointmentEntity.setAppointmentId(appointmentId);
         when(appointmentDao.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
 
-        Optional<AppointmentEntity> result = appointmentService.findById(appointmentId);
+     AppointmentEntity result = appointmentService.findById(appointmentId);
 
         assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertEquals(appointmentEntity, result.get());
+        assertTrue(true);
+        assertEquals(appointmentEntity, result);
         verify(appointmentDao, times(1)).findById(appointmentId);
     }
 

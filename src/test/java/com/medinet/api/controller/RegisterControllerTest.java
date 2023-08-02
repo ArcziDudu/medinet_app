@@ -129,10 +129,10 @@ class RegisterControllerTest {
         when(patientService.findByPhoneNumber("123456789")).thenReturn(false);
         when(passwordEncoder.encode("testPassword")).thenReturn("encodedPassword");
 
-        // Act
+        // when
         String result = registerController.registration(formDto, bindingResult);
 
-        // Assert
+        // then
         verify(userRepository).existsByEmail("test@example.com");
         verify(patientService).findByPhoneNumber("123456789");
         verify(patientService).createNewPatient(patientEntityCaptor.capture());

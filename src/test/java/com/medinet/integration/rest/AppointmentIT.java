@@ -49,7 +49,7 @@ public class AppointmentIT
                 .body(requestDto())
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        + API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_NEW)
                 .then()
                 .statusCode(200);
         List<AppointmentDto> allAfter = appointmentService.findAll();
@@ -67,7 +67,7 @@ public class AppointmentIT
                 .body(requestDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        + API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_NEW)
                 .then()
                 .statusCode(400)
                 .body(is("Invalid appointment date - you cannot schedule an appointment more than two weeks from today!"));
@@ -85,7 +85,7 @@ public class AppointmentIT
                 .body(requestDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        + API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_NEW)
                 .then()
                 .statusCode(400)
                 .body(is("Invalid appointment date - you cannot schedule an appointment earlier than tomorrow!"));
@@ -107,7 +107,7 @@ public class AppointmentIT
                 .body(requestDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_APPOINTMENT
-                        + API_APPOINTMENT_CREATE)
+                        + API_APPOINTMENT_NEW)
                 .then()
                 .statusCode(400)
                 .body(is("Invalid appointment date - you cannot schedule an appointment on the weekend!"));
@@ -191,7 +191,7 @@ public class AppointmentIT
                         + API_APPOINTMENT_FIND_BY_ID)
                 .then()
                 .statusCode(404)
-                .body(is("Appointment with ID [999] not found"));
+                .body(is("Could not find appointment by Id: [999]"));
     }
 
     @Test

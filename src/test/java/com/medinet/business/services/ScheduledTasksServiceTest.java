@@ -63,7 +63,7 @@ class ScheduledTasksServiceTest {
 
         when(appointmentService.findAllAppointmentsByStatus("upcoming")).thenReturn(List.of(upcomingAppointmentDto));
         when(appointmentMapper.mapFromDto(upcomingAppointmentDto)).thenReturn(upcomingAppointmentEntity);
-        when(appointmentService.findById(1)).thenReturn(Optional.of(upcomingAppointmentEntity));
+        when(appointmentService.findById(1)).thenReturn(upcomingAppointmentEntity);
 
         scheduledTasksService.myMethod();
         verify(appointmentService, times(1)).findById(1);

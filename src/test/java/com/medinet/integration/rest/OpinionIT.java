@@ -55,7 +55,7 @@ public class OpinionIT
                 .pathParam("doctorId", 2)
                 .body(opinion)
                 .post("http://localhost:" + port + basePath + API_OPINION
-                        + API_OPINION_CREATE)
+                        + API_OPINION_NEW)
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON);
@@ -75,7 +75,7 @@ public class OpinionIT
                 .pathParam("doctorId", 200)
                 .body(opinion)
                 .post("http://localhost:" + port + basePath + API_OPINION
-                        + API_OPINION_CREATE)
+                        + API_OPINION_NEW)
                 .then()
                 .statusCode(400)
                 .contentType(ContentType.JSON);

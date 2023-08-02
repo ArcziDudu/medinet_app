@@ -8,6 +8,7 @@ import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.PatientEntity;
+import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
@@ -47,20 +48,22 @@ class AppointmentControllerTest {
 
     @Mock
     private Principal principal;
+    @Mock
+    private InvoiceJpaRepository invoiceJpaRepository;
     private AppointmentController appointmentController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         appointmentController = new AppointmentController(appointmentService, doctorService, patientService,
-                doctorMapper, patientMapper, userRepository);
+                doctorMapper, patientMapper, userRepository, invoiceJpaRepository);
     }
 
     @Test
     void sendRequestToQueueWithValidData() {
         //given
         Integer doctorId = 1;
-        Integer patientId = 1;
+        int patientId = 1;
         LocalTime timeOfVisit = LocalTime.of(10, 0);
         LocalDate dateOfAppointment = LocalDate.now();
         Integer calendarId = 1;
@@ -80,7 +83,7 @@ class AppointmentControllerTest {
         String result = appointmentController.sendRequestToQueue(dateOfAppointment, timeOfVisit, "123456",
                 calendarId, doctorId, principal);
         //then
-        Assertions.assertEquals("redirect:/booking", result);
+        Assertions.assertEquals("redirect:/booking?success=true", result);
     }
 
     @Test
@@ -135,7 +138,7 @@ class AppointmentControllerTest {
                 calendarId, doctorId, principal);
 
         // Then
-        Assertions.assertEquals("redirect:/booking", viewName);
+        Assertions.assertEquals("redirect:/booking?success=true, viewName);
     }
 
     @Test
@@ -167,14 +170,14 @@ class AppointmentControllerTest {
         String viewName = appointmentController.removeAppointment(appointmentID, calendarHour, calendarId, principal, model);
 
         //then
-        Assertions.assertEquals("redirect:/booking", viewName);
+        Assertions.assertEquals("redirect:/account/user/2?remove=true", viewName);
     }
 
     @Test
-    void thatGeneratePdfAndRedirectToBooking() {
+    void thatGeneratePdfAndRedirectToBooking() throws InterruptedException {
         //given
         int appointmentId = 1;
-        Optional<AppointmentEntity> appointmentEntity = Optional.of(new AppointmentEntity());
+       AppointmentEntity appointmentEntity = new AppointmentEntity();
         when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
         //when
         String viewName = appointmentController.generatePdf(appointmentId);

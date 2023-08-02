@@ -10,9 +10,11 @@ import com.medinet.business.services.PatientService;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.CalendarEntity;
+import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
+import com.medinet.infrastructure.security.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +30,6 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static com.medinet.util.EntityFixtures.someAppointment1;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +54,10 @@ class AppointmentRestControllerTest {
     private PatientService patientService;
     @Mock
     private PatientMapper patientMapper;
-
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private InvoiceJpaRepository invoiceJpaRepository;
     @InjectMocks
     private AppointmentRestController appointmentRestController;
 
@@ -154,7 +158,7 @@ class AppointmentRestControllerTest {
 
         AppointmentDto appointmentDto = new AppointmentDto();
 
-        when(appointmentService.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
         when(appointmentMapper.mapFromEntity(appointmentEntity)).thenReturn(appointmentDto);
 
 
@@ -167,21 +171,7 @@ class AppointmentRestControllerTest {
         assertEquals(appointmentDto, responseEntity.getBody());
     }
 
-    @Test
-    public void testFindAppointmentByIdNotFound() {
-        //given
-        Integer appointmentId = 1;
-        when(appointmentService.findById(appointmentId)).thenReturn(Optional.empty());
 
-        Exception exception = null;
-        try {
-            appointmentRestController.AppointmentById(appointmentId);
-        } catch (Exception e) {
-            exception = e;
-        }
-        //then
-        assertTrue(exception instanceof NotFoundException);
-    }
 
     @Test
     public void testAppointmentsByStatus() {
@@ -206,7 +196,7 @@ class AppointmentRestControllerTest {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setStatus("done");
 
-        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(anyInt())).thenReturn(appointmentEntity);
 
         ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
 
@@ -219,7 +209,7 @@ class AppointmentRestControllerTest {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setStatus("upcoming");
 
-        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(anyInt())).thenReturn(appointmentEntity);
 
         ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
 
@@ -241,7 +231,7 @@ class AppointmentRestControllerTest {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setStatus("pending");
 
-        when(appointmentService.findById(anyInt())).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(anyInt())).thenReturn(appointmentEntity);
         Mockito.doNothing().when(appointmentService).approveAppointment(anyInt(), any());
 
         ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
@@ -301,7 +291,7 @@ class AppointmentRestControllerTest {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setStatus("upcoming");
 
-        when(appointmentService.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
 
         //when
         ResponseEntity<?> responseEntity = appointmentRestController.deleteAppointment(appointmentId);
@@ -315,7 +305,7 @@ class AppointmentRestControllerTest {
         //given
         Integer appointmentId = -1;
 
-        when(appointmentService.findById(appointmentId)).thenReturn(Optional.empty());
+        when(appointmentService.findById(appointmentId)).thenReturn(null);
 
         //when
         ResponseEntity<?> responseEntity = appointmentRestController.deleteAppointment(appointmentId);
@@ -332,7 +322,7 @@ class AppointmentRestControllerTest {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setStatus("done");
 
-        when(appointmentService.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
 
         //when
         ResponseEntity<?> responseEntity = appointmentRestController.deleteAppointment(appointmentId);

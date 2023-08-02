@@ -33,11 +33,11 @@ public class AppointmentController {
     private PatientMapper patientMapper;
     private final UserRepository userRepository;
     private final String REQUEST = "/request";
+    private InvoiceJpaRepository invoiceJpaRepository;
     private final String BOOKING_APPOINTMENT = "/booking/appointment";
     private final String APPOINTMENT_APPROVE_ID = "/appointment/approve/{appointmentId}";
     private final String APPOINTMENT_REMOVE_ID = "booking/remove/{appointmentId}";
     private final String GENERATE_PDF = "/invoice/generatePdf/{appointmentId}";
-    private InvoiceJpaRepository invoiceJpaRepository;
 
     @GetMapping(REQUEST)
     public String bookingAppointment(@RequestParam("doctorId") Integer doctorId,

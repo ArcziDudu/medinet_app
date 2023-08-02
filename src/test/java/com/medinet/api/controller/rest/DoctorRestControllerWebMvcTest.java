@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.medinet.api.controller.rest.DoctorRestController.API_CREATE_DOCTOR;
+import static com.medinet.api.controller.rest.DoctorRestController.API_NEW_DOCTOR;
 import static com.medinet.api.controller.rest.DoctorRestController.DOCTOR_ID_RESULT;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -72,11 +72,11 @@ public class DoctorRestControllerWebMvcTest {
         when(doctorService.create(createdDoctor)).thenReturn(createdDoctor);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/doctor/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/doctor/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(doctorDto)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location",
-                        API_CREATE_DOCTOR + DOCTOR_ID_RESULT.formatted(createdDoctor.getDoctorId())));
+                        API_NEW_DOCTOR + DOCTOR_ID_RESULT.formatted(createdDoctor.getDoctorId())));
     }
 }

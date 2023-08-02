@@ -34,7 +34,7 @@ public class DoctorIT
                 .body(doctorDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_DOCTOR
-                        + API_CREATE_DOCTOR)
+                        + API_NEW_DOCTOR)
                 .then()
                 .statusCode(201);
         List<DoctorDto> allDoctorsAfter = doctorService.findAllDoctors();
