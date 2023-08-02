@@ -36,7 +36,7 @@ public class AppointmentController {
     private InvoiceJpaRepository invoiceJpaRepository;
     private final String BOOKING_APPOINTMENT = "/booking/appointment";
     private final String APPOINTMENT_APPROVE_ID = "/appointment/approve/{appointmentId}";
-    private final String APPOINTMENT_REMOVE_ID = "booking/remove/{appointmentId}";
+    private final String APPOINTMENT_REMOVE_ID = "/booking/remove/{appointmentId}";
     private final String GENERATE_PDF = "/invoice/generatePdf/{appointmentId}";
 
     @GetMapping(REQUEST)

@@ -27,8 +27,8 @@ public class PdfGeneratorIT {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
-@Mock
-private InvoiceJpaRepository invoiceJpaRepository;
+    @Mock
+    private InvoiceJpaRepository invoiceJpaRepository;
     @Autowired
     private PdfGeneratorService pdfGeneratorService;
 
@@ -41,7 +41,7 @@ private InvoiceJpaRepository invoiceJpaRepository;
                 .defaultHeader("Authentication", "Token co4o4OpK6M_WpBgMYInX2ybs6NmWwQ8e")
                 .build();
 
-        pdfGeneratorService = new PdfGeneratorService(webClient,invoiceJpaRepository);
+        pdfGeneratorService = new PdfGeneratorService(webClient, invoiceJpaRepository);
     }
 
     @Test

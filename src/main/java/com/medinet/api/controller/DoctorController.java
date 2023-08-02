@@ -88,7 +88,12 @@ public class DoctorController {
             @PathVariable(value = "doctorId") Integer doctorId,
             Model model) {
         DoctorDto doctorProfile = doctorService.findDoctorById(doctorId);
-
+        TreeSet<OpinionEntity> opinionsSortedByDate = doctorProfile
+                .getOpinions()
+                .stream()
+                .sorted(getOpinionEntityComparator())
+                .collect(Collectors.toCollection(TreeSet::new));
+        doctorProfile.setOpinions(opinionsSortedByDate);
         model.addAttribute("doctor", doctorProfile);
         model.addAttribute("format", formatter);
         model.addAttribute("dateFormatter", polishMonthFormatter);

@@ -44,7 +44,7 @@ public class HomeController {
 
     @RequestMapping(value = POLICY, method = RequestMethod.GET)
     public String policy() {
-        return "policy.html";
+        return "policy";
     }
 
 

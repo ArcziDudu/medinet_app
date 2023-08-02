@@ -77,7 +77,7 @@ public class OpinionIT
                 .post("http://localhost:" + port + basePath + API_OPINION
                         + API_OPINION_NEW)
                 .then()
-                .statusCode(400)
+                .statusCode(404)
                 .contentType(ContentType.JSON);
         List<OpinionDto> allAfter = opinionService.findAll();
         assertEquals(98, allAfter.size());

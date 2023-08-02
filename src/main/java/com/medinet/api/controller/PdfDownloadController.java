@@ -29,7 +29,7 @@ public class PdfDownloadController {
             byte[] pdfData = invoice.get().getPdfData();
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=faktura_medinet: "+uuid+".pdf");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=faktura_medinet "+uuid+".pdf");
 
             return ResponseEntity.ok()
                     .headers(headers)
