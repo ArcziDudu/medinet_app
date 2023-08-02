@@ -218,13 +218,13 @@ public class AppointmentControllerWebMvcTest {
 
 
         AppointmentEntity appointmentEntity = new AppointmentEntity();
-        when(appointmentService.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
+        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
 
         mockMvc.perform(post("/invoice/generatePdf/{appointmentId}", appointmentId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/account/user/1"));
 
         verify(appointmentService, times(1)).findById(appointmentId);
-        verify(appointmentService, times(1)).generatePdf(Optional.of(appointmentEntity));
+        verify(appointmentService, times(1)).generatePdf(appointmentEntity);
     }
 }

@@ -2,12 +2,14 @@ package com.medinet.integration.rest;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.medinet.business.services.PdfGeneratorService;
+import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +27,8 @@ public class PdfGeneratorIT {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
-
+@Mock
+private InvoiceJpaRepository invoiceJpaRepository;
     @Autowired
     private PdfGeneratorService pdfGeneratorService;
 
@@ -38,7 +41,7 @@ public class PdfGeneratorIT {
                 .defaultHeader("Authentication", "Token co4o4OpK6M_WpBgMYInX2ybs6NmWwQ8e")
                 .build();
 
-        pdfGeneratorService = new PdfGeneratorService(webClient);
+        pdfGeneratorService = new PdfGeneratorService(webClient,invoiceJpaRepository);
     }
 
     @Test

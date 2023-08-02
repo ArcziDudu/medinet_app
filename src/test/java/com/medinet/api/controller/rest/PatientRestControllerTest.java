@@ -20,7 +20,7 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.medinet.api.controller.rest.PatientRestController.API_PATIENT_CREATE;
+import static com.medinet.api.controller.rest.PatientRestController.API_PATIENT_NEW;
 import static com.medinet.api.controller.rest.PatientRestController.PATIENT_ID_RESULT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -62,7 +62,7 @@ class PatientRestControllerTest {
         ResponseEntity<?> responseEntity = patientRestController.createNewPatient(registrationForm);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(URI.create(API_PATIENT_CREATE + PATIENT_ID_RESULT.formatted(expectedPatient.getPatientId())),
+        assertEquals(URI.create(API_PATIENT_NEW + PATIENT_ID_RESULT.formatted(expectedPatient.getPatientId())),
                 responseEntity.getHeaders().getLocation());
     }
 }

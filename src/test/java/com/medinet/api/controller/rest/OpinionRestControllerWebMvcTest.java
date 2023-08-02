@@ -47,7 +47,7 @@ public class OpinionRestControllerWebMvcTest {
     @Test
     public void allOpinionsByPatientReturnsOpinionsWhenPatientIdIsValid() throws Exception {
         // given
-        Integer patientId = 1;
+        int patientId = 1;
         List<OpinionDto> opinions = new ArrayList<>();
 
 
@@ -63,7 +63,7 @@ public class OpinionRestControllerWebMvcTest {
     @Test
     public void allOpinionsByDoctorReturnsOpinionsWhenDoctorIdIsValid() throws Exception {
         // given
-        Integer doctorId = 1;
+        int doctorId = 1;
         List<OpinionDto> opinions = new ArrayList<>();
 
         when(opinionService.findAll()).thenReturn(opinions);
@@ -88,7 +88,7 @@ public class OpinionRestControllerWebMvcTest {
         when(opinionService.processOpinion(any(OpinionEntity.class))).thenReturn(opinionDto);
 
         // when then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/opinion/create/" + patientId + "/" + doctorId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/opinion/new/" + patientId + "/" + doctorId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(opinion))
                 .andExpect(status().isOk())

@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -128,8 +129,9 @@ class DoctorRestControllerTest {
         //then
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 
-        String API_CREATE_DOCTOR = "/create";
-        assertEquals(API_CREATE_DOCTOR + DOCTOR_ID_RESULT.formatted(expectedDoctorEntity.getDoctorId()), responseEntity.getHeaders().getLocation().getPath());
+        String API_CREATE_DOCTOR = "/new";
+        assertEquals(API_CREATE_DOCTOR + DOCTOR_ID_RESULT.formatted(expectedDoctorEntity.getDoctorId()),
+                Objects.requireNonNull(responseEntity.getHeaders().getLocation()).getPath());
     }
 
     @Test

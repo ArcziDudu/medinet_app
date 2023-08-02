@@ -35,7 +35,7 @@ public class PatientIT extends RestAssuredIntegrationTestBase {
                 .body(registrationFormDto)
                 .when()
                 .post("http://localhost:" + port + basePath + API_PATIENT +
-                        API_PATIENT_CREATE)
+                        API_PATIENT_NEW)
                 .then()
                 .log().everything()
                 .statusCode(201);
