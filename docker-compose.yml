@@ -24,7 +24,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - DOCKER_ENV=true
     volumes:
-      - /home/user/moje_dokumenty/invoices:/app/invoices
+
       - db-data:/var/lib/postgresql/data
     networks:
       - spring-boot-postgres
