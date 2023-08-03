@@ -2,6 +2,7 @@ package com.medinet.api.controller;
 
 import com.medinet.api.controller.rest.PdfDownloadRestController;
 import com.medinet.infrastructure.entity.InvoiceEntity;
+import com.medinet.infrastructure.repository.jpa.AppointmentJpaRepository;
 import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class PdfDownloadRestControllerWebMvcTest {
     private MockMvc mockMvc;
     @MockBean
     private InvoiceJpaRepository invoiceJpaRepository;
+    @MockBean
+    private AppointmentJpaRepository appointmentJpaRepository;
+
     @Test
     public void testDownloadInvoice_ExistingInvoice_ShouldReturnPdfFile() throws Exception {
 
