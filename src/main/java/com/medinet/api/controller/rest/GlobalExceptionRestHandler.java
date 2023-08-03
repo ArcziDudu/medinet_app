@@ -1,7 +1,9 @@
 package com.medinet.api.controller.rest;
 
 import com.medinet.api.dto.ExceptionMessage;
+import com.medinet.domain.exception.EmailNotFoundException;
 import com.medinet.domain.exception.NotFoundException;
+import com.medinet.domain.exception.PatientEmailConflictException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -68,4 +72,16 @@ public class GlobalExceptionRestHandler extends ResponseEntityExceptionHandler {
     public HttpStatus getHttpStatusFromException(final Class<?> exception) {
         return EXCEPTION_STATUS.getOrDefault(exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(PatientEmailConflictException.class)
+    public ResponseEntity<?> handlePatientEmailConflictException(PatientEmailConflictException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+    @ExceptionHandler(MailException.class)
+    public ResponseEntity<?> handleEmailNotFoundException(MailException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(ExceptionMessage.of(ex.getMessage()));
+    }
+
 }

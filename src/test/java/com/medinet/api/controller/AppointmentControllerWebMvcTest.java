@@ -225,7 +225,7 @@ public class AppointmentControllerWebMvcTest {
 
         mockMvc.perform(post("/invoice/generatePdf/{appointmentId}", appointmentId))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/invoice/download/"+appointmentEntity.getUUID()));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/api/invoice/download/"+appointmentEntity.getUUID()));
 
         verify(appointmentService, times(1)).findById(appointmentId);
         verify(appointmentService, times(1)).generatePdf(appointmentEntity);

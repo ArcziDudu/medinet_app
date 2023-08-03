@@ -74,19 +74,17 @@ public class OpinionRestController {
     @Operation(summary = "Create an opinion", description = "Create a new opinion based on the provided details")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opinion created"),
-            @ApiResponse(responseCode = "400", description = "Invalid patient ID or doctor ID")
+            @ApiResponse(responseCode = "404", description = "Invalid patient ID or doctor ID")
     })
     public ResponseEntity<?> createOpinion(
             @PathVariable @Parameter(description = "Patient ID") Integer patientId,
             @PathVariable @Parameter(description = "Doctor ID") Integer doctorId,
             @RequestBody @Schema(description = "Opinion text") String opinion) {
 
-        try {
+
             doctorService.findDoctorById(doctorId);
             patientService.findById(patientId);
-        } catch (NotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+
 
         OpinionEntity newOpinion = OpinionEntity.builder()
                 .dateOfCreateOpinion(OffsetDateTime.now())

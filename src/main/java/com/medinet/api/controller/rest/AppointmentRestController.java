@@ -182,11 +182,6 @@ public class AppointmentRestController {
             return ResponseEntity.badRequest()
                     .body("You can not modify appointment with status upcoming!");
         }
-        try {
-            AppointmentEntity appointment = appointmentService.findById(appointmentId);
-        } catch (NotFoundException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
 
         appointmentService.approveAppointment(appointmentId, message);
         return ResponseEntity.ok().build();

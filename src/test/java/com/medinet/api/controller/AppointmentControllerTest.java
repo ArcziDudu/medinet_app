@@ -166,7 +166,7 @@ class AppointmentControllerTest {
         //then
         verify(appointmentService).generatePdf(dummyAppointment);
         verify(invoiceJpaRepository).existsByUuid(uuid);
-        String expectedRedirectUrl = "redirect:/invoice/download/" + uuid;
+        String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
         assertEquals(expectedRedirectUrl, result);
     }
 
@@ -186,7 +186,7 @@ class AppointmentControllerTest {
         //then
         verify(appointmentService, never()).generatePdf(any(AppointmentEntity.class));
         verify(invoiceJpaRepository).existsByUuid(uuid);
-        String expectedRedirectUrl = "redirect:/invoice/download/" + uuid;
+        String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
         assertEquals(expectedRedirectUrl, result);
     }
 }

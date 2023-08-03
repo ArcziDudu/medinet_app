@@ -10,25 +10,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.concurrent.atomic.AtomicReference;
+import java.time.Duration;
 
 @Service
 @AllArgsConstructor
-
 @Slf4j
 public class PdfGeneratorService {
-
     private final WebClient webClient;
 
     @Autowired
@@ -44,7 +34,9 @@ public class PdfGeneratorService {
     }
 
 
+
     public void generatePdf(String htmlContent, String uuid) {
+
         webClient.post()
                 .uri("https://htmlpdfapi.com/api/v1/pdf")
                 .body(BodyInserters.fromValue("{\"html\": \"" + htmlContent + "\"}"))
@@ -53,14 +45,20 @@ public class PdfGeneratorService {
                 .subscribe(
                         pdfBytes -> {
                             InvoiceEntity pdfDocument = new InvoiceEntity();
-                            pdfDocument.setUuid(uuid);
-                            pdfDocument.setPdfData(pdfBytes);
-                            invoiceJpaRepository.save(pdfDocument);
+                            saveInvoice(uuid, pdfDocument, pdfBytes);
                             log.info("Plik PDF został wygenerowany i zapisany w bazie danych.");
                             log.info("Numer UUID faktury: " + uuid);
                         },
                         error -> log.error("Błąd podczas generowania pliku PDF: " + error.getMessage())
+
                 );
+
+    }
+
+    public void saveInvoice(String uuid, InvoiceEntity pdfDocument, byte[] pdfBytes) {
+        pdfDocument.setUuid(uuid);
+        pdfDocument.setPdfData(pdfBytes);
+        invoiceJpaRepository.save(pdfDocument);
     }
 
 }

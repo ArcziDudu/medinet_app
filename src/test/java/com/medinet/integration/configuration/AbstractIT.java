@@ -1,6 +1,7 @@
 package com.medinet.integration.configuration;
 
 import com.medinet.Application;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
         classes = Application.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
+@Transactional
 public abstract class AbstractIT {
 
     @LocalServerPort

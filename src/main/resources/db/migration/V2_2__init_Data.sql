@@ -511,3 +511,4 @@ insert into opinion (patient_id, doctor_id, date, note) values (1, 47, '2022-09-
 insert into opinion (patient_id, doctor_id, date, note) values (1, 57, '2023-06-12 11:58:29', 'moje dziecko już się nie boi wizyt.');
 insert into opinion (patient_id, doctor_id, date, note) values (1, 1, '2022-09-01 11:12:41', 'Naprawdę godny zaufania i kompetentny lekarz.');
 insert into opinion (patient_id, doctor_id, date, note) values (1, 93, '2023-02-12 12:34:15', 'Bardzo polecam');
+

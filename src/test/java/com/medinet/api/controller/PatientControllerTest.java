@@ -8,7 +8,6 @@ import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
-import com.medinet.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

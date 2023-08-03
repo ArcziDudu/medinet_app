@@ -26,13 +26,6 @@ public class MedinetUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("usernameNotFound");
-        }
-
-        if (!user.getActive()) {
-            throw new DisabledException("accountDisabled");
-        }
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }

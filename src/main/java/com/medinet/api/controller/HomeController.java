@@ -28,6 +28,7 @@ public class HomeController {
     static final String POLICY = "/policy";
     static final String BOOKING = "/booking";
     static final String BOOKING_FIND = "/booking/find";
+    static final String TRY_LATER = "/error/invoice";
 
     private DoctorService doctorService;
     private final UserRepository userRepository;
@@ -40,7 +41,10 @@ public class HomeController {
     public String homepage() {
         return "home";
     }
-
+    @RequestMapping(value = TRY_LATER, method = RequestMethod.GET)
+    public String tryLater() {
+        return "internalServerErrorFromApi";
+    }
 
     @RequestMapping(value = POLICY, method = RequestMethod.GET)
     public String policy() {

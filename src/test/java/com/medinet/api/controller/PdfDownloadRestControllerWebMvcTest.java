@@ -1,5 +1,6 @@
 package com.medinet.api.controller;
 
+import com.medinet.api.controller.rest.PdfDownloadRestController;
 import com.medinet.infrastructure.entity.InvoiceEntity;
 import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(controllers = PdfDownloadController.class)
+@WebMvcTest(controllers = PdfDownloadRestController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class PdfDownloadControllerWebMvcTest {
+public class PdfDownloadRestControllerWebMvcTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -36,7 +37,7 @@ public class PdfDownloadControllerWebMvcTest {
         when(invoiceJpaRepository.findByUuid(uuid)).thenReturn(Optional.of(invoiceEntity));
 
 
-        mockMvc.perform(get("/invoice/download/{uuid}", uuid))
+        mockMvc.perform(get("/api/invoice/download/{uuid}", uuid))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_PDF))
                 .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=faktura_medinet " + uuid + ".pdf"))
@@ -50,7 +51,7 @@ public class PdfDownloadControllerWebMvcTest {
         when(invoiceJpaRepository.findByUuid(uuid)).thenReturn(Optional.empty());
 
 
-        mockMvc.perform(get("/invoice/download/{uuid}", uuid))
+        mockMvc.perform(get("/api/invoice/download/{uuid}", uuid))
                 .andExpect(status().isNotFound());
     }
 }
