@@ -11,6 +11,7 @@ import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -38,17 +39,18 @@ public class RegisterController {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private JavaMailSender mailSender;
-    static final String LOGIN = "/login";
-    static final String REGISTER = "/register";
+    private final String LOGIN = "/login";
+    private final String REGISTER = "/register";
     private final String PASSWORD_REMINDER = "/password/reminder";
     private final String PASSWORD_RECOVERY = "/password/recovery";
     private final String REGISTER_SAVE = "/register/save";
     private final String VERIFICATION = "/verification";
     private final String ACCOUNT_IS_ACTIVE = "/account/is-active";
-
+    public static final String EMAIL_SUBJECT = "Aktywacja konta";
+    public static final String TEXT_1_ACTIVE_CODE = "Twój kod aktywacyjny:";
+    public static final String TEXT_2_ACTIVE_YOUR_ACCOUNT = "Aktywuj swoje konto aby w pełni korzystać z serwisu Medinet.";
     @GetMapping(LOGIN)
-    public String login() {
-
+    public String login(){
         return "login";
     }
 
@@ -95,7 +97,7 @@ public class RegisterController {
     }
 
 
-    void sendEmail(String recipientEmail, String password, String emailSubject, String text1, String text2) {
+    public void sendEmail(String recipientEmail, String password, String emailSubject, String text1, String text2) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, "UTF-8");
@@ -156,11 +158,10 @@ public class RegisterController {
                         .build())
                 .user(newUser)
                 .build();
-
-        String emailSubject = "Aktywacja konta";
-        String text1 = "Twój kod aktywacyjny:";
-        String text2 = "Aktywuj swoje konto aby w pełni korzystać z serwisu Medinet.";
-        sendEmail(form.getEmail(), String.valueOf(uuid), emailSubject, text1, text2);
+        sendEmail(form.getEmail(), String.valueOf(uuid),
+                EMAIL_SUBJECT,
+                TEXT_1_ACTIVE_CODE,
+                TEXT_2_ACTIVE_YOUR_ACCOUNT);
         registerService.save(newUser);
         patientService.createNewPatient(newPatient);
         return "redirect:/register?success=true";

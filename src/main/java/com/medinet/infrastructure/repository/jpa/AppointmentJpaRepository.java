@@ -22,4 +22,6 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntit
     List<AppointmentEntity> findAllByStatus(@Param("status") String status);
 
     Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+
+    Optional<AppointmentEntity> findByUUID(String uuid);
 }

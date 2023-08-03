@@ -45,7 +45,7 @@ public class CalendarService {
         if (calendar.isEmpty()) {
             log.error("Problem with calendar service. Calendar  not found!");
         }
-        return calendarDao.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment).get();
-        // TODO: 31.07.2023 zmienic na serwis 
+        return calendar.get();
+
     }
 }

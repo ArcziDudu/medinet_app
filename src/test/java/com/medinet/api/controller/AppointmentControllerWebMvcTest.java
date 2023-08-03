@@ -8,6 +8,7 @@ import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.entity.AddressEntity;
 import com.medinet.infrastructure.entity.AppointmentEntity;
+import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
@@ -67,6 +68,8 @@ public class AppointmentControllerWebMvcTest {
 
     @MockBean
     private Principal principal;
+    @MockBean
+    private InvoiceJpaRepository invoiceJpaRepository;
     @Mock
     private Model model;
 
@@ -106,7 +109,7 @@ public class AppointmentControllerWebMvcTest {
                         .param("doctorId", doctorId.toString())
                         .principal(() -> email))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/booking"));
+                .andExpect(redirectedUrl("/booking?success=true"));
     }
 
     @Test
@@ -201,7 +204,7 @@ public class AppointmentControllerWebMvcTest {
                         .param("calendarId", String.valueOf(calendarId))
                         .principal(principal))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/booking"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/account/user/" + userId + "?remove=true"));
 
         //then
         verify(appointmentService, times(1)).processRemovingAppointment(appointmentId, selectedHour, calendarId);
@@ -222,7 +225,7 @@ public class AppointmentControllerWebMvcTest {
 
         mockMvc.perform(post("/invoice/generatePdf/{appointmentId}", appointmentId))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/account/user/1"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/api/invoice/download/"+appointmentEntity.getUUID()));
 
         verify(appointmentService, times(1)).findById(appointmentId);
         verify(appointmentService, times(1)).generatePdf(appointmentEntity);

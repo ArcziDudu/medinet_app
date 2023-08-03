@@ -28,7 +28,7 @@ spring:
   mail:
     host: smtp.gmail.com
     username: medinet.rezerwacje@gmail.com
-    password: mxzmilkzpmczghun
+    password: waftruquzzmnrgtr
     port: 587
     properties:
       mail:

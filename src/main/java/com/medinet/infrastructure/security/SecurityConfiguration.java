@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                                         "/policy",
                                         "/images/avatar_profile_page.jpg",
                                         "/images/doctor.png",
+                                        "/error/invoice",
                                         "/error",
                                         "/booking/**",
                                         "/main.css",

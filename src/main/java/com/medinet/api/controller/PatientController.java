@@ -79,6 +79,7 @@ public class PatientController {
         PatientDto currentPatient = patientService.findByUserId(id);
         List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
         List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
+        List<AppointmentDto> pendingAppointments = appointmentService.findPendingAppointments(currentPatient);
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
 
 
@@ -111,6 +112,7 @@ public class PatientController {
         model.addAttribute("format", formatter);
         model.addAttribute("UpcomingAppointments", UpcomingAppointments);
         model.addAttribute("CompletedAppointments", completedAppointments);
+        model.addAttribute("pendingAppointments", pendingAppointments);
         model.addAttribute("message", "Hasło zostało zmienione");
 
         return "myAccount";

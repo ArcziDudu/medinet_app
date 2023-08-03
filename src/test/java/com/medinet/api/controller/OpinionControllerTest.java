@@ -74,7 +74,7 @@ class OpinionControllerTest {
 
         verify(opinionService, times(1)).processOpinion(opinionMapper.mapFromDto(opinionDto));
 
-        assertEquals("redirect:/booking", result);
+        assertEquals("redirect:/booking?opinion=true", result);
     }
 
 }

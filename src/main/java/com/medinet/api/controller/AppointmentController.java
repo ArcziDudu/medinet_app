@@ -36,7 +36,7 @@ public class AppointmentController {
     private InvoiceJpaRepository invoiceJpaRepository;
     private final String BOOKING_APPOINTMENT = "/booking/appointment";
     private final String APPOINTMENT_APPROVE_ID = "/appointment/approve/{appointmentId}";
-    private final String APPOINTMENT_REMOVE_ID = "booking/remove/{appointmentId}";
+    private final String APPOINTMENT_REMOVE_ID = "/booking/remove/{appointmentId}";
     private final String GENERATE_PDF = "/invoice/generatePdf/{appointmentId}";
 
     @GetMapping(REQUEST)
@@ -135,10 +135,10 @@ public class AppointmentController {
 
         if (!invoiceJpaRepository.existsByUuid(uuid)) {
             appointmentService.generatePdf(appointmentById);
-            Thread.sleep(3000);
-            return "redirect:/invoice/download/" + uuid;
+            Thread.sleep(2000);
+            return "redirect:/api/invoice/download/" + uuid;
         }
-        return "redirect:/invoice/download/" + uuid;
+        return "redirect:/api/invoice/download/" + uuid;
     }
 
 

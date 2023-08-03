@@ -206,17 +206,25 @@ box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
                 <h5 th:text="${doctor.getAddress().getCity()+ ', '+ doctor.getAddress().getStreet()}"></h5>
             </div>
         </div>
-        <div class="down-half" style=" background-color: #d8e2e6; margin: 25px; padding: 16px;">
+        <div class="down-half" style=" background-color:#0e85b2d4; margin: 25px; padding: 16px;">
+            <div class="container main-box" style="">
+                <div class=" container rigth-side">
+                    <div class="hero-box opinions" style="flex-direction: column">
 
-            <div class="hero-box opinions" style="flex-direction: column">
-                <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
-                    <h5 th:text="${OneOpinion.getDateOfCreateOpinion().format(format)}">asdf</h5>
-                    <h5 th:text="${'Autor: ' + OneOpinion.getPatient().getName() +' '+OneOpinion.getPatient().getSurname()}">
-                        fdsa</h5>
-                    <p th:text="${OneOpinion.getNote()}">das</p>
+                        <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
+                            <th:block th:with="offsetDateTime=${OneOpinion.dateOfCreateOpinion}">
+                                <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                                    <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
+                                </th:block>
+                            </th:block>
+                            <h5 th:text="${'Autor: ' + OneOpinion.getPatient().getName() +' '+OneOpinion.getPatient().getSurname()}"></h5>
+                            <p th:text="${OneOpinion.getNote()}"></p>
+                        </div>
+                    </div>
+
                 </div>
-
             </div>
+
         </div>
     </div>
 

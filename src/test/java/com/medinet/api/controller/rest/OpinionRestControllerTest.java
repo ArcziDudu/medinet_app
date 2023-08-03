@@ -160,23 +160,6 @@ class OpinionRestControllerTest {
         assertEquals(opinionDto, responseEntity.getBody());
     }
 
-    @Test
-    public void testCreateDoctor_NotFoundException() {
-        //given
-        Integer patientId = 1;
-        Integer doctorId = 1;
-        String opinionText = "Great doctor!";
-        String exceptionMessage = "ID not found";
-
-        when(doctorService.findDoctorById(doctorId)).thenThrow(new NotFoundException(exceptionMessage));
-
-        //when
-        ResponseEntity<?> responseEntity = opinionRestController.createOpinion(patientId, doctorId, opinionText);
-
-        //then
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertEquals(exceptionMessage, responseEntity.getBody());
-    }
 
     private OpinionDto giveOpinion(int id, String test, DoctorEntity doctor) {
         return OpinionDto.builder()

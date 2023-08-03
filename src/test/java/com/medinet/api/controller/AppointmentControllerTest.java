@@ -27,7 +27,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AppointmentControllerTest {
@@ -76,14 +77,13 @@ class AppointmentControllerTest {
         when(doctorService.findDoctorById(doctorId)).thenReturn(doctorDto);
         PatientDto patientDto = new PatientDto();
         when(patientService.findByUserId(patientId)).thenReturn(patientDto);
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
         when(doctorMapper.mapFromDto(doctorDto)).thenReturn(new DoctorEntity());
         when(patientMapper.mapFromDto(patientDto)).thenReturn(new PatientEntity());
         //when
         String result = appointmentController.sendRequestToQueue(dateOfAppointment, timeOfVisit, "123456",
                 calendarId, doctorId, principal);
         //then
-        Assertions.assertEquals("redirect:/booking?success=true", result);
+        assertEquals("redirect:/booking?success=true", result);
     }
 
     @Test
@@ -110,36 +110,10 @@ class AppointmentControllerTest {
                 dateOfAppointment, calendarId, model);
 
         //then
-        Assertions.assertEquals(expectedViewName, actualViewName);
+        assertEquals(expectedViewName, actualViewName);
 
     }
 
-    @Test
-    void ThatSendRequestToQueueAndRedirectsToBookingPage() {
-        // Given
-        LocalDate dateOfAppointment = LocalDate.of(2023, 7, 12);
-        LocalTime timeOfVisit = LocalTime.of(12, 0);
-        String UUID = "abcd1234";
-        Integer calendarId = 3;
-        Integer doctorId = 1;
-        UserEntity currentUser = new UserEntity();
-        currentUser.setId(2);
-        String email = principal.getName();
-        when(userRepository.findByEmail(email)).thenReturn(currentUser);
-
-        DoctorDto doctorDto = new DoctorDto();
-        when(doctorService.findDoctorById(doctorId)).thenReturn(doctorDto);
-
-        PatientDto patientDto = new PatientDto();
-        when(patientService.findByUserId(currentUser.getId())).thenReturn(patientDto);
-
-        // When
-        String viewName = appointmentController.sendRequestToQueue(dateOfAppointment, timeOfVisit, UUID,
-                calendarId, doctorId, principal);
-
-        // Then
-        Assertions.assertEquals("redirect:/booking?success=true, viewName);
-    }
 
     @Test
     void thatApproveAppointmentAndRedirectToBookingPage() {
@@ -151,7 +125,7 @@ class AppointmentControllerTest {
         String viewName = appointmentController.approveAppointment(appointmentId, message);
 
         //then
-        Assertions.assertEquals("redirect:/booking", viewName);
+        assertEquals("redirect:/booking", viewName);
     }
 
     @Test
@@ -170,19 +144,49 @@ class AppointmentControllerTest {
         String viewName = appointmentController.removeAppointment(appointmentID, calendarHour, calendarId, principal, model);
 
         //then
-        Assertions.assertEquals("redirect:/account/user/2?remove=true", viewName);
+        assertEquals("redirect:/account/user/2?remove=true", viewName);
+    }
+
+
+    @Test
+    public void testGeneratePdfForNonExistingInvoice() throws InterruptedException {
+        //given
+        Integer appointmentId = 1;
+        String uuid = "some-uuid";
+
+        when(invoiceJpaRepository.existsByUuid(uuid)).thenReturn(false);
+
+        AppointmentEntity dummyAppointment = new AppointmentEntity();
+        dummyAppointment.setUUID(uuid);
+        when(appointmentService.findById(appointmentId)).thenReturn(dummyAppointment);
+
+        // when
+        String result = appointmentController.generatePdf(appointmentId);
+
+        //then
+        verify(appointmentService).generatePdf(dummyAppointment);
+        verify(invoiceJpaRepository).existsByUuid(uuid);
+        String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
+        assertEquals(expectedRedirectUrl, result);
     }
 
     @Test
-    void thatGeneratePdfAndRedirectToBooking() throws InterruptedException {
-        //given
-        int appointmentId = 1;
-       AppointmentEntity appointmentEntity = new AppointmentEntity();
-        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
-        //when
-        String viewName = appointmentController.generatePdf(appointmentId);
-        //then
-        Assertions.assertEquals("redirect:/account/user/1", viewName);
+    public void testGeneratePdfForExistingInvoice() throws InterruptedException {
+        // given
+        Integer appointmentId = 1;
+        String uuid = "some-uuid";
+        when(invoiceJpaRepository.existsByUuid(uuid)).thenReturn(true);
+        AppointmentEntity dummyAppointment = new AppointmentEntity();
+        dummyAppointment.setUUID(uuid);
+        when(appointmentService.findById(appointmentId)).thenReturn(dummyAppointment);
 
+        // when
+        String result = appointmentController.generatePdf(appointmentId);
+
+        //then
+        verify(appointmentService, never()).generatePdf(any(AppointmentEntity.class));
+        verify(invoiceJpaRepository).existsByUuid(uuid);
+        String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
+        assertEquals(expectedRedirectUrl, result);
     }
 }

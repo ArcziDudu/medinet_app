@@ -1,6 +1,6 @@
 package com.medinet.business.services;
 
-import com.medinet.api.controller.PdfDownloadController;
+import com.medinet.api.controller.rest.PdfDownloadRestController;
 import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
@@ -31,7 +31,6 @@ public class AppointmentService {
     private final CalendarService calendarService;
     private final AppointmentMapper appointmentMapper;
     private final PdfGeneratorService pdfGeneratorService;
-    private final PdfDownloadController pdfDownloadController;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
 
@@ -150,7 +149,7 @@ public class AppointmentService {
 
     private String generateHtmlFromInvoice(AppointmentDto invoice, OffsetDateTime nowDate) {
         return
-                "<!doctype html>" +
+                "<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
                         "<meta charset=UTF-8>" +
@@ -177,14 +176,12 @@ public class AppointmentService {
                         "<h4>Numer wizyty: " + invoice.getUUID() +"</h4>" +
                         "<p>Data wizyty: " + invoice.getDateOfAppointment() +"</p>" +
                         "<p>Godzina: " + invoice.getTimeOfVisit() +"</p>" +
-                        "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() +" " + invoice.getPatient().getSurname() + "</p>" +
-                        "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet() + "</p>" +
+                        "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() +" " + invoice.getPatient().getSurname()+ "</p>" +
+                        "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet()+ "</p>" +
                         "<p>Lekarz: " + invoice.getDoctor().getName() +" " + invoice.getDoctor().getSurname() + "</p>" +
                         "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
                         "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
                         "<p>Koszt wizyty: " + invoice.getDoctor().getPriceForVisit()+" zł</p>" +
-
-                        "<h6>Wystawiono dnia: " + nowDate.format(formatter) + "</h6>" +
                         "</body>" +
                         "</html>";
     }

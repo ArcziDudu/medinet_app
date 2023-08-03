@@ -8,7 +8,6 @@ import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
-import com.medinet.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,20 +51,28 @@ class PatientControllerTest {
     @Test
     void showUsersPage() {
         //given
-        PatientDto patientDto = patientMapper.mapFromEntity(EntityFixtures.patient1());
+        PatientDto patientDto = new PatientDto();
+        patientDto.setPatientId(1);
+        patientDto.setOpinions(Set.of());
         List<AppointmentDto> upcoming = new ArrayList<>();
         List<AppointmentDto> completed = new ArrayList<>();
+        List<AppointmentDto> pending = new ArrayList<>();
+        ChangePasswordForm changePasswordForm = new ChangePasswordForm();
 
+        when(patientService.findByUserId(1)).thenReturn(patientDto);
         when(appointmentService.findUpcomingAppointments(patientDto)).thenReturn(upcoming);
         when(appointmentService.findCompletedAppointments(patientDto)).thenReturn(completed);
+        when(appointmentService.findPendingAppointments(patientDto)).thenReturn(pending);
 
         //when
         String result = patientController.showUsersPage(1, model);
 
         //then
         verify(model).addAttribute("CurrentPatient", patientDto);
+        verify(model).addAttribute("passwordForm", changePasswordForm);
         verify(model).addAttribute("UpcomingAppointments", upcoming);
         verify(model).addAttribute("CompletedAppointments", completed);
+        verify(model).addAttribute("pendingAppointments", pending);
         assertEquals("myAccount", result);
     }
 
@@ -105,7 +113,7 @@ class PatientControllerTest {
 
 
         String result = patientController.changePassword(passwordForm, bindingResult, model, principal);
-        verify(model, times(1)).addAttribute("error", "hasło nieprawidłowe");
+        verify(model).addAttribute("error", "aktualne hasło nieprawidłowe!");
         verify(userRepository, times(0)).save(any(UserEntity.class));
         assertThat(result).isEqualTo("myAccount");
     }
