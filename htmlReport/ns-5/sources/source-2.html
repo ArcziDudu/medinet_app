@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CalendarService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.business.services</a>
+</div>
+
+<h1>Coverage Summary for Class: CalendarService (com.medinet.business.services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CalendarService</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (10/14)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CalendarService$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (10/14)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.business.services;
+&nbsp;
+&nbsp;import com.medinet.api.dto.CalendarDto;
+&nbsp;import com.medinet.business.dao.CalendarDao;
+&nbsp;import com.medinet.infrastructure.entity.CalendarEntity;
+&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;public class CalendarService {
+&nbsp;    private final CalendarDao calendarDao;
+&nbsp;
+&nbsp;    public List&lt;CalendarDto&gt; findAllCalendar() {
+<b class="nc">&nbsp;        return calendarDao.findAllCalendar();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public Optional&lt;CalendarEntity&gt; findById(Integer calendarId) {
+<b class="fc">&nbsp;        Optional&lt;CalendarEntity&gt; calendar = calendarDao.findById(calendarId);</b>
+<b class="fc">&nbsp;        if (calendar.isEmpty()) {</b>
+<b class="nc">&nbsp;            log.error(&quot;Problem with calendar service. Calendar with id [%s] not found!&quot;</b>
+<b class="nc">&nbsp;                    .formatted(calendarId));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return calendar;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void save(CalendarEntity calendar) {
+<b class="fc">&nbsp;        calendarDao.save(calendar);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public CalendarEntity findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
+<b class="fc">&nbsp;        Optional&lt;CalendarEntity&gt; calendar = calendarDao</b>
+<b class="fc">&nbsp;                .findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);</b>
+<b class="fc">&nbsp;        if (calendar.isEmpty()) {</b>
+<b class="nc">&nbsp;            log.error(&quot;Problem with calendar service. Calendar  not found!&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return calendar.get();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-04 17:51</div>
+</div>
+</body>
+</html>

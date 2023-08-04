@@ -1,0 +1,99 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OpinionMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.repository.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: OpinionMapper (com.medinet.infrastructure.repository.mapper)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">OpinionMapper$MockitoMock$VWKHZwVT</td>
+  </tr>
+  <tr>
+    <td class="name">OpinionMapper$MockitoMock$VWKHZwVT$auxiliary$in3I280f</td>
+  </tr>
+  <tr>
+    <td class="name">OpinionMapper$MockitoMock$VWKHZwVT$auxiliary$Sn6qZUSe</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository.mapper;
+&nbsp;
+&nbsp;import com.medinet.api.dto.OpinionDto;
+&nbsp;import com.medinet.infrastructure.entity.OpinionEntity;
+&nbsp;import org.mapstruct.Mapper;
+&nbsp;import org.mapstruct.Mapping;
+&nbsp;import org.mapstruct.ReportingPolicy;
+&nbsp;
+&nbsp;@Mapper(componentModel = &quot;spring&quot;, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+&nbsp;public interface OpinionMapper {
+&nbsp;    @Mapping(target = &quot;patient.address&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;patient.appointments&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;patient.opinions&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;patient.user&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;doctor.address&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;doctor.calendars&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;doctor.opinions&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;doctor.appointments&quot;, ignore = true)
+&nbsp;    @Mapping(target = &quot;doctor.user&quot;, ignore = true)
+&nbsp;    OpinionDto mapFromEntity(OpinionEntity entity);
+&nbsp;
+&nbsp;    OpinionEntity mapFromDto(OpinionDto dtos);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-04 17:51</div>
+</div>
+</body>
+</html>

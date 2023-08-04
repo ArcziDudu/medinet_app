@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OpinionRestController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.api.controller.rest</a>
+</div>
+
+<h1>Coverage Summary for Class: OpinionRestController (com.medinet.api.controller.rest)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OpinionRestController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.api.controller.rest;
+&nbsp;
+&nbsp;import com.medinet.api.dto.OpinionDto;
+&nbsp;import com.medinet.business.services.DoctorService;
+&nbsp;import com.medinet.business.services.OpinionService;
+&nbsp;import com.medinet.business.services.PatientService;
+&nbsp;import com.medinet.domain.exception.NotFoundException;
+&nbsp;import com.medinet.infrastructure.entity.OpinionEntity;
+&nbsp;import com.medinet.infrastructure.repository.mapper.DoctorMapper;
+&nbsp;import com.medinet.infrastructure.repository.mapper.PatientMapper;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.Parameter;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.time.OffsetDateTime;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;@RequestMapping(OpinionRestController.API_OPINION)
+&nbsp;public class OpinionRestController {
+&nbsp;    public static final String API_OPINION = &quot;/api/opinion&quot;;
+&nbsp;    public static final String API_OPINION_ALL = &quot;/all&quot;;
+&nbsp;    public static final String API_OPINION_BY_PATIENT = &quot;/patient/{patientId}&quot;;
+&nbsp;    public static final String API_OPINION_BY_DOCTOR = &quot;/doctor/{doctorId}&quot;;
+&nbsp;    public static final String API_OPINION_NEW = &quot;/new/{patientId}/{doctorId}&quot;;
+&nbsp;
+&nbsp;    private final OpinionService opinionService;
+&nbsp;    private final PatientService patientService;
+&nbsp;    private final PatientMapper patientMapper;
+&nbsp;    private final DoctorService doctorService;
+&nbsp;    private final DoctorMapper doctorMapper;
+&nbsp;
+&nbsp;    @GetMapping(value = API_OPINION_ALL)
+&nbsp;    @Operation(summary = &quot;Get all opinions&quot;, description = &quot;Retrieve all opinions&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Opinions found&quot;)
+&nbsp;    })
+&nbsp;    public List&lt;OpinionDto&gt; allOpinions() {
+<b class="fc">&nbsp;        return opinionService.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = API_OPINION_BY_PATIENT)
+&nbsp;    @Operation(summary = &quot;Get opinions by patient ID&quot;, description = &quot;Retrieve opinions based on the patient ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Opinions found&quot;)
+&nbsp;    })
+&nbsp;    public List&lt;OpinionDto&gt; allOpinionsByPatient(@PathVariable Integer patientId) {
+<b class="fc">&nbsp;        return opinionService.findAll().stream()</b>
+<b class="fc">&nbsp;                .filter(opinion -&gt; opinion.getPatient().getPatientId().equals(patientId))</b>
+<b class="fc">&nbsp;                .toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping(value = API_OPINION_BY_DOCTOR)
+&nbsp;    @Operation(summary = &quot;Get opinions by doctor ID&quot;, description = &quot;Retrieve opinions based on the doctor ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Opinions found&quot;)
+&nbsp;    })
+&nbsp;    public List&lt;OpinionDto&gt; allOpinionsByDoctor(@PathVariable Integer doctorId) {
+<b class="fc">&nbsp;        return opinionService.findAll().stream()</b>
+<b class="fc">&nbsp;                .filter(opinion -&gt; opinion.getDoctor().getDoctorId().equals(doctorId))</b>
+<b class="fc">&nbsp;                .toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(value = API_OPINION_NEW, produces = MediaType.APPLICATION_JSON_VALUE)
+&nbsp;    @Operation(summary = &quot;Create an opinion&quot;, description = &quot;Create a new opinion based on the provided details&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Opinion created&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Invalid patient ID or doctor ID&quot;)
+&nbsp;    })
+&nbsp;    public ResponseEntity&lt;?&gt; createOpinion(
+&nbsp;            @PathVariable @Parameter(description = &quot;Patient ID&quot;) Integer patientId,
+&nbsp;            @PathVariable @Parameter(description = &quot;Doctor ID&quot;) Integer doctorId,
+&nbsp;            @RequestBody @Schema(description = &quot;Opinion text&quot;) String opinion) {
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;            doctorService.findDoctorById(doctorId);</b>
+<b class="fc">&nbsp;            patientService.findById(patientId);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        OpinionEntity newOpinion = OpinionEntity.builder()</b>
+<b class="fc">&nbsp;                .dateOfCreateOpinion(OffsetDateTime.now())</b>
+<b class="fc">&nbsp;                .doctor(doctorMapper.mapFromDto(doctorService.findDoctorById(doctorId)))</b>
+<b class="fc">&nbsp;                .patient(patientMapper.mapFromDto(patientService.findById(patientId)))</b>
+<b class="fc">&nbsp;                .note(opinion)</b>
+<b class="fc">&nbsp;                .build();</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        return ResponseEntity.ok(opinionService.processOpinion(newOpinion));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-04 17:51</div>
+</div>
+</body>
+</html>

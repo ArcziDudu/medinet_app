@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BootstrapApplicationComponent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: BootstrapApplicationComponent (com.medinet.infrastructure.configuration)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BootstrapApplicationComponent</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (30/30)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BootstrapApplicationComponent$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (30/30)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.configuration;
+&nbsp;
+&nbsp;import com.medinet.infrastructure.entity.CalendarEntity;
+&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import com.medinet.infrastructure.repository.jpa.CalendarJpaRepository;
+&nbsp;import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.hibernate.grammars.hql.HqlParser;
+&nbsp;import org.springframework.context.ApplicationListener;
+&nbsp;import org.springframework.context.event.ContextRefreshedEvent;
+&nbsp;import org.springframework.lang.NonNull;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.time.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class BootstrapApplicationComponent implements ApplicationListener&lt;ContextRefreshedEvent&gt; {
+&nbsp;    private DoctorJpaRepository doctorJpaRepository;
+&nbsp;    private CalendarJpaRepository calendarJpaRepository;
+&nbsp;
+&nbsp;
+&nbsp;    public static List&lt;LocalDate&gt; generateDateList() {
+<b class="fc">&nbsp;        LocalDate currentDate = LocalDate.now();</b>
+<b class="fc">&nbsp;        LocalDate endDate = currentDate.plusWeeks(2);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        List&lt;LocalDate&gt; dateTimeList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        while (currentDate.isBefore(endDate)) {</b>
+<b class="fc">&nbsp;            if (currentDate.getDayOfWeek() != DayOfWeek.SATURDAY &amp;&amp; currentDate.getDayOfWeek() != DayOfWeek.SUNDAY) {</b>
+<b class="fc">&nbsp;                dateTimeList.add(currentDate);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            currentDate = currentDate.plusDays(1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return dateTimeList;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public static List&lt;LocalTime&gt; hoursArrayGenerator() {
+<b class="fc">&nbsp;        LocalTime startTime = LocalTime.of(8, 0);</b>
+<b class="fc">&nbsp;        LocalTime endTime = LocalTime.of(16, 0);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;LocalTime&gt; hours = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        LocalTime currentTime = startTime;</b>
+<b class="fc">&nbsp;        while (currentTime.isBefore(endTime)) {</b>
+<b class="fc">&nbsp;            hours.add(currentTime);</b>
+<b class="fc">&nbsp;            currentTime = currentTime.plusHours(1);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return hours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    @Transactional
+&nbsp;    public void onApplicationEvent(final @NonNull ContextRefreshedEvent event) {
+<b class="fc">&nbsp;        if (calendarJpaRepository.findAll().size() &gt; 0) {</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        List&lt;LocalDate&gt; twoWeeksDatesForDoctors = generateDateList();</b>
+<b class="fc">&nbsp;        List&lt;LocalTime&gt; hours = hoursArrayGenerator();</b>
+<b class="fc">&nbsp;        List&lt;DoctorEntity&gt; all = doctorJpaRepository.findAll();</b>
+<b class="fc">&nbsp;        for (LocalDate date : twoWeeksDatesForDoctors) {</b>
+<b class="fc">&nbsp;            for (DoctorEntity doctor : all) {</b>
+<b class="fc">&nbsp;                CalendarEntity calendar = new CalendarEntity();</b>
+<b class="fc">&nbsp;                calendar.setDoctor(doctor);</b>
+<b class="fc">&nbsp;                calendar.setDate(date);</b>
+<b class="fc">&nbsp;                calendar.setHours(hours);</b>
+&nbsp;
+<b class="fc">&nbsp;                calendarJpaRepository.save(calendar);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-04 17:51</div>
+</div>
+</body>
+</html>
