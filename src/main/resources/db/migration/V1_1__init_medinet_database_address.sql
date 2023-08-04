@@ -1,4 +1,3 @@
-
 CREATE TABLE address
 (
     address_id  SERIAL      NOT NULL,
