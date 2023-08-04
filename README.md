@@ -38,7 +38,6 @@ Funkcjonalności:
    - użytkownik musi potwierdzić rejestracje wprowadzając kod otrzymany w wiadomosci email
      
 ![img_7.png](readmeImages/img_7.png)
-![img.png](img.png)
 7 Odzyskiwanie hasła:
   - użytkownik ma  możliwość odzyskania hasła o ile email istnieje w bazie danych oraz nie należy on do lekarza. Liczba lekarzy w serwisie jest z góry określona i nie można ich dodawać ale można logować się na ich konta.
   - Mechanizm działa w taki sposób, że jeżeli adres email istnieje w bazie danych to wysyłane jest na ten adres wygenerowane przez system hasło, przy którym można zostać lub zmienić je w zakładce Moje konto
@@ -61,7 +60,7 @@ dostępnym kontem email: admin@admin.pl , hasło: test
 
 Aplikacja wystawia Rest api, kontrakt open api jest dostępny w głównym katalogu aplikacji
 Dostępny jest również diagram erd bazy danych
-Pokrycie testami wynosi 83% - w folderze jest dostępny raport jacoco
+Pokrycie testami wynosi 83% - w folderze htmlReport jest dostępny raport jacoco
 Zastosowane technologie:
 - Java
 - Spring Boot
