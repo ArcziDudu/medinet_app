@@ -24,7 +24,6 @@ services:
       - POSTGRES_PASSWORD=postgres
       - DOCKER_ENV=true
     volumes:
-
       - db-data:/var/lib/postgresql/data
     networks:
       - spring-boot-postgres
