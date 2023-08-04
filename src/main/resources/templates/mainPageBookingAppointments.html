@@ -102,14 +102,13 @@
         </div>
     </nav>
 
-    <div class="container succes" th:if="${param.success}"
+    <div class="container succes" th:if="${param.approve}"
          style="background-color: rgba(0, 128, 0, 0.5);
             text-align: center;
             padding: 10px;
             position: relative;
 transition: opacity .2s, display .2s;">
-        <p style="color: white; font-weight: bold;">Wizyta została zarejestrowana!</p>
-        <p style="color: white; font-weight: bold;">Szczegóły znajdziesz w sekcji Moje konto</p>
+        <p style="color: white; font-weight: bold;">Faktura została zatwierdzona!</p>
         <button onclick="closeAlert()"
                 style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
             Zamknij

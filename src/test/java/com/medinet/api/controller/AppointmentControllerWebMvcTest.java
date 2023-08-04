@@ -122,7 +122,7 @@ public class AppointmentControllerWebMvcTest {
         mockMvc.perform(post("/appointment/approve/{appointmentId}", appointmentId)
                         .param("message", message))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/booking"));
+                .andExpect(redirectedUrl("redirect:/doctor?approve=true"));
         verify(appointmentService, times(1)).approveAppointment(appointmentId, message);
         verify(appointmentService, times(1)).generatePdf(appointment);
     }

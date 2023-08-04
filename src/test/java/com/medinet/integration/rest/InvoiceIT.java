@@ -51,14 +51,14 @@ public class InvoiceIT extends RestAssuredIntegrationTestBase
                 .body(htmlContent)
                 .contentType("application/json")
                 .when()
-                .post("http://localhost:" + 9999 + "/api/v1/pdf")
+                .post("http://localhost:" + 9999 + "/pdf")
                 .then()
                 .statusCode(200);
         byte[] responseBytes = given()
                 .contentType("application/json")
                 .body(htmlContent)
                 .when()
-                .post("http://localhost:" + 9999 + "/api/v1/pdf")
+                .post("http://localhost:" + 9999 + "/pdf")
                 .then()
                 .statusCode(200)
                 .extract().asByteArray();

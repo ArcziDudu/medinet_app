@@ -125,7 +125,7 @@ class AppointmentControllerTest {
         String viewName = appointmentController.approveAppointment(appointmentId, message);
 
         //then
-        assertEquals("redirect:/booking", viewName);
+        assertEquals("redirect:/doctor?approve=true", viewName);
     }
 
     @Test

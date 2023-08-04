@@ -26,13 +26,14 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class AppointmentService {
     private final AppointmentDao appointmentDao;
     private final CalendarService calendarService;
     private final AppointmentMapper appointmentMapper;
     private final PdfGeneratorService pdfGeneratorService;
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
 
     public String getVisitNumber() {
         UUID uuid = UUID.randomUUID();
@@ -96,7 +97,6 @@ public class AppointmentService {
         return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("pending"))
                 .map(appointmentMapper::mapFromEntity)
                 .collect(Collectors.toList());
-        // TODO: 04.08.2023 napisac testy
     }
     @Transactional
     public void processRemovingAppointment(Integer appointmentID,
@@ -143,28 +143,21 @@ public class AppointmentService {
     public void generatePdf(AppointmentEntity invoice) {
         String uuid = invoice.getUUID();
         OffsetDateTime nowDate = OffsetDateTime.now();
-        invoiceHtml(invoice, uuid, nowDate);
-        // TODO: 04.08.2023 napisac testy
+        pdfGeneratorService.generatePdf( "<!doctype html><html><head><meta charset=utf-8><style>.invoice-box{max-width:800px;padding:30px;border:1px solid #eee;box-shadow:0 0 10px rgba(0,0,0,.15);font-size:16px;line-height:24px;font-family:'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;color:#555;}.invoice-box table{width:100%;line-height:inherit;text-align:left;}.invoice-box table td{padding:5px;vertical-align:top;}.invoice-box table tr td:nth-child(2){text-align:right;}.invoice-box table tr.top table td{padding-bottom:20px;}.invoice-box table tr.top table td.title{font-size:45px;line-height:45px;color:#333;}.invoice-box table tr.information table td{padding-bottom:40px;}.invoice-box table tr.heading td{background:#eee;border-bottom:1px solid #ddd;font-weight:bold;}.invoice-box table tr.details td{padding-bottom:20px;}.invoice-box table tr.item td{border-bottom:1px solid #eee;}.invoice-box table tr.item.last td{border-bottom:none;}.invoice-box table tr.total td:nth-child(2){border-top:2px solid #eee;font-weight:bold;}@media only screen and (max-width:600px){.invoice-box table tr.top table td{width:100%;display:block;text-align:center;}.invoice-box table tr.information table td{width:100%;display:block;text-align:center;}}/** RTL **/.rtl{direction:rtl;font-family:Tahoma,'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;}.rtl table{text-align:right;}.rtl table tr td:nth-child(2){text-align:left;}</style></head><body><div class=invoice-box><table cellpadding=0 cellspacing=0><tr class=top><td colspan=2><table><tr><td class=title><h6 style=color:blue>Medinet</h6></td><td>Faktura: "
+                        + invoice.getUUID() + "<br>Data wizyty: "
+                        + invoice.getDateOfAppointment() + "<br>Godzina wizyty: "
+                        + invoice.getTimeOfVisit() + "<br>Adres placówki: "
+                        + invoice.getDoctor().getAddress().getCity() + " "
+                        + invoice.getDoctor().getAddress().getStreet() + "</td></tr></table></td></tr><tr class=heading><td>Tytuł faktury</td><td>wizyta w przychodni Medinet</td></tr><tr class=heading><td>Usługa</td><td>wizyta u specjalisty - "
+                        + invoice.getDoctor().getSpecialization() + "</td></tr><tr class=item><td>Lekarz</td><td>"
+                        + invoice.getDoctor().getName() + " " + invoice.getDoctor().getSurname() + "</td></tr><tr class=item><td>Pacjent</td><td>"
+                        + invoice.getPatient().getName() + " " + invoice.getPatient().getSurname() + "</td></tr><tr class=item><td>Czas trwania wizyty</td><td>60 minut</td></tr><td>Metoda płatności</td><td>Przelew</td><tr class=total><td></td><td>Koszt: "
+                        + invoice.getDoctor().getPriceForVisit() + " zł.</td></tr><tr class=item><td>Data wystawienia faktury</td><td>"
+                        + nowDate.format(formatter) + "</td></tr><tr class=item><td><p style=font-weight:bold>Informacja od lekarza</p><span>"
+                        + invoice.getNoteOfAppointment() + "</span></td></tr></table></div></body></html>"
+                ,uuid);
     }
 
-    private void invoiceHtml(AppointmentEntity invoice, String uuid, OffsetDateTime nowDate) {
-        pdfGeneratorService.generatePdf( "<!doctype html><html><head><meta charset=UTF-8>" +
-                        "<style>body {position: relative;font-family: Arial, sans-serif;display: flex;margin-top: 50px;" +
-                        "justify-content: center;align-items: flex-start;text-align: start;font-size: 19px;font-weight: bold;}" +
-                        "h6{margin-top:30px;}</style></head><body>" +
-                        "<h4>Faktura: Wizyta w przychodni medinet</h4><h4>Numer wizyty: " + invoice.getUUID() + "</h4>" +
-                        "<p>Data wizyty: Łąźicka ćś mówic łopata kórwa " + invoice.getDateOfAppointment() + "</p>" +
-                        "<p>Godzina: " + invoice.getTimeOfVisit() + "</p>" +
-                        "<p>Imie i nazwisko pacjenta: " + invoice.getPatient().getName() + " " + invoice.getPatient().getSurname() + "</p>" +
-                        "<p>Adres przychodni: " + invoice.getDoctor().getAddress().getCity() + " " + invoice.getDoctor().getAddress().getStreet() + "</p>" +
-                        "<p>Lekarz: " + invoice.getDoctor().getName()
-                        + " " + invoice.getDoctor().getSurname() + "</p>" +
-                        "<p>Wizyta u specjalisty - " + invoice.getDoctor().getSpecialization() + "</p>" +
-                        "<p>Informacje od lekarza: " + invoice.getNoteOfAppointment() + "</p>" +
-                        "<h6>Wystawiono dnia: " + nowDate.format(formatter) + "</h6>" +
-                        "</body></html>"
-, uuid);
-    }
 
     public AppointmentEntity findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
         Optional<AppointmentEntity> appointment =

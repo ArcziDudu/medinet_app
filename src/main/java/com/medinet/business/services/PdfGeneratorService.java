@@ -22,26 +22,27 @@ public class PdfGeneratorService {
     @Autowired
     private InvoiceJpaRepository invoiceJpaRepository;
 
-    @Autowired
+
     public PdfGeneratorService() {
         this.webClient = WebClient.builder()
-                .baseUrl("https://htmlpdfapi.com/api/v1/pdf")
+                .baseUrl("https://yakpdf.p.rapidapi.com/pdf")
+                .defaultHeader("X-RapidAPI-Key", "783a00e0d6msh9341f2f6ed2c9b4p10a743jsn66976e554e1e")
+                .defaultHeader("X-RapidAPI-Host", "yakpdf.p.rapidapi.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader("Authentication", "Token co4o4OpK6M_WpBgMYInX2ybs6NmWwQ8e")
                 .defaultHeader(HttpHeaders.ACCEPT_CHARSET, StandardCharsets.UTF_8.toString())
                 .build();
     }
-
-
-    public void generatePdf(String htmlContent, String uuid){
-
+    public void generatePdf(String htmlContent, String uuid) {
+        String jsonBody = "{\"source\":{\"html\":\"" +
+                htmlContent
+                + "\"},\"pdf\":{\"format\":\"A4\",\"scale\":1,\"printBackground\":true},\"wait\":{\"for\":\"navigation\",\"waitUntil\":\"load\",\"timeout\":2500}}";
         webClient.post()
-                .uri("https://htmlpdfapi.com/api/v1/pdf")
-                .body(BodyInserters.fromValue("{\"html\": \"" + htmlContent + "\"}"))
+                .body(BodyInserters.fromValue(jsonBody))
                 .retrieve()
                 .bodyToMono(byte[].class)
                 .subscribe(
                         pdfBytes -> {
+
                             InvoiceEntity pdfDocument = new InvoiceEntity();
                             saveInvoice(uuid, pdfDocument, pdfBytes);
                             log.info("Plik PDF został wygenerowany i zapisany w bazie danych.");
@@ -49,8 +50,6 @@ public class PdfGeneratorService {
                         },
                         error -> log.error("Błąd podczas generowania pliku PDF: " + error.getMessage())
                 );
-
-
     }
 
     public void saveInvoice(String uuid, InvoiceEntity pdfDocument, byte[] pdfBytes) {

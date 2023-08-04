@@ -97,10 +97,10 @@ public class AppointmentController {
     @PostMapping(APPOINTMENT_APPROVE_ID)
     public String approveAppointment(@PathVariable(value = "appointmentId") Integer appointmentID,
                                      @RequestParam("message") String message) {
-        appointmentService.approveAppointment(appointmentID, message);
         AppointmentEntity appointmentById = appointmentService.findById(appointmentID);
+        appointmentService.approveAppointment(appointmentID, message);
         appointmentService.generatePdf(appointmentById);
-        return "redirect:/booking";
+        return "redirect:/doctor?approve=true";
     }
 
     @DeleteMapping(APPOINTMENT_REMOVE_ID)
