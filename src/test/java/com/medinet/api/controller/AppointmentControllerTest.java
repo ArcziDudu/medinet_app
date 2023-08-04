@@ -148,34 +148,12 @@ class AppointmentControllerTest {
     }
 
 
-    @Test
-    public void testGeneratePdfForNonExistingInvoice() throws InterruptedException {
-        //given
-        Integer appointmentId = 1;
-        String uuid = "some-uuid";
-
-        when(invoiceJpaRepository.existsByUuid(uuid)).thenReturn(false);
-
-        AppointmentEntity dummyAppointment = new AppointmentEntity();
-        dummyAppointment.setUUID(uuid);
-        when(appointmentService.findById(appointmentId)).thenReturn(dummyAppointment);
-
-        // when
-        String result = appointmentController.generatePdf(appointmentId);
-
-        //then
-        verify(appointmentService).generatePdf(dummyAppointment);
-        verify(invoiceJpaRepository).existsByUuid(uuid);
-        String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
-        assertEquals(expectedRedirectUrl, result);
-    }
 
     @Test
     public void testGeneratePdfForExistingInvoice() throws InterruptedException {
         // given
         Integer appointmentId = 1;
         String uuid = "some-uuid";
-        when(invoiceJpaRepository.existsByUuid(uuid)).thenReturn(true);
         AppointmentEntity dummyAppointment = new AppointmentEntity();
         dummyAppointment.setUUID(uuid);
         when(appointmentService.findById(appointmentId)).thenReturn(dummyAppointment);
@@ -185,7 +163,6 @@ class AppointmentControllerTest {
 
         //then
         verify(appointmentService, never()).generatePdf(any(AppointmentEntity.class));
-        verify(invoiceJpaRepository).existsByUuid(uuid);
         String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
         assertEquals(expectedRedirectUrl, result);
     }

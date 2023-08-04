@@ -2,7 +2,6 @@ server:
   port: 8190
   servlet:
     context-path: /medinet
-simulated-date: "2023-07-30"
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource

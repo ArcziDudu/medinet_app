@@ -49,7 +49,7 @@ public class PdfDownloadRestControllerWebMvcTest {
     }
 
     @Test
-    public void testDownloadInvoice_NonExistingInvoice_ShouldReturnNotFound() throws Exception {
+    public void testDownloadInvoiceNonExistingInvoiceShouldReturnNotFound() throws Exception {
 
         String uuid = "non-existing-uuid";
         when(invoiceJpaRepository.findByUuid(uuid)).thenReturn(Optional.empty());

@@ -117,12 +117,14 @@ public class AppointmentControllerWebMvcTest {
     public void ThatApproveAppointment() throws Exception {
         Integer appointmentId = 1;
         String message = "Approved";
-
+        AppointmentEntity appointment = new AppointmentEntity();
+        when(appointmentService.findById(appointmentId)).thenReturn(appointment);
         mockMvc.perform(post("/appointment/approve/{appointmentId}", appointmentId)
                         .param("message", message))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/booking"));
         verify(appointmentService, times(1)).approveAppointment(appointmentId, message);
+        verify(appointmentService, times(1)).generatePdf(appointment);
     }
 
     @Test
@@ -218,8 +220,6 @@ public class AppointmentControllerWebMvcTest {
     void testGeneratePdf() throws Exception {
 
         int appointmentId = 1;
-
-
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
 
@@ -228,6 +228,5 @@ public class AppointmentControllerWebMvcTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/api/invoice/download/"+appointmentEntity.getUUID()));
 
         verify(appointmentService, times(1)).findById(appointmentId);
-        verify(appointmentService, times(1)).generatePdf(appointmentEntity);
     }
 }

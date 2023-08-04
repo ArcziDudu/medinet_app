@@ -98,7 +98,8 @@ public class AppointmentController {
     public String approveAppointment(@PathVariable(value = "appointmentId") Integer appointmentID,
                                      @RequestParam("message") String message) {
         appointmentService.approveAppointment(appointmentID, message);
-
+        AppointmentEntity appointmentById = appointmentService.findById(appointmentID);
+        appointmentService.generatePdf(appointmentById);
         return "redirect:/booking";
     }
 
@@ -129,18 +130,11 @@ public class AppointmentController {
 
     @PostMapping(GENERATE_PDF)
     public String generatePdf(
-            @PathVariable("appointmentId") Integer appointmentId) throws InterruptedException {
+            @PathVariable("appointmentId") Integer appointmentId){
         AppointmentEntity appointmentById = appointmentService.findById(appointmentId);
         String uuid = appointmentById.getUUID();
-
-        if (!invoiceJpaRepository.existsByUuid(uuid)) {
-            appointmentService.generatePdf(appointmentById);
-            Thread.sleep(2000);
-            return "redirect:/api/invoice/download/" + uuid;
-        }
         return "redirect:/api/invoice/download/" + uuid;
     }
-
 
 
 }

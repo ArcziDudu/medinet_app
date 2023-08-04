@@ -125,8 +125,8 @@
                 <div class="received">
                     <h3 style="color: white;">Odbyte</h3>
                     <div th:each="invoice :${CompletedAppointments}">
-                        <form th:action="@{/invoice/generatePdf/{appointmentId}(appointmentId=${invoice.getAppointmentId()})}"
-                              method="POST">
+                        <form th:action="@{/api/invoice/download/{uuid}(uuid=${invoice.getUUID()})}"
+                              method="GET">
                             <div class="visit-invoice">
                                 <div class="up-side">
 

@@ -10,10 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.util.retry.Retry;
 
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +22,7 @@ public class PdfGeneratorService {
     @Autowired
     private InvoiceJpaRepository invoiceJpaRepository;
 
+    @Autowired
     public PdfGeneratorService() {
         this.webClient = WebClient.builder()
                 .baseUrl("https://htmlpdfapi.com/api/v1/pdf")
@@ -34,8 +33,7 @@ public class PdfGeneratorService {
     }
 
 
-
-    public void generatePdf(String htmlContent, String uuid) {
+    public void generatePdf(String htmlContent, String uuid){
 
         webClient.post()
                 .uri("https://htmlpdfapi.com/api/v1/pdf")
@@ -50,8 +48,8 @@ public class PdfGeneratorService {
                             log.info("Numer UUID faktury: " + uuid);
                         },
                         error -> log.error("Błąd podczas generowania pliku PDF: " + error.getMessage())
-
                 );
+
 
     }
 

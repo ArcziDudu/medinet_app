@@ -39,8 +39,14 @@ public class PdfDownloadRestController {
     })
     public ResponseEntity<?> downloadInvoice(@PathVariable String uuid) {
         Optional<InvoiceEntity> invoice = invoiceJpaRepository.findByUuid(uuid);
-        if (invoice.isPresent() && invoice.get().getPdfData() != null) {
-            byte[] pdfData = invoice.get().getPdfData();
+        if(invoice.isEmpty()){
+            String errorMessage = "Invoice with UUID " + uuid + " not found.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body(errorMessage);
+        }
+
+            byte[] pdfData = invoice.orElseThrow().getPdfData();
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=faktura_medinet " + uuid + ".pdf");
@@ -50,16 +56,6 @@ public class PdfDownloadRestController {
                     .contentLength(pdfData.length)
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(new ByteArrayResource(pdfData));
-        } else {
-            HttpHeaders headers = new HttpHeaders();
-           String uuidNew = UUID.randomUUID().toString();
-            headers.add(HttpHeaders.LOCATION, "/medinet/error/invoice");
-            Optional<AppointmentEntity> byUuid = appointmentJpaRepository.findByUUID(uuid);
-            byUuid.get().setUUID(uuidNew);
-            appointmentJpaRepository.save(byUuid.get());
-            return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                    .headers(headers)
-                    .build();
-        }
+
     }
 }
