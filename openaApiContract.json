@@ -15,7 +15,7 @@
     }
   ],
   "paths": {
-    "/api/patient/create": {
+    "/api/patient/new": {
       "post": {
         "tags": [
           "patient-rest-controller"
@@ -34,6 +34,16 @@
           "required": true
         },
         "responses": {
+          "400": {
+            "description": "BadRequest - Email does not exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelAndView"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -44,12 +54,12 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "409": {
+            "description": "Conflict - Patient with the given email already exists",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ModelAndView"
+                  "type": "object"
                 }
               }
             }
@@ -67,7 +77,67 @@
         }
       }
     },
-    "/api/opinion/create/{patientId}/{doctorId}": {
+    "/api/patient/active": {
+      "post": {
+        "tags": [
+          "patient-rest-controller"
+        ],
+        "summary": "Activate patient ",
+        "description": "Activate patient by email and verify code",
+        "operationId": "activatePatient",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activationCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Ten email nie istnieje w bazie danych",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelAndView"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelAndView"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Patient active",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/opinion/new/{patientId}/{doctorId}": {
       "post": {
         "tags": [
           "opinion-rest-controller"
@@ -109,8 +179,8 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -119,7 +189,7 @@
               }
             }
           },
-          "400": {
+          "404": {
             "description": "Invalid patient ID or doctor ID",
             "content": {
               "*/*": {
@@ -142,7 +212,7 @@
         }
       }
     },
-    "/api/doctor/create": {
+    "/api/doctor/new": {
       "post": {
         "tags": [
           "doctor-rest-controller"
@@ -161,8 +231,8 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Invalid request",
             "content": {
               "*/*": {
                 "schema": {
@@ -171,8 +241,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -194,7 +264,7 @@
         }
       }
     },
-    "/api/appointment/create": {
+    "/api/appointment/new": {
       "post": {
         "tags": [
           "appointment-rest-controller"
@@ -214,8 +284,8 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -224,8 +294,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -268,8 +338,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Invalid appointment ID or cannot delete the appointment",
             "content": {
               "*/*": {
                 "schema": {
@@ -278,8 +348,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid appointment ID or cannot delete the appointment",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -331,8 +401,8 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Invalid appointment ID or message provided",
             "content": {
               "*/*": {
                 "schema": {
@@ -341,8 +411,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid appointment ID or message provided",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -384,8 +454,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Doctor not found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -394,8 +464,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Doctor not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -437,8 +507,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -447,8 +517,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -493,8 +563,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -503,8 +573,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -538,8 +608,8 @@
         "description": "Retrieve all opinions",
         "operationId": "allOpinions",
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -548,8 +618,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -567,6 +637,58 @@
                   "items": {
                     "$ref": "#/components/schemas/OpinionDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/invoice/download/{uuid}": {
+      "get": {
+        "tags": [
+          "pdf-download-rest-controller"
+        ],
+        "summary": "Download invoice by uuid",
+        "description": "Download invoice if it exists in the database by uuid number",
+        "operationId": "downloadInvoice",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelAndView"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invoice not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelAndView"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Invoice Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -594,8 +716,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Doctor not found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -604,8 +726,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Doctor not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -645,8 +767,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Doctor not found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -655,8 +777,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Doctor not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -687,8 +809,8 @@
         "description": "Retrieve list of available doctors",
         "operationId": "allDoctors",
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -697,8 +819,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -742,8 +864,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -752,8 +874,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -795,8 +917,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Appointment not found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "*/*": {
                 "schema": {
@@ -805,8 +927,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Appointment not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -828,7 +950,7 @@
         }
       }
     },
-    "/api/appointment/find/all/{status}": {
+    "/api/appointment/all/{status}": {
       "get": {
         "tags": [
           "appointment-rest-controller"
@@ -847,8 +969,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Invalid status provided",
             "content": {
               "*/*": {
                 "schema": {
@@ -857,8 +979,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid status provided",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -880,7 +1002,7 @@
         }
       }
     },
-    "/api/appointment/find/all/{status}/{doctorId}": {
+    "/api/appointment/all/{status}/{doctorId}": {
       "get": {
         "tags": [
           "appointment-rest-controller"
@@ -910,8 +1032,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Invalid status provided",
             "content": {
               "*/*": {
                 "schema": {
@@ -920,8 +1042,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid status provided",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -952,19 +1074,19 @@
           "error": {
             "type": "boolean"
           },
-          "is4xxClientError": {
+          "is5xxServerError": {
             "type": "boolean"
           },
-          "is5xxServerError": {
+          "is4xxClientError": {
             "type": "boolean"
           },
           "is1xxInformational": {
             "type": "boolean"
           },
-          "is2xxSuccessful": {
+          "is3xxRedirection": {
             "type": "boolean"
           },
-          "is3xxRedirection": {
+          "is2xxSuccessful": {
             "type": "boolean"
           }
         }
@@ -990,9 +1112,6 @@
           "viewName": {
             "type": "string"
           },
-          "reference": {
-            "type": "boolean"
-          },
           "modelMap": {
             "type": "object",
             "properties": {
@@ -1003,6 +1122,9 @@
             "additionalProperties": {
               "type": "object"
             }
+          },
+          "reference": {
+            "type": "boolean"
           }
         }
       },
@@ -1016,8 +1138,14 @@
       },
       "RegistrationFormDto": {
         "required": [
+          "city",
           "email",
-          "password"
+          "name",
+          "password",
+          "phoneNumber",
+          "postalCode",
+          "street",
+          "surname"
         ],
         "type": "object",
         "properties": {
@@ -1039,10 +1167,11 @@
           "city": {
             "type": "string"
           },
-          "street": {
+          "postalCode": {
+            "pattern": "^\\d{2}-\\d{3}$",
             "type": "string"
           },
-          "postalCode": {
+          "street": {
             "type": "string"
           },
           "phoneNumber": {
@@ -1346,6 +1475,9 @@
           "active": {
             "type": "boolean"
           },
+          "verifyCode": {
+            "type": "string"
+          },
           "roles": {
             "uniqueItems": true,
             "type": "array",
@@ -1443,18 +1575,18 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
           "numberOfElements": {
             "type": "integer",
             "format": "int32"
           },
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
-          },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
           },
           "empty": {
             "type": "boolean"
@@ -1471,18 +1603,18 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
           "pageNumber": {
             "type": "integer",
             "format": "int32"
           },
-          "unpaged": {
-            "type": "boolean"
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
           },
           "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
             "type": "boolean"
           }
         }

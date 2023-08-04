@@ -13,42 +13,32 @@ Funkcjonalności:
    Przy czym terminy są dostęne na 2 tygodnie do przodu, nie wliczająć weekendu. Wystarczy kliknąć w wybraną godzinę w danym dniu, po akceptacji wizyty, wolny termin zostanie usunięty lekarzowi i zarówno lekarz jak i pacjent będą mogli anulować wizytę dopóki się jeszcze nie odbyła
 ![img_2.png](readmeImages/img_2.png)
 ![img.png](readmeImages/img.png)
-5. Wystawienie opinii lekarzowi - Pacjent ma możliwość wystawienia opinii lekarzaowi która będzie widoczna na jego profilu po kliknięciu w przycisk szczegóły
+5. Wystawienie opinii lekarzowi - Pacjent ma możliwość wystawienia opinii lekarzowi która będzie widoczna na jego profilu po kliknięciu w przycisk szczegóły
 ![img_3.png](readmeImages/img_3.png) 
  
 6. Pacjent może pobrać fakture z wizyty która się odbyła. Aby to zrobić należy zrobić poniższe kroki:
    - Wybieramy interesujący nas termin: Wizyty są dostępne na dwa tygodnie do przodu nie licząc weekendu, od godziny 8 do 15 - takie są zasady zatrudniania specjalistów w Medinet. Logika programu zakłada że rezerwować wizytę można zawsze na conajmniej następny dzień natomiast żeby umożliwić przetestowanie wszystkich możliwości, dodany jest również dzień dzisiejszy.
-   - Lekarz ma możliwość wypisania recepty lub notatki do wizyty tylko takiej która już się odbyła oraz ma na to 24 godziny, po tym czasie jeśli nic nie napisze, wizyta otrzymuje status zakończonej.
    - Dlatego w celu testu wybieramy godzine oraz date która już minęła np jeśli godzina testowania to czwartek 27 lipca godzina 17;00 to wybieramy termin wizyty czwartek 27 lipca godzina 10 rano - chodzi o to zebyśmy nie musieli czekać kilka dni na wizyte żeby lekarz mógł wystawić opinie, docelowo najbliższy termin jaki możemy zarezerwować to zawsze następny dzień roboczy. 
  - Po zarezerwowaniu wizyty, przechodzimy na profil specjalisty, w tym celu klikamy w szczegóły lekarza u którego zarezerwowalismy wizyte i kopiujemy jego adress email, klikamy przycisk wyloguj i logujemy sie na profil lekarza skopiowanym emailem, hasło dla każdego specjalisty to: test
    , następnie klikamy w przycisk "Do zatwierdzenia" - program działa tak że sprawdza co godzinę czy wizyta się odbyła to znaczy czy ma status pendning i oczekuje na notatke od lekarza, natomiast w celu testowania aplikacji, program robi to co 20 sekund
-   
-![img_4.png](readmeImages/img_4.png)
-
+![img_9.png](readmeImages%2Fimg_9.png)
    - wystawiamy zalecenia lub recepte i zatwierdzamy
    
   ![img_5.png](readmeImages/img_5.png)
      
 - Wizyta w tym momencie ma status zakończonej, można ją sprawdzić klkając w przycisk "Zakończone"
+- W tym momencie wywołane zostaje zewnętrzne api i faktura jest już w bazie danych
 - Wylogowujemy się i wracamy do konta które rezerwowało wizytę, wchodzimy na "moje konto"
-- W tym momencie mamy możliwość pobrania faktury za wizyte, wystawianej przez zewnętrzne api ze strony htmlpdfapi.com .
-- W przypadku uruchamiania programu przez intelij faktura zostanie pobrana do folderu src/main/resources/invoices
-- W przypadku uruchamiania przez Docker plik zostanie pobrany do ścieżki /usr/src/app/invoices/
-- W obu przypadkach status pobrania i  ścieżka zostanie wyświetlona w logach apliakcji w terminalu
-- Po pobraniu faktury do kontenera Dockera możemy pobrać ją do folderu z aplikacją komendą
- docker cp <id kontenera>:<ścieżka z logów i nazwa faktury> ./
-np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/usr/src/app/invoices/faktura_medinet912c18b7-d558-4e49-9c45-64bc9a4a3186.pdf ./
-- Faktura zostanie pobrana do folderu z aplikacją 
-- Jeżeli z jakiegoś powodu nr faktury nie jest logowany w terminalu to można wejść w moje konto i skopiować nr UUID z danej faktury
-- Jest to darmowe api i pozwala na  100 darmowych wywołań więc w przypadku poniższego błędu należy dostarczyć nowy token
-
-![img_6.png](readmeImages/img_6.png)
+- W tym momencie mamy możliwość pobrania faktury za wizyte, wystawianej przez zewnętrzne api ze strony https://yakpdf.p.rapidapi.com/pdf
+- Wybieramy miejsce docelowe i zapisujemy plik
+- Jest to darmowe api i pozwala na  200 darmowych wywołań
 
 6. Rezerwacja w serwisie:
    - użytkownik może się zarejestrować przy czym program waliduje dane wejściowe
+   - użytkownik musi potwierdzić rejestracje wprowadzając kod otrzymany w wiadomosci email
      
 ![img_7.png](readmeImages/img_7.png)
-
+![img.png](img.png)
 7 Odzyskiwanie hasła:
   - użytkownik ma  możliwość odzyskania hasła o ile email istnieje w bazie danych oraz nie należy on do lekarza. Liczba lekarzy w serwisie jest z góry określona i nie można ich dodawać ale można logować się na ich konta.
   - Mechanizm działa w taki sposób, że jeżeli adres email istnieje w bazie danych to wysyłane jest na ten adres wygenerowane przez system hasło, przy którym można zostać lub zmienić je w zakładce Moje konto
@@ -56,28 +46,38 @@ np: docker cp b298f7c480ac4f552779b2fec7393309d2d5baf1000a5f046513b2f3ec16ef53:/
 
 Uruchamianie
 
-Program przeznaczony jest do uruchamiania w środowisku Docker. W tym celu należy pobrać repozytorium, otworzyć terminal 
-następnie należy zbudować obraz poleceniem docker build -t medinet .
-Teraz mając obraz aplikacji, należy uruchomić kontener docker compose up -d
-Można włączyć logi aplikacji komendą docker logs medinet_app-master-backend-1
-W przeglądarce wejść na adres http://localhost:8190/medinet/
+Program przeznaczony jest do uruchamiania w środowisku Docker.
+W tym celu należy:
+- pobrać repozytorium, w terminalu uruchamiamy komende git clone https://github.com/ArcziDudu/medinet_app.git
+- zbudować plik jar komendą ./gradlew build
+- zbudować obraz poleceniem docker build -t medinet:latest .
+- mając obraz aplikacji, należy uruchomić kontener komendą docker compose up -d
+- można włączyć logi aplikacji komendą docker logs medinet_app-master-backend-1
+- przeglądarce wejść na adres http://localhost:8190/medinet/
+- logujemy się:
+dostępnym kontem email: admin@admin.pl , hasło: test
+, rejestrujemy nowe konto
+, wchodzimy na konto lekarza np email: Krystian@medinet.com , hasło: test
 
+Aplikacja wystawia Rest api, kontrakt open api jest dostępny w głównym katalogu aplikacji
+Dostępny jest również diagram erd bazy danych
+Pokrycie testami wynosi 83% - w folderze jest dostępny raport jacoco
 Zastosowane technologie:
 - Java
 - Spring Boot
+- Gradle
 - Hibernate
 - Flyway
 - Java mail sender
 - Docker
 - Open api
+- https://yakpdf.p.rapidapi.com/pdf
 - Postgre Sql
 - Rest Assured
 - Wiremock
-- htmlpdfapi
 - Spring Security
 - Lombok
 - HTML
 - CSS
 - Bootstrap
-  
-  Pokrycie testami wynosi 80%
+

@@ -184,7 +184,7 @@ insert into medinet_user (email, password, active) values ('Davide@medinet.com',
 insert into medinet_user (email, password, active) values ('Cassandry@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 insert into medinet_user (email, password, active) values ('Adda@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 insert into medinet_user (email, password, active) values ('Terrijo@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
-insert into medinet_user (email, password, active) values ('Cam@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
+insert into medinet_user (email, password, active) values ('CamSecond@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 insert into medinet_user (email, password, active) values ('Corrinne@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 insert into medinet_user (email, password, active) values ('Joletta@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);
 insert into medinet_user (email, password, active) values ('Deane@medinet.com', '$2a$12$TwQsp1IusXTDl7LwZqL0qeu49Ypr6vRdEzRq2vAsgb.zvOtrnzm5G', true);

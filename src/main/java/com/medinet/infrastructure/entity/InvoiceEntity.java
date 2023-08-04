@@ -13,11 +13,11 @@ import java.util.concurrent.atomic.AtomicReference;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"invoiceId", "uuid"})
 @Entity
-@Table(name = "pdf_table")
+@Table(name = "invoice_table")
 public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "invoice_id")
     private Integer invoiceId;
 
     @Column(name = "uuid")
