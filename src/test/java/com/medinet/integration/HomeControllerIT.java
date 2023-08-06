@@ -22,7 +22,7 @@ public class HomeControllerIT extends AbstractIT {
     }
 
     @Test
-    void thatMechanicPageRequiredSigningIn() {
+    void thatRegisterPageRequiredRegister() {
         String url = String.format("http://localhost:%s%s/register", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);

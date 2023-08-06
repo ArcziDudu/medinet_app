@@ -1,12 +1,11 @@
 package com.medinet.business.services;
 
-import com.medinet.api.controller.rest.PdfDownloadRestController;
 import com.medinet.api.dto.AppointmentDto;
+import com.medinet.api.dto.CalendarDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
-import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -69,8 +68,8 @@ public class AppointmentService {
             } else {
                 appointment.setStatus("upcoming");
             }
-            Optional<CalendarEntity> calendar = calendarService.findById(appointment.getCalendarId());
-            calendar.orElseThrow().getHours().remove(appointment.getTimeOfVisit());
+            CalendarDto calendarById = calendarService.findById(appointment.getCalendarId());
+            calendarById.getHours().remove(appointment.getTimeOfVisit());
 
             appointmentDao.saveAppointment(appointment);
             return appointmentMapper.mapFromEntity(appointment);
@@ -92,18 +91,20 @@ public class AppointmentService {
                 .collect(Collectors.toList());
 
     }
+
     @Transactional
     public List<AppointmentDto> findPendingAppointments(PatientDto currentPatient) {
         return currentPatient.getAppointments().stream().filter(a -> a.getStatus().equals("pending"))
                 .map(appointmentMapper::mapFromEntity)
                 .collect(Collectors.toList());
     }
+
     @Transactional
     public void processRemovingAppointment(Integer appointmentID,
                                            LocalTime calendarHour,
                                            Integer calendarId) {
-        Optional<CalendarEntity> calendar = calendarService.findById(calendarId);
-        List<LocalTime> hours = calendar.orElseThrow().getHours();
+        CalendarDto calendarById = calendarService.findById(calendarId);
+        List<LocalTime> hours = calendarById.getHours();
         hours.add(calendarHour);
         hours.sort(new Comparator<LocalTime>() {
             @Override
@@ -116,19 +117,19 @@ public class AppointmentService {
 
     @Transactional
     public void approveAppointment(Integer appointmentID, String message) {
-        Optional<AppointmentEntity> optionalAppointment = appointmentDao.findById(appointmentID);
-        if (optionalAppointment.isPresent()) {
-            AppointmentEntity appointment = optionalAppointment.get();
-            appointment.setStatus("done");
-            appointment.setNoteOfAppointment(message);
+        Optional<AppointmentDto> appointmentById = appointmentDao.findById(appointmentID);
+        if (appointmentById.isPresent() && appointmentById.get().getStatus().equals("pending")) {
+            AppointmentDto appointmentDto = appointmentById.get();
+            appointmentDto.setStatus("done");
+            appointmentDto.setNoteOfAppointment(message);
         } else {
-            throw new NotFoundException("not found");
+            throw new NotFoundException("Could not find appointment by Id: [%s]".formatted(appointmentID));
         }
     }
 
-    public AppointmentEntity findById(Integer appointmentId) {
+    public AppointmentDto findById(Integer appointmentId) {
 
-        Optional<AppointmentEntity> appointmentById = appointmentDao.findById(appointmentId);
+        Optional<AppointmentDto> appointmentById = appointmentDao.findById(appointmentId);
         if (appointmentById.isEmpty()) {
             throw new NotFoundException("Could not find appointment by Id: [%s]".formatted(appointmentId));
         }
@@ -140,10 +141,10 @@ public class AppointmentService {
         appointmentDao.saveAppointment(appointment);
     }
 
-    public void generatePdf(AppointmentEntity invoice) {
+    public void generatePdf(AppointmentDto invoice) {
         String uuid = invoice.getUUID();
         OffsetDateTime nowDate = OffsetDateTime.now();
-        pdfGeneratorService.generatePdf( "<!doctype html><html><head><meta charset=utf-8><style>.invoice-box{max-width:800px;padding:30px;border:1px solid #eee;box-shadow:0 0 10px rgba(0,0,0,.15);font-size:16px;line-height:24px;font-family:'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;color:#555;}.invoice-box table{width:100%;line-height:inherit;text-align:left;}.invoice-box table td{padding:5px;vertical-align:top;}.invoice-box table tr td:nth-child(2){text-align:right;}.invoice-box table tr.top table td{padding-bottom:20px;}.invoice-box table tr.top table td.title{font-size:45px;line-height:45px;color:#333;}.invoice-box table tr.information table td{padding-bottom:40px;}.invoice-box table tr.heading td{background:#eee;border-bottom:1px solid #ddd;font-weight:bold;}.invoice-box table tr.details td{padding-bottom:20px;}.invoice-box table tr.item td{border-bottom:1px solid #eee;}.invoice-box table tr.item.last td{border-bottom:none;}.invoice-box table tr.total td:nth-child(2){border-top:2px solid #eee;font-weight:bold;}@media only screen and (max-width:600px){.invoice-box table tr.top table td{width:100%;display:block;text-align:center;}.invoice-box table tr.information table td{width:100%;display:block;text-align:center;}}/** RTL **/.rtl{direction:rtl;font-family:Tahoma,'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;}.rtl table{text-align:right;}.rtl table tr td:nth-child(2){text-align:left;}</style></head><body><div class=invoice-box><table cellpadding=0 cellspacing=0><tr class=top><td colspan=2><table><tr><td class=title><h6 style=color:blue>Medinet</h6></td><td>Faktura: "
+        pdfGeneratorService.generatePdf("<!doctype html><html><head><meta charset=utf-8><style>.invoice-box{max-width:800px;padding:30px;border:1px solid #eee;box-shadow:0 0 10px rgba(0,0,0,.15);font-size:16px;line-height:24px;font-family:'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;color:#555;}.invoice-box table{width:100%;line-height:inherit;text-align:left;}.invoice-box table td{padding:5px;vertical-align:top;}.invoice-box table tr td:nth-child(2){text-align:right;}.invoice-box table tr.top table td{padding-bottom:20px;}.invoice-box table tr.top table td.title{font-size:45px;line-height:45px;color:#333;}.invoice-box table tr.information table td{padding-bottom:40px;}.invoice-box table tr.heading td{background:#eee;border-bottom:1px solid #ddd;font-weight:bold;}.invoice-box table tr.details td{padding-bottom:20px;}.invoice-box table tr.item td{border-bottom:1px solid #eee;}.invoice-box table tr.item.last td{border-bottom:none;}.invoice-box table tr.total td:nth-child(2){border-top:2px solid #eee;font-weight:bold;}@media only screen and (max-width:600px){.invoice-box table tr.top table td{width:100%;display:block;text-align:center;}.invoice-box table tr.information table td{width:100%;display:block;text-align:center;}}/** RTL **/.rtl{direction:rtl;font-family:Tahoma,'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;}.rtl table{text-align:right;}.rtl table tr td:nth-child(2){text-align:left;}</style></head><body><div class=invoice-box><table cellpadding=0 cellspacing=0><tr class=top><td colspan=2><table><tr><td class=title><h6 style=color:blue>Medinet</h6></td><td>Faktura: "
                         + invoice.getUUID() + "<br>Data wizyty: "
                         + invoice.getDateOfAppointment() + "<br>Godzina wizyty: "
                         + invoice.getTimeOfVisit() + "<br>Adres placówki: "
@@ -155,21 +156,18 @@ public class AppointmentService {
                         + invoice.getDoctor().getPriceForVisit() + " zł.</td></tr><tr class=item><td>Data wystawienia faktury</td><td>"
                         + nowDate.format(formatter) + "</td></tr><tr class=item><td><p style=font-weight:bold>Informacja od lekarza</p><span>"
                         + invoice.getNoteOfAppointment() + "</span></td></tr></table></div></body></html>"
-                ,uuid);
+                , uuid);
     }
 
-
-    public AppointmentEntity findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
-        Optional<AppointmentEntity> appointment =
-                appointmentDao.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
-        return appointment.orElse(null);
-    }
 
     public List<AppointmentDto> findAll() {
         return appointmentDao.findAll();
     }
 
 
+    public boolean existByDateAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
+        return appointmentDao.existByDateAndTimeOfVisit(dateOfAppointment, timeOfVisit);
+    }
 }
 
 

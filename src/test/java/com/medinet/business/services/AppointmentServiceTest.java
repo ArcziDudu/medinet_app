@@ -1,11 +1,11 @@
 package com.medinet.business.services;
 
 import com.medinet.api.dto.AppointmentDto;
+import com.medinet.api.dto.CalendarDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.dao.AppointmentDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
-import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,19 +48,18 @@ class AppointmentServiceTest {
         LocalTime calendarHour = LocalTime.of(10, 0);
         Integer calendarId = 456;
 
-        CalendarEntity calendarEntity = new CalendarEntity();
-        calendarEntity.setCalendarId(calendarId);
-        calendarEntity.setHours(new ArrayList<>());
+        CalendarDto calendar = new CalendarDto();
+        calendar.setCalendarId(calendarId);
+        calendar.setHours(new ArrayList<>());
 
-        when(calendarService.findById(calendarId)).thenReturn(Optional.of(calendarEntity));
+        when(calendarService.findById(calendarId)).thenReturn(calendar);
 
         //when
-
         appointmentService.processRemovingAppointment(appointmentId, calendarHour, calendarId);
         //then
         verify(appointmentDao).removeAppointment(appointmentId);
 
-        List<LocalTime> hoursAfterProcess = calendarEntity.getHours();
+        List<LocalTime> hoursAfterProcess = calendar.getHours();
         assertEquals(calendarHour, hoursAfterProcess.get(0));
     }
 
@@ -112,6 +112,7 @@ class AppointmentServiceTest {
     @Test
     @DisplayName("Should return all appointments with the given statuses")
     void findAllAppointmentsWithGivenStatuses() {
+        //given
         List<String> statuses = Arrays.asList("done", "pending", "upcoming");
 
         List<AppointmentEntity> appointmentEntities = Arrays.asList(
@@ -129,8 +130,10 @@ class AppointmentServiceTest {
 
             when(appointmentDao.findAllByStatus(status)).thenReturn(expectedAppointments);
 
+            //when
             List<AppointmentDto> actualAppointments = appointmentService.findAllAppointmentsByStatus(status);
 
+            //then
             assertEquals(expectedAppointments.size(), actualAppointments.size());
             assertThat(actualAppointments).containsExactlyInAnyOrderElementsOf(expectedAppointments);
             verify(appointmentDao, times(1)).findAllByStatus(status);
@@ -140,84 +143,118 @@ class AppointmentServiceTest {
     @Test
     @DisplayName("Should return an empty list when there are no completed appointments for a specific doctor")
     void findAllCompletedAppointmentsForSpecificDoctorReturnsEmptyList() {
+        //given
         String status = "done";
         Integer doctorId = 1;
         List<AppointmentDto> appointmentDtos = Collections.emptyList();
         when(appointmentDao.findAllByStatus(status)).thenReturn(appointmentDtos);
 
+        //when
         List<AppointmentDto> result = appointmentService.findAllAppointmentsByStatusAndDoctorID(status, doctorId);
 
+        //then
         assertThat(result).isEmpty();
         verify(appointmentDao, times(1)).findAllByStatus(status);
         verifyNoMoreInteractions(appointmentDao);
     }
 
     @Test
-    @DisplayName("Should change the status of the appointment to 'done' and set the note when the appointment is found")
-    void approveAppointmentWhenAppointmentIsFound() {
-        Integer appointmentId = 1;
-        String message = "Appointment approved";
+    public void testProcessAppointmentPendingStatus() {
+        // given
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
 
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setStatus("pending");
+        AppointmentEntity appointment = new AppointmentEntity();
+        appointment.setDateOfAppointment(today.minusDays(1));
+        appointment.setTimeOfVisit(now);
+        appointment.setCalendarId(1);
 
-        Optional<AppointmentEntity> optionalAppointment = Optional.of(appointmentEntity);
+        CalendarDto calendar = new CalendarDto();
+        List<LocalTime> hours = new ArrayList<>();
+        hours.add(now);
+        calendar.setHours(hours);
 
-        when(appointmentDao.findById(appointmentId)).thenReturn(optionalAppointment);
+        when(calendarService.findById(appointment.getCalendarId())).thenReturn(calendar);
 
-        appointmentService.approveAppointment(appointmentId, message);
+        // when
+        appointmentService.processAppointment(appointment);
 
-        verify(appointmentDao, times(1)).findById(appointmentId);
+        // then
+        assertEquals("pending", appointment.getStatus());
+        verify(appointmentDao, times(1)).saveAppointment(appointment);
 
-
-        assertEquals("done", appointmentEntity.getStatus());
-        assertEquals(message, appointmentEntity.getNoteOfAppointment());
     }
 
     @Test
-    @DisplayName("Should throw NotFoundException when the appointment is not found")
-    void approveAppointmentWhenAppointmentIsNotFoundThenThrowException() {
-        Integer appointmentId = 1;
-        String message = "Approved";
-
+    void testFindByIdWhenAppointmentDoesNotExist() {
+        //given
+        Integer appointmentId = 2;
         when(appointmentDao.findById(appointmentId)).thenReturn(Optional.empty());
 
-        // Act and Assert
-        assertThrows(NotFoundException.class, () -> {
-            appointmentService.approveAppointment(appointmentId, message);
-        });
-
-        // Verify
+        //when //then
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> appointmentService.findById(appointmentId));
+        assertEquals("Could not find appointment by Id: [2]", exception.getMessage());
         verify(appointmentDao, times(1)).findById(appointmentId);
-
     }
 
+    @Test
+    void testApproveAppointmentWhenAppointmentExists() {
+        //given
+        Integer appointmentId = 1;
+        String message = "Appointment approved";
+        AppointmentDto appointmentDto = new AppointmentDto();
+        appointmentDto.setStatus("pending");
+        when(appointmentDao.findById(appointmentId)).thenReturn(Optional.of(appointmentDto));
 
+        //when
+        appointmentService.approveAppointment(appointmentId, message);
+
+        //then
+        assertEquals("done", appointmentDto.getStatus());
+        assertEquals(message, appointmentDto.getNoteOfAppointment());
+        verify(appointmentDao, times(1)).findById(appointmentId);
+    }
 
     @Test
-    @DisplayName("Should return the appointment when the appointmentId is valid")
-    void findByIdWhenAppointmentIdIsValid() {
+    void testApproveAppointmentWhenAppointmentDoesNotExist() {
+        //given
+        Integer appointmentId = 2;
+        String message = "Appointment approved";
+        when(appointmentDao.findById(appointmentId)).thenReturn(Optional.empty());
+
+        //when then
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> appointmentService.approveAppointment(appointmentId, message));
+        assertEquals("Could not find appointment by Id: [2]", exception.getMessage());
+        verify(appointmentDao, times(1)).findById(appointmentId);
+    }
+
+    @Test
+    void testFindByIdWhenAppointmentExists() {
+        //given
         Integer appointmentId = 1;
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setAppointmentId(appointmentId);
-        when(appointmentDao.findById(appointmentId)).thenReturn(Optional.of(appointmentEntity));
+        AppointmentDto appointmentDto = new AppointmentDto();
+        when(appointmentDao.findById(appointmentId)).thenReturn(Optional.of(appointmentDto));
 
-     AppointmentEntity result = appointmentService.findById(appointmentId);
+        //when
+        AppointmentDto result = appointmentService.findById(appointmentId);
 
+        //then
         assertNotNull(result);
-        assertTrue(true);
-        assertEquals(appointmentEntity, result);
+        assertEquals(appointmentDto, result);
         verify(appointmentDao, times(1)).findById(appointmentId);
     }
 
     @Test
     @DisplayName("Should return an empty list when there are no completed appointments with the given status")
     void findAllCompletedAppointmentsWithNoGivenStatus() {
+        //given
         String status = "completed";
         when(appointmentDao.findAllByStatus(status)).thenReturn(Collections.emptyList());
 
+        //when
         List<AppointmentDto> result = appointmentService.findAllAppointmentsByStatus(status);
 
+        //then
         assertThat(result).isEmpty();
         verify(appointmentDao, times(1)).findAllByStatus(status);
     }

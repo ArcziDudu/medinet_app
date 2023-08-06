@@ -6,7 +6,6 @@ import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.OpinionService;
 import com.medinet.business.services.PatientService;
-import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.entity.PatientEntity;

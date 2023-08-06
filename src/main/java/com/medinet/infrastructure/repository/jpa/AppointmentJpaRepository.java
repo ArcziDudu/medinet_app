@@ -24,4 +24,7 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntit
     Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
 
     Optional<AppointmentEntity> findByUUID(String uuid);
+
+    boolean existsByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+
 }

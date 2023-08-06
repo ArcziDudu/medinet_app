@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/main.css}" rel="stylesheet">
-<!--           <link rel="stylesheet" href="../static/main.css">-->
+    <!--           <link rel="stylesheet" href="../static/main.css">-->
     <title>Medinet - internetowa przychodnia</title>
     <style>
         .available-hour {
@@ -86,6 +86,7 @@
 
 
 
+
     </style>
 </head>
 
@@ -154,19 +155,24 @@ transition: opacity .2s, display .2s;">
                 </div>
                 <form id="searchForm" action="#" th:action="@{/booking/find}" method="GET">
                     <label for="doctorSpecializations">Specjalizacje:</label>
-                    <select id="doctorSpecializations" th:name="doctorSpecialization" style="background-color: white; color: black;" required>
+                    <select id="doctorSpecializations" th:name="doctorSpecialization"
+                            style="background-color: white; color: black;" required>
                         <option value="" selected>Wybierz specjalizację...</option>
                         <option th:each="specialization : ${specializations}" th:value="${specialization}"
-                                th:text="${specialization}" style="color: white; background-color: #0e85b2d4; border: 2px solid white; font-weight: bold;">
+                                th:text="${specialization}"
+                                style="color: white; background-color: #0e85b2d4; border: 2px solid white; font-weight: bold;">
                         </option>
                     </select>
                     <label for="doctorCities" style="margin-left: 50px">Miasto:</label>
-                    <select id="doctorCities" th:name="doctorCity" style="background-color: white; color: black;" required>
+                    <select id="doctorCities" th:name="doctorCity" style="background-color: white; color: black;"
+                            required>
                         <option value="" selected>Wybierz miasto...</option>
-                        <option th:each="city : ${cities}" th:value="${city}" th:text="${city}" style="color: white; background-color: #0e85b2d4; border: 2px solid white; font-weight: bold;">
+                        <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"
+                                style="color: white; background-color: #0e85b2d4; border: 2px solid white; font-weight: bold;">
                         </option>
                     </select>
-                    <input type="submit" value="Szukaj" class="btn" style="background-color: #3f7293; color: white; font-weight: bold; border: 2px solid white; margin-left: 30px">
+                    <input type="submit" value="Szukaj" class="btn"
+                           style="background-color: #3f7293; color: white; font-weight: bold; border: 2px solid white; margin-left: 30px">
                 </form>
 
             </div>
@@ -238,8 +244,6 @@ transition: opacity .2s, display .2s;">
                                         <span th:if="${doctor.getOpinions().size() >= 5 || doctor.getOpinions().isEmpty()}"> opinii</span>
                                     </p>
                                 </div>
-
-
 
 
                             </div>
@@ -418,6 +422,7 @@ function closeAlert() {
         container.style.display = 'none';
     }, 200);
 }
+
 
 
 </script>

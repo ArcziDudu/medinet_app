@@ -19,7 +19,7 @@
                 <div class="alert alert-danger" style="text-align:center">Dane logowania nieprawidłowe</div>
             </div>
             <div th:if="${param.logout}">
-                <div class="alert alert-success"style="text-align:center"> Zostałeś wylogowany</div>
+                <div class="alert alert-success" style="text-align:center"> Zostałeś wylogowany</div>
             </div>
             <div th:if="${errorMessage}" class="alert alert-danger">
                 <p th:text="${errorMessage}"></p>
@@ -56,7 +56,7 @@
                                     placeholder="Wprowadź hasło"
                             />
                         </div>
-                        <button type="submit" class="btn btn-primary container" >Zaloguj się</button>
+                        <button type="submit" class="btn btn-primary container">Zaloguj się</button>
                         <div class="form-group mb-3 container" style="text-align:center; margin-top:10px">
                                <span> Nie masz konta?
                                 <a th:href="@{/register}">Zarejestruj się</a>

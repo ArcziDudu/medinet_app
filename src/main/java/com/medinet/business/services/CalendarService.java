@@ -2,6 +2,7 @@ package com.medinet.business.services;
 
 import com.medinet.api.dto.CalendarDto;
 import com.medinet.business.dao.CalendarDao;
+import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import jakarta.transaction.Transactional;
@@ -24,13 +25,12 @@ public class CalendarService {
     }
 
     @Transactional
-    public Optional<CalendarEntity> findById(Integer calendarId) {
-        Optional<CalendarEntity> calendar = calendarDao.findById(calendarId);
+    public CalendarDto findById(Integer calendarId) {
+        Optional<CalendarDto> calendar = calendarDao.findById(calendarId);
         if (calendar.isEmpty()) {
-            log.error("Problem with calendar service. Calendar with id [%s] not found!"
-                    .formatted(calendarId));
+            throw new NotFoundException("Could not find calendar by id: [%s]".formatted(calendarId));
         }
-        return calendar;
+        return calendar.get();
     }
 
 
@@ -39,11 +39,12 @@ public class CalendarService {
     }
 
     @Transactional
-    public CalendarEntity findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
-        Optional<CalendarEntity> calendar = calendarDao
+    public CalendarDto findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
+        Optional<CalendarDto> calendar = calendarDao
                 .findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
         if (calendar.isEmpty()) {
-            log.error("Problem with calendar service. Calendar  not found!");
+            throw new NotFoundException("Could not find calendar by doctorId and dateOfAppointment: [%s] [%s]"
+                    .formatted(doctor.getDoctorId(), dateOfAppointment));
         }
         return calendar.get();
 

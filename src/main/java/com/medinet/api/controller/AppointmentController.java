@@ -7,7 +7,6 @@ import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
 import com.medinet.infrastructure.entity.AppointmentEntity;
-import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
@@ -16,7 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -33,7 +31,6 @@ public class AppointmentController {
     private PatientMapper patientMapper;
     private final UserRepository userRepository;
     private final String REQUEST = "/request";
-    private InvoiceJpaRepository invoiceJpaRepository;
     private final String BOOKING_APPOINTMENT = "/booking/appointment";
     private final String APPOINTMENT_APPROVE_ID = "/appointment/approve/{appointmentId}";
     private final String APPOINTMENT_REMOVE_ID = "/booking/remove/{appointmentId}";
@@ -97,7 +94,7 @@ public class AppointmentController {
     @PostMapping(APPOINTMENT_APPROVE_ID)
     public String approveAppointment(@PathVariable(value = "appointmentId") Integer appointmentID,
                                      @RequestParam("message") String message) {
-        AppointmentEntity appointmentById = appointmentService.findById(appointmentID);
+        AppointmentDto appointmentById = appointmentService.findById(appointmentID);
         appointmentService.approveAppointment(appointmentID, message);
         appointmentService.generatePdf(appointmentById);
         return "redirect:/doctor?approve=true";
@@ -130,8 +127,8 @@ public class AppointmentController {
 
     @PostMapping(GENERATE_PDF)
     public String generatePdf(
-            @PathVariable("appointmentId") Integer appointmentId){
-        AppointmentEntity appointmentById = appointmentService.findById(appointmentId);
+            @PathVariable("appointmentId") Integer appointmentId) {
+        AppointmentDto appointmentById = appointmentService.findById(appointmentId);
         String uuid = appointmentById.getUUID();
         return "redirect:/api/invoice/download/" + uuid;
     }

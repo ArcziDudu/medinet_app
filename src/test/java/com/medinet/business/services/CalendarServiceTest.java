@@ -1,6 +1,6 @@
 package com.medinet.business.services;
 
-import com.medinet.infrastructure.entity.CalendarEntity;
+import com.medinet.api.dto.CalendarDto;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,18 +25,18 @@ class CalendarServiceTest {
         DoctorEntity doctor = EntityFixtures.someDoctor1();
         LocalDate dateOfAppointment = LocalDate.of(2023, 7, 31);
 
-        CalendarEntity calendarEntity = new CalendarEntity();
+        CalendarDto calendar = new CalendarDto();
 
 
         when(calendarService.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment))
-                .thenReturn(calendarEntity);
+                .thenReturn(calendar);
 
         // When
-        CalendarEntity result = calendarService.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
+        CalendarDto result = calendarService.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
 
         // Then
         assertNotNull(result);
-        assertEquals(calendarEntity, result);
+        assertEquals(calendar, result);
 
         verify(calendarService, times(1)).findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
     }
@@ -51,7 +51,7 @@ class CalendarServiceTest {
                 .thenReturn(null);
 
         // When
-        CalendarEntity result = calendarService.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
+        CalendarDto result = calendarService.findByDoctorIdAndDateOfAppointment(doctor, dateOfAppointment);
 
         // Then
         assertNull(result);
@@ -62,16 +62,16 @@ class CalendarServiceTest {
     void findByIdCalendarExistsReturnsOptionalWithCalendarEntity() {
         // Given
         int calendarId = 1;
-        CalendarEntity calendarEntity = new CalendarEntity();
+        CalendarDto calendar = new CalendarDto();
         when(calendarService.findById(calendarId))
-                .thenReturn(Optional.of(calendarEntity));
+                .thenReturn(calendar);
 
         // When
-        Optional<CalendarEntity> result = calendarService.findById(calendarId);
+        CalendarDto result = calendarService.findById(calendarId);
 
         // Then
-        assertTrue(result.isPresent());
-        assertEquals(calendarEntity, result.get());
+        assertTrue(Objects.nonNull(result));
+        assertEquals(calendar, result);
         verify(calendarService, times(1)).findById(calendarId);
     }
 
@@ -79,14 +79,15 @@ class CalendarServiceTest {
     void findByIdCalendarNotExistsReturnsEmptyOptional() {
         // Given
         int calendarId = 1;
+        CalendarDto calendar = new CalendarDto();
         when(calendarService.findById(calendarId))
-                .thenReturn(Optional.empty());
+                .thenReturn(calendar);
 
         // When
-        Optional<CalendarEntity> result = calendarService.findById(calendarId);
+        CalendarDto result = calendarService.findById(calendarId);
 
         // Then
-        assertFalse(result.isPresent());
+        assertFalse(Objects.isNull(result));
         verify(calendarService, times(1)).findById(calendarId);
     }
 }

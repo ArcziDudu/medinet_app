@@ -4,7 +4,6 @@ import com.medinet.api.dto.OpinionDto;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.OpinionService;
 import com.medinet.business.services.PatientService;
-import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
@@ -14,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -82,8 +80,8 @@ public class OpinionRestController {
             @RequestBody @Schema(description = "Opinion text") String opinion) {
 
 
-            doctorService.findDoctorById(doctorId);
-            patientService.findById(patientId);
+        doctorService.findDoctorById(doctorId);
+        patientService.findById(patientId);
 
 
         OpinionEntity newOpinion = OpinionEntity.builder()

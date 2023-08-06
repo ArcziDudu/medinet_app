@@ -4,15 +4,15 @@ import com.medinet.business.dao.PatientDao;
 import com.medinet.domain.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PatientServiceTest {
@@ -26,13 +26,13 @@ class PatientServiceTest {
     public void testFindByIdThrowsException() {
         // Given
         int testId = 123;
-        when(patientDao.findByUserId(testId)).thenReturn(Optional.empty());
+        when(patientDao.findById(testId)).thenReturn(Optional.empty());
 
-        // When
-        Executable executable = () -> patientService.findById(testId);
+        // When then
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> patientService.findById(testId));
+        assertEquals("Could not find patient by id: [123]", exception.getMessage());
+        verify(patientDao, times(1)).findById(testId);
 
-        // Then
-        assertThrows(NotFoundException.class, executable);
     }
 
     @Test
@@ -41,11 +41,11 @@ class PatientServiceTest {
         int testId = 123;
         when(patientDao.findByUserId(testId)).thenReturn(Optional.empty());
 
-        // When
-        Executable executable = () -> patientService.findByUserId(testId);
+        // When then
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> patientService.findByUserId(testId));
+        assertEquals("Could not find patient by Userid: [123]", exception.getMessage());
+        verify(patientDao, times(1)).findByUserId(testId);
 
-        // Then
-        assertThrows(NotFoundException.class, executable);
     }
 
     @Test
@@ -54,10 +54,10 @@ class PatientServiceTest {
         String testEmail = "test@example.com";
         when(patientDao.findByEmail(testEmail)).thenReturn(Optional.empty());
 
-        // When
-        Executable executable = () -> patientService.findByEmail(testEmail);
+        // When then
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> patientService.findByEmail(testEmail));
+        assertEquals("Could not find patient by email: [test@example.com]", exception.getMessage());
+        verify(patientDao, times(1)).findByEmail(testEmail);
 
-        // Then
-        assertThrows(NotFoundException.class, executable);
     }
 }

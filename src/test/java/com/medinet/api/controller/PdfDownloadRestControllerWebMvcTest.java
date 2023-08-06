@@ -1,9 +1,9 @@
 package com.medinet.api.controller;
 
 import com.medinet.api.controller.rest.PdfDownloadRestController;
-import com.medinet.infrastructure.entity.InvoiceEntity;
+import com.medinet.api.dto.InvoiceDto;
+import com.medinet.business.services.InvoiceService;
 import com.medinet.infrastructure.repository.jpa.AppointmentJpaRepository;
-import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -25,7 +24,7 @@ public class PdfDownloadRestControllerWebMvcTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private InvoiceJpaRepository invoiceJpaRepository;
+    private InvoiceService invoiceService;
     @MockBean
     private AppointmentJpaRepository appointmentJpaRepository;
 
@@ -33,12 +32,12 @@ public class PdfDownloadRestControllerWebMvcTest {
     public void testDownloadInvoice_ExistingInvoice_ShouldReturnPdfFile() throws Exception {
 
         String uuid = "some-uuid";
-        InvoiceEntity invoiceEntity = new InvoiceEntity();
-        invoiceEntity.setUuid(uuid);
+        InvoiceDto invoice = new InvoiceDto();
+        invoice.setUuid(uuid);
         byte[] pdfData = "Mock PDF Data".getBytes();
-        invoiceEntity.setPdfData(pdfData);
+        invoice.setPdfData(pdfData);
 
-        when(invoiceJpaRepository.findByUuid(uuid)).thenReturn(Optional.of(invoiceEntity));
+        when(invoiceService.findByUuid(uuid)).thenReturn(invoice);
 
 
         mockMvc.perform(get("/api/invoice/download/{uuid}", uuid))
@@ -52,7 +51,7 @@ public class PdfDownloadRestControllerWebMvcTest {
     public void testDownloadInvoiceNonExistingInvoiceShouldReturnNotFound() throws Exception {
 
         String uuid = "non-existing-uuid";
-        when(invoiceJpaRepository.findByUuid(uuid)).thenReturn(Optional.empty());
+        when(invoiceService.findByUuid(uuid)).thenReturn(null);
 
 
         mockMvc.perform(get("/api/invoice/download/{uuid}", uuid))

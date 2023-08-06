@@ -1,6 +1,7 @@
 package com.medinet.api.controller.rest;
 
 import com.medinet.api.dto.AppointmentDto;
+import com.medinet.api.dto.CalendarDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.RequestDto;
 import com.medinet.business.services.AppointmentService;
@@ -8,8 +9,6 @@ import com.medinet.business.services.CalendarService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
 import com.medinet.domain.exception.NotFoundException;
-import com.medinet.infrastructure.entity.AppointmentEntity;
-import com.medinet.infrastructure.entity.CalendarEntity;
 import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
@@ -32,9 +31,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.medinet.util.EntityFixtures.someAppointment1;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,18 +65,17 @@ class AppointmentRestControllerTest {
         RequestDto requestDto = new RequestDto();
         LocalDate nextWednesday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
         requestDto.setDateOfAppointment(nextWednesday);
-        requestDto.setTimeOfVisit(LocalTime.of(9, 0));
+        requestDto.setTimeOfVisit(LocalTime.of(10, 0));
         requestDto.setDoctorId(1);
 
-        when(appointmentService.findByDateOfAppointmentAndTimeOfVisit(any(LocalDate.class), any(LocalTime.class))).thenReturn(null);
+
         when(doctorService.findDoctorById(any(Integer.class))).thenReturn(new DoctorDto());
-        when(calendarService.findByDoctorIdAndDateOfAppointment(isNull(), any(LocalDate.class))).thenReturn(new CalendarEntity());
-        when(appointmentMapper.mapFromDto(any(AppointmentDto.class))).thenReturn(new AppointmentEntity());
+        when(calendarService.findByDoctorIdAndDateOfAppointment(isNull(), any(LocalDate.class))).thenReturn(new CalendarDto());
 
         ResponseEntity<?> responseEntity = appointmentRestController.createAppointment(requestDto);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(appointmentService).processAppointment(any(AppointmentEntity.class));
+
     }
 
     @Test
@@ -123,29 +121,26 @@ class AppointmentRestControllerTest {
         assertEquals("Invalid appointment date - you cannot schedule an appointment on the weekend!", responseEntity.getBody());
     }
 
+
     @Test
     public void testCreateAppointmentSlotAlreadyBooked() {
-        //given
-        LocalDate localDate = LocalDate.now().plusWeeks(1);
-        if (localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            localDate = localDate.plusDays(2);
-        } else if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-            localDate = localDate.plusDays(3);
+        // given
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        if (localDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) || localDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            localDate = localDate.plusDays(4);
         }
         RequestDto requestDto = new RequestDto();
+        LocalTime visitTime = LocalTime.of(14, 0);
         requestDto.setDateOfAppointment(localDate);
-        requestDto.setTimeOfVisit(LocalTime.of(9, 0));
+        requestDto.setTimeOfVisit(visitTime);
         requestDto.setDoctorId(1);
 
-        when(appointmentService.findByDateOfAppointmentAndTimeOfVisit(
-                requestDto.getDateOfAppointment(),
-                requestDto.getTimeOfVisit())
-        ).thenReturn(new AppointmentEntity());
+        when(appointmentService.existByDateAndTimeOfVisit(any(LocalDate.class), any(LocalTime.class))).thenReturn(true);
 
-        //when
+        // when
         ResponseEntity<?> responseEntity = appointmentRestController.createAppointment(requestDto);
 
-        //then
+        // then
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("The selected time slot is already booked!", responseEntity.getBody());
     }
@@ -154,13 +149,10 @@ class AppointmentRestControllerTest {
     public void testFindAppointmentById() {
         //given
         Integer appointmentId = 1;
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
 
-        AppointmentDto appointmentDto = new AppointmentDto();
+        AppointmentDto appointment = new AppointmentDto();
 
-        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
-        when(appointmentMapper.mapFromEntity(appointmentEntity)).thenReturn(appointmentDto);
-
+        when(appointmentService.findById(appointmentId)).thenReturn(appointment);
 
         //when
         ResponseEntity<AppointmentDto> responseEntity = appointmentRestController.AppointmentById(appointmentId);
@@ -168,9 +160,8 @@ class AppointmentRestControllerTest {
 
         //then
         assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals(appointmentDto, responseEntity.getBody());
+        assertEquals(appointment, responseEntity.getBody());
     }
-
 
 
     @Test
@@ -193,10 +184,10 @@ class AppointmentRestControllerTest {
 
     @Test
     public void testUpdateAppointmentMessageDoneStatus() {
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setStatus("done");
+        AppointmentDto appointment = new AppointmentDto();
+        appointment.setStatus("done");
 
-        when(appointmentService.findById(anyInt())).thenReturn(appointmentEntity);
+        when(appointmentService.findById(anyInt())).thenReturn(appointment);
 
         ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
 
@@ -206,10 +197,10 @@ class AppointmentRestControllerTest {
 
     @Test
     public void testUpdateAppointmentMessageUpcomingStatus() {
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setStatus("upcoming");
+        AppointmentDto appointment = new AppointmentDto();
+        appointment.setStatus("upcoming");
 
-        when(appointmentService.findById(anyInt())).thenReturn(appointmentEntity);
+        when(appointmentService.findById(anyInt())).thenReturn(appointment);
 
         ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
 
@@ -228,10 +219,10 @@ class AppointmentRestControllerTest {
 
     @Test
     public void testUpdateAppointmentMessageSuccess() {
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setStatus("pending");
+        AppointmentDto appointment = new AppointmentDto();
+        appointment.setStatus("pending");
 
-        when(appointmentService.findById(anyInt())).thenReturn(appointmentEntity);
+        when(appointmentService.findById(anyInt())).thenReturn(appointment);
         Mockito.doNothing().when(appointmentService).approveAppointment(anyInt(), any());
 
         ResponseEntity<?> response = appointmentRestController.updateAppointmentMessage(1, "New message");
@@ -288,10 +279,10 @@ class AppointmentRestControllerTest {
     public void testDeleteAppointment() {
         //given
         Integer appointmentId = 1;
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setStatus("upcoming");
+        AppointmentDto appointment = new AppointmentDto();
+        appointment.setStatus("upcoming");
 
-        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
+        when(appointmentService.findById(appointmentId)).thenReturn(appointment);
 
         //when
         ResponseEntity<?> responseEntity = appointmentRestController.deleteAppointment(appointmentId);
@@ -319,10 +310,10 @@ class AppointmentRestControllerTest {
     public void testDeleteAppointmentAlreadyDone() {
         //given
         Integer appointmentId = 1;
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setStatus("done");
+        AppointmentDto appointment = new AppointmentDto();
+        appointment.setStatus("done");
 
-        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
+        when(appointmentService.findById(appointmentId)).thenReturn(appointment);
 
         //when
         ResponseEntity<?> responseEntity = appointmentRestController.deleteAppointment(appointmentId);

@@ -19,10 +19,9 @@ import java.util.HashSet;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 ;
 
 @WebMvcTest(controllers = RegisterController.class)
@@ -43,6 +42,7 @@ public class RegisterControllerWebMvcTest {
     private RoleRepository roleRepository;
     @MockBean
     private JavaMailSender mailSender;
+
     @Test
     public void testVerificationSuccess() throws Exception {
         String email = "patient@patient.pl";
@@ -73,6 +73,7 @@ public class RegisterControllerWebMvcTest {
         verify(registerService, times(1)).save(userEntity);
         assertTrue(userEntity.getActive());
     }
+
     @Test
     public void testVerificationAccountNotFound() throws Exception {
 
@@ -91,6 +92,7 @@ public class RegisterControllerWebMvcTest {
                 .andExpect(model().attribute("error", "Ten email nie istnieje w bazie danych"));
         verify(registerService, never()).save(any(UserEntity.class));
     }
+
     @Test
     public void testVerificationAccountNotRequired() throws Exception {
 
@@ -120,6 +122,7 @@ public class RegisterControllerWebMvcTest {
                 .andExpect(model().attribute("error", "To konto nie wymaga aktywacji"));
         verify(registerService, never()).save(any(UserEntity.class));
     }
+
     @Test
     public void testVerificationAccountBadCode() throws Exception {
         // given

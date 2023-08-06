@@ -90,6 +90,7 @@
 }
 
 
+
     </style>
 </head>
 
@@ -213,7 +214,8 @@ box-shadow: inset 0px 0px 71px -52px rgba(66, 68, 90, 1);
 
                         <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
                             <th:block th:with="offsetDateTime=${OneOpinion.dateOfCreateOpinion}">
-                                <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                                <th:block
+                                        th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
                                     <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
                                 </th:block>
                             </th:block>

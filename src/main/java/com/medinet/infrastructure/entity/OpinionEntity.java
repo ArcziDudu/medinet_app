@@ -16,11 +16,12 @@ import java.time.OffsetDateTime;
 @Entity
 @Table(name = "opinion")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "opinionId")
-public class OpinionEntity implements Comparable<OpinionEntity>{
+public class OpinionEntity implements Comparable<OpinionEntity> {
     @Override
     public int compareTo(OpinionEntity other) {
         return other.getDateOfCreateOpinion().compareTo(this.dateOfCreateOpinion);
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "opinion_id")

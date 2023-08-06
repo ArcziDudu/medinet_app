@@ -3,7 +3,10 @@ package com.medinet.util;
 import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.RequestDto;
-import com.medinet.infrastructure.entity.*;
+import com.medinet.infrastructure.entity.AddressEntity;
+import com.medinet.infrastructure.entity.AppointmentEntity;
+import com.medinet.infrastructure.entity.DoctorEntity;
+import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.security.UserEntity;
 import lombok.experimental.UtilityClass;
 
@@ -154,7 +157,7 @@ public class EntityFixtures {
                 .noteOfAppointment("First appointment note")
                 .UUID("123e4567-e89b-12d3-a456-426614174000")
                 .issueInvoice(OffsetDateTime.now())
-                .dateOfAppointment(LocalDate.of(2023, 7, 26))
+                .dateOfAppointment(LocalDate.of(2023, 11, 26))
                 .patient(new PatientEntity())
                 .doctor(new DoctorEntity())
                 .calendarId(1)

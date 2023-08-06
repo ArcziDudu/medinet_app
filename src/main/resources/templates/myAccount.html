@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/myAccount.css}" rel="stylesheet">
-        <link rel="stylesheet" href="../static/myAccount.css">
+    <link rel="stylesheet" href="../static/myAccount.css">
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -32,20 +32,32 @@
     </nav>
 
     <div class="container succes text-warning" th:if="${error != null}">
-        <p >[[${error}]]</p>
-        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+        <p>[[${error}]]</p>
+        <button onclick="closeAlert()"
+                style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
+            Zamknij
+        </button>
     </div>
     <div class="container succes text-warning" th:if="${message != null}">
-        <p >[[${message}]]</p>
-        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+        <p>[[${message}]]</p>
+        <button onclick="closeAlert()"
+                style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
+            Zamknij
+        </button>
     </div>
     <div class="container succes text-warning" th:if="${param.remove}">
         <p style=" font-weight: bold;">Wizyta została anulowana!</p>
-        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+        <button onclick="closeAlert()"
+                style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
+            Zamknij
+        </button>
     </div>
     <div class="container succes text-warning" th:if="${param.success}">
         <p style="font-weight: bold;">Faktura została wygenerowana!</p>
-        <button onclick="closeAlert()" style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">Zamknij</button>
+        <button onclick="closeAlert()"
+                style="background: transparent; border: none; color: #FFA07A; font-weight:bold; cursor: pointer;">
+            Zamknij
+        </button>
     </div>
     <div class="container main-box">
         <div class=" container rigth-side" id="appointments">
@@ -100,24 +112,24 @@
                     <h3 style="color: white;">Oczekujące na zalecenia</h3>
                     <div th:each="invoice :${pendingAppointments}">
 
-                            <div class="visit-invoice">
-                                <div class="up-side">
-                                    <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
-                                    <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"></h6>
-                                    <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"></h6>
-                                    <h6 style="color: black;"
-                                        th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
+                        <div class="visit-invoice">
+                            <div class="up-side">
+                                <h6 style="color: black;" th:text="${invoice.getUUID()}"></h6>
+                                <h6 th:text="${'Data wizyty: '+ invoice.getDateOfAppointment()}"></h6>
+                                <h6 th:text="${'Godzina: '+ invoice.getTimeOfVisit()}"></h6>
+                                <h6 style="color: black;"
+                                    th:text="${'Imię i nazwisko: ' + invoice.getPatient().getName()
                                     +' ' +invoice.getPatient().getSurname()}"></h6>
-                                    <h6 th:text="${'Adres przychodni: '+
+                                <h6 th:text="${'Adres przychodni: '+
                                      invoice.getDoctor().getAddress().getCity() + ' '+
                                      invoice.getDoctor().getAddress().getStreet()}"></h6>
-                                    <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
+                                <h6 th:text="${'Lekarz: ' + invoice.getDoctor().getName() +
                                     ' '+ invoice.getDoctor().getSurname()}"></h6>
-                                    <h6 th:text="${'Temat: Wizyta u specjalisty - '
+                                <h6 th:text="${'Temat: Wizyta u specjalisty - '
                                     +invoice.getDoctor().getSpecialization()}"></h6>
-                                    <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
-                                </div>
+                                <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
                             </div>
+                        </div>
 
                     </div>
 
@@ -145,7 +157,7 @@
                                     +invoice.getDoctor().getSpecialization()}"></h6>
                                     <p th:text="${'Informacje od lekarza: '+invoice.getNoteOfAppointment()}"></p>
                                     <p th:text="${'Koszt: '+invoice.getDoctor().getPriceForVisit()}"></p>
-                                    <button style="margin: 0 auto" type="submit" >Faktura</button>
+                                    <button style="margin: 0 auto" type="submit">Faktura</button>
                                 </div>
                             </div>
 
@@ -167,7 +179,8 @@
 
                 <div th:each="oneOpinion : ${CurrentPatient.getOpinions()}" class="one-opinion">
                     <th:block th:with="offsetDateTime=${oneOpinion.dateOfCreateOpinion}">
-                        <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                        <th:block
+                                th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
                             <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
                         </th:block>
                     </th:block>
@@ -232,6 +245,7 @@ function closeAlert() {
         container.style.display = 'none';
     }, 200);
 }
+
 
 </script>
 </body>

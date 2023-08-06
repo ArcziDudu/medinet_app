@@ -18,8 +18,9 @@
             </div>
 
             <div th:if="${param.success}">
-                <div class="alert alert-success"style="text-align:center">
-                    <p>Na podany adres email został wysłany kod aktywacyjny - aktywuj konto, aby dokończyć proces rejestracji</p>
+                <div class="alert alert-success" style="text-align:center">
+                    <p>Na podany adres email został wysłany kod aktywacyjny - aktywuj konto, aby dokończyć proces
+                        rejestracji</p>
                     <a th:href="@{/verification}" class="btn btn-primary">Aktywuj konto</a>
                 </div>
             </div>
@@ -91,10 +92,10 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary container" >Rejestracja</button>
+                    <button type="submit" class="btn btn-primary container">Rejestracja</button>
                     <div class="form-group mb-3 container" style="text-align:center; margin-top:10px">
                         <span>Masz już konto? <a th:href="@{/login}">Zaloguj się,</a></span>
-                            <span>
+                        <span>
                                 <a th:href="@{/verification}">Aktywuj konto</a>
                             </span>
                         <span> lub

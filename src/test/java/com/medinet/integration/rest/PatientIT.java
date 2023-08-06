@@ -24,6 +24,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 public class PatientIT extends RestAssuredIntegrationTestBase {
@@ -35,7 +36,7 @@ public class PatientIT extends RestAssuredIntegrationTestBase {
     private UserRepository userRepository;
 
     @BeforeAll
-    void setup(){
+    void setup() {
         UserEntity userForTests = UserEntity.builder()
                 .email("medinet@test.pl")
                 .password("password")
@@ -61,6 +62,7 @@ public class PatientIT extends RestAssuredIntegrationTestBase {
         userRepository.saveAndFlush(userForTests2);
         userRepository.saveAndFlush(userForTests3);
     }
+
     @Test
     public void testCreateNewPatient() {
         List<PatientEntity> all = patientJpaRepository.findAll();

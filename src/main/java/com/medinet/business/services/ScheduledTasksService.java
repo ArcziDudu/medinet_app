@@ -1,6 +1,6 @@
 package com.medinet.business.services;
 
-import com.medinet.infrastructure.entity.AppointmentEntity;
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -19,23 +19,20 @@ public class ScheduledTasksService {
     private final AppointmentService appointmentService;
     private final AppointmentMapper appointmentMapper;
 
-
-    //zasada działania systemu - okno wizytowe trwa godzine, wiec program co godzinę sprawdza czy wizyta się odbyła,
     @Scheduled(fixedRate = 20000)
     @Transactional
-    public void myMethod() {
-        List<AppointmentEntity> upcoming = appointmentService
-                .findAllAppointmentsByStatus("upcoming")
-                .stream().map(appointmentMapper::mapFromDto).toList();
+    public void statusConversionIfTheVisitTookPlace() {
+        List<AppointmentDto> upcoming = appointmentService
+                .findAllAppointmentsByStatus("upcoming");
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
-        for (AppointmentEntity upcomingAppointment : upcoming) {
+        for (AppointmentDto upcomingAppointment : upcoming) {
             if (upcomingAppointment.getDateOfAppointment().equals(today)
                     && now.isAfter(upcomingAppointment.getTimeOfVisit())) {
 
-                AppointmentEntity appointment = appointmentService.findById(upcomingAppointment.getAppointmentId());
+                AppointmentDto appointment = appointmentService.findById(upcomingAppointment.getAppointmentId());
                 appointment.setStatus("pending");
-                appointmentService.save(appointment);
+                appointmentService.save(appointmentMapper.mapFromDto(appointment));
 
             }
         }

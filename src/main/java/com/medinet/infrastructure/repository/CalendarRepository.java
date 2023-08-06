@@ -27,8 +27,9 @@ public class CalendarRepository implements CalendarDao {
     }
 
     @Override
-    public Optional<CalendarEntity> findById(Integer calendarId) {
-        return calendarJpaRepository.findById(calendarId);
+    public Optional<CalendarDto> findById(Integer calendarId) {
+        return calendarJpaRepository.findById(calendarId)
+                .map(calendarMapper::mapFromEntity);
     }
 
     @Override
@@ -37,8 +38,9 @@ public class CalendarRepository implements CalendarDao {
     }
 
     @Override
-    public Optional<CalendarEntity> findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
-        return calendarJpaRepository.findByDoctorAndDate(doctor, dateOfAppointment);
+    public Optional<CalendarDto> findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment) {
+        return calendarJpaRepository.findByDoctorAndDate(doctor, dateOfAppointment)
+                .map(calendarMapper::mapFromEntity);
     }
 
 

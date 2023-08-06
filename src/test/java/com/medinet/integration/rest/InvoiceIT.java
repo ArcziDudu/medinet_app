@@ -1,8 +1,7 @@
 package com.medinet.integration.rest;
 
-import com.medinet.business.services.PdfGeneratorService;
+import com.medinet.business.services.InvoiceService;
 import com.medinet.infrastructure.entity.InvoiceEntity;
-import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import com.medinet.integration.configuration.RestAssuredIntegrationTestBase;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -14,30 +13,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class InvoiceIT extends RestAssuredIntegrationTestBase
         implements WiremockTestSupport {
     @Autowired
-    InvoiceJpaRepository invoiceJpaRepository;
+    InvoiceService invoiceService;
+
     @Autowired
     private WebTestClient webTestClient;
 
     @BeforeAll
-    void setup(){
+    void setup() {
         String uuid = "some_unique_uuid";
         String test = "74657374";
         byte[] pdfData = test.getBytes();
-        invoiceJpaRepository.save(InvoiceEntity.builder()
+        invoiceService.save(InvoiceEntity.builder()
                 .uuid(uuid)
                 .pdfData(pdfData)
                 .build());
     }
+
     @Test
     public void testGeneratePdfWiremock() throws Exception {
         //given

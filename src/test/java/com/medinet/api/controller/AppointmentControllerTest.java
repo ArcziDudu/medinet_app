@@ -1,11 +1,11 @@
 package com.medinet.api.controller;
 
+import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.api.dto.PatientDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
 import com.medinet.business.services.PatientService;
-import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.entity.PatientEntity;
 import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
@@ -13,7 +13,6 @@ import com.medinet.infrastructure.repository.mapper.DoctorMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +24,6 @@ import org.springframework.ui.Model;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -57,7 +55,7 @@ class AppointmentControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         appointmentController = new AppointmentController(appointmentService, doctorService, patientService,
-                doctorMapper, patientMapper, userRepository, invoiceJpaRepository);
+                doctorMapper, patientMapper, userRepository);
     }
 
     @Test
@@ -148,21 +146,20 @@ class AppointmentControllerTest {
     }
 
 
-
     @Test
     public void testGeneratePdfForExistingInvoice() throws InterruptedException {
         // given
         Integer appointmentId = 1;
         String uuid = "some-uuid";
-        AppointmentEntity dummyAppointment = new AppointmentEntity();
-        dummyAppointment.setUUID(uuid);
-        when(appointmentService.findById(appointmentId)).thenReturn(dummyAppointment);
+        AppointmentDto appointment = new AppointmentDto();
+        appointment.setUUID(uuid);
+        when(appointmentService.findById(appointmentId)).thenReturn(appointment);
 
         // when
         String result = appointmentController.generatePdf(appointmentId);
 
         //then
-        verify(appointmentService, never()).generatePdf(any(AppointmentEntity.class));
+        verify(appointmentService, never()).generatePdf(any(AppointmentDto.class));
         String expectedRedirectUrl = "redirect:/api/invoice/download/" + uuid;
         assertEquals(expectedRedirectUrl, result);
     }

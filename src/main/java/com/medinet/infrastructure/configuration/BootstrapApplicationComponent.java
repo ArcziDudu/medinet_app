@@ -5,14 +5,15 @@ import com.medinet.infrastructure.entity.DoctorEntity;
 import com.medinet.infrastructure.repository.jpa.CalendarJpaRepository;
 import com.medinet.infrastructure.repository.jpa.DoctorJpaRepository;
 import lombok.AllArgsConstructor;
-import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 

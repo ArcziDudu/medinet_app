@@ -237,6 +237,7 @@ class RegisterControllerTest {
         assertEquals("redirect:/verification?success=true", result);
         assertTrue(userEntity.getActive());
     }
+
     @Test
     void verificationExistedEmail() {
         // given
@@ -264,6 +265,7 @@ class RegisterControllerTest {
         verify(model).addAttribute("error", "Ten email nie istnieje w bazie danych");
         assertFalse(userEntity.getActive());
     }
+
     @Test
     void verificationDoesNotRequireActivation() {
         // given
@@ -293,6 +295,7 @@ class RegisterControllerTest {
         assertEquals("accountActivate", result);
         assertFalse(userEntity.getActive());
     }
+
     @Test
     void verificationDoesNotRequireActivationSecond() {
         // given
@@ -322,6 +325,7 @@ class RegisterControllerTest {
         assertEquals("accountActivate", result);
         assertTrue(userEntity.getActive());
     }
+
     @Test
     void verificationInvalidActivationCode() {
         // given

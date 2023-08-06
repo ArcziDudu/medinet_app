@@ -41,10 +41,7 @@ public class HomeController {
     public String homepage() {
         return "home";
     }
-    @RequestMapping(value = TRY_LATER, method = RequestMethod.GET)
-    public String tryLater() {
-        return "internalServerErrorFromApi";
-    }
+
 
     @RequestMapping(value = POLICY, method = RequestMethod.GET)
     public String policy() {

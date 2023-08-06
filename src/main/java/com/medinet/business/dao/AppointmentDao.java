@@ -15,9 +15,10 @@ public interface AppointmentDao {
 
     List<AppointmentDto> findAllByStatus(String status);
 
-    Optional<AppointmentEntity> findById(Integer appointmentID);
-
-    Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+    Optional<AppointmentDto> findById(Integer appointmentID);
 
     List<AppointmentDto> findAll();
+
+    boolean existByDateAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+
 }

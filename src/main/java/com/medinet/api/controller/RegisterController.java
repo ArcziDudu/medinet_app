@@ -11,7 +11,6 @@ import com.medinet.infrastructure.security.UserEntity;
 import com.medinet.infrastructure.security.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -49,8 +48,9 @@ public class RegisterController {
     public static final String EMAIL_SUBJECT = "Aktywacja konta";
     public static final String TEXT_1_ACTIVE_CODE = "Twój kod aktywacyjny:";
     public static final String TEXT_2_ACTIVE_YOUR_ACCOUNT = "Aktywuj swoje konto aby w pełni korzystać z serwisu Medinet.";
+
     @GetMapping(LOGIN)
-    public String login(){
+    public String login() {
         return "login";
     }
 
@@ -71,7 +71,7 @@ public class RegisterController {
     @PostMapping(PASSWORD_RECOVERY)
     public String recoveryPassword(@RequestParam("email") String email, Model model) {
         RoleEntity doctorRole = roleRepository.findByRole("DOCTOR");
-        if(Objects.isNull(email)){
+        if (Objects.isNull(email)) {
             model.addAttribute("error", "Wprowadź adres email");
             return "PasswordRecovery";
         }

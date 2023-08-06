@@ -13,9 +13,9 @@ public interface CalendarDao {
     List<CalendarDto> findAllCalendar();
 
 
-    Optional<CalendarEntity> findById(Integer calendarId);
+    Optional<CalendarDto> findById(Integer calendarId);
 
     void save(CalendarEntity calendar);
 
-    Optional<CalendarEntity> findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment);
+    Optional<CalendarDto> findByDoctorIdAndDateOfAppointment(DoctorEntity doctor, LocalDate dateOfAppointment);
 }

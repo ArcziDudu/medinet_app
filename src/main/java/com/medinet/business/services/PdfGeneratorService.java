@@ -1,7 +1,6 @@
 package com.medinet.business.services;
 
 import com.medinet.infrastructure.entity.InvoiceEntity;
-import com.medinet.infrastructure.repository.jpa.InvoiceJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class PdfGeneratorService {
     private final WebClient webClient;
 
     @Autowired
-    private InvoiceJpaRepository invoiceJpaRepository;
+    private InvoiceService invoiceService;
 
 
     public PdfGeneratorService() {
@@ -32,6 +31,7 @@ public class PdfGeneratorService {
                 .defaultHeader(HttpHeaders.ACCEPT_CHARSET, StandardCharsets.UTF_8.toString())
                 .build();
     }
+
     public void generatePdf(String htmlContent, String uuid) {
         String jsonBody = "{\"source\":{\"html\":\"" +
                 htmlContent
@@ -55,7 +55,7 @@ public class PdfGeneratorService {
     public void saveInvoice(String uuid, InvoiceEntity pdfDocument, byte[] pdfBytes) {
         pdfDocument.setUuid(uuid);
         pdfDocument.setPdfData(pdfBytes);
-        invoiceJpaRepository.save(pdfDocument);
+        invoiceService.save(pdfDocument);
     }
 
 }

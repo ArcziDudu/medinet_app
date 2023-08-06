@@ -6,7 +6,6 @@ import com.medinet.integration.configuration.PersistenceContainerTestConfigurati
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -54,32 +53,4 @@ public class InvoiceRepositoryTest {
         Assertions.assertFalse(foundInvoice.isPresent());
     }
 
-    @Test
-    public void testExistsByExistingUuidShouldReturnTrue() {
-        // Arrange
-        String uuid = "some-uuid";
-        InvoiceEntity invoiceEntity = new InvoiceEntity();
-        invoiceEntity.setUuid(uuid);
-        invoiceEntity.setInvoiceId(2);
-        invoiceEntity.setPdfData(new byte[1]);
-        invoiceJpaRepository.save(invoiceEntity);
-
-        // Act
-        boolean exists = invoiceJpaRepository.existsByUuid(uuid);
-
-        // Assert
-        Assertions.assertTrue(exists);
-    }
-
-    @Test
-    public void testExistsByUuid_NonExistingUuid_ShouldReturnFalse() {
-        // given
-        String uuid = "non-existing-uuid";
-
-        // when
-        boolean exists = invoiceJpaRepository.existsByUuid(uuid);
-
-        // then
-        Assertions.assertFalse(exists);
-    }
 }

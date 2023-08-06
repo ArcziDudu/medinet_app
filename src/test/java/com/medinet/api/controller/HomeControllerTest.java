@@ -26,7 +26,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,12 +52,13 @@ class HomeControllerTest {
     }
 
     @Test
-    public void testPolicy(){
+    public void testPolicy() {
         //when
         String viewName = homeController.policy();
         //then
         assertEquals("policy", viewName);
     }
+
     @Test
     public void testShowBookingPageAsAdminOrPatient() {
         //given

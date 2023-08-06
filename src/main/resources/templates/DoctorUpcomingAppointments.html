@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link th:href="@{/doctor_page.css}" rel="stylesheet">
-<!--            <link rel="stylesheet" href="../static/doctor_page.css">-->
+    <!--            <link rel="stylesheet" href="../static/doctor_page.css">-->
     <title>Medinet - internetowa przychodnia</title>
 </head>
 
@@ -99,7 +99,8 @@ background-color: saddlebrown">
 
                     <div th:each="OneOpinion: ${doctor.getOpinions()}" class="one-opinion">
                         <th:block th:with="offsetDateTime=${OneOpinion.dateOfCreateOpinion}">
-                            <th:block th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
+                            <th:block
+                                    th:with="zonedDateTime=${offsetDateTime.atZoneSameInstant(T(java.time.ZoneId).of('Europe/Warsaw'))}">
                                 <h5 th:text="${zonedDateTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></h5>
                             </th:block>
                         </th:block>
@@ -136,6 +137,7 @@ function closeAlert() {
         container.style.display = 'none';
     }, 200);
 }
+
 
 
 </script>

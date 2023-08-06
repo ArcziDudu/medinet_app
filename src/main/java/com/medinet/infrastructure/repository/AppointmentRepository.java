@@ -38,16 +38,11 @@ public class AppointmentRepository implements AppointmentDao {
     }
 
     @Override
-    public Optional<AppointmentEntity> findById(Integer appointmentID) {
-        return appointmentJpaRepository.findById(appointmentID);
+    public Optional<AppointmentDto> findById(Integer appointmentID) {
+        return appointmentJpaRepository.findById(appointmentID)
+                .map(appointmentMapper::mapFromEntity);
     }
 
-    @Override
-    public Optional<AppointmentEntity> findByDateOfAppointmentAndTimeOfVisit(
-            LocalDate dateOfAppointment,
-            LocalTime timeOfVisit) {
-        return appointmentJpaRepository.findByDateOfAppointmentAndTimeOfVisit(dateOfAppointment, timeOfVisit);
-    }
 
     @Override
     public List<AppointmentDto> findAll() {
@@ -55,6 +50,13 @@ public class AppointmentRepository implements AppointmentDao {
                 .stream()
                 .map(appointmentMapper::mapFromEntity)
                 .toList();
+    }
+
+    @Override
+    public boolean existByDateAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
+        return appointmentJpaRepository.existsByDateOfAppointmentAndTimeOfVisit(
+                dateOfAppointment,
+                timeOfVisit);
     }
 
 

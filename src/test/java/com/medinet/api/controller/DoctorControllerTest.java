@@ -4,15 +4,11 @@ import com.medinet.api.dto.AppointmentDto;
 import com.medinet.api.dto.DoctorDto;
 import com.medinet.business.services.AppointmentService;
 import com.medinet.business.services.DoctorService;
-import com.medinet.infrastructure.entity.OpinionEntity;
 import com.medinet.infrastructure.repository.mapper.DoctorMapper;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,13 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,6 +106,7 @@ class DoctorControllerTest {
         // then
         assertEquals("DoctorUpcomingAppointments", modelAndView.getViewName());
     }
+
     @Test
     void showDoctorDetailsPageTest() {
         // given

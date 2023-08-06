@@ -52,8 +52,8 @@ public class PatientRestController {
     @GetMapping(value = API_ONE_PATIENT)
     @Operation(summary = "Get one patient by ID", description = "Retrieve information about a patient based on their ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Doctor found"),
-            @ApiResponse(responseCode = "404", description = "Doctor not found")
+            @ApiResponse(responseCode = "200", description = "Patient found"),
+            @ApiResponse(responseCode = "404", description = "Patient not found")
     })
     public ResponseEntity<PatientDto> onePatientById(@PathVariable Integer patientId) {
         PatientDto patientById = patientService.findById(patientId);
@@ -144,7 +144,7 @@ public class PatientRestController {
                 .build();
     }
 
-    private static PatientEntity newPatient(RegistrationFormDto registrationFormDto, UserEntity newPatientUser) {
+    private PatientEntity newPatient(RegistrationFormDto registrationFormDto, UserEntity newPatientUser) {
         return PatientEntity.builder()
                 .user(newPatientUser)
                 .appointments(new HashSet<>())

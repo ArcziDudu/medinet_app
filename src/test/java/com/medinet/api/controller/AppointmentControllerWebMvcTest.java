@@ -32,7 +32,6 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -117,7 +116,7 @@ public class AppointmentControllerWebMvcTest {
     public void ThatApproveAppointment() throws Exception {
         Integer appointmentId = 1;
         String message = "Approved";
-        AppointmentEntity appointment = new AppointmentEntity();
+        AppointmentDto appointment = new AppointmentDto();
         when(appointmentService.findById(appointmentId)).thenReturn(appointment);
         mockMvc.perform(post("/appointment/approve/{appointmentId}", appointmentId)
                         .param("message", message))
@@ -220,12 +219,12 @@ public class AppointmentControllerWebMvcTest {
     void testGeneratePdf() throws Exception {
 
         int appointmentId = 1;
-        AppointmentEntity appointmentEntity = new AppointmentEntity();
-        when(appointmentService.findById(appointmentId)).thenReturn(appointmentEntity);
+        AppointmentDto appointment = new AppointmentDto();
+        when(appointmentService.findById(appointmentId)).thenReturn(appointment);
 
         mockMvc.perform(post("/invoice/generatePdf/{appointmentId}", appointmentId))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/api/invoice/download/"+appointmentEntity.getUUID()));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/api/invoice/download/" + appointment.getUUID()));
 
         verify(appointmentService, times(1)).findById(appointmentId);
     }

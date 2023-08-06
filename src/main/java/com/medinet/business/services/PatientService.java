@@ -18,14 +18,14 @@ public class PatientService {
     private final PatientDao patientDao;
 
     public PatientDto findById(Integer patientId) {
-        Optional<PatientDto> patientById = patientDao.findByUserId(patientId);
+        Optional<PatientDto> patientById = patientDao.findById(patientId);
         if (patientById.isEmpty()) {
             throw new NotFoundException("Could not find patient by id: [%s]".formatted(patientId));
         }
         return patientById.get();
     }
 
-@Transactional
+    @Transactional
     public void createNewPatient(PatientEntity newPatient) {
         patientDao.save(newPatient);
     }
@@ -37,7 +37,7 @@ public class PatientService {
     public PatientDto findByUserId(int id) {
         Optional<PatientDto> patientById = patientDao.findByUserId(id);
         if (patientById.isEmpty()) {
-            throw new NotFoundException("Could not find patient by id: [%s]".formatted(id));
+            throw new NotFoundException("Could not find patient by Userid: [%s]".formatted(id));
         }
         return patientById.get();
     }
