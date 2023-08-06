@@ -1,0 +1,106 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DoctorJpaRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.repository.jpa</a>
+</div>
+
+<h1>Coverage Summary for Class: DoctorJpaRepository (com.medinet.infrastructure.repository.jpa)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">DoctorJpaRepository$MockitoMock$3eMHlppV</td>
+  </tr>
+  <tr>
+    <td class="name">DoctorJpaRepository$MockitoMock$3eMHlppV$auxiliary$PzH7anBv</td>
+  </tr>
+  <tr>
+    <td class="name">DoctorJpaRepository$MockitoMock$3eMHlppV$auxiliary$ZPYKPuhZ</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository.jpa;
+&nbsp;
+&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface DoctorJpaRepository extends JpaRepository&lt;DoctorEntity, Integer&gt; {
+&nbsp;    @Query(&quot;SELECT d FROM DoctorEntity d&quot;)
+&nbsp;    Page&lt;DoctorEntity&gt; findAllDoctors(Pageable pageable);
+&nbsp;
+&nbsp;    @Query(&quot;&quot;&quot;
+&nbsp;            SELECT d
+&nbsp;            FROM DoctorEntity d
+&nbsp;            INNER JOIN d.address address
+&nbsp;            where d.specialization = :doctorSpecialization
+&nbsp;            AND d.address.city  = :doctorCity
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    Page&lt;DoctorEntity&gt; findAllDoctorsBySpecializationAndCity(
+&nbsp;            String doctorSpecialization,
+&nbsp;            String doctorCity,
+&nbsp;            Pageable pageable);
+&nbsp;
+&nbsp;    Optional&lt;DoctorEntity&gt; findByEmail(String email);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-07 00:50</div>
+</div>
+</body>
+</html>

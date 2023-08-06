@@ -1,0 +1,305 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AppointmentService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.business.services</a>
+</div>
+
+<h1>Coverage Summary for Class: AppointmentService (com.medinet.business.services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AppointmentService</td>
+<td class="coverageStat">
+  <span class="percent">
+    82.4%
+  </span>
+  <span class="absValue">
+    (14/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.3%
+  </span>
+  <span class="absValue">
+    (45/64)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AppointmentService$$SpringCGLIB$$0</td>
+  </tr>
+  <tr>
+    <td class="name">AppointmentService$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    84.2%
+  </span>
+  <span class="absValue">
+    (16/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.2%
+  </span>
+  <span class="absValue">
+    (47/66)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.business.services;
+&nbsp;
+&nbsp;import com.medinet.api.dto.AppointmentDto;
+&nbsp;import com.medinet.api.dto.CalendarDto;
+&nbsp;import com.medinet.api.dto.PatientDto;
+&nbsp;import com.medinet.business.dao.AppointmentDao;
+&nbsp;import com.medinet.domain.exception.NotFoundException;
+&nbsp;import com.medinet.infrastructure.entity.AppointmentEntity;
+&nbsp;import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.time.OffsetDateTime;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.UUID;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@Transactional
+&nbsp;public class AppointmentService {
+&nbsp;    private final AppointmentDao appointmentDao;
+&nbsp;    private final CalendarService calendarService;
+&nbsp;    private final AppointmentMapper appointmentMapper;
+&nbsp;    private final PdfGeneratorService pdfGeneratorService;
+&nbsp;
+<b class="fc">&nbsp;    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy:MM:dd HH:mm:ss&quot;);</b>
+&nbsp;
+&nbsp;    public String getVisitNumber() {
+<b class="fc">&nbsp;        UUID uuid = UUID.randomUUID();</b>
+<b class="fc">&nbsp;        return uuid.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public OffsetDateTime issueInvoice() {
+<b class="nc">&nbsp;        return OffsetDateTime.now();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public List&lt;AppointmentDto&gt; findAllAppointmentsByStatusAndDoctorID(String status, Integer doctorId) {
+<b class="fc">&nbsp;        return appointmentDao.findAllByStatus(status)</b>
+<b class="fc">&nbsp;                .stream()</b>
+<b class="fc">&nbsp;                .filter(a -&gt; a.getDoctor().getDoctorId().equals(doctorId))</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public List&lt;AppointmentDto&gt; findAllAppointmentsByStatus(String status) {
+<b class="fc">&nbsp;        return appointmentDao.findAllByStatus(status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public AppointmentDto processAppointment(AppointmentEntity appointment) {
+&nbsp;        {
+<b class="fc">&nbsp;            LocalDate today = LocalDate.now();</b>
+<b class="fc">&nbsp;            LocalTime now = LocalTime.now();</b>
+<b class="fc">&nbsp;            if (appointment.getDateOfAppointment().isBefore(today)</b>
+<b class="fc">&nbsp;                    || (appointment.getDateOfAppointment().equals(today)</b>
+<b class="nc">&nbsp;                    &amp;&amp; now.equals(appointment.getTimeOfVisit()))) {</b>
+<b class="fc">&nbsp;                appointment.setStatus(&quot;pending&quot;);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                appointment.setStatus(&quot;upcoming&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            CalendarDto calendarById = calendarService.findById(appointment.getCalendarId());</b>
+<b class="fc">&nbsp;            calendarById.getHours().remove(appointment.getTimeOfVisit());</b>
+&nbsp;
+<b class="fc">&nbsp;            appointmentDao.saveAppointment(appointment);</b>
+<b class="fc">&nbsp;            return appointmentMapper.mapFromEntity(appointment);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public List&lt;AppointmentDto&gt; findUpcomingAppointments(PatientDto currentPatient) {
+<b class="fc">&nbsp;        return currentPatient.getAppointments().stream().filter(a -&gt; a.getStatus().equals(&quot;upcoming&quot;))</b>
+<b class="fc">&nbsp;                .map(appointmentMapper::mapFromEntity)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public List&lt;AppointmentDto&gt; findCompletedAppointments(PatientDto currentPatient) {
+<b class="fc">&nbsp;        return currentPatient.getAppointments().stream().filter(a -&gt; a.getStatus().equals(&quot;done&quot;))</b>
+<b class="fc">&nbsp;                .map(appointmentMapper::mapFromEntity)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public List&lt;AppointmentDto&gt; findPendingAppointments(PatientDto currentPatient) {
+<b class="nc">&nbsp;        return currentPatient.getAppointments().stream().filter(a -&gt; a.getStatus().equals(&quot;pending&quot;))</b>
+<b class="nc">&nbsp;                .map(appointmentMapper::mapFromEntity)</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void processRemovingAppointment(Integer appointmentID,
+&nbsp;                                           LocalTime calendarHour,
+&nbsp;                                           Integer calendarId) {
+<b class="fc">&nbsp;        CalendarDto calendarById = calendarService.findById(calendarId);</b>
+<b class="fc">&nbsp;        List&lt;LocalTime&gt; hours = calendarById.getHours();</b>
+<b class="fc">&nbsp;        hours.add(calendarHour);</b>
+<b class="fc">&nbsp;        hours.sort(new Comparator&lt;LocalTime&gt;() {</b>
+&nbsp;            @Override
+&nbsp;            public int compare(LocalTime hour1, LocalTime hour2) {
+<b class="fc">&nbsp;                return hour1.compareTo(hour2);</b>
+&nbsp;            }
+&nbsp;        });
+<b class="fc">&nbsp;        appointmentDao.removeAppointment(appointmentID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void approveAppointment(Integer appointmentID, String message) {
+<b class="fc">&nbsp;        Optional&lt;AppointmentDto&gt; appointmentById = appointmentDao.findById(appointmentID);</b>
+<b class="fc">&nbsp;        if (appointmentById.isPresent() &amp;&amp; appointmentById.get().getStatus().equals(&quot;pending&quot;)) {</b>
+<b class="fc">&nbsp;            AppointmentDto appointmentDto = appointmentById.get();</b>
+<b class="fc">&nbsp;            appointmentDto.setStatus(&quot;done&quot;);</b>
+<b class="fc">&nbsp;            appointmentDto.setNoteOfAppointment(message);</b>
+<b class="fc">&nbsp;        } else {</b>
+<b class="fc">&nbsp;            throw new NotFoundException(&quot;Could not find appointment by Id: [%s]&quot;.formatted(appointmentID));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public AppointmentDto findById(Integer appointmentId) {
+&nbsp;
+<b class="fc">&nbsp;        Optional&lt;AppointmentDto&gt; appointmentById = appointmentDao.findById(appointmentId);</b>
+<b class="fc">&nbsp;        if (appointmentById.isEmpty()) {</b>
+<b class="fc">&nbsp;            throw new NotFoundException(&quot;Could not find appointment by Id: [%s]&quot;.formatted(appointmentId));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return appointmentById.get();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void save(AppointmentEntity appointment) {
+<b class="fc">&nbsp;        appointmentDao.saveAppointment(appointment);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void generatePdf(AppointmentDto invoice) {
+<b class="nc">&nbsp;        String uuid = invoice.getUUID();</b>
+<b class="nc">&nbsp;        OffsetDateTime nowDate = OffsetDateTime.now();</b>
+<b class="nc">&nbsp;        pdfGeneratorService.generatePdf(&quot;&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=utf-8&gt;&lt;style&gt;.invoice-box{max-width:800px;padding:30px;border:1px solid #eee;box-shadow:0 0 10px rgba(0,0,0,.15);font-size:16px;line-height:24px;font-family:&#39;Helvetica Neue&#39;,&#39;Helvetica&#39;,Helvetica,Arial,sans-serif;color:#555;}.invoice-box table{width:100%;line-height:inherit;text-align:left;}.invoice-box table td{padding:5px;vertical-align:top;}.invoice-box table tr td:nth-child(2){text-align:right;}.invoice-box table tr.top table td{padding-bottom:20px;}.invoice-box table tr.top table td.title{font-size:45px;line-height:45px;color:#333;}.invoice-box table tr.information table td{padding-bottom:40px;}.invoice-box table tr.heading td{background:#eee;border-bottom:1px solid #ddd;font-weight:bold;}.invoice-box table tr.details td{padding-bottom:20px;}.invoice-box table tr.item td{border-bottom:1px solid #eee;}.invoice-box table tr.item.last td{border-bottom:none;}.invoice-box table tr.total td:nth-child(2){border-top:2px solid #eee;font-weight:bold;}@media only screen and (max-width:600px){.invoice-box table tr.top table td{width:100%;display:block;text-align:center;}.invoice-box table tr.information table td{width:100%;display:block;text-align:center;}}/** RTL **/.rtl{direction:rtl;font-family:Tahoma,&#39;Helvetica Neue&#39;,&#39;Helvetica&#39;,Helvetica,Arial,sans-serif;}.rtl table{text-align:right;}.rtl table tr td:nth-child(2){text-align:left;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class=invoice-box&gt;&lt;table cellpadding=0 cellspacing=0&gt;&lt;tr class=top&gt;&lt;td colspan=2&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=title&gt;&lt;h6 style=color:blue&gt;Medinet&lt;/h6&gt;&lt;/td&gt;&lt;td&gt;Faktura: &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getUUID() + &quot;&lt;br&gt;Data wizyty: &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getDateOfAppointment() + &quot;&lt;br&gt;Godzina wizyty: &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getTimeOfVisit() + &quot;&lt;br&gt;Adres placówki: &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getDoctor().getAddress().getCity() + &quot; &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getDoctor().getAddress().getStreet() + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=heading&gt;&lt;td&gt;Tytu³ faktury&lt;/td&gt;&lt;td&gt;wizyta w przychodni Medinet&lt;/td&gt;&lt;/tr&gt;&lt;tr class=heading&gt;&lt;td&gt;Us³uga&lt;/td&gt;&lt;td&gt;wizyta u specjalisty - &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getDoctor().getSpecialization() + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=item&gt;&lt;td&gt;Lekarz&lt;/td&gt;&lt;td&gt;&quot;</b>
+<b class="nc">&nbsp;                        + invoice.getDoctor().getName() + &quot; &quot; + invoice.getDoctor().getSurname() + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=item&gt;&lt;td&gt;Pacjent&lt;/td&gt;&lt;td&gt;&quot;</b>
+<b class="nc">&nbsp;                        + invoice.getPatient().getName() + &quot; &quot; + invoice.getPatient().getSurname() + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=item&gt;&lt;td&gt;Czas trwania wizyty&lt;/td&gt;&lt;td&gt;60 minut&lt;/td&gt;&lt;/tr&gt;&lt;td&gt;Metoda p³atnoœci&lt;/td&gt;&lt;td&gt;Przelew&lt;/td&gt;&lt;tr class=total&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;Koszt: &quot;</b>
+<b class="nc">&nbsp;                        + invoice.getDoctor().getPriceForVisit() + &quot; z³.&lt;/td&gt;&lt;/tr&gt;&lt;tr class=item&gt;&lt;td&gt;Data wystawienia faktury&lt;/td&gt;&lt;td&gt;&quot;</b>
+<b class="nc">&nbsp;                        + nowDate.format(formatter) + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=item&gt;&lt;td&gt;&lt;p style=font-weight:bold&gt;Informacja od lekarza&lt;/p&gt;&lt;span&gt;&quot;</b>
+<b class="nc">&nbsp;                        + invoice.getNoteOfAppointment() + &quot;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;</b>
+&nbsp;                , uuid);
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public List&lt;AppointmentDto&gt; findAll() {
+<b class="fc">&nbsp;        return appointmentDao.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public boolean existByDateAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit) {
+<b class="fc">&nbsp;        return appointmentDao.existByDateAndTimeOfVisit(dateOfAppointment, timeOfVisit);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-07 00:50</div>
+</div>
+</body>
+</html>

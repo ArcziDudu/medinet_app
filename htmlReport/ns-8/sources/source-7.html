@@ -1,0 +1,195 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PatientEntity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: PatientEntity (com.medinet.infrastructure.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatientEntity</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PatientEntity$HibernateInstantiator$QwYfkfJ6</td>
+  </tr>
+  <tr>
+    <td class="name">PatientEntity$HibernateInstantiator$SCR47zz0</td>
+  </tr>
+  <tr>
+    <td class="name">PatientEntity$HibernateProxy$9RhsDZyV</td>
+  </tr>
+  <tr>
+    <td class="name">PatientEntity$HibernateProxy$RAr15eCH</td>
+  </tr>
+  <tr>
+    <td class="name">PatientEntity$PatientEntityBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (14/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (14/15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.entity;
+&nbsp;
+&nbsp;import com.medinet.infrastructure.security.UserEntity;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import lombok.*;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Getter
+<b class="fc">&nbsp;@Setter</b>
+<b class="fc">&nbsp;@Builder</b>
+<b class="fc">&nbsp;@NoArgsConstructor</b>
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+<b class="nc">&nbsp;@EqualsAndHashCode(of = {&quot;patientId&quot;, &quot;email&quot;})</b>
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;patient&quot;)
+&nbsp;public class PatientEntity {
+&nbsp;    public Set&lt;AppointmentEntity&gt; getAppointments() {
+<b class="fc">&nbsp;        return appointments;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Column(name = &quot;patient_id&quot;)
+<b class="fc">&nbsp;    private Integer patientId;</b>
+&nbsp;
+&nbsp;    @Column(name = &quot;name&quot;)
+<b class="fc">&nbsp;    private String name;</b>
+&nbsp;
+&nbsp;    @Column(name = &quot;email&quot;)
+<b class="fc">&nbsp;    private String email;</b>
+&nbsp;
+&nbsp;    @Column(name = &quot;surname&quot;)
+<b class="fc">&nbsp;    private String surname;</b>
+&nbsp;
+&nbsp;    @Column(name = &quot;phone&quot;)
+<b class="fc">&nbsp;    private String phoneNumber;</b>
+&nbsp;
+&nbsp;    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+&nbsp;    @JoinColumn(name = &quot;address_id&quot;)
+<b class="fc">&nbsp;    private AddressEntity address;</b>
+&nbsp;
+&nbsp;    @OneToMany(fetch = FetchType.LAZY, mappedBy = &quot;patient&quot;, cascade = CascadeType.REFRESH)
+&nbsp;    private Set&lt;AppointmentEntity&gt; appointments;
+&nbsp;
+&nbsp;
+&nbsp;    @OneToMany(fetch = FetchType.LAZY, mappedBy = &quot;patient&quot;)
+<b class="fc">&nbsp;    private Set&lt;OpinionEntity&gt; opinions;</b>
+&nbsp;
+&nbsp;    @OneToOne
+&nbsp;    @JoinColumn(name = &quot;user_id&quot;)
+<b class="fc">&nbsp;    private UserEntity user;</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-07 00:50</div>
+</div>
+</body>
+</html>

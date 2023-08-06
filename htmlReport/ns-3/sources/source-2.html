@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DoctorRestController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.api.controller.rest</a>
+</div>
+
+<h1>Coverage Summary for Class: DoctorRestController (com.medinet.api.controller.rest)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DoctorRestController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.api.controller.rest;
+&nbsp;
+&nbsp;import com.medinet.api.dto.DoctorDto;
+&nbsp;import com.medinet.business.services.DoctorService;
+&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import com.medinet.infrastructure.repository.mapper.DoctorMapper;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.net.URI;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;@RequestMapping(DoctorRestController.API_DOCTOR)
+&nbsp;public class DoctorRestController {
+&nbsp;    private DoctorMapper doctorMapper;
+&nbsp;    public static final String API_DOCTOR = &quot;/api/doctor&quot;;
+&nbsp;    public static final String API_ALL_DOCTOR = &quot;/all&quot;;
+&nbsp;    public static final String API_ALL_DOCTOR_PAGE = &quot;/all/{page}&quot;;
+&nbsp;    public static final String API_ONE_DOCTOR = &quot;/{doctorId}&quot;;
+&nbsp;    public static final String API_NEW_DOCTOR = &quot;/new&quot;;
+&nbsp;    public static final String DOCTOR_ID_RESULT = &quot;/%s&quot;;
+&nbsp;    private final DoctorService doctorService;
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping(value = API_ONE_DOCTOR)
+&nbsp;    @Operation(summary = &quot;Get one doctor by ID&quot;, description = &quot;Retrieve information about a doctor based on their ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Doctor found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Doctor not found&quot;)
+&nbsp;    })
+&nbsp;    public ResponseEntity&lt;DoctorDto&gt; oneDoctorById(@PathVariable Integer doctorId) {
+<b class="fc">&nbsp;        DoctorDto doctorDto = doctorService.findDoctorById(doctorId);</b>
+<b class="fc">&nbsp;        if (Objects.isNull(doctorDto)) {</b>
+<b class="fc">&nbsp;            return ResponseEntity.notFound().build();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return ResponseEntity.ok(doctorDto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = API_ALL_DOCTOR)
+&nbsp;    @Operation(summary = &quot;Get available doctors&quot;, description = &quot;Retrieve list of available doctors&quot;)
+&nbsp;    public List&lt;DoctorDto&gt; allDoctors() {
+<b class="fc">&nbsp;        return doctorService.findAllDoctors();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get one page with available doctors&quot;)
+&nbsp;    @GetMapping(API_ALL_DOCTOR_PAGE)
+&nbsp;    public ResponseEntity&lt;Page&lt;DoctorDto&gt;&gt; getAllDoctorsByPage(
+&nbsp;            @PathVariable Integer page) {
+<b class="fc">&nbsp;        Page&lt;DoctorDto&gt; doctorsPage = doctorService.findAllDoctors(page);</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(doctorsPage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Create a new doctor&quot;, description = &quot;Create a new doctor based on the provided details&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Doctor created&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid request&quot;)
+&nbsp;    })
+&nbsp;    @PostMapping(value = API_NEW_DOCTOR, produces = MediaType.APPLICATION_JSON_VALUE)
+&nbsp;    public ResponseEntity&lt;DoctorDto&gt; createDoctor(@RequestBody DoctorDto doctorDto) {
+&nbsp;
+<b class="fc">&nbsp;        DoctorEntity created = doctorService.create(doctorMapper.mapFromDto(doctorDto));</b>
+<b class="fc">&nbsp;        return ResponseEntity</b>
+<b class="fc">&nbsp;                .created(URI.create(API_NEW_DOCTOR + DOCTOR_ID_RESULT.formatted(created.getDoctorId())))</b>
+<b class="fc">&nbsp;                .build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Delete a doctor by ID&quot;, description = &quot;Delete a doctor based on their ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Doctor deleted&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Doctor not found&quot;)
+&nbsp;    })
+&nbsp;    @DeleteMapping(value = API_ONE_DOCTOR)
+&nbsp;    public ResponseEntity&lt;?&gt; deleteDoctor(@PathVariable Integer doctorId) {
+<b class="fc">&nbsp;        doctorService.deleteById(doctorId);</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok().build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-07 00:50</div>
+</div>
+</body>
+</html>

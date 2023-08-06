@@ -1,0 +1,302 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RegisterController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.api.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: RegisterController (com.medinet.api.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RegisterController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.8%
+  </span>
+  <span class="absValue">
+    (92/97)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.api.controller;
+&nbsp;
+&nbsp;import com.medinet.api.dto.RegistrationFormDto;
+&nbsp;import com.medinet.business.services.PatientService;
+&nbsp;import com.medinet.business.services.RegisterService;
+&nbsp;import com.medinet.infrastructure.entity.AddressEntity;
+&nbsp;import com.medinet.infrastructure.entity.PatientEntity;
+&nbsp;import com.medinet.infrastructure.security.RoleEntity;
+&nbsp;import com.medinet.infrastructure.security.RoleRepository;
+&nbsp;import com.medinet.infrastructure.security.UserEntity;
+&nbsp;import com.medinet.infrastructure.security.UserRepository;
+&nbsp;import jakarta.mail.MessagingException;
+&nbsp;import jakarta.mail.internet.MimeMessage;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.mail.javamail.JavaMailSender;
+&nbsp;import org.springframework.mail.javamail.MimeMessageHelper;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model;
+&nbsp;import org.springframework.validation.BindingResult;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.ModelAttribute;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Controller
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class RegisterController {
+&nbsp;    private final UserRepository userRepository;
+&nbsp;    private final PatientService patientService;
+&nbsp;    private final RegisterService registerService;
+&nbsp;    private final PasswordEncoder passwordEncoder;
+&nbsp;    private final RoleRepository roleRepository;
+&nbsp;    private JavaMailSender mailSender;
+<b class="fc">&nbsp;    private final String LOGIN = &quot;/login&quot;;</b>
+<b class="fc">&nbsp;    private final String REGISTER = &quot;/register&quot;;</b>
+<b class="fc">&nbsp;    private final String PASSWORD_REMINDER = &quot;/password/reminder&quot;;</b>
+<b class="fc">&nbsp;    private final String PASSWORD_RECOVERY = &quot;/password/recovery&quot;;</b>
+<b class="fc">&nbsp;    private final String REGISTER_SAVE = &quot;/register/save&quot;;</b>
+<b class="fc">&nbsp;    private final String VERIFICATION = &quot;/verification&quot;;</b>
+<b class="fc">&nbsp;    private final String ACCOUNT_IS_ACTIVE = &quot;/account/is-active&quot;;</b>
+&nbsp;    public static final String EMAIL_SUBJECT = &quot;Aktywacja konta&quot;;
+&nbsp;    public static final String TEXT_1_ACTIVE_CODE = &quot;Twój kod aktywacyjny:&quot;;
+&nbsp;    public static final String TEXT_2_ACTIVE_YOUR_ACCOUNT = &quot;Aktywuj swoje konto aby w pe³ni korzystaæ z serwisu Medinet.&quot;;
+&nbsp;
+&nbsp;    @GetMapping(LOGIN)
+&nbsp;    public String login() {
+<b class="fc">&nbsp;        return &quot;login&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping(REGISTER)
+&nbsp;    public String showRegistrationForm(Model model) {
+<b class="fc">&nbsp;        RegistrationFormDto form = new RegistrationFormDto();</b>
+<b class="fc">&nbsp;        model.addAttribute(&quot;form&quot;, form);</b>
+<b class="fc">&nbsp;        return &quot;register&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(PASSWORD_REMINDER)
+&nbsp;    public String showPasswordReminderForm(Model model) {
+<b class="fc">&nbsp;        model.addAttribute(&quot;email&quot;, &quot;&quot;);</b>
+<b class="fc">&nbsp;        return &quot;PasswordRecovery&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(PASSWORD_RECOVERY)
+&nbsp;    public String recoveryPassword(@RequestParam(&quot;email&quot;) String email, Model model) {
+<b class="fc">&nbsp;        RoleEntity doctorRole = roleRepository.findByRole(&quot;DOCTOR&quot;);</b>
+<b class="fc">&nbsp;        if (Objects.isNull(email)) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;WprowadŸ adres email&quot;);</b>
+<b class="fc">&nbsp;            return &quot;PasswordRecovery&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!userRepository.existsByEmail(email)) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;Ten email nie istnieje w bazie danych&quot;);</b>
+<b class="fc">&nbsp;            return &quot;PasswordRecovery&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        } else if (userRepository.findByEmail(email).getRoles().contains(doctorRole)) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;Ten email nale¿y do lekarza!&quot;);</b>
+<b class="fc">&nbsp;            return &quot;PasswordRecovery&quot;;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            String uuid = String.valueOf(UUID.randomUUID());</b>
+<b class="fc">&nbsp;            UserEntity user = userRepository.findByEmail(email);</b>
+<b class="fc">&nbsp;            user.setPassword(passwordEncoder.encode(uuid));</b>
+<b class="fc">&nbsp;            userRepository.save(user);</b>
+<b class="fc">&nbsp;            String emailSubject = &quot;Oto twoje nowe has³o, mo¿esz je zmieniæ lub nie&quot;;</b>
+<b class="fc">&nbsp;            String text1 = &quot;Twoje nowe has³o:&quot;;</b>
+<b class="fc">&nbsp;            String text2 = &quot;Mo¿esz teraz zalogowaæ siê za pomoc¹ tego has³a i zmieniæ je na swoje preferowane.&quot;;</b>
+<b class="fc">&nbsp;            sendEmail(email, uuid, emailSubject, text1, text2);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return &quot;redirect:/password/reminder?success=true&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void sendEmail(String recipientEmail, String password, String emailSubject, String text1, String text2) {
+&nbsp;        try {
+<b class="fc">&nbsp;            MimeMessage message = mailSender.createMimeMessage();</b>
+<b class="fc">&nbsp;            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, &quot;UTF-8&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;            helper.setFrom(&quot;medinet.rezerwacje@gmail.com&quot;, &quot;Support&quot;);</b>
+<b class="fc">&nbsp;            helper.setTo(recipientEmail);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;            helper.setSubject(emailSubject);</b>
+&nbsp;
+<b class="fc">&nbsp;            String content = &quot;&lt;html&gt;&lt;body&gt;&quot;;</b>
+<b class="fc">&nbsp;            content += &quot;&lt;h2&gt;&quot; + text1 + &quot;&lt;/h2&gt;&quot;;</b>
+<b class="fc">&nbsp;            content += &quot;&lt;p&gt;&quot; + password + &quot;&lt;/p&gt;&quot;;</b>
+<b class="fc">&nbsp;            content += &quot;&lt;p&gt;&quot; + text2 + &quot;&lt;/p&gt;&quot;;</b>
+<b class="fc">&nbsp;            content += &quot;&lt;/body&gt;&lt;/html&gt;&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;            helper.setText(content, true);</b>
+&nbsp;
+<b class="fc">&nbsp;            mailSender.send(message);</b>
+<b class="nc">&nbsp;        } catch (MessagingException | UnsupportedEncodingException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @PostMapping(REGISTER_SAVE)
+&nbsp;    public String registration(@Valid
+&nbsp;                               @ModelAttribute(&quot;form&quot;) RegistrationFormDto form,
+&nbsp;                               BindingResult result) {
+&nbsp;
+<b class="fc">&nbsp;        if (userRepository.existsByEmail(form.getEmail())) {</b>
+<b class="nc">&nbsp;            result.rejectValue(&quot;email&quot;, &quot;400&quot;, &quot;Ten email jest ju¿ zarejestrowany&quot;);</b>
+<b class="fc">&nbsp;        } else if (patientService.findByPhoneNumber(form.getPhoneNumber())) {</b>
+<b class="nc">&nbsp;            result.rejectValue(&quot;phoneNumber&quot;, &quot;400&quot;, &quot;Ten numer jest ju¿ zarejestrowany&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (result.hasErrors()) {</b>
+<b class="nc">&nbsp;            return &quot;register&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        UUID uuid = UUID.randomUUID();</b>
+<b class="fc">&nbsp;        UserEntity newUser = UserEntity.builder()</b>
+<b class="fc">&nbsp;                .email(form.getEmail())</b>
+<b class="fc">&nbsp;                .password(passwordEncoder.encode(form.getPassword()))</b>
+<b class="fc">&nbsp;                .roles(new HashSet&lt;&gt;())</b>
+<b class="fc">&nbsp;                .active(false)</b>
+<b class="fc">&nbsp;                .verifyCode(String.valueOf(uuid))</b>
+<b class="fc">&nbsp;                .build();</b>
+<b class="fc">&nbsp;        PatientEntity newPatient = PatientEntity.builder()</b>
+<b class="fc">&nbsp;                .name(form.getName())</b>
+<b class="fc">&nbsp;                .surname(form.getSurname())</b>
+<b class="fc">&nbsp;                .email(form.getEmail())</b>
+<b class="fc">&nbsp;                .phoneNumber(form.getPhoneNumber())</b>
+<b class="fc">&nbsp;                .address(AddressEntity.builder()</b>
+<b class="fc">&nbsp;                        .country(&quot;Polska&quot;)</b>
+<b class="fc">&nbsp;                        .city(form.getCity())</b>
+<b class="fc">&nbsp;                        .street(form.getStreet())</b>
+<b class="fc">&nbsp;                        .postalCode(form.getPostalCode())</b>
+<b class="fc">&nbsp;                        .build())</b>
+<b class="fc">&nbsp;                .user(newUser)</b>
+<b class="fc">&nbsp;                .build();</b>
+<b class="fc">&nbsp;        sendEmail(form.getEmail(), String.valueOf(uuid),</b>
+&nbsp;                EMAIL_SUBJECT,
+&nbsp;                TEXT_1_ACTIVE_CODE,
+&nbsp;                TEXT_2_ACTIVE_YOUR_ACCOUNT);
+<b class="fc">&nbsp;        registerService.save(newUser);</b>
+<b class="fc">&nbsp;        patientService.createNewPatient(newPatient);</b>
+<b class="fc">&nbsp;        return &quot;redirect:/register?success=true&quot;;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(VERIFICATION)
+&nbsp;    public String verifyAccount() {
+<b class="fc">&nbsp;        return &quot;accountActivate&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(ACCOUNT_IS_ACTIVE)
+&nbsp;    public String verification(@RequestParam(&quot;email&quot;) String email,
+&nbsp;                               @RequestParam(&quot;code&quot;) String code,
+&nbsp;                               Model model) {
+<b class="fc">&nbsp;        UserEntity user = userRepository.findByEmail(email);</b>
+<b class="fc">&nbsp;        RoleEntity doctorRole = roleRepository.findByRole(&quot;DOCTOR&quot;);</b>
+<b class="fc">&nbsp;        if (!userRepository.existsByEmail(email)) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;Ten email nie istnieje w bazie danych&quot;);</b>
+<b class="fc">&nbsp;            return &quot;accountActivate&quot;;</b>
+<b class="fc">&nbsp;        } else if (user.getRoles().contains(doctorRole) || user.getEmail().equals(&quot;admin@admin.pl&quot;)) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;To konto nie wymaga aktywacji&quot;);</b>
+<b class="fc">&nbsp;            return &quot;accountActivate&quot;;</b>
+<b class="fc">&nbsp;        } else if (userRepository.existsByEmail(email) &amp;&amp; user.getActive()) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;To konto nie wymaga aktywacji&quot;);</b>
+<b class="fc">&nbsp;            return &quot;accountActivate&quot;;</b>
+<b class="fc">&nbsp;        } else if (!user.getVerifyCode().equals(code)) {</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;Kod niepoprawny&quot;);</b>
+<b class="fc">&nbsp;            return &quot;accountActivate&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        user.setActive(true);</b>
+<b class="fc">&nbsp;        registerService.save(user);</b>
+<b class="fc">&nbsp;        return &quot;redirect:/verification?success=true&quot;;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-07 00:50</div>
+</div>
+</body>
+</html>

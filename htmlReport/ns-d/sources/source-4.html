@@ -1,0 +1,106 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AppointmentJpaRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.medinet.infrastructure.repository.jpa</a>
+</div>
+
+<h1>Coverage Summary for Class: AppointmentJpaRepository (com.medinet.infrastructure.repository.jpa)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">AppointmentJpaRepository$MockitoMock$SlqIGg0B</td>
+  </tr>
+  <tr>
+    <td class="name">AppointmentJpaRepository$MockitoMock$SlqIGg0B$auxiliary$7rlmQrAK</td>
+  </tr>
+  <tr>
+    <td class="name">AppointmentJpaRepository$MockitoMock$SlqIGg0B$auxiliary$jqy8uqk1</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository.jpa;
+&nbsp;
+&nbsp;import com.medinet.infrastructure.entity.AppointmentEntity;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface AppointmentJpaRepository extends JpaRepository&lt;AppointmentEntity, Integer&gt; {
+&nbsp;
+&nbsp;    void deleteByAppointmentId(@Param(&quot;appointmentID&quot;) Integer appointmentID);
+&nbsp;
+&nbsp;    @Query(&quot;&quot;&quot;
+&nbsp;             SELECT app FROM AppointmentEntity app WHERE app.status = :status
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    List&lt;AppointmentEntity&gt; findAllByStatus(@Param(&quot;status&quot;) String status);
+&nbsp;
+&nbsp;    Optional&lt;AppointmentEntity&gt; findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+&nbsp;
+&nbsp;    Optional&lt;AppointmentEntity&gt; findByUUID(String uuid);
+&nbsp;
+&nbsp;    boolean existsByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-07 00:50</div>
+</div>
+</body>
+</html>
