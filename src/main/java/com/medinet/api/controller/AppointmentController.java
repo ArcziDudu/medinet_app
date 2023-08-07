@@ -113,7 +113,7 @@ public class AppointmentController {
         int id = currentUser.getId();
 
         appointmentService.processRemovingAppointment(appointmentID, calendarHour, calendarId);
-        PatientDto currentPatient = patientService.findById(id);
+        PatientDto currentPatient = patientService.findByUserId(id);
         List<AppointmentDto> UpcomingAppointments = appointmentService.findUpcomingAppointments(currentPatient);
         List<AppointmentDto> completedAppointments = appointmentService.findCompletedAppointments(currentPatient);
 
