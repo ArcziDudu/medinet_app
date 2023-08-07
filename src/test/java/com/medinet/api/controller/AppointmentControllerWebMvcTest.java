@@ -192,7 +192,7 @@ public class AppointmentControllerWebMvcTest {
 
         PatientDto currentPatient = new PatientDto();
         currentPatient.setPatientId(userId);
-        when(patientService.findById(userId)).thenReturn(currentPatient);
+        when(patientService.findByUserId(userId)).thenReturn(currentPatient);
 
         List<AppointmentDto> upcomingAppointments = List.of();
         List<AppointmentDto> completedAppointments = List.of();
@@ -209,7 +209,7 @@ public class AppointmentControllerWebMvcTest {
 
         //then
         verify(appointmentService, times(1)).processRemovingAppointment(appointmentId, selectedHour, calendarId);
-        verify(patientService, times(1)).findById(userId);
+        verify(patientService, times(1)).findByUserId(userId);
         verify(appointmentService, times(1)).findUpcomingAppointments(currentPatient);
         verify(appointmentService, times(1)).findCompletedAppointments(currentPatient);
         verify(userRepository, times(1)).findByEmail(userEmail);
