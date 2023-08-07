@@ -19,7 +19,7 @@ Funkcjonalności:
 6. Pacjent może pobrać fakture z wizyty która się odbyła. Aby to zrobić należy zrobić poniższe kroki:
    - Wybieramy interesujący nas termin: Wizyty są dostępne na dwa tygodnie do przodu nie licząc weekendu, od godziny 8 do 15 - takie są zasady zatrudniania specjalistów w Medinet. Logika programu zakłada że rezerwować wizytę można zawsze na conajmniej następny dzień natomiast żeby umożliwić przetestowanie wszystkich możliwości, dodany jest również dzień dzisiejszy.
    - Dlatego w celu testu wybieramy godzine oraz date która już minęła np jeśli godzina testowania to czwartek 27 lipca godzina 17;00 to wybieramy termin wizyty czwartek 27 lipca godzina 10 rano - chodzi o to zebyśmy nie musieli czekać kilka dni na wizyte żeby lekarz mógł wystawić opinie, docelowo najbliższy termin jaki możemy zarezerwować to zawsze następny dzień roboczy. 
- - Po zarezerwowaniu wizyty, przechodzimy na profil specjalisty, w tym celu klikamy w szczegóły lekarza u którego zarezerwowalismy wizyte i kopiujemy jego adress email, klikamy przycisk wyloguj i logujemy sie na profil lekarza skopiowanym emailem, hasło dla każdego specjalisty to: test
+ - Po zarezerwowaniu wizyty, przechodzimy na profil specjalisty, jego email to jego Imie@medinet.com , dostępny jest też w  szczegółach lekarza u którego zarezerwowalismy wizyte, klikamy przycisk wyloguj i logujemy sie na profil lekarza skopiowanym emailem, hasło dla każdego specjalisty to: test
    , następnie klikamy w przycisk "Do zatwierdzenia" - program działa tak że sprawdza co 10 sekund czy wizyta się odbyła to znaczy czy wybrana godzina juz minęła wtedy otrzymuje status "pending" i czeka na potwierdzenie lekarza
 
    - wystawiamy zalecenia lub recepte i zatwierdzamy
