@@ -94,8 +94,8 @@ public class AppointmentController {
     @PostMapping(APPOINTMENT_APPROVE_ID)
     public String approveAppointment(@PathVariable(value = "appointmentId") Integer appointmentID,
                                      @RequestParam("message") String message) {
-        AppointmentDto appointmentById = appointmentService.findById(appointmentID);
         appointmentService.approveAppointment(appointmentID, message);
+        AppointmentDto appointmentById = appointmentService.findById(appointmentID);
         appointmentService.generatePdf(appointmentById);
         return "redirect:/doctor?approve=true";
     }

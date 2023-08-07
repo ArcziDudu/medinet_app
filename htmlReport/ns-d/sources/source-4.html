@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > AppointmentJpaRepository</title>
+  <title>Coverage Report > PatientJpaRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,25 +21,16 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.medinet.infrastructure.repository.jpa</a>
 </div>
 
-<h1>Coverage Summary for Class: AppointmentJpaRepository (com.medinet.infrastructure.repository.jpa)</h1>
+<h1>Coverage Summary for Class: PatientJpaRepository (com.medinet.infrastructure.repository.jpa)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
 </tr>
-  <tr>
-    <td class="name">AppointmentJpaRepository$MockitoMock$SlqIGg0B</td>
-  </tr>
-  <tr>
-    <td class="name">AppointmentJpaRepository$MockitoMock$SlqIGg0B$auxiliary$7rlmQrAK</td>
-  </tr>
-  <tr>
-    <td class="name">AppointmentJpaRepository$MockitoMock$SlqIGg0B$auxiliary$jqy8uqk1</td>
-  </tr>
 <tr>
-  <td class="name"><strong>Total</strong></td>
+  <td class="name">PatientJpaRepository</td>
 </tr>
+
 </table>
 
 <br/>
@@ -49,33 +40,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository.jpa;
 &nbsp;
-&nbsp;import com.medinet.infrastructure.entity.AppointmentEntity;
+&nbsp;import com.medinet.infrastructure.entity.PatientEntity;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
-&nbsp;import org.springframework.data.jpa.repository.Query;
-&nbsp;import org.springframework.data.repository.query.Param;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
-&nbsp;import java.time.LocalDate;
-&nbsp;import java.time.LocalTime;
-&nbsp;import java.util.List;
 &nbsp;import java.util.Optional;
 &nbsp;
 &nbsp;@Repository
-&nbsp;public interface AppointmentJpaRepository extends JpaRepository&lt;AppointmentEntity, Integer&gt; {
+&nbsp;public interface PatientJpaRepository extends JpaRepository&lt;PatientEntity, Integer&gt; {
 &nbsp;
-&nbsp;    void deleteByAppointmentId(@Param(&quot;appointmentID&quot;) Integer appointmentID);
 &nbsp;
-&nbsp;    @Query(&quot;&quot;&quot;
-&nbsp;             SELECT app FROM AppointmentEntity app WHERE app.status = :status
-&nbsp;            &quot;&quot;&quot;)
-&nbsp;    List&lt;AppointmentEntity&gt; findAllByStatus(@Param(&quot;status&quot;) String status);
+&nbsp;    boolean existsByPhoneNumber(String phoneNumber);
 &nbsp;
-&nbsp;    Optional&lt;AppointmentEntity&gt; findByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
+&nbsp;    Optional&lt;PatientEntity&gt; findByUserId(int id);
 &nbsp;
-&nbsp;    Optional&lt;AppointmentEntity&gt; findByUUID(String uuid);
-&nbsp;
-&nbsp;    boolean existsByDateOfAppointmentAndTimeOfVisit(LocalDate dateOfAppointment, LocalTime timeOfVisit);
-&nbsp;
+&nbsp;    Optional&lt;PatientEntity&gt; findByEmail(String email);
 &nbsp;}
 </code>
 </pre>
@@ -100,7 +79,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-08-07 00:50</div>
+    <div style="float:right;">generated on 2023-08-07 14:30</div>
 </div>
 </body>
 </html>

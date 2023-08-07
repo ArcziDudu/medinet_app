@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > DoctorDao</title>
+  <title>Coverage Report > OpinionDao</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,25 +21,16 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.medinet.business.dao</a>
 </div>
 
-<h1>Coverage Summary for Class: DoctorDao (com.medinet.business.dao)</h1>
+<h1>Coverage Summary for Class: OpinionDao (com.medinet.business.dao)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
 </tr>
-  <tr>
-    <td class="name">DoctorDao$MockitoMock$k2EZprjT</td>
-  </tr>
-  <tr>
-    <td class="name">DoctorDao$MockitoMock$k2EZprjT$auxiliary$lWQqHiLS</td>
-  </tr>
-  <tr>
-    <td class="name">DoctorDao$MockitoMock$k2EZprjT$auxiliary$yfiVfDqK</td>
-  </tr>
 <tr>
-  <td class="name"><strong>Total</strong></td>
+  <td class="name">OpinionDao</td>
 </tr>
+
 </table>
 
 <br/>
@@ -49,34 +40,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.business.dao;
 &nbsp;
-&nbsp;import com.medinet.api.dto.DoctorDto;
-&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
-&nbsp;import org.springframework.data.domain.Page;
-&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import com.medinet.api.dto.OpinionDto;
+&nbsp;import com.medinet.infrastructure.entity.OpinionEntity;
 &nbsp;
 &nbsp;import java.util.List;
-&nbsp;import java.util.Optional;
-&nbsp;import java.util.Set;
 &nbsp;
-&nbsp;public interface DoctorDao {
-&nbsp;    List&lt;DoctorDto&gt; findAllDoctors();
+&nbsp;public interface OpinionDao {
+&nbsp;    OpinionDto saveOpinion(OpinionEntity opinion);
 &nbsp;
-&nbsp;    Page&lt;DoctorDto&gt; findAll(Pageable pageable);
+&nbsp;    List&lt;OpinionDto&gt; findAll();
 &nbsp;
-&nbsp;    Optional&lt;DoctorDto&gt; findDoctorById(Integer doctorId);
-&nbsp;
-&nbsp;    Page&lt;DoctorDto&gt; findAllDoctorsBySpecializationAndCity(String doctorSpecialization, String doctorCity, Pageable pageable);
-&nbsp;
-&nbsp;
-&nbsp;    Set&lt;String&gt; findAllAvailableSpecialization();
-&nbsp;
-&nbsp;    Set&lt;String&gt; findAllAvailableCities();
-&nbsp;
-&nbsp;    DoctorEntity save(DoctorEntity newDoctor);
-&nbsp;
-&nbsp;    void deleteDoctor(Integer doctorId);
-&nbsp;
-&nbsp;    Optional&lt;DoctorDto&gt; findByEmail(String email);
 &nbsp;}
 </code>
 </pre>
@@ -101,7 +74,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-08-07 00:50</div>
+    <div style="float:right;">generated on 2023-08-07 14:30</div>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > CalendarJpaRepository</title>
+  <title>Coverage Report > InvoiceJpaRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,16 +21,25 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.medinet.infrastructure.repository.jpa</a>
 </div>
 
-<h1>Coverage Summary for Class: CalendarJpaRepository (com.medinet.infrastructure.repository.jpa)</h1>
+<h1>Coverage Summary for Class: InvoiceJpaRepository (com.medinet.infrastructure.repository.jpa)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
 </tr>
+  <tr>
+    <td class="name">InvoiceJpaRepository$MockitoMock$wUHKNl7Z</td>
+  </tr>
+  <tr>
+    <td class="name">InvoiceJpaRepository$MockitoMock$wUHKNl7Z$auxiliary$pJm3q1Ar</td>
+  </tr>
+  <tr>
+    <td class="name">InvoiceJpaRepository$MockitoMock$wUHKNl7Z$auxiliary$VjXBODEc</td>
+  </tr>
 <tr>
-  <td class="name">CalendarJpaRepository</td>
+  <td class="name"><strong>Total</strong></td>
 </tr>
-
 </table>
 
 <br/>
@@ -40,22 +49,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.medinet.infrastructure.repository.jpa;
 &nbsp;
-&nbsp;import com.medinet.infrastructure.entity.CalendarEntity;
-&nbsp;import com.medinet.infrastructure.entity.DoctorEntity;
+&nbsp;import com.medinet.infrastructure.entity.InvoiceEntity;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
-&nbsp;import java.time.LocalDate;
-&nbsp;import java.util.List;
 &nbsp;import java.util.Optional;
 &nbsp;
 &nbsp;@Repository
-&nbsp;public interface CalendarJpaRepository extends JpaRepository&lt;CalendarEntity, Integer&gt; {
-&nbsp;    List&lt;CalendarEntity&gt; findAllByOrderByDate();
+&nbsp;public interface InvoiceJpaRepository extends JpaRepository&lt;InvoiceEntity, Integer&gt; {
+&nbsp;    Optional&lt;InvoiceEntity&gt; findByUuid(String uuid);
 &nbsp;
-&nbsp;    Optional&lt;CalendarEntity&gt; findByDoctorAndDate(DoctorEntity doctor, LocalDate date);
 &nbsp;}
-&nbsp;
 </code>
 </pre>
 </div>
@@ -79,7 +83,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-08-07 00:50</div>
+    <div style="float:right;">generated on 2023-08-07 14:30</div>
 </div>
 </body>
 </html>
