@@ -70,7 +70,7 @@ Zastosowane technologie:
 - Java mail sender
 - Docker
 - Open api
-- https://yakpdf.p.rapidapi.com/pdf
+- [https://yakpdf.p.rapidapi.com/pdf](https://yakpdf.com/)
 - Postgre Sql
 - Rest Assured
 - Wiremock
