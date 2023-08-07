@@ -7,6 +7,7 @@ import com.medinet.business.dao.AppointmentDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
+import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import com.medinet.infrastructure.repository.mapper.PatientMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,8 @@ class AppointmentServiceTest {
     private AppointmentMapper appointmentMapper;
     @Mock
     private PatientMapper patientMapper;
+    @Mock
+    private CalendarMapper calendarMapper;
     @Mock
     private PdfGeneratorService pdfGeneratorService;
 

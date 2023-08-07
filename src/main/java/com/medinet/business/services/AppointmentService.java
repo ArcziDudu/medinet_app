@@ -7,6 +7,7 @@ import com.medinet.business.dao.AppointmentDao;
 import com.medinet.domain.exception.NotFoundException;
 import com.medinet.infrastructure.entity.AppointmentEntity;
 import com.medinet.infrastructure.repository.mapper.AppointmentMapper;
+import com.medinet.infrastructure.repository.mapper.CalendarMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class AppointmentService {
     private final AppointmentDao appointmentDao;
     private final CalendarService calendarService;
+    private final CalendarMapper calendarMapper;
     private final AppointmentMapper appointmentMapper;
     private final PdfGeneratorService pdfGeneratorService;
 
@@ -68,9 +70,10 @@ public class AppointmentService {
             } else {
                 appointment.setStatus("upcoming");
             }
-            CalendarDto calendarById = calendarService.findById(appointment.getCalendarId());
-            calendarById.getHours().remove(appointment.getTimeOfVisit());
+            CalendarDto calendar = calendarService.findById(appointment.getCalendarId());
+            calendar.getHours().remove(appointment.getTimeOfVisit());
 
+            calendarService.save(calendarMapper.mapFromDto(calendar));
             appointmentDao.saveAppointment(appointment);
             return appointmentMapper.mapFromEntity(appointment);
         }
@@ -112,6 +115,7 @@ public class AppointmentService {
                 return hour1.compareTo(hour2);
             }
         });
+        calendarService.save(calendarMapper.mapFromDto(calendarById));
         appointmentDao.removeAppointment(appointmentID);
     }
 
@@ -122,6 +126,7 @@ public class AppointmentService {
             AppointmentDto appointmentDto = appointmentById.get();
             appointmentDto.setStatus("done");
             appointmentDto.setNoteOfAppointment(message);
+            appointmentDao.saveAppointment(appointmentMapper.mapFromDto(appointmentById.get()));
         } else {
             throw new NotFoundException("Could not find appointment by Id: [%s]".formatted(appointmentID));
         }

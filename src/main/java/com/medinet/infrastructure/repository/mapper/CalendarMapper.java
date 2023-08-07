@@ -9,4 +9,6 @@ import org.mapstruct.ReportingPolicy;
 public interface CalendarMapper {
 
     CalendarDto mapFromEntity(CalendarEntity entity);
+
+    CalendarEntity mapFromDto(CalendarDto calendar);
 }
