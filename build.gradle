@@ -2,10 +2,14 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.1'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'jacoco'
 }
 
 group = 'com.medinet'
 version = '0.0.1-SNAPSHOT'
+jacoco {
+    toolVersion = "0.8.7"
+}
 
 java {
     sourceCompatibility = '17'
@@ -19,6 +23,16 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+tasks.withType(Test) {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        html.destination file("${buildDir}/jacocoHtml")
+    }
 }
 
 dependencies {
