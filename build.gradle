@@ -7,9 +7,6 @@ plugins {
 
 group = 'com.medinet'
 version = '0.0.1-SNAPSHOT'
-jacoco {
-    toolVersion = "0.8.7"
-}
 
 java {
     sourceCompatibility = '17'
@@ -25,15 +22,7 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType(Test) {
-    finalizedBy jacocoTestReport
-}
 
-jacocoTestReport {
-    reports {
-        html.destination file("${buildDir}/jacocoHtml")
-    }
-}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -101,3 +90,19 @@ bootJar {
 jar {
     enabled = false
 }
+test {
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/dto/*',
+                    'com/medinet/**/*Entity.*'
+            ])
+        }))
+    }
+}
+
