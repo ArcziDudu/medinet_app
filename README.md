@@ -60,7 +60,7 @@ dostępnym kontem email: admin@admin.pl , hasło: test
 
 Aplikacja wystawia Rest api, kontrakt open api jest dostępny w głównym katalogu aplikacji
 Dostępny jest również diagram erd bazy danych
-Pokrycie testami wynosi 84% - w folderze htmlReport jest dostępny raport jacoco
+Pokrycie testami wynosi 82% - raport jacoco generowany jest podczas budowania projektu i znajduje sie w katalogu build/reports
 Zastosowane technologie:
 - Java
 - Spring Boot
