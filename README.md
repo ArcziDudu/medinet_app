@@ -43,40 +43,87 @@ Funkcjonalności:
   - Mechanizm działa w taki sposób, że jeżeli adres email istnieje w bazie danych to wysyłane jest na ten adres wygenerowane przez system hasło, przy którym można zostać lub zmienić je w zakładce Moje konto
 ![img_8.png](readmeImages/img_8.png)
 
-Uruchamianie
+# Medinet Application
 
-Program przeznaczony jest do uruchamiania w środowisku Docker.
-W tym celu należy:
-- pobrać repozytorium, w terminalu uruchamiamy komende git clone https://github.com/ArcziDudu/medinet_app.git
-- zbudować plik jar komendą gradlew build
-- zbudować obraz poleceniem docker build -t medinet:latest .
-- mając obraz aplikacji, należy uruchomić kontener komendą docker compose up -d
-- można włączyć logi aplikacji komendą docker logs medinet_app-master-backend-1
-- w przeglądarce wejść na adres http://localhost:8190/medinet/
-- logujemy się:
-dostępnym kontem email: admin@admin.pl , hasło: test
-, rejestrujemy nowe konto
-, wchodzimy na konto lekarza np email: Krystian@medinet.com , hasło: test
+## Uruchamianie w środowisku Docker
+
+Aby uruchomić program w środowisku Docker, wykonaj poniższe kroki:
+
+1. **Pobierz repozytorium:**
+    ```bash
+    git clone https://github.com/ArcziDudu/medinet_app.git
+    ```
+
+2. **Zbuduj plik JAR:**
+    ```bash
+    gradlew build
+    ```
+
+3. **Zbuduj obraz Dockera:**
+    ```bash
+    docker build -t medinet:latest .
+    ```
+
+4. **Uruchom kontener:**
+    ```bash
+    docker-compose up -d
+    ```
+
+5. **Włącz logi aplikacji:**
+    ```bash
+    docker logs medinet_app-master-backend-1
+    ```
+
+6. **Otwórz przeglądarkę i przejdź pod adres:**
+    [http://localhost:8190/medinet/](http://localhost:8190/medinet/)
+
+7. **Zaloguj się:**
+   - Dla dostępnego konta admina: 
+     - Email: `admin@admin.pl`
+     - Hasło: `test`
+   - Zarejestruj nowe konto.
+   - Zaloguj się na konto lekarza, na przykład:
+     - Email: `Krystian@medinet.com`
+     - Hasło: `test`
+
 
 Aplikacja wystawia Rest api, kontrakt open api jest dostępny w głównym katalogu aplikacji
 Dostępny jest również diagram erd bazy danych
 Pokrycie testami wynosi 82% - raport jacoco generowany jest podczas budowania projektu i znajduje sie w katalogu build/reports
-Zastosowane technologie:
-- Java
-- Spring Boot
-- Gradle
-- Hibernate
-- Flyway
-- Java mail sender
-- Docker
-- Open api
-- [https://yakpdf.p.rapidapi.com/pdf](https://yakpdf.com/)
-- Postgre Sql
-- Rest Assured
-- Wiremock
-- Spring Security
-- Lombok
-- HTML
-- CSS
-- Bootstrap
+# Zastosowane Technologie
+
+Aplikacja Medinet została zbudowana przy użyciu następujących technologii:
+
+- **Java**: Główny język programowania używany do implementacji aplikacji.
+
+- **Spring Boot**: Framework Java do tworzenia aplikacji
+
+- **Gradle**: Narzędzie do automatyzacji budowy projektu i zarządzania zależnościami.
+
+- **Hibernate**: Narzędzie ORM (Object-Relational Mapping) do obsługi bazy danych.
+
+- **Flyway**: Biblioteka do zarządzania migracjami bazy danych.
+
+- **Java Mail Sender**: Biblioteka do obsługi wysyłania wiadomości e-mail.
+
+- **Docker**: Platforma do konteneryzacji aplikacji.
+
+- **OpenAPI**: Specyfikacja interfejsu API, używana do dokumentowania API.
+
+- **[YakPDF](https://yakpdf.com/)**: Usługa do generowania plików PDF.
+
+- **PostgreSQL**: Baza danych relacyjna.
+
+- **Rest Assured**: Biblioteka do testowania RESTful API.
+
+- **Wiremock**: Narzędzie do symulowania usług zewnętrznych podczas testów.
+
+- **Spring Security**: Framework do zarządzania bezpieczeństwem w aplikacjach opartych na Spring.
+
+- **Lombok**: Biblioteka do eliminowania rutynowego kodu Java.
+
+- **HTML, CSS, Bootstrap**: Technologie do tworzenia interfejsu użytkownika.
+
+Dodatkowe informacje dotyczące poszczególnych technologii i ich konfiguracji znajdziesz w odpowiednich plikach projektu.
+
 
